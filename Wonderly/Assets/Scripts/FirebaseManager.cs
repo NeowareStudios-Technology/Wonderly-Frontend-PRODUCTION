@@ -363,6 +363,7 @@ public class FirebaseManager : MonoBehaviour {
 	{
 		Debug.Log("in change user password");
 		Firebase.Auth.FirebaseUser user = auth.CurrentUser;
+		Debug.Log("in change user password2");
 		string newPassword = editPassword2.text;
 		if (user != null) {
 			user.UpdatePasswordAsync(newPassword).ContinueWith(task => {
@@ -393,8 +394,8 @@ public class FirebaseManager : MonoBehaviour {
 
 	public void clearPasswordInputs()
 	{
-		currentPasswordInput.text = "";
 		editPassword.text = "";
 		editPassword2.text = "";
+		currentPasswordInput.text = "";
 	}
 }
