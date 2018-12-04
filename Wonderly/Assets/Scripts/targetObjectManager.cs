@@ -508,11 +508,11 @@ public class targetObjectManager : MonoBehaviour {
 		modelId4 = "";
 		modelId5 = "";
 
-		targetObjectThumbnail1.sprite = blankSprite.sprite;
-		targetObjectThumbnail2.sprite = blankSprite.sprite;
-		targetObjectThumbnail3.sprite = blankSprite.sprite;
-		targetObjectThumbnail4.sprite = blankSprite.sprite;
-		targetObjectThumbnail5.sprite = blankSprite.sprite;
+	///	targetObjectThumbnail1.sprite = blankSprite.sprite;
+	///	targetObjectThumbnail2.sprite = blankSprite.sprite;
+	///	targetObjectThumbnail3.sprite = blankSprite.sprite;
+	///	targetObjectThumbnail4.sprite = blankSprite.sprite;
+	///	targetObjectThumbnail5.sprite = blankSprite.sprite;
 
 		removeTargetObject(1);
 		removeTargetObject(2);

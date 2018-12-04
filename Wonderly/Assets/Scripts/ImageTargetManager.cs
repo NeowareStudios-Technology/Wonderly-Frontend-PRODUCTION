@@ -149,19 +149,19 @@ namespace Sample
                 File.Delete(target5Path);
             }
 
-            viewPreview1.sprite = blankImage.sprite;
-            viewPreview2.sprite = blankImage.sprite;
-            viewPreview3.sprite = blankImage.sprite;
-            viewPreview4.sprite = blankImage.sprite;
-            viewPreview5.sprite = blankImage.sprite;
+            /// viewPreview1.sprite = blankImage.sprite;
+            /// viewPreview2.sprite = blankImage.sprite;
+            /// viewPreview3.sprite = blankImage.sprite;
+            /// viewPreview4.sprite = blankImage.sprite;
+            /// viewPreview5.sprite = blankImage.sprite;
 
             pathManager.currentTarget = 0;
             its.imageTargetDic= new Dictionary<string, DynamicImageTagetBehaviour>();
 
-            title.text = "";
-            editTitle.text = "";
-            description.text = "";
-            titleInput.text = "";
+            /// title.text = "";
+            /// editTitle.text = "";
+            /// description.text = "";
+            /// titleInput.text = "";
 
             pathManager.targetCount = 0;
         }

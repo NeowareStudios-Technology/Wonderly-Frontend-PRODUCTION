@@ -92,6 +92,7 @@ namespace Sample
             StartCoroutine("delayedReset");
         }
 
+        ///need to fix this coroutine for new UI
         public IEnumerator delayedReset()
         {
             yield return new WaitForSeconds(1);
