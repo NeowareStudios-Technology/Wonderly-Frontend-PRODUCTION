@@ -1,30 +1,20 @@
 fileFormatVersion: 2
-guid: d1844182920e36d4fb1066295e587818
+guid: c76d627eb411d9e4587304a3cd12ddae
+timeCreated: 1540388071
+licenseType: Pro
 PluginImporter:
-  externalObjects: {}
-  serializedVersion: 2
+  serializedVersion: 1
   iconMap: {}
   executionOrder: {}
   isPreloaded: 0
-  isOverridable: 0
   platformData:
-  - first:
-      Any: 
-    second:
+    Any:
       enabled: 1
       settings: {}
-  - first:
-      Editor: Editor
-    second:
+    Editor:
       enabled: 0
       settings:
         DefaultValueInitialized: true
-  - first:
-      Windows Store Apps: WindowsStoreApps
-    second:
-      enabled: 0
-      settings:
-        CPU: AnyCPU
   userData: 
   assetBundleName: 
   assetBundleVariant: 
