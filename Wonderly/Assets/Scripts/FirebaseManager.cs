@@ -12,7 +12,7 @@ using UnityEngine.SceneManagement;
 
 
 public class FirebaseManager : MonoBehaviour {
-	///public CloudEndpointsApiManager ceam;
+	public CloudEndpointsApiManager ceam;
 	public InputField email;
   public InputField Password;
 	public InputField newEmail;
@@ -20,6 +20,8 @@ public class FirebaseManager : MonoBehaviour {
 	public InputField newPassword;
 	public InputField emailForPasswordReset;
 	public string token;
+	public InputField firstName;
+	public InputField lastName;
 	protected Firebase.Auth.FirebaseAuth auth;
 	public FirebaseApp fbApp;
 	public Firebase.Storage.FirebaseStorage fbStorage;
@@ -123,17 +125,17 @@ public class FirebaseManager : MonoBehaviour {
 					Firebase.Auth.FirebaseUser newUser = task.Result;
 					Debug.LogFormat("User signed in successfully: {0} ({1})",
 							newUser.DisplayName, newUser.UserId);
-					GetToken(auth);
+					GetTokenAfterNewUserCreation(auth);
 
 					Debug.Log("Logging in: " + e + " " + p);
 					PlayerPrefs.SetString("email", e);
 					PlayerPrefs.SetString("password", p);
 					PlayerPrefs.SetInt("isLoggedIn", 1);
+					PlayerPrefs.SetString("fName", firstName.text);
+					PlayerPrefs.SetString("lName", lastName.text);
 
 			});
-			yield return new WaitForSeconds(1);
-
-			///ceam.startProfileCreate();
+			yield return null;
 
 	}
 
@@ -239,6 +241,40 @@ public class FirebaseManager : MonoBehaviour {
 		});
 	}
 
+	public void GetTokenAfterNewUserCreation(FirebaseAuth auth)
+	{
+			FirebaseUser user = auth.CurrentUser;
+
+			user.TokenAsync(true).ContinueWith(task =>
+			{
+					if (task.IsCanceled)
+					{
+							Debug.LogError("TokenAsync was canceled.");
+							return;
+					}
+
+					if (task.IsFaulted)
+					{
+							Debug.LogError("TokenAsync encountered an error: " + task.Exception);
+							Debug.Log("Password or email incorrect");
+							wrongLoginNotification.SetActive(true);
+							return;
+					}
+
+					token = task.Result;
+					Debug.Log(token);
+					isLoggedIn = true;
+					ceam.startProfileCreate();
+/* 
+					profileIcon1.SetActive(false);
+					profileIcon2.SetActive(true);
+					libraryIcon1.SetActive(false);
+					libraryIcon2.SetActive(true);
+					createIcon1.SetActive(false);
+					createIcon2.SetActive(true);*/
+		});
+	}
+
 	// Use this for initialization
 	void Start () 
 	{
@@ -277,6 +313,7 @@ public class FirebaseManager : MonoBehaviour {
 		PlayerPrefs.SetInt("isLoggedIn", 0);
 		PlayerPrefs.SetString("email", "");
 		PlayerPrefs.SetString("password", "");
+		Debug.Log("User signed out");
 	}
 
 	public void sendPasswordResetEmail()
