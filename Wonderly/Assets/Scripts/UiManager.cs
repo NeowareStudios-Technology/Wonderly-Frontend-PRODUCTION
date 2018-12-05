@@ -100,6 +100,8 @@ public class UiManager : MonoBehaviour {
 	{
 			//summaryTitle.text = targetSwitchTitle.text;
 	}
+
+	
 	
 	// handles what UI will be displayed based on the 1 model/video/pic per target rule
 	void Update () {
