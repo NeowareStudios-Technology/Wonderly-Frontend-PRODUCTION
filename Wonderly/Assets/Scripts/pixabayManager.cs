@@ -8,7 +8,7 @@ using Sample;
 
 public class pixabayManager : MonoBehaviour {
 	public string searchUrl = "https://pixabay.com/api/?key=10416046-da227ed77f5d1960a9126dc7c&";
-	public Text searchTerm;
+	public InputField searchTerm;
 	public Image img1;
 	public Image img2;
 	public Image img3;
@@ -33,11 +33,11 @@ public class pixabayManager : MonoBehaviour {
 	public GameObject image3;
 	public GameObject image4;
 	public GameObject image5;
-	public Text imageTitle1;
-	public Text imageTitle2;
-	public Text imageTitle3;
-	public Text imageTitle4;
-	public Text imageTitle5;
+	//public Text imageTitle1;
+	//public Text imageTitle2;
+	//public Text imageTitle3;
+	//public Text imageTitle4;
+	//public Text imageTitle5;
 	public string[] chosenUrls = new string[5];
   public string[] imagePreviewUrl = new string[18];
 	public string[] imageUrl = new string[18];
@@ -95,7 +95,7 @@ public class pixabayManager : MonoBehaviour {
 				int count = 0;
 				foreach (pixabayHitClass phc in pxc.hits)
 				{
-					if (count == 17)
+					if (count == 18)
 					{
 						break;
 					}
@@ -177,7 +177,7 @@ public class pixabayManager : MonoBehaviour {
 					case 16:
 						img17.sprite = Sprite.Create(previewRequest.texture, new Rect(0, 0, previewRequest.texture.width, previewRequest.texture.height), new Vector2(0, 0));
 						break;
-					case 18:
+					case 17:
 						img18.sprite = Sprite.Create(previewRequest.texture, new Rect(0, 0, previewRequest.texture.width, previewRequest.texture.height), new Vector2(0, 0));
 						break;
 				}
@@ -191,27 +191,27 @@ public class pixabayManager : MonoBehaviour {
 				case 0:
 					break;
 				case 1:
-					imageTitle1.text = searchTerm.text;
+					//imageTitle1.text = searchTerm.text;
 					chosenUrls[0] = imageUrl[index];
 					lm.scd.imageUrl[0] = imageUrl[index];
 					break;
 				case 2:
-					imageTitle2.text = searchTerm.text;
+					//imageTitle2.text = searchTerm.text;
 					chosenUrls[1] = imageUrl[index];
 					lm.scd.imageUrl[1] = imageUrl[index];
 					break;
 				case 3:
-					imageTitle3.text = searchTerm.text;
+					//imageTitle3.text = searchTerm.text;
 					chosenUrls[2] = imageUrl[index];
 					lm.scd.imageUrl[2] = imageUrl[index];
 					break;
 				case 4:
-					imageTitle4.text = searchTerm.text;
+					//imageTitle4.text = searchTerm.text;
 					chosenUrls[3] = imageUrl[index];
 					lm.scd.imageUrl[3] = imageUrl[index];
 					break;
 				case 5:
-					imageTitle5.text = searchTerm.text;
+					//imageTitle5.text = searchTerm.text;
 					chosenUrls[4] = imageUrl[index];
 					lm.scd.imageUrl[4] = imageUrl[index];
 					break;
@@ -277,7 +277,7 @@ public class pixabayManager : MonoBehaviour {
 								case 16:
 									apdm.targetObjectThumb1.sprite = img17.sprite;
 									break;
-								case 18:
+								case 17:
 									apdm.targetObjectThumb1.sprite = img18.sprite;
 									break;
 							}
@@ -336,7 +336,7 @@ public class pixabayManager : MonoBehaviour {
 								case 16:
 									apdm.targetObjectThumb2.sprite = img17.sprite;
 									break;
-								case 18:
+								case 17:
 									apdm.targetObjectThumb2.sprite = img18.sprite;
 									break;
 							}
@@ -395,7 +395,7 @@ public class pixabayManager : MonoBehaviour {
 								case 16:
 									apdm.targetObjectThumb3.sprite = img17.sprite;
 									break;
-								case 18:
+								case 17:
 									apdm.targetObjectThumb3.sprite = img18.sprite;
 									break;
 							}
@@ -454,7 +454,7 @@ public class pixabayManager : MonoBehaviour {
 								case 16:
 									apdm.targetObjectThumb4.sprite = img17.sprite;
 									break;
-								case 18:
+								case 17:
 									apdm.targetObjectThumb4.sprite = img18.sprite;
 									break;
 							}
@@ -513,14 +513,14 @@ public class pixabayManager : MonoBehaviour {
 								case 16:
 									apdm.targetObjectThumb5.sprite = img17.sprite;
 									break;
-								case 18:
+								case 17:
 									apdm.targetObjectThumb5.sprite = img18.sprite;
 									break;
 							}
 							break;
 
 				}
-
+/*/// 
 				Image chosenThumb = apdm.chosenThumb1;
 				switch(fm.currentTarget)
 				{
@@ -544,6 +544,7 @@ public class pixabayManager : MonoBehaviour {
 						chosenThumb.sprite = apdm.targetObjectThumb5.sprite;
 						break;
 				}
+///*/
 
 				yield return null;
 				//clear the url array
@@ -593,7 +594,10 @@ public class pixabayManager : MonoBehaviour {
 				}
 
 				LoadingPanel.SetActive(false);
+				yield return null;
+
 				//clear url arrays and thumbnail images
+			/* 	
 				yield return new WaitForSeconds(2);
 				imageUrl = new string[18];
 				imagePreviewUrl = new string[18];
@@ -615,6 +619,7 @@ public class pixabayManager : MonoBehaviour {
 				img16.sprite = blankImage.sprite;
 				img17.sprite = blankImage.sprite;
 				img18.sprite = blankImage.sprite;
+			*/
 			}
 		}
 }

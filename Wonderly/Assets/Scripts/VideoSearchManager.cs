@@ -4,10 +4,10 @@ using UnityEngine;
 using UnityEngine.UI;
 using Sample;
 
-public class VideoSearchDemo2 : MonoBehaviour {
+public class VideoSearchManager : MonoBehaviour {
     public YoutubeAPIManager youtubeapi;
 
-    public Text searchField;
+    public InputField searchField;
     public YoutubeVideoUi[] videoListUI;
     //public GameObject videoUIResult;
     //public GameObject mainUI;
@@ -36,7 +36,10 @@ public class VideoSearchDemo2 : MonoBehaviour {
     {
         thumbUrls.Clear();
         //turn on target's video player
-        switch(fm.currentTarget)
+
+
+        //need to implement this in V2 when assets ready
+        /*/// switch(fm.currentTarget)
         {
             case 0:
                 return;
@@ -56,6 +59,12 @@ public class VideoSearchDemo2 : MonoBehaviour {
                 vidReference5.SetActive(true);
                 break;
         }
+        ///*/
+
+
+
+
+        
         //do nothing if no targets created yet or if indexed target not created yet
         if (fm.targetStatus[fm.currentTarget-1] == "none")
             return;

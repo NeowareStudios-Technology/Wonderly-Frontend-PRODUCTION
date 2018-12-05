@@ -14,10 +14,10 @@ public class UiManager : MonoBehaviour {
 
 	public int currentTargetNum;
 
-	public Image videoHighlight;
-	public Image modelHighlight;
-	public Image imageHighlight;
-	public Image textHighlight;
+	//public Image videoHighlight;
+	//public Image modelHighlight;
+	//public Image imageHighlight;
+	//public Image textHighlight;
 
 	public Text ArLabel1;
 	public Text ArLabel2;
@@ -31,17 +31,17 @@ public class UiManager : MonoBehaviour {
 	public GameObject arPair4;
 	public GameObject arPair5;
 
-	public GameObject arPairCover1;
-	public GameObject arPairCover2;
-	public GameObject arPairCover3;
-	public GameObject arPairCover4;
-	public GameObject arPairCover5;
+	//public GameObject arPairCover1;
+	//public GameObject arPairCover2;
+	//public GameObject arPairCover3;
+	//public GameObject arPairCover4;
+	//public GameObject arPairCover5;
 
-	public GameObject deletePair1;
-	public GameObject deletePair2;
-	public GameObject deletePair3;
-	public GameObject deletePair4;
-	public GameObject deletePair5;
+	//public GameObject deletePair1;
+	//public GameObject deletePair2;
+	//public GameObject deletePair3;
+	//public GameObject deletePair4;
+	//public GameObject deletePair5;
 
 	public GameObject modelIcon1;
 	public GameObject imageIcon1;
@@ -59,11 +59,11 @@ public class UiManager : MonoBehaviour {
 	public GameObject imageIcon5;
 	public GameObject videoIcon5;
 
-	public GameObject chosenObjectDisplay1;
-	public GameObject chosenObjectDisplay2;
-	public GameObject chosenObjectDisplay3;
-	public GameObject chosenObjectDisplay4;
-	public GameObject chosenObjectDisplay5;
+	//public GameObject chosenObjectDisplay1;
+	//public GameObject chosenObjectDisplay2;
+	//public GameObject chosenObjectDisplay3;
+	//public GameObject chosenObjectDisplay4;
+	//public GameObject chosenObjectDisplay5;
 	public Text chosenModelText;
 	public Text chosenVideoText;
 	public Text chosenImageText;
@@ -74,36 +74,37 @@ public class UiManager : MonoBehaviour {
 
 	public Text description;
 
-	public InputField targetSwitchTitle;
+	//public InputField targetSwitchTitle;
 
-	public InputField summaryTitle;
+	//public InputField summaryTitle;
 
 
 	// Use this for initialization
 	void Start () {
-		videoHighlight.gameObject.SetActive(false);
-		modelHighlight.gameObject.SetActive(false);
-		imageHighlight.gameObject.SetActive(false);
-		textHighlight.gameObject.SetActive(false);
+		//videoHighlight.gameObject.SetActive(false);
+		//modelHighlight.gameObject.SetActive(false);
+		//imageHighlight.gameObject.SetActive(false);
+		//textHighlight.gameObject.SetActive(false);
 
-		summaryTitle.onValueChange.AddListener(delegate {OnSummaryTitleChange(); });
-		targetSwitchTitle.onValueChange.AddListener(delegate {OnSwitchTitleChange(); });
+		//summaryTitle.onValueChange.AddListener(delegate {OnSummaryTitleChange(); });
+		//targetSwitchTitle.onValueChange.AddListener(delegate {OnSwitchTitleChange(); });
 	}
 
 
 	public void OnSummaryTitleChange()
 	{
-			targetSwitchTitle.text = summaryTitle.text;
+			//targetSwitchTitle.text = summaryTitle.text;
 	}
 
 	public void OnSwitchTitleChange()
 	{
-			summaryTitle.text = targetSwitchTitle.text;
+			//summaryTitle.text = targetSwitchTitle.text;
 	}
 	
 	// handles what UI will be displayed based on the 1 model/video/pic per target rule
 	void Update () {
 
+		/*
 		if (fm.currentTarget == 0)
 		{
 			videoHighlight.gameObject.SetActive(false);
@@ -111,47 +112,48 @@ public class UiManager : MonoBehaviour {
 			imageHighlight.gameObject.SetActive(false);
 			textHighlight.gameObject.SetActive(false);
 		}
+		*/
 
 
 
-		if(sm.title.text != "")
-			summaryTitle.text = sm.title.text;
+		///if(sm.title.text != "")
+			///summaryTitle.text = sm.title.text;
 
 		switch(fm.targetStatus[0])
 		{
 			case "none":
 				arPair1.SetActive(false);
-				arPairCover1.SetActive(true);
-				deletePair1.SetActive(false);
+				//arPairCover1.SetActive(true);
+				//deletePair1.SetActive(false);
 				break;
 			case "created":
 				arPair1.SetActive(true);
-				arPairCover1.SetActive(false);
-				deletePair1.SetActive(true);
+				//arPairCover1.SetActive(false);
+				//deletePair1.SetActive(true);
 				modelIcon1.SetActive(false);
 				imageIcon1.SetActive(false);
 				videoIcon1.SetActive(false);
 				break;
 			case "model":
 				arPair1.SetActive(true);
-				arPairCover1.SetActive(false);
-				deletePair1.SetActive(true);
+				//arPairCover1.SetActive(false);
+				//deletePair1.SetActive(true);
 				modelIcon1.SetActive(true);
 				imageIcon1.SetActive(false);
 				videoIcon1.SetActive(false);
 				break;
 			case "image":
 				arPair1.SetActive(true);
-				arPairCover1.SetActive(false);
-				deletePair1.SetActive(true);
+				//arPairCover1.SetActive(false);
+				//deletePair1.SetActive(true);
 				modelIcon1.SetActive(false);
 				imageIcon1.SetActive(true);
 				videoIcon1.SetActive(false);
 				break;
 			case "video":
 				arPair1.SetActive(true);
-				arPairCover1.SetActive(false);
-				deletePair1.SetActive(true);
+				//arPairCover1.SetActive(false);
+				//deletePair1.SetActive(true);
 				modelIcon1.SetActive(false);
 				imageIcon1.SetActive(false);
 				videoIcon1.SetActive(true);
@@ -162,37 +164,37 @@ public class UiManager : MonoBehaviour {
 		{
 			case "none":
 				arPair2.SetActive(false);
-				arPairCover2.SetActive(true);
-				deletePair2.SetActive(false);
+				//arPairCover2.SetActive(true);
+				//deletePair2.SetActive(false);
 				break;
 			case "created":
 				arPair2.SetActive(true);
-				arPairCover2.SetActive(false);
-				deletePair2.SetActive(true);
+				//arPairCover2.SetActive(false);
+				//deletePair2.SetActive(true);
 				modelIcon2.SetActive(false);
 				imageIcon2.SetActive(false);
 				videoIcon2.SetActive(false);
 				break;
 			case "model":
 				arPair2.SetActive(true);
-				arPairCover2.SetActive(false);
-				deletePair2.SetActive(true);
+				//arPairCover2.SetActive(false);
+				//deletePair2.SetActive(true);
 				modelIcon2.SetActive(true);
 				imageIcon2.SetActive(false);
 				videoIcon2.SetActive(false);
 				break;
 			case "image":
 				arPair2.SetActive(true);
-				arPairCover2.SetActive(false);
-				deletePair2.SetActive(true);
+				//arPairCover2.SetActive(false);
+				//deletePair2.SetActive(true);
 				modelIcon2.SetActive(false);
 				imageIcon2.SetActive(true);
 				videoIcon2.SetActive(false);
 				break;
 			case "video":
 				arPair2.SetActive(true);
-				arPairCover2.SetActive(false);
-				deletePair2.SetActive(true);
+				//arPairCover2.SetActive(false);
+				//deletePair2.SetActive(true);
 				modelIcon2.SetActive(false);
 				imageIcon2.SetActive(false);
 				videoIcon2.SetActive(true);
@@ -203,37 +205,37 @@ public class UiManager : MonoBehaviour {
 		{
 			case "none":
 				arPair3.SetActive(false);
-				arPairCover3.SetActive(true);
-				deletePair3.SetActive(false);
+				//arPairCover3.SetActive(true);
+				//deletePair3.SetActive(false);
 				break;
 			case "created":
 				arPair3.SetActive(true);
-				arPairCover3.SetActive(false);
-				deletePair3.SetActive(true);
+				//arPairCover3.SetActive(false);
+				//deletePair3.SetActive(true);
 				modelIcon3.SetActive(false);
 				imageIcon3.SetActive(false);
 				videoIcon3.SetActive(false);
 				break;
 			case "model":
 				arPair3.SetActive(true);
-				arPairCover3.SetActive(false);
-				deletePair3.SetActive(true);
+				//arPairCover3.SetActive(false);
+				//deletePair3.SetActive(true);
 				modelIcon3.SetActive(true);
 				imageIcon3.SetActive(false);
 				videoIcon3.SetActive(false);
 				break;
 			case "image":
 				arPair3.SetActive(true);
-				arPairCover3.SetActive(false);
-				deletePair3.SetActive(true);
+				//arPairCover3.SetActive(false);
+				//deletePair3.SetActive(true);
 				modelIcon3.SetActive(false);
 				imageIcon3.SetActive(true);
 				videoIcon3.SetActive(false);
 				break;
 			case "video":
 				arPair3.SetActive(true);
-				arPairCover3.SetActive(false);
-				deletePair3.SetActive(true);
+				//arPairCover3.SetActive(false);
+				//deletePair3.SetActive(true);
 				modelIcon3.SetActive(false);
 				imageIcon3.SetActive(false);
 				videoIcon3.SetActive(true);
@@ -244,37 +246,37 @@ public class UiManager : MonoBehaviour {
 		{
 			case "none":
 				arPair4.SetActive(false);
-				arPairCover4.SetActive(true);
-				deletePair4.SetActive(false);
+				//arPairCover4.SetActive(true);
+				//deletePair4.SetActive(false);
 				break;
 			case "created":
 				arPair4.SetActive(true);
-				arPairCover4.SetActive(false);
-				deletePair4.SetActive(true);
+				//arPairCover4.SetActive(false);
+				//deletePair4.SetActive(true);
 				modelIcon4.SetActive(false);
 				imageIcon4.SetActive(false);
 				videoIcon4.SetActive(false);
 				break;
 			case "model":
 				arPair4.SetActive(true);
-				arPairCover4.SetActive(false);
-				deletePair4.SetActive(true);
+				//arPairCover4.SetActive(false);
+				//deletePair4.SetActive(true);
 				modelIcon4.SetActive(true);
 				imageIcon4.SetActive(false);
 				videoIcon4.SetActive(false);
 				break;
 			case "image":
 				arPair4.SetActive(true);
-				arPairCover4.SetActive(false);
-				deletePair4.SetActive(true);
+				//arPairCover4.SetActive(false);
+				///deletePair4.SetActive(true);
 				modelIcon4.SetActive(false);
 				imageIcon4.SetActive(true);
 				videoIcon4.SetActive(false);
 				break;
 			case "video":
 				arPair4.SetActive(true);
-				arPairCover4.SetActive(false);
-				deletePair4.SetActive(true);
+				//arPairCover4.SetActive(false);
+				//deletePair4.SetActive(true);
 				modelIcon4.SetActive(false);
 				imageIcon4.SetActive(false);
 				videoIcon4.SetActive(true);
@@ -285,43 +287,43 @@ public class UiManager : MonoBehaviour {
 		{
 			case "none":
 				arPair5.SetActive(false);
-				arPairCover5.SetActive(true);
-				deletePair5.SetActive(false);
+				//arPairCover5.SetActive(true);
+				//deletePair5.SetActive(false);
 				break;
 			case "created":
 				arPair5.SetActive(true);
-				arPairCover5.SetActive(false);
-				deletePair5.SetActive(true);
+				//arPairCover5.SetActive(false);
+				//deletePair5.SetActive(true);
 				modelIcon5.SetActive(false);
 				imageIcon5.SetActive(false);
 				videoIcon5.SetActive(false);
 				break;
 			case "model":
 				arPair5.SetActive(true);
-				arPairCover5.SetActive(false);
-				deletePair5.SetActive(true);
+				//arPairCover5.SetActive(false);
+				//deletePair5.SetActive(true);
 				modelIcon5.SetActive(true);
 				imageIcon5.SetActive(false);
 				videoIcon5.SetActive(false);
 				break;
 			case "image":
 				arPair5.SetActive(true);
-				arPairCover5.SetActive(false);
-				deletePair5.SetActive(true);
+				//arPairCover5.SetActive(false);
+				//deletePair5.SetActive(true);
 				modelIcon5.SetActive(false);
 				imageIcon5.SetActive(true);
 				videoIcon5.SetActive(false);
 				break;
 			case "video":
 				arPair5.SetActive(true);
-				arPairCover5.SetActive(false);
-				deletePair5.SetActive(true);
+				//arPairCover5.SetActive(false);
+				//deletePair5.SetActive(true);
 				modelIcon5.SetActive(false);
 				imageIcon5.SetActive(false);
 				videoIcon5.SetActive(true);
 				break;
 		}
-
+/*/// 
 		//activate chosen object gameObject depending on which target is selected
 		GameObject chosenObjectDisplay = chosenObjectDisplay1;
 		switch(fm.currentTarget)
@@ -417,6 +419,7 @@ public class UiManager : MonoBehaviour {
 				chosenObjectDisplay.transform.GetChild(3).gameObject.SetActive(false);
 				break;
 		}
+		///*/
 
 	}
 

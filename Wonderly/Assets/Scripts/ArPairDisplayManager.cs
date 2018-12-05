@@ -94,7 +94,7 @@ public class ArPairDisplayManager : MonoBehaviour {
 	public int[] targetThumbCheck = {0,0,0,0,0};
 
 	public FilesManager fm;
-	public VideoSearchDemo2 vsd;
+	public VideoSearchManager vsm;
 
 
 	// IMAGE THUMBNAIL HANDLING FOR AR PAIRS HANDLED IN IMAGE SCRIPTS
@@ -951,7 +951,7 @@ public class ArPairDisplayManager : MonoBehaviour {
 							}
 							break;
 				}
-
+/*///
 				Image chosenThumb = chosenThumb1;
 				switch(fm.currentTarget)
 				{
@@ -976,6 +976,7 @@ public class ArPairDisplayManager : MonoBehaviour {
 						break;
 				}
 		um.startResetModelThumbs();
+///*/
 	}
 	
 

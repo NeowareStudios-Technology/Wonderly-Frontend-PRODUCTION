@@ -59,7 +59,7 @@ public class YoutubeAPIManager : MonoBehaviour {
                 break;
 
         }
-
+/*/// 
         //set the chosen video title
         switch(whichVideo)
         {
@@ -120,6 +120,7 @@ public class YoutubeAPIManager : MonoBehaviour {
                 break;
 
         }
+///*/
     }
 
     public void GetVideoData(string videoId, Action<YoutubeData> callback)

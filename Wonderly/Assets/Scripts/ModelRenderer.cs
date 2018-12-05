@@ -9,70 +9,30 @@ using Sample;
 public class ModelRenderer : MonoBehaviour {
 
 	//private TrackableBehaviour mTrackableBehaviour;
+    public ImageTargetManager itm;
+    public targetObjectManager tom;
+    public ModelInitializer mi;
+    public FilesManager fm;
 
     public GameObject currentTarget;
  
     public Transform myModelPrefab;
 		
-    public Text keyword;
-
-    public ModelInitializer mi;
-
-    public FilesManager fm;
+    public InputField keyword;
 
     public int modelFlag = 0;
 
-    public ImageTargetManager itm;
-
-    public targetObjectManager tom;
-
     public string attributeString;
 
-    public Text modelAttribs1;
-    public Text modelAttribs2;
-    public Text modelAttribs3;
-    public Text modelAttribs4;
-    public Text modelAttribs5;
+    //public Text modelAttribs1;
+    //public Text modelAttribs2;
+    //public Text modelAttribs3;
+    //public Text modelAttribs4;
+    //public Text modelAttribs5;
 
     public GameObject LoadingPanel;
  
-    // Update is called once per frame
-    void Update ()
-    {
-    }
- 
-    /* 
-    public void OnTrackableStateChanged(
-              TrackableBehaviour.Status previousStatus,
-              TrackableBehaviour.Status newStatus)
-    {
-        destroyChildren();
-        GameObject.FindObjectOfType<HighQualityPlayback>().unityVideoPlayer.Pause();
-        if ((newStatus == TrackableBehaviour.Status.DETECTED ||
-            newStatus == TrackableBehaviour.Status.TRACKED)&&modelFlag == 0)
-        {
-            OnTrackingFound();
-        }
-    }
-
-
-    private void OnTrackingFound()
-    {
-        GameObject.FindObjectOfType<HighQualityPlayback>().unityVideoPlayer.Play();
-        if (myModelPrefab != null)
-        {
-            Transform myModelTrf = GameObject.Instantiate(myModelPrefab) as Transform;
- 
-             myModelTrf.parent = mTrackableBehaviour.transform;    
-             myModelTrf.name = "renderedModel";         
-             myModelTrf.localPosition = new Vector3(0f, 0.7f, 0f);
-             myModelTrf.localRotation = Quaternion.identity;
-             myModelTrf.localScale = new Vector3(4f, 4f, 4f);
- 
-             myModelTrf.gameObject.active = true;
-         }
-     }
-    */
+    //Destroys children of target passed to it
     private void destroyChildren(GameObject currentTarget) {
         for (int x = 0; x < currentTarget.transform.childCount; x++)
             Destroy(currentTarget.transform.GetChild(x).gameObject);
@@ -155,7 +115,7 @@ public class ModelRenderer : MonoBehaviour {
             case 0:
                 return;
             case 1:
-                modelAttribs1.text = attributeString;
+                //modelAttribs1.text = attributeString;
                 if(itm.target1.transform.childCount == 4)
                     Destroy(itm.target1.transform.GetChild(3).gameObject);
                 tom.modelId1 = ParseForModelId(attributeString);
@@ -164,7 +124,7 @@ public class ModelRenderer : MonoBehaviour {
                 PolyApi.GetAsset(tom.modelId1, GetAssetCallback);
                 break;
             case 2:
-                modelAttribs2.text = attributeString;
+                //modelAttribs2.text = attributeString;
                 if(itm.target2.transform.childCount == 4)
                     Destroy(itm.target2.transform.GetChild(3).gameObject);
                 tom.modelId2 = ParseForModelId(attributeString);
@@ -173,7 +133,7 @@ public class ModelRenderer : MonoBehaviour {
                 PolyApi.GetAsset(tom.modelId2, GetAssetCallback);
                 break;
             case 3:
-                modelAttribs3.text = attributeString;
+                //modelAttribs3.text = attributeString;
                 if(itm.target3.transform.childCount == 4)
                     Destroy(itm.target3.transform.GetChild(3).gameObject);
                 tom.modelId3 = ParseForModelId(attributeString);
@@ -182,7 +142,7 @@ public class ModelRenderer : MonoBehaviour {
                 PolyApi.GetAsset(tom.modelId3, GetAssetCallback);
                 break;
             case 4:
-                modelAttribs4.text = attributeString;
+                //modelAttribs4.text = attributeString;
                 if(itm.target4.transform.childCount == 4)
                     Destroy(itm.target4.transform.GetChild(3).gameObject);
                 tom.modelId4 = ParseForModelId(attributeString);
@@ -191,7 +151,7 @@ public class ModelRenderer : MonoBehaviour {
                 PolyApi.GetAsset(tom.modelId4, GetAssetCallback);
                 break;
             case 5:
-                modelAttribs5.text = attributeString;
+                //modelAttribs5.text = attributeString;
                 if(itm.target5.transform.childCount == 4)
                     Destroy(itm.target5.transform.GetChild(3).gameObject);
                 tom.modelId5 = ParseForModelId(attributeString);

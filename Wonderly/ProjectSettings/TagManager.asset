@@ -3,7 +3,22 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - target5
+  - videoPlayer5
+  - target1
+  - videoPlayer1
+  - target2
+  - videoPlayer2
+  - target3
+  - videoPlayer3
+  - target4
+  - videoPlayer4
+  - importedModel1
+  - importedModel2
+  - importedModel3
+  - importedModel4
+  - importedModel5
   layers:
   - Default
   - TransparentFX

@@ -6,7 +6,7 @@ using PolyToolkit;
 using Sample;
 
 public class ModelInitializer : MonoBehaviour {
-    public Text keyword;
+    public InputField keyword;
     //public RawImage thumbPrefab;
     //public GameObject content;
     public Image thumbImage1;
