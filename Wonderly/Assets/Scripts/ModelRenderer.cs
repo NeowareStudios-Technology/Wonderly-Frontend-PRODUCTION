@@ -118,46 +118,46 @@ public class ModelRenderer : MonoBehaviour {
                 //modelAttribs1.text = attributeString;
                 if(itm.target1.transform.childCount == 4)
                     Destroy(itm.target1.transform.GetChild(3).gameObject);
-                tom.modelId1 = ParseForModelId(attributeString);
+                tom.modelIds[0] = ParseForModelId(attributeString);
                 if (!tom.attribs.Contains(attributeString))
                     tom.attribs.Add(attributeString);
-                PolyApi.GetAsset(tom.modelId1, GetAssetCallback);
+                PolyApi.GetAsset(tom.modelIds[0], GetAssetCallback);
                 break;
             case 2:
                 //modelAttribs2.text = attributeString;
                 if(itm.target2.transform.childCount == 4)
                     Destroy(itm.target2.transform.GetChild(3).gameObject);
-                tom.modelId2 = ParseForModelId(attributeString);
+                tom.modelIds[1] = ParseForModelId(attributeString);
                 if (!tom.attribs.Contains(attributeString))
                     tom.attribs.Add(attributeString);
-                PolyApi.GetAsset(tom.modelId2, GetAssetCallback);
+                PolyApi.GetAsset(tom.modelIds[1], GetAssetCallback);
                 break;
             case 3:
                 //modelAttribs3.text = attributeString;
                 if(itm.target3.transform.childCount == 4)
                     Destroy(itm.target3.transform.GetChild(3).gameObject);
-                tom.modelId3 = ParseForModelId(attributeString);
+                tom.modelIds[2] = ParseForModelId(attributeString);
                 if (!tom.attribs.Contains(attributeString))
                     tom.attribs.Add(attributeString);
-                PolyApi.GetAsset(tom.modelId3, GetAssetCallback);
+                PolyApi.GetAsset(tom.modelIds[2], GetAssetCallback);
                 break;
             case 4:
                 //modelAttribs4.text = attributeString;
                 if(itm.target4.transform.childCount == 4)
                     Destroy(itm.target4.transform.GetChild(3).gameObject);
-                tom.modelId4 = ParseForModelId(attributeString);
+                tom.modelIds[3] = ParseForModelId(attributeString);
                 if (!tom.attribs.Contains(attributeString))
                     tom.attribs.Add(attributeString);
-                PolyApi.GetAsset(tom.modelId4, GetAssetCallback);
+                PolyApi.GetAsset(tom.modelIds[3], GetAssetCallback);
                 break;
             case 5:
                 //modelAttribs5.text = attributeString;
                 if(itm.target5.transform.childCount == 4)
                     Destroy(itm.target5.transform.GetChild(3).gameObject);
-                tom.modelId5 = ParseForModelId(attributeString);
+                tom.modelIds[4] = ParseForModelId(attributeString);
                 if (!tom.attribs.Contains(attributeString))
                     tom.attribs.Add(attributeString);
-                PolyApi.GetAsset(tom.modelId5, GetAssetCallback);
+                PolyApi.GetAsset(tom.modelIds[4], GetAssetCallback);
                 break;
         }
 
@@ -204,32 +204,32 @@ public class ModelRenderer : MonoBehaviour {
                     myModelPrefab.tag = "importedModel1";
                     myModelPrefab.transform.parent = itm.target1.transform;
                     //model1 needs to get the model ID of the first model from attributesString
-                    tom.modelId1 = ParseForModelId(attributeString);
-                    tom.model1 = myModelObject;
+                    tom.modelIds[0] = ParseForModelId(attributeString);
+                    tom.models[0] = myModelObject;
                     break;
                 case 2:
                     myModelPrefab.tag = "importedModel2";
                     myModelPrefab.transform.parent = itm.target2.transform;
-                    tom.modelId2 = ParseForModelId(attributeString);
-                    tom.model2 = myModelObject;
+                    tom.modelIds[1] = ParseForModelId(attributeString);
+                    tom.models[1] = myModelObject;
                     break;
                 case 3:
                     myModelPrefab.tag = "importedModel3";
                     myModelPrefab.transform.parent = itm.target3.transform;
-                    tom.modelId3 = ParseForModelId(attributeString);
-                    tom.model3 = myModelObject;
+                    tom.modelIds[2] = ParseForModelId(attributeString);
+                    tom.models[2] = myModelObject;
                     break;
                 case 4:
                     myModelPrefab.tag = "importedModel4";
                     myModelPrefab.transform.parent = itm.target4.transform;
-                    tom.modelId4 = ParseForModelId(attributeString);
-                    tom.model4 = myModelObject;
+                    tom.modelIds[3] = ParseForModelId(attributeString);
+                    tom.models[3] = myModelObject;
                     break;
                 case 5:
                     myModelPrefab.tag = "importedModel5";
                     myModelPrefab.transform.parent = itm.target5.transform;
-                    tom.modelId5 = ParseForModelId(attributeString);
-                    tom.model5 = myModelObject;
+                    tom.modelIds[4] = ParseForModelId(attributeString);
+                    tom.models[4] = myModelObject;
                     break;
             }
         }

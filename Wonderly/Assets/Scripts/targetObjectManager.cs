@@ -7,41 +7,12 @@ using Sample;
 
 public class targetObjectManager : MonoBehaviour {
 
-	public GameObject videoPlayer1;
-	public GameObject videoPlayer2;
-	public GameObject videoPlayer3;
-	public GameObject videoPlayer4;
-	public GameObject videoPlayer5;
-
-	public GameObject targetMarker1;
-	public GameObject targetMarker2;
-	public GameObject targetMarker3;
-	public GameObject targetMarker4;
-	public GameObject targetMarker5;
-
-	public GameObject model1;
-	public GameObject model2;
-	public GameObject model3;
-	public GameObject model4;
-	public GameObject model5;
-
-	public GameObject image1;
-	public GameObject image2;
-	public GameObject image3;
-	public GameObject image4;
-	public GameObject image5;
-
-	public string modelId1;
-	public string modelId2;
-	public string modelId3;
-	public string modelId4;
-	public string modelId5;
-
-	public Image targetObjectThumbnail1;
-	public Image targetObjectThumbnail2;
-	public Image targetObjectThumbnail3;
-	public Image targetObjectThumbnail4;
-	public Image targetObjectThumbnail5;
+	public GameObject[] videoPlayers = new GameObject[5];
+	public GameObject[] targetMarkers = new GameObject[5];
+	public GameObject[] models = new GameObject[5];
+	public GameObject[] images = new GameObject[5];
+	public string[] modelIds = new string[5];
+	public Image[] targetObjectThumbnails = new Image[5];
 
 	public Image blankSprite;
 
@@ -62,37 +33,37 @@ public class targetObjectManager : MonoBehaviour {
 	void Update () {
 
 		
-		GameObject videoPlayer = videoPlayer1;
-		GameObject targetMarker = targetMarker1;
-		GameObject image = image1;
+		GameObject videoPlayer = videoPlayers[0];
+		GameObject targetMarker = targetMarkers[0];
+		GameObject image = images[0];
 		for (int i = 0; i < 5; i++)
 		{
 			switch(i)
 			{
 				case 0:
-					videoPlayer = videoPlayer1;
-					targetMarker = targetMarker1;
-					image = image1;
+					videoPlayer = videoPlayers[0];
+					targetMarker = targetMarkers[0];
+					image = images[0];
 					break;
 				case 1:
-					videoPlayer = videoPlayer2;
-					targetMarker = targetMarker2;
-					image = image2;
+					videoPlayer = videoPlayers[1];
+					targetMarker = targetMarkers[1];
+					image = images[1];
 					break;
 				case 2:
-					videoPlayer = videoPlayer3;
-					targetMarker = targetMarker3;
-					image = image3;
+					videoPlayer = videoPlayers[2];
+					targetMarker = targetMarkers[2];
+					image = images[2];
 					break;
 				case 3:
-					videoPlayer = videoPlayer4;
-					targetMarker = targetMarker4;
-					image = image4;
+					videoPlayer = videoPlayers[3];
+					targetMarker = targetMarkers[3];
+					image = images[3];
 					break;
 				case 4:
-					videoPlayer = videoPlayer5;
-					targetMarker = targetMarker5;
-					image = image5;
+					videoPlayer = videoPlayers[4];
+					targetMarker = targetMarkers[4];
+					image = images[4];
 					break;
 			}
 			//manages objects for each target
@@ -105,23 +76,23 @@ public class targetObjectManager : MonoBehaviour {
 				{
 					case 0:
 						resetTargetModel(1);
-						videoPlayer1.gameObject.transform.position = new Vector3(90f, 0f, 0f);
+						videoPlayers[0].gameObject.transform.position = new Vector3(90f, 0f, 0f);
 						break;
 					case 1:
 						resetTargetModel(2);
-						videoPlayer2.gameObject.transform.position = new Vector3(90f, 0f, 0f);
+						videoPlayers[1].gameObject.transform.position = new Vector3(90f, 0f, 0f);
 						break;
 					case 2:
 						resetTargetModel(3);
-						videoPlayer3.gameObject.transform.position = new Vector3(90f, 0f, 0f);
+						videoPlayers[2].gameObject.transform.position = new Vector3(90f, 0f, 0f);
 						break;
 					case 3:
 						resetTargetModel(4);
-						videoPlayer4.gameObject.transform.position = new Vector3(90f, 0f, 0f);
+						videoPlayers[3].gameObject.transform.position = new Vector3(90f, 0f, 0f);
 						break;
 					case 4:
 						resetTargetModel(5);
-						videoPlayer5.gameObject.transform.position = new Vector3(90f, 0f, 0f);
+						videoPlayers[4].gameObject.transform.position = new Vector3(90f, 0f, 0f);
 						break;
 				}
 			}
@@ -158,23 +129,23 @@ public class targetObjectManager : MonoBehaviour {
 				{
 					case 0:
 						resetTargetModel(1);
-						videoPlayer1.gameObject.transform.position = new Vector3(90f, 0f, 0f);
+						videoPlayers[0].gameObject.transform.position = new Vector3(90f, 0f, 0f);
 						break;
 					case 1:
 						resetTargetModel(2);
-						videoPlayer2.gameObject.transform.position = new Vector3(90f, 0f, 0f);
+						videoPlayers[1].gameObject.transform.position = new Vector3(90f, 0f, 0f);
 						break;
 					case 2:
 						resetTargetModel(3);
-						videoPlayer3.gameObject.transform.position = new Vector3(90f, 0f, 0f);
+						videoPlayers[2].gameObject.transform.position = new Vector3(90f, 0f, 0f);
 						break;
 					case 3:
 						resetTargetModel(4);
-						videoPlayer4.gameObject.transform.position = new Vector3(90f, 0f, 0f);
+						videoPlayers[3].gameObject.transform.position = new Vector3(90f, 0f, 0f);
 						break;
 					case 4:
 						resetTargetModel(5);
-						videoPlayer5.gameObject.transform.position = new Vector3(90f, 0f, 0f);
+						videoPlayers[4].gameObject.transform.position = new Vector3(90f, 0f, 0f);
 						break;
 				}
 			}
@@ -193,40 +164,40 @@ public class targetObjectManager : MonoBehaviour {
 						resetTargetModel(1);
 						if (itm.activeTarget1 == false && itm.target1.activeSelf == true)
 						{
-							videoPlayer1.GetComponent<SimplePlayback>().unityVideoPlayer.Pause();
-							videoPlayer1.gameObject.transform.position = new Vector3(90f, 0f, 0f);
+							videoPlayers[0].GetComponent<SimplePlayback>().unityVideoPlayer.Pause();
+							videoPlayers[0].gameObject.transform.position = new Vector3(90f, 0f, 0f);
 						}
 						break;
 					case 1:
 						resetTargetModel(2);
 						if (itm.activeTarget2 == false && itm.target2.activeSelf == true)
 						{
-							videoPlayer2.GetComponent<SimplePlayback>().unityVideoPlayer.Pause();
-							videoPlayer2.gameObject.transform.position = new Vector3(90f, 0f, 0f);
+							videoPlayers[1].GetComponent<SimplePlayback>().unityVideoPlayer.Pause();
+							videoPlayers[1].gameObject.transform.position = new Vector3(90f, 0f, 0f);
 						}
 						break;
 					case 2:
 						resetTargetModel(3);
 						if (itm.activeTarget3 == false && itm.target3.activeSelf == true)
 						{
-							videoPlayer3.GetComponent<SimplePlayback>().unityVideoPlayer.Pause();
-							videoPlayer3.gameObject.transform.position = new Vector3(90f, 0f, 0f);
+							videoPlayers[2].GetComponent<SimplePlayback>().unityVideoPlayer.Pause();
+							videoPlayers[2].gameObject.transform.position = new Vector3(90f, 0f, 0f);
 						}
 						break;
 					case 3:
 						resetTargetModel(4);
 						if (itm.activeTarget4 == false && itm.target4.activeSelf == true)
 						{
-							videoPlayer4.GetComponent<SimplePlayback>().unityVideoPlayer.Pause();
-							videoPlayer4.gameObject.transform.position = new Vector3(90f, 0f, 0f);
+							videoPlayers[3].GetComponent<SimplePlayback>().unityVideoPlayer.Pause();
+							videoPlayers[3].gameObject.transform.position = new Vector3(90f, 0f, 0f);
 						}
 						break;
 					case 4:
 						resetTargetModel(5);
 						if (itm.activeTarget5 == false && itm.target5.activeSelf == true)
 						{
-							videoPlayer5.GetComponent<SimplePlayback>().unityVideoPlayer.Pause();
-							videoPlayer5.gameObject.transform.position = new Vector3(90f, 0f, 0f);
+							videoPlayers[4].GetComponent<SimplePlayback>().unityVideoPlayer.Pause();
+							videoPlayers[4].gameObject.transform.position = new Vector3(90f, 0f, 0f);
 						}
 						break;
 				}
@@ -243,24 +214,24 @@ public class targetObjectManager : MonoBehaviour {
 		switch(whichModel)
 		{
 			case 1:
-				Destroy(model1);
-				modelId1 = "";
+				Destroy(models[0]);
+				modelIds[0] = "";
 				break;
 			case 2:
-				Destroy(model2);
-				modelId2 = "";
+				Destroy(models[1]);
+				modelIds[1] = "";
 				break;
 			case 3:
-				Destroy(model3);
-				modelId3 = "";
+				Destroy(models[2]);
+				modelIds[2] = "";
 				break;
 			case 4:
-				Destroy(model4);
-				modelId4 = "";
+				Destroy(models[3]);
+				modelIds[3] = "";
 				break;
 			case 5:
-				Destroy(model5);
-				modelId5 = "";
+				Destroy(models[4]);
+				modelIds[4] = "";
 				break;
 		}
 			
@@ -277,58 +248,58 @@ public class targetObjectManager : MonoBehaviour {
 			case 1:
 				//set to created, since we know that the image was not "none" or "created" before, but set to a model, vid, or pic
 				fm.targetStatus[0] = "created";
-				if (model1 != null)
+				if (models[0] != null)
 				{
-					Destroy(model1);
-					modelId1 = null;
-					model1 = null;
+					Destroy(models[0]);
+					modelIds[0] = null;
+					models[0] = null;
 				}
-				videoPlayer1.SetActive(false);
-				targetObjectThumbnail1.sprite = blankSprite.sprite;
+				videoPlayers[0].SetActive(false);
+				targetObjectThumbnails[0].sprite = blankSprite.sprite;
 				break;
 			case 2:
 				fm.targetStatus[1] = "created";
-				if (model2 != null)
+				if (models[1] != null)
 				{
-					Destroy(model2);
-					modelId2 = null;
-					model2 = null;
+					Destroy(models[1]);
+					modelIds[1] = null;
+					models[1] = null;
 				}
-				videoPlayer2.SetActive(false);
-				targetObjectThumbnail2.sprite = blankSprite.sprite;
+				videoPlayers[1].SetActive(false);
+				targetObjectThumbnails[1].sprite = blankSprite.sprite;
 				break;
 			case 3:
 				fm.targetStatus[2] = "created";
-				if (model3 != null)
+				if (models[2] != null)
 				{
-					Destroy(model3);
-					modelId3 = null;
-					model3 = null;
+					Destroy(models[2]);
+					modelIds[2] = null;
+					models[2] = null;
 				}
-				videoPlayer3.SetActive(false);
-				targetObjectThumbnail3.sprite = blankSprite.sprite;
+				videoPlayers[2].SetActive(false);
+				targetObjectThumbnails[2].sprite = blankSprite.sprite;
 				break;
 			case 4:
 				fm.targetStatus[3] = "created";
-				if (model4 != null)
+				if (models[3] != null)
 				{
-					Destroy(model4);
-					modelId4 = null;
-					model4 = null;
+					Destroy(models[3]);
+					modelIds[3] = null;
+					models[3] = null;
 				}
-				videoPlayer4.SetActive(false);
-				targetObjectThumbnail4.sprite = blankSprite.sprite;
+				videoPlayers[3].SetActive(false);
+				targetObjectThumbnails[3].sprite = blankSprite.sprite;
 				break;
 			case 5:
 				fm.targetStatus[4] = "created";
-				if (model5 != null)
+				if (models[4] != null)
 				{
-					Destroy(model5);
-					modelId5 = null;
-					model5 = null;
+					Destroy(models[4]);
+					modelIds[4] = null;
+					models[4] = null;
 				}
-				videoPlayer1.SetActive(false);
-				targetObjectThumbnail5.sprite = blankSprite.sprite;
+				videoPlayers[0].SetActive(false);
+				targetObjectThumbnails[4].sprite = blankSprite.sprite;
 				break;
 		}
 	}
@@ -343,54 +314,54 @@ public class targetObjectManager : MonoBehaviour {
 		{
 			case 1:
 				fm.targetStatus[0] = "created";
-				if (model1 != null)
+				if (models[0] != null)
 				{
-					Destroy(model1);
-					modelId1 = null;
-					model1 = null;
+					Destroy(models[0]);
+					modelIds[0] = null;
+					models[0] = null;
 				}
-				videoPlayer1.SetActive(false);
+				videoPlayers[0].SetActive(false);
 				
 				break;
 			case 2:
 				fm.targetStatus[1] = "created";
-				if (model2 != null)
+				if (models[1] != null)
 				{
-					Destroy(model2);
-					modelId2 = null;
-					model2 = null;
+					Destroy(models[1]);
+					modelIds[1] = null;
+					models[1] = null;
 				}
-				videoPlayer2.SetActive(false);
+				videoPlayers[1].SetActive(false);
 				break;
 			case 3:
 				fm.targetStatus[2] = "created";
-				if (model3 != null)
+				if (models[2] != null)
 				{
-					Destroy(model3);
-					modelId3 = null;
-					model3 = null;
+					Destroy(models[2]);
+					modelIds[2] = null;
+					models[2] = null;
 				}
-				videoPlayer3.SetActive(false);
+				videoPlayers[2].SetActive(false);
 				break;
 			case 4:
 				fm.targetStatus[3] = "created";
-				if (model4 != null)
+				if (models[3] != null)
 				{
-					Destroy(model4);
-					modelId4 = null;
-					model4 = null;
+					Destroy(models[3]);
+					modelIds[3] = null;
+					models[3] = null;
 				}
-				videoPlayer4.SetActive(false);
+				videoPlayers[3].SetActive(false);
 				break;
 			case 5:
 				fm.targetStatus[4] = "created";
-				if (model5 != null)
+				if (models[4] != null)
 				{
-					Destroy(model5);
-					modelId5 = null;
-					model5 = null;
+					Destroy(models[4]);
+					modelIds[4] = null;
+					models[4] = null;
 				}
-				videoPlayer1.SetActive(false);
+				videoPlayers[0].SetActive(false);
 				break;
 		}
 	}
@@ -406,71 +377,71 @@ public class targetObjectManager : MonoBehaviour {
 			case 1:
 				if (fm.targetStatus[fm.currentTarget-1] == "video")
 				{
-					videoPlayer1.transform.Rotate(0,0,30);
+					videoPlayers[0].transform.Rotate(0,0,30);
 				}
 				if (fm.targetStatus[fm.currentTarget-1] == "model")
 				{
-					model1.transform.Rotate(30,0,0);
+					models[0].transform.Rotate(30,0,0);
 				}
 				if (fm.targetStatus[fm.currentTarget-1] == "image")
 				{
-					image1.transform.Rotate(0,0,30);
+					images[0].transform.Rotate(0,0,30);
 				}
 				break;
 			case 2:
 				if (fm.targetStatus[fm.currentTarget-1] == "video")
 				{
-					videoPlayer2.transform.Rotate(0,0,30);
+					videoPlayers[1].transform.Rotate(0,0,30);
 				}
 				if (fm.targetStatus[fm.currentTarget-1] == "model")
 				{
-					model2.transform.Rotate(30,0,0);
+					models[1].transform.Rotate(30,0,0);
 				}
 				if (fm.targetStatus[fm.currentTarget-1] == "image")
 				{
-					image2.transform.Rotate(0,0,30);
+					images[1].transform.Rotate(0,0,30);
 				}
 				break;
 			case 3:
 				if (fm.targetStatus[fm.currentTarget-1] == "video")
 				{
-					videoPlayer3.transform.Rotate(0,0,30);
+					videoPlayers[2].transform.Rotate(0,0,30);
 				}
 				if (fm.targetStatus[fm.currentTarget-1] == "model")
 				{
-					model3.transform.Rotate(30,0,0);
+					models[2].transform.Rotate(30,0,0);
 				}
 				if (fm.targetStatus[fm.currentTarget-1] == "image")
 				{
-					image3.transform.Rotate(0,0,30);
+					images[2].transform.Rotate(0,0,30);
 				}
 				break;
 			case 4:
 				if (fm.targetStatus[fm.currentTarget-1] == "video")
 				{
-					videoPlayer4.transform.Rotate(0,0,30);
+					videoPlayers[3].transform.Rotate(0,0,30);
 				}
 				if (fm.targetStatus[fm.currentTarget-1] == "model")
 				{
-					model4.transform.Rotate(30,0,0);
+					models[3].transform.Rotate(30,0,0);
 				}
 				if (fm.targetStatus[fm.currentTarget-1] == "image")
 				{
-					image4.transform.Rotate(0,0,30);
+					images[3].transform.Rotate(0,0,30);
 				}
 				break;
 			case 5:
 				if (fm.targetStatus[fm.currentTarget-1] == "video")
 				{
-					videoPlayer5.transform.Rotate(0,0,30);
+					videoPlayers[4].transform.Rotate(0,0,30);
 				}
 				if (fm.targetStatus[fm.currentTarget-1] == "model")
 				{
-					model5.transform.Rotate(30,0,0);
+					models[4].transform.Rotate(30,0,0);
 				}
 				if (fm.targetStatus[fm.currentTarget-1] == "image")
 				{
-					image5.transform.Rotate(0,0,30);
+					images[4].transform.Rotate(0,0,30);
 				}
 				break;
 		}
@@ -496,23 +467,23 @@ public class targetObjectManager : MonoBehaviour {
 		fm.targetCount = 0;
 		fm.currentTarget = 0;
 
-		model1 = null;
-		model2 = null;
-		model3 = null;
-		model4 = null;
-		model5 = null;
+		models[0] = null;
+		models[1] = null;
+		models[2] = null;
+		models[3] = null;
+		models[4] = null;
 
-		modelId1 = "";
-		modelId2 = "";
-		modelId3 = "";
-		modelId4 = "";
-		modelId5 = "";
+		modelIds[0] = "";
+		modelIds[1] = "";
+		modelIds[2] = "";
+		modelIds[3] = "";
+		modelIds[4] = "";
 
-	///	targetObjectThumbnail1.sprite = blankSprite.sprite;
-	///	targetObjectThumbnail2.sprite = blankSprite.sprite;
-	///	targetObjectThumbnail3.sprite = blankSprite.sprite;
-	///	targetObjectThumbnail4.sprite = blankSprite.sprite;
-	///	targetObjectThumbnail5.sprite = blankSprite.sprite;
+	///	targetObjectThumbnails[0].sprite = blankSprite.sprite;
+	///	targetObjectThumbnails[1].sprite = blankSprite.sprite;
+	///	targetObjectThumbnails[2].sprite = blankSprite.sprite;
+	///	targetObjectThumbnails[3].sprite = blankSprite.sprite;
+	///	targetObjectThumbnails[4].sprite = blankSprite.sprite;
 
 		removeTargetObject(1);
 		removeTargetObject(2);

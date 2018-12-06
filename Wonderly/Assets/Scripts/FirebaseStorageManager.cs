@@ -85,10 +85,6 @@ public class FirebaseStorageManager : MonoBehaviour {
 		//create a new upload class instance
 		UploadClassDeclaration upload = new UploadClassDeclaration();
 		upload.title = sm.title.text;
-		if (sm.browserLink.text == "")
-			upload.weblink = false;
-		else
-			upload.weblink = true;
 
 		//get target object counts
 		int modelCount = 0;

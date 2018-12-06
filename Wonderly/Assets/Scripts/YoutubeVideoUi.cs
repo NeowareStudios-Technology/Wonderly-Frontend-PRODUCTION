@@ -38,11 +38,11 @@ public class YoutubeVideoUi : MonoBehaviour {
                     }
                     fm.targetStatus[0] = "video";
                     itm.target1.SetActive(true);
-                    tom.videoPlayer1.SetActive(true);
+                    tom.videoPlayers[0].SetActive(true);
                     Debug.Log(videoId);
-                    tom.videoPlayer1.GetComponent<SimplePlayback>().PlayYoutubeVideo(videoId);
-                    tom.videoPlayer1.GetComponent<SimplePlayback>().unityVideoPlayer.loopPointReached += VideoFinished;
-                    tom.videoPlayer1.transform.position = new Vector3(0f, 0f, 0f);
+                    tom.videoPlayers[0].GetComponent<SimplePlayback>().PlayYoutubeVideo(videoId);
+                    tom.videoPlayers[0].GetComponent<SimplePlayback>().unityVideoPlayer.loopPointReached += VideoFinished;
+                    tom.videoPlayers[0].transform.position = new Vector3(0f, 0f, 0f);
                     break;
                 case 2:
                     if (fm.targetStatus[1] == "none")
@@ -51,11 +51,11 @@ public class YoutubeVideoUi : MonoBehaviour {
                     }
                     fm.targetStatus[1] = "video";
                     itm.target2.SetActive(true);
-                    tom.videoPlayer2.SetActive(true);
+                    tom.videoPlayers[1].SetActive(true);
                     Debug.Log(videoId);
-                    tom.videoPlayer2.GetComponent<SimplePlayback>().PlayYoutubeVideo(videoId);
-                    tom.videoPlayer2.GetComponent<SimplePlayback>().unityVideoPlayer.loopPointReached += VideoFinished;
-                    tom.videoPlayer1.transform.position = new Vector3(0f, 0f, 0f);
+                    tom.videoPlayers[1].GetComponent<SimplePlayback>().PlayYoutubeVideo(videoId);
+                    tom.videoPlayers[1].GetComponent<SimplePlayback>().unityVideoPlayer.loopPointReached += VideoFinished;
+                    tom.videoPlayers[1].transform.position = new Vector3(0f, 0f, 0f);
                     break;
                 case 3:
                     if (fm.targetStatus[2] == "none")
@@ -64,11 +64,11 @@ public class YoutubeVideoUi : MonoBehaviour {
                     }
                     fm.targetStatus[2] = "video";
                     itm.target3.SetActive(true);
-                    tom.videoPlayer3.SetActive(true);
+                    tom.videoPlayers[2].SetActive(true);
                     Debug.Log(videoId);
-                    tom.videoPlayer3.GetComponent<SimplePlayback>().PlayYoutubeVideo(videoId);
-                    tom.videoPlayer3.GetComponent<SimplePlayback>().unityVideoPlayer.loopPointReached += VideoFinished;
-                    tom.videoPlayer1.transform.position = new Vector3(0f, 0f, 0f);
+                    tom.videoPlayers[2].GetComponent<SimplePlayback>().PlayYoutubeVideo(videoId);
+                    tom.videoPlayers[2].GetComponent<SimplePlayback>().unityVideoPlayer.loopPointReached += VideoFinished;
+                    tom.videoPlayers[2].transform.position = new Vector3(0f, 0f, 0f);
                     break;
                 case 4:
                     if (fm.targetStatus[3] == "none")
@@ -77,11 +77,11 @@ public class YoutubeVideoUi : MonoBehaviour {
                     }
                     fm.targetStatus[3] = "video";
                     itm.target4.SetActive(true);
-                    tom.videoPlayer4.SetActive(true);
+                    tom.videoPlayers[3].SetActive(true);
                     Debug.Log(videoId);
-                    tom.videoPlayer4.GetComponent<SimplePlayback>().PlayYoutubeVideo(videoId);
-                    tom.videoPlayer4.GetComponent<SimplePlayback>().unityVideoPlayer.loopPointReached += VideoFinished;
-                    tom.videoPlayer1.transform.position = new Vector3(0f, 0f, 0f);
+                    tom.videoPlayers[3].GetComponent<SimplePlayback>().PlayYoutubeVideo(videoId);
+                    tom.videoPlayers[3].GetComponent<SimplePlayback>().unityVideoPlayer.loopPointReached += VideoFinished;
+                    tom.videoPlayers[3].transform.position = new Vector3(0f, 0f, 0f);
                     break;
                 case 5:
                     if (fm.targetStatus[4] == "none")
@@ -90,11 +90,11 @@ public class YoutubeVideoUi : MonoBehaviour {
                     }
                     fm.targetStatus[4] = "video";
                     itm.target5.SetActive(true);
-                    tom.videoPlayer5.SetActive(true);
+                    tom.videoPlayers[4].SetActive(true);
                     Debug.Log(videoId);
-                    tom.videoPlayer5.GetComponent<SimplePlayback>().PlayYoutubeVideo(videoId);
-                    tom.videoPlayer5.GetComponent<SimplePlayback>().unityVideoPlayer.loopPointReached += VideoFinished;
-                    tom.videoPlayer1.transform.position = new Vector3(0f, 0f, 0f);
+                    tom.videoPlayers[4].GetComponent<SimplePlayback>().PlayYoutubeVideo(videoId);
+                    tom.videoPlayers[4].GetComponent<SimplePlayback>().unityVideoPlayer.loopPointReached += VideoFinished;
+                    tom.videoPlayers[4].transform.position = new Vector3(0f, 0f, 0f);
                     break;
 
 

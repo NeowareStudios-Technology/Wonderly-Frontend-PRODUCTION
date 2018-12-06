@@ -38,28 +38,28 @@ namespace Sample
             {
                 case 1:
                         itm.activeTarget1 = true;
-                        tom.videoPlayer1.gameObject.transform.position = new Vector3(0f,0f,0f);
+                        tom.videoPlayers[0].gameObject.transform.position = new Vector3(0f,0f,0f);
                         GameObject.FindWithTag("videoPlayer1").GetComponent<SimplePlayback>().unityVideoPlayer.Play();
                     break;
                 case 2:
                         itm.activeTarget2 = true;
-                        tom.videoPlayer2.gameObject.transform.position = new Vector3(0f,0f,0f);
+                        tom.videoPlayers[1].gameObject.transform.position = new Vector3(0f,0f,0f);
                         GameObject.FindWithTag("videoPlayer2").GetComponent<SimplePlayback>().unityVideoPlayer.Play();
                     break;
                 case 3:
                         itm.activeTarget3 = true;
-                        tom.videoPlayer3.gameObject.transform.position = new Vector3(0f,0f,0f);
+                        tom.videoPlayers[2].gameObject.transform.position = new Vector3(0f,0f,0f);
                         GameObject.FindWithTag("videoPlayer3").GetComponent<SimplePlayback>().unityVideoPlayer.Play();
                     break;
                 case 4:
                         itm.activeTarget4 = true;
-                        tom.videoPlayer4.gameObject.transform.position = new Vector3(0f,0f,0f);
+                        tom.videoPlayers[3].gameObject.transform.position = new Vector3(0f,0f,0f);
                         GameObject.FindWithTag("videoPlayer4").GetComponent<SimplePlayback>().unityVideoPlayer.Play();
                     break;
                 case 5:
                         itm.activeTarget5 = true;
-                        tom.videoPlayer5.gameObject.transform.position = new Vector3(0f,0f,0f);
-                        GameObject.FindWithTag("videoPlayer5").GetComponent<SimplePlayback>().unityVideoPlayer.Play();
+                        tom.videoPlayers[4].gameObject.transform.position = new Vector3(0f,0f,0f);
+                        GameObject.FindWithTag("videoPlayer4").GetComponent<SimplePlayback>().unityVideoPlayer.Play();
                     break;
             }
         }
@@ -74,27 +74,27 @@ namespace Sample
                     Debug.Log("new position");
                     itm.activeTarget1 = false;
                     itm.target1.transform.position = new Vector3(0f,0f,0f);
-                    tom.videoPlayer1.gameObject.transform.position = new Vector3(2000f,0f,0f);
+                    tom.videoPlayers[0].gameObject.transform.position = new Vector3(2000f,0f,0f);
                     break;
                 case 2:
                     itm.activeTarget2 = false;
                     itm.target2.transform.position = new Vector3(0f,0f,0f);
-                    tom.videoPlayer2.gameObject.transform.position = new Vector3(2000f,0f,0f);
+                    tom.videoPlayers[1].gameObject.transform.position = new Vector3(2000f,0f,0f);
                     break;
                 case 3:
                     itm.activeTarget3 = false;
                     itm.target3.transform.position = new Vector3(0f,0f,0f);
-                    tom.videoPlayer3.gameObject.transform.position = new Vector3(2000f,0f,0f);
+                    tom.videoPlayers[2].gameObject.transform.position = new Vector3(2000f,0f,0f);
                     break;
                 case 4:
                     itm.activeTarget4 = false;
                     itm.target4.transform.position = new Vector3(0f,0f,0f);
-                    tom.videoPlayer4.gameObject.transform.position = new Vector3(2000f,0f,0f);
+                    tom.videoPlayers[3].gameObject.transform.position = new Vector3(2000f,0f,0f);
                     break;
                 case 5:
                     itm.activeTarget5 = false;
                     itm.target5.transform.position = new Vector3(0f,0f,0f);
-                    tom.videoPlayer5.gameObject.transform.position = new Vector3(2000f,0f,0f);
+                    tom.videoPlayers[4].gameObject.transform.position = new Vector3(2000f,0f,0f);
                     break;
             }
         }

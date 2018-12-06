@@ -15,11 +15,17 @@ public class SaveManager : MonoBehaviour {
 	public CloudEndpointsApiManager ceam;
 	public LoadManager lm;
 
-	public Text title;
-	public Text editTitle;
-	public Text description;
-	public Text browserLink;
-	public Text titleDisplay;
+	public InputField title;
+	public InputField editTitle;
+	public InputField description;
+	public InputField titleDisplay;
+	///Probably need to make a function that controls which wonder title/description screen to display
+	public InputField[] wonderTitles = new InputField[5];
+	public InputField[] wonderDescriptions = new InputField[5];
+
+	public Text coverImageUrl;
+
+
 
 	public void CreateSaveFile()
 	{
@@ -36,13 +42,7 @@ public class SaveManager : MonoBehaviour {
 		//save the title and description of the experience
 		save.title = title.text;
 		save.description = description.text;
-
 		titleDisplay.text = title.text;
-
-		//save browser url link
-		save.browserLink = browserLink.text;
-
-
 
 		//create save directory
 		Directory.CreateDirectory(fm.SaveDirectory);
@@ -75,180 +75,82 @@ public class SaveManager : MonoBehaviour {
 		//make sure to iterate over all 5 possible targets to make sure we get all targets if one has been deleted
 		for (int i = 0; i < 5; i++)
 		{
+				//save titles of each wonder
+				save.wonderTitle[i] = wonderTitles[i].text;
+				//save descriptions of each wonder
+				save.wonderDescription[i] = wonderDescriptions[i].text; 
+
 			//only save this target if the it has objects save to it
 			if (fm.targetStatus[i] != "none" || fm.targetStatus[i] != "created")
 			{
-				//int oneIndex = i+1;
+				//declare here so that duplicate naming errors dont occur
 				float x = 0.0f;
 				float y = 0.0f;
 				float z = 0.0f;
+				float scaleX = 0.0f;
+				float scaleY = 0.0f;
+				float scaleZ = 0.0f;
+
+				//check whether a video, model, or image is set to the target
 				switch(fm.targetStatus[i])
 				{
 					//save all video url info and position info to save class
 					case "video":
+						//declare here so that duplicate naming errors dont occur
 						string videoUrl = "";
 						string audioUrl = "";
-						switch(i)
-						{
-							case 0:
-								save.vId[0] = tom.videoPlayer1.GetComponent<SimplePlayback>().videoId;
-								//save.vUrl1 = tom.videoPlayer1.GetComponent<HighQualityPlayback>().videoUrl;
-								//save.aUrl1 = tom.videoPlayer1.GetComponent<HighQualityPlayback>().audioVideoUrl;
-								x = tom.videoPlayer1.transform.rotation.eulerAngles.x;
-								y = tom.videoPlayer1.transform.rotation.eulerAngles.y;
-								z = tom.videoPlayer1.transform.rotation.eulerAngles.z;
-								save.rot1[0] = x;
-								save.rot1[1] = y;
-								save.rot1[2] = z;
-								break;
-							case 1:
-								save.vId[1] = tom.videoPlayer2.GetComponent<SimplePlayback>().videoId;
-								//save.vUrl2 = tom.videoPlayer2.GetComponent<HighQualityPlayback>().videoUrl;
-								//save.aUrl2 = tom.videoPlayer2.GetComponent<HighQualityPlayback>().audioVideoUrl;
-								x = tom.videoPlayer2.transform.rotation.eulerAngles.x;
-								y = tom.videoPlayer2.transform.rotation.eulerAngles.y;
-								z = tom.videoPlayer2.transform.rotation.eulerAngles.z;
-								save.rot2[0] = x;
-								save.rot2[1] = y;
-								save.rot2[2] = z;
-								break;
-							case 2:
-								save.vId[2] = tom.videoPlayer3.GetComponent<SimplePlayback>().videoId;
-								//save.vUrl3 = tom.videoPlayer3.GetComponent<HighQualityPlayback>().videoUrl;
-								//save.aUrl3 = tom.videoPlayer3.GetComponent<HighQualityPlayback>().audioVideoUrl;
-								x = tom.videoPlayer3.transform.rotation.eulerAngles.x;
-								y = tom.videoPlayer3.transform.rotation.eulerAngles.y;
-								z = tom.videoPlayer3.transform.rotation.eulerAngles.z;
-								save.rot3[0] = x;
-								save.rot3[1] = y;
-								save.rot3[2] = z;
-								break;
-							case 3:
-								save.vId[3] = tom.videoPlayer4.GetComponent<SimplePlayback>().videoId;
-								//save.vUrl4 = tom.videoPlayer4.GetComponent<HighQualityPlayback>().videoUrl;
-								//save.aUrl4 = tom.videoPlayer4.GetComponent<HighQualityPlayback>().audioVideoUrl;
-								x = tom.videoPlayer4.transform.rotation.eulerAngles.x;
-								y = tom.videoPlayer4.transform.rotation.eulerAngles.y;
-								z = tom.videoPlayer4.transform.rotation.eulerAngles.z;
-								save.rot4[0] = x;
-								save.rot4[1] = y;
-								save.rot4[2] = z;
-								break;
-							case 4:
-								save.vId[4] = tom.videoPlayer5.GetComponent<SimplePlayback>().videoId;
-								//save.vUrl5 = tom.videoPlayer5.GetComponent<HighQualityPlayback>().videoUrl;
-								//save.aUrl5 = tom.videoPlayer5.GetComponent<HighQualityPlayback>().audioVideoUrl;
-								x = tom.videoPlayer5.transform.rotation.eulerAngles.x;
-								y = tom.videoPlayer5.transform.rotation.eulerAngles.y;
-								z = tom.videoPlayer5.transform.rotation.eulerAngles.z;
-								save.rot5[0] = x;
-								save.rot5[1] = y;
-								save.rot5[2] = z;
-								break;
-						}
+						//save video id
+						save.vId[i] = tom.videoPlayers[i].GetComponent<SimplePlayback>().videoId;
+						//get rotation of video player
+						x = tom.videoPlayers[i].transform.rotation.eulerAngles.x;
+						y = tom.videoPlayers[i].transform.rotation.eulerAngles.y;
+						z = tom.videoPlayers[i].transform.rotation.eulerAngles.z;
+						//get scale of video playei
+						scaleX = tom.videoPlayers[i].transform.localScale.x;
+						scaleY = tom.videoPlayers[i].transform.localScale.y;
+						scaleZ = tom.videoPlayers[i].transform.localScale.z;
+						//save rotation of video player
+						save.rotationObjectArray[i].rotation[0] = x;
+						save.rotationObjectArray[i].rotation[1] = y;
+						save.rotationObjectArray[i].rotation[2] = z;
+						//save scale of video player
+						save.scaleObjectArray[i].scale[0] = scaleX;
+						save.scaleObjectArray[i].scale[1] = scaleY;
+						save.scaleObjectArray[i].scale[2] = scaleZ;
 						break;
 
 					//save model ID info and model rotation info to save class
 					case "model":
 						string modelId = "";
-						switch(i)
-						{
-							case 0:
-								save.mod1 = tom.modelId1;
-								x = tom.model1.transform.rotation.eulerAngles.x;
-								y = tom.model1.transform.rotation.eulerAngles.y;
-								z = tom.model1.transform.rotation.eulerAngles.z;
-								save.rot1[0] = x;
-								save.rot1[1] = y;
-								save.rot1[2] = z;
-								break;
-							case 1:
-								save.mod2 = tom.modelId2;
-								x = tom.model2.transform.rotation.eulerAngles.x;
-								y = tom.model2.transform.rotation.eulerAngles.y;
-								z = tom.model2.transform.rotation.eulerAngles.z;
-								save.rot2[0] = x;
-								save.rot2[1] = y;
-								save.rot2[2] = z;
-								break;
-							case 2:
-								save.mod3 = tom.modelId3;
-								x = tom.model3.transform.rotation.eulerAngles.x;
-								y = tom.model3.transform.rotation.eulerAngles.y;
-								z = tom.model3.transform.rotation.eulerAngles.z;
-								save.rot3[0] = x;
-								save.rot3[1] = y;
-								save.rot3[2] = z;
-								break;
-							case 3:
-								save.mod4 = tom.modelId4;
-								x = tom.model4.transform.rotation.eulerAngles.x;
-								y = tom.model4.transform.rotation.eulerAngles.y;
-								z = tom.model4.transform.rotation.eulerAngles.z;
-								save.rot4[0] = x;
-								save.rot4[1] = y;
-								save.rot4[2] = z;
-								break;
-							case 4:
-								save.mod5 = tom.modelId5;
-								x = tom.model5.transform.rotation.eulerAngles.x;
-								y = tom.model5.transform.rotation.eulerAngles.y;
-								z = tom.model5.transform.rotation.eulerAngles.z;
-								save.rot5[0] = x;
-								save.rot5[1] = y;
-								save.rot5[2] = z;
-								break;
-						}
+						save.modId[i] = tom.modelIds[i];
+						x = tom.models[i].transform.rotation.eulerAngles.x;
+						y = tom.models[i].transform.rotation.eulerAngles.y;
+						z = tom.models[i].transform.rotation.eulerAngles.z;
+						scaleX = tom.models[i].transform.localScale.x;
+						scaleY = tom.models[i].transform.localScale.y;
+						scaleZ = tom.models[i].transform.localScale.z;
+						save.rotationObjectArray[i].rotation[0] = x;
+						save.rotationObjectArray[i].rotation[1] = y;
+						save.rotationObjectArray[i].rotation[2] = z;
+						save.scaleObjectArray[i].scale[0] = scaleX;
+						save.scaleObjectArray[i].scale[1] = scaleY;
+						save.scaleObjectArray[i].scale[2] = scaleZ;
 						break;
+
 					case "image":
-						switch(i)
-						{
-							case 0:
-								save.imageUrl[0] = pm.chosenUrls[0];
-								x = tom.image1.transform.rotation.eulerAngles.x;
-								y = tom.image1.transform.rotation.eulerAngles.y;
-								z = tom.image1.transform.rotation.eulerAngles.z;
-								save.rot1[0] = x;
-								save.rot1[1] = y;
-								save.rot1[2] = z;
-								break;
-							case 1:
-								save.imageUrl[1] = pm.chosenUrls[1];
-								x = tom.image2.transform.rotation.eulerAngles.x;
-								y = tom.image2.transform.rotation.eulerAngles.y;
-								z = tom.image2.transform.rotation.eulerAngles.z;
-								save.rot2[0] = x;
-								save.rot2[1] = y;
-								save.rot2[2] = z;
-								break;
-							case 2:
-								save.imageUrl[2] = pm.chosenUrls[2];
-								x = tom.image3.transform.rotation.eulerAngles.x;
-								y = tom.image3.transform.rotation.eulerAngles.y;
-								z = tom.image3.transform.rotation.eulerAngles.z;
-								save.rot3[0] = x;
-								save.rot3[1] = y;
-								save.rot3[2] = z;
-								break;
-							case 3:
-								save.imageUrl[3] = pm.chosenUrls[3];
-								x = tom.image4.transform.rotation.eulerAngles.x;
-								y = tom.image4.transform.rotation.eulerAngles.y;
-								z = tom.image4.transform.rotation.eulerAngles.z;
-								save.rot4[0] = x;
-								save.rot4[1] = y;
-								save.rot4[2] = z;
-								break;
-							case 4:
-								save.imageUrl[4] = pm.chosenUrls[4];
-								x = tom.image5.transform.rotation.eulerAngles.x;
-								y = tom.image5.transform.rotation.eulerAngles.y;
-								z = tom.image5.transform.rotation.eulerAngles.z;
-								save.rot5[0] = x;
-								save.rot5[1] = y;
-								save.rot5[2] = z;
-								break;
-						}
+						save.imageUrl[i] = pm.chosenUrls[i];
+						x = tom.images[i].transform.rotation.eulerAngles.x;
+						y = tom.images[i].transform.rotation.eulerAngles.y;
+						z = tom.images[i].transform.rotation.eulerAngles.z;
+						scaleX = tom.images[i].transform.localScale.x;
+						scaleY = tom.images[i].transform.localScale.y;
+						scaleZ = tom.images[i].transform.localScale.z;
+						save.rotationObjectArray[i].rotation[0] = x;
+						save.rotationObjectArray[i].rotation[1] = y;
+						save.rotationObjectArray[i].rotation[2] = z;
+						save.scaleObjectArray[i].scale[0] = scaleX;
+						save.scaleObjectArray[i].scale[1] = scaleY;
+						save.scaleObjectArray[i].scale[2] = scaleZ;
 						break;
 				}
 			}
@@ -294,9 +196,6 @@ public class SaveManager : MonoBehaviour {
 
 		titleDisplay.text = editTitle.text;
 
-		//save browser url link
-		save.browserLink = browserLink.text;
-
 
 
 		//create save directory
@@ -329,180 +228,82 @@ public class SaveManager : MonoBehaviour {
 		//make sure to iterate over all 5 possible targets to make sure we get all targets if one has been deleted
 		for (int i = 0; i < 5; i++)
 		{
+				//save titles of each wonder
+				save.wonderTitle[i] = wonderTitles[i].text;
+				//save descriptions of each wonder
+				save.wonderDescription[i] = wonderDescriptions[i].text; 
+
 			//only save this target if the it has objects save to it
 			if (fm.targetStatus[i] != "none" || fm.targetStatus[i] != "created")
 			{
-				//int oneIndex = i+1;
+				//declare here so that duplicate naming errors dont occur
 				float x = 0.0f;
 				float y = 0.0f;
 				float z = 0.0f;
+				float scaleX = 0.0f;
+				float scaleY = 0.0f;
+				float scaleZ = 0.0f;
+
+				//check whether a video, model, or image is set to the target
 				switch(fm.targetStatus[i])
 				{
 					//save all video url info and position info to save class
 					case "video":
+						//declare here so that duplicate naming errors dont occur
 						string videoUrl = "";
 						string audioUrl = "";
-						switch(i)
-						{
-							case 0:
-								save.vId[0] = tom.videoPlayer1.GetComponent<SimplePlayback>().videoId;
-								//save.vUrl1 = tom.videoPlayer1.GetComponent<HighQualityPlayback>().videoUrl;
-								//save.aUrl1 = tom.videoPlayer1.GetComponent<HighQualityPlayback>().audioVideoUrl;
-								x = tom.videoPlayer1.transform.rotation.eulerAngles.x;
-								y = tom.videoPlayer1.transform.rotation.eulerAngles.y;
-								z = tom.videoPlayer1.transform.rotation.eulerAngles.z;
-								save.rot1[0] = x;
-								save.rot1[1] = y;
-								save.rot1[2] = z;
-								break;
-							case 1:
-								save.vId[1] = tom.videoPlayer2.GetComponent<SimplePlayback>().videoId;
-								//save.vUrl2 = tom.videoPlayer2.GetComponent<HighQualityPlayback>().videoUrl;
-								//save.aUrl2 = tom.videoPlayer2.GetComponent<HighQualityPlayback>().audioVideoUrl;
-								x = tom.videoPlayer2.transform.rotation.eulerAngles.x;
-								y = tom.videoPlayer2.transform.rotation.eulerAngles.y;
-								z = tom.videoPlayer2.transform.rotation.eulerAngles.z;
-								save.rot2[0] = x;
-								save.rot2[1] = y;
-								save.rot2[2] = z;
-								break;
-							case 2:
-								save.vId[2] = tom.videoPlayer3.GetComponent<SimplePlayback>().videoId;
-								//save.vUrl3 = tom.videoPlayer3.GetComponent<HighQualityPlayback>().videoUrl;
-								//save.aUrl3 = tom.videoPlayer3.GetComponent<HighQualityPlayback>().audioVideoUrl;
-								x = tom.videoPlayer3.transform.rotation.eulerAngles.x;
-								y = tom.videoPlayer3.transform.rotation.eulerAngles.y;
-								z = tom.videoPlayer3.transform.rotation.eulerAngles.z;
-								save.rot3[0] = x;
-								save.rot3[1] = y;
-								save.rot3[2] = z;
-								break;
-							case 3:
-								save.vId[3] = tom.videoPlayer4.GetComponent<SimplePlayback>().videoId;
-								//save.vUrl4 = tom.videoPlayer4.GetComponent<HighQualityPlayback>().videoUrl;
-								//save.aUrl4 = tom.videoPlayer4.GetComponent<HighQualityPlayback>().audioVideoUrl;
-								x = tom.videoPlayer4.transform.rotation.eulerAngles.x;
-								y = tom.videoPlayer4.transform.rotation.eulerAngles.y;
-								z = tom.videoPlayer4.transform.rotation.eulerAngles.z;
-								save.rot4[0] = x;
-								save.rot4[1] = y;
-								save.rot4[2] = z;
-								break;
-							case 4:
-								save.vId[4] = tom.videoPlayer5.GetComponent<SimplePlayback>().videoId;
-								//save.vUrl5 = tom.videoPlayer5.GetComponent<HighQualityPlayback>().videoUrl;
-								//save.aUrl5 = tom.videoPlayer5.GetComponent<HighQualityPlayback>().audioVideoUrl;
-								x = tom.videoPlayer5.transform.rotation.eulerAngles.x;
-								y = tom.videoPlayer5.transform.rotation.eulerAngles.y;
-								z = tom.videoPlayer5.transform.rotation.eulerAngles.z;
-								save.rot5[0] = x;
-								save.rot5[1] = y;
-								save.rot5[2] = z;
-								break;
-						}
+						//save video id
+						save.vId[i] = tom.videoPlayers[i].GetComponent<SimplePlayback>().videoId;
+						//get rotation of video player
+						x = tom.videoPlayers[i].transform.rotation.eulerAngles.x;
+						y = tom.videoPlayers[i].transform.rotation.eulerAngles.y;
+						z = tom.videoPlayers[i].transform.rotation.eulerAngles.z;
+						//get scale of video playei
+						scaleX = tom.videoPlayers[i].transform.localScale.x;
+						scaleY = tom.videoPlayers[i].transform.localScale.y;
+						scaleZ = tom.videoPlayers[i].transform.localScale.z;
+						//save rotation of video player
+						save.rotationObjectArray[i].rotation[0] = x;
+						save.rotationObjectArray[i].rotation[1] = y;
+						save.rotationObjectArray[i].rotation[2] = z;
+						//save scale of video player
+						save.scaleObjectArray[i].scale[0] = scaleX;
+						save.scaleObjectArray[i].scale[1] = scaleY;
+						save.scaleObjectArray[i].scale[2] = scaleZ;
 						break;
 
 					//save model ID info and model rotation info to save class
 					case "model":
 						string modelId = "";
-						switch(i)
-						{
-							case 0:
-								save.mod1 = tom.modelId1;
-								x = tom.model1.transform.rotation.eulerAngles.x;
-								y = tom.model1.transform.rotation.eulerAngles.y;
-								z = tom.model1.transform.rotation.eulerAngles.z;
-								save.rot1[0] = x;
-								save.rot1[1] = y;
-								save.rot1[2] = z;
-								break;
-							case 1:
-								save.mod2 = tom.modelId2;
-								x = tom.model2.transform.rotation.eulerAngles.x;
-								y = tom.model2.transform.rotation.eulerAngles.y;
-								z = tom.model2.transform.rotation.eulerAngles.z;
-								save.rot2[0] = x;
-								save.rot2[1] = y;
-								save.rot2[2] = z;
-								break;
-							case 2:
-								save.mod3 = tom.modelId3;
-								x = tom.model3.transform.rotation.eulerAngles.x;
-								y = tom.model3.transform.rotation.eulerAngles.y;
-								z = tom.model3.transform.rotation.eulerAngles.z;
-								save.rot3[0] = x;
-								save.rot3[1] = y;
-								save.rot3[2] = z;
-								break;
-							case 3:
-								save.mod4 = tom.modelId4;
-								x = tom.model4.transform.rotation.eulerAngles.x;
-								y = tom.model4.transform.rotation.eulerAngles.y;
-								z = tom.model4.transform.rotation.eulerAngles.z;
-								save.rot4[0] = x;
-								save.rot4[1] = y;
-								save.rot4[2] = z;
-								break;
-							case 4:
-								save.mod5 = tom.modelId5;
-								x = tom.model5.transform.rotation.eulerAngles.x;
-								y = tom.model5.transform.rotation.eulerAngles.y;
-								z = tom.model5.transform.rotation.eulerAngles.z;
-								save.rot5[0] = x;
-								save.rot5[1] = y;
-								save.rot5[2] = z;
-								break;
-						}
+						save.modId[i] = tom.modelIds[i];
+						x = tom.models[i].transform.rotation.eulerAngles.x;
+						y = tom.models[i].transform.rotation.eulerAngles.y;
+						z = tom.models[i].transform.rotation.eulerAngles.z;
+						scaleX = tom.models[i].transform.localScale.x;
+						scaleY = tom.models[i].transform.localScale.y;
+						scaleZ = tom.models[i].transform.localScale.z;
+						save.rotationObjectArray[i].rotation[0] = x;
+						save.rotationObjectArray[i].rotation[1] = y;
+						save.rotationObjectArray[i].rotation[2] = z;
+						save.scaleObjectArray[i].scale[0] = scaleX;
+						save.scaleObjectArray[i].scale[1] = scaleY;
+						save.scaleObjectArray[i].scale[2] = scaleZ;
 						break;
+
 					case "image":
-						switch(i)
-						{
-							case 0:
-								save.imageUrl[0] = lm.scd.imageUrl[0];
-								x = tom.image1.transform.rotation.eulerAngles.x;
-								y = tom.image1.transform.rotation.eulerAngles.y;
-								z = tom.image1.transform.rotation.eulerAngles.z;
-								save.rot1[0] = x;
-								save.rot1[1] = y;
-								save.rot1[2] = z;
-								break;
-							case 1:
-								save.imageUrl[1] = lm.scd.imageUrl[1];
-								x = tom.image2.transform.rotation.eulerAngles.x;
-								y = tom.image2.transform.rotation.eulerAngles.y;
-								z = tom.image2.transform.rotation.eulerAngles.z;
-								save.rot2[0] = x;
-								save.rot2[1] = y;
-								save.rot2[2] = z;
-								break;
-							case 2:
-								save.imageUrl[2] = lm.scd.imageUrl[2];
-								x = tom.image3.transform.rotation.eulerAngles.x;
-								y = tom.image3.transform.rotation.eulerAngles.y;
-								z = tom.image3.transform.rotation.eulerAngles.z;
-								save.rot3[0] = x;
-								save.rot3[1] = y;
-								save.rot3[2] = z;
-								break;
-							case 3:
-								save.imageUrl[3] = lm.scd.imageUrl[3];
-								x = tom.image4.transform.rotation.eulerAngles.x;
-								y = tom.image4.transform.rotation.eulerAngles.y;
-								z = tom.image4.transform.rotation.eulerAngles.z;
-								save.rot4[0] = x;
-								save.rot4[1] = y;
-								save.rot4[2] = z;
-								break;
-							case 4:
-								save.imageUrl[4] = lm.scd.imageUrl[4];
-								x = tom.image5.transform.rotation.eulerAngles.x;
-								y = tom.image5.transform.rotation.eulerAngles.y;
-								z = tom.image5.transform.rotation.eulerAngles.z;
-								save.rot5[0] = x;
-								save.rot5[1] = y;
-								save.rot5[2] = z;
-								break;
-						}
+						save.imageUrl[i] = pm.chosenUrls[i];
+						x = tom.images[i].transform.rotation.eulerAngles.x;
+						y = tom.images[i].transform.rotation.eulerAngles.y;
+						z = tom.images[i].transform.rotation.eulerAngles.z;
+						scaleX = tom.images[i].transform.localScale.x;
+						scaleY = tom.images[i].transform.localScale.y;
+						scaleZ = tom.images[i].transform.localScale.z;
+						save.rotationObjectArray[i].rotation[0] = x;
+						save.rotationObjectArray[i].rotation[1] = y;
+						save.rotationObjectArray[i].rotation[2] = z;
+						save.scaleObjectArray[i].scale[0] = scaleX;
+						save.scaleObjectArray[i].scale[1] = scaleY;
+						save.scaleObjectArray[i].scale[2] = scaleZ;
 						break;
 				}
 			}

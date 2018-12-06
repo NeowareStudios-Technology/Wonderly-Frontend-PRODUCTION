@@ -728,10 +728,6 @@ public class CloudEndpointsApiManager : MonoBehaviour {
 		editExperienceClass editExperience = new editExperienceClass();
 		editExperience.title = sm.editTitle.text;
 		editExperience.code = code;
-		if (sm.browserLink.text == "")
-			editExperience.weblink = false;
-		else
-			editExperience.weblink = true;
 
 		//get target object counts
 		int modelCount = 0;

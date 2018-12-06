@@ -28,13 +28,13 @@ public class RotateScaleManager : MonoBehaviour {
 					case "created":
 						return;
 					case "model":
-						tom.model1.transform.Rotate(Vector3.right * 45);
+						tom.models[0].transform.Rotate(Vector3.right * 45);
 						break;
 					case "video":
-						tom.videoPlayer1.transform.Rotate(Vector3.up * 45);
+						tom.videoPlayers[0].transform.Rotate(Vector3.up * 45);
 						break;
 					case "image":
-						tom.image1.transform.Rotate(Vector3.forward * 45);
+						tom.images[0].transform.Rotate(Vector3.forward * 45);
 						break;
 				}
 				break;
@@ -47,13 +47,13 @@ public class RotateScaleManager : MonoBehaviour {
 					case "created":
 						return;
 					case "model":
-						tom.model2.transform.Rotate(Vector3.right * 45);
+						tom.models[1].transform.Rotate(Vector3.right * 45);
 						break;
 					case "video":
-						tom.videoPlayer2.transform.Rotate(Vector3.up * 45);
+						tom.videoPlayers[1].transform.Rotate(Vector3.up * 45);
 						break;
 					case "image":
-						tom.image2.transform.Rotate(Vector3.forward * 45);
+						tom.images[1].transform.Rotate(Vector3.forward * 45);
 						break;
 				}
 				break;
@@ -66,13 +66,13 @@ public class RotateScaleManager : MonoBehaviour {
 					case "created":
 						return;
 					case "model":
-						tom.model3.transform.Rotate(Vector3.right * 45);
+						tom.models[2].transform.Rotate(Vector3.right * 45);
 						break;
 					case "video":
-						tom.videoPlayer3.transform.Rotate(Vector3.up * 45);
+						tom.videoPlayers[2].transform.Rotate(Vector3.up * 45);
 						break;
 					case "image":
-						tom.image3.transform.Rotate(Vector3.forward* 45);
+						tom.images[2].transform.Rotate(Vector3.forward* 45);
 						break;
 				}
 				break;
@@ -85,13 +85,13 @@ public class RotateScaleManager : MonoBehaviour {
 					case "created":
 						return;
 					case "model":
-						tom.model4.transform.Rotate(Vector3.right * 45);
+						tom.models[3].transform.Rotate(Vector3.right * 45);
 						break;
 					case "video":
-						tom.videoPlayer4.transform.Rotate(Vector3.up * 45);
+						tom.videoPlayers[3].transform.Rotate(Vector3.up * 45);
 						break;
 					case "image":
-						tom.image4.transform.Rotate(Vector3.forward * 45);
+						tom.images[3].transform.Rotate(Vector3.forward * 45);
 						break;
 				}
 				break;
@@ -104,13 +104,13 @@ public class RotateScaleManager : MonoBehaviour {
 					case "created":
 						return;
 					case "model":
-						tom.model5.transform.Rotate(Vector3.right * 45);
+						tom.models[4].transform.Rotate(Vector3.right * 45);
 						break;
 					case "video":
-						tom.videoPlayer5.transform.Rotate(Vector3.up * 45);
+						tom.videoPlayers[4].transform.Rotate(Vector3.up * 45);
 						break;
 					case "image":
-						tom.image5.transform.Rotate(Vector3.forward * 45);
+						tom.images[4].transform.Rotate(Vector3.forward * 45);
 						break;
 				}
 				break;
@@ -136,7 +136,7 @@ public class RotateScaleManager : MonoBehaviour {
 					case "created":
 						return;
 					case "model":
-						tom.model1.transform.Rotate(Vector3.forward * 45);
+						tom.models[0].transform.Rotate(Vector3.forward * 45);
 						break;
 				}
 				break;
@@ -149,7 +149,7 @@ public class RotateScaleManager : MonoBehaviour {
 					case "created":
 						return;
 					case "model":
-						tom.model2.transform.Rotate(Vector3.forward * 45);
+						tom.models[1].transform.Rotate(Vector3.forward * 45);
 						break;
 				}
 				break;
@@ -162,7 +162,7 @@ public class RotateScaleManager : MonoBehaviour {
 					case "created":
 						return;
 					case "model":
-						tom.model3.transform.Rotate(Vector3.forward * 45);
+						tom.models[2].transform.Rotate(Vector3.forward * 45);
 						break;
 				}
 				break;
@@ -175,7 +175,7 @@ public class RotateScaleManager : MonoBehaviour {
 					case "created":
 						return;
 					case "model":
-						tom.model4.transform.Rotate(Vector3.forward * 45);
+						tom.models[3].transform.Rotate(Vector3.forward * 45);
 						break;
 				}
 				break;
@@ -188,7 +188,7 @@ public class RotateScaleManager : MonoBehaviour {
 					case "created":
 						return;
 					case "model":
-						tom.model5.transform.Rotate(Vector3.forward * 45);
+						tom.models[4].transform.Rotate(Vector3.forward * 45);
 						break;
 				}
 				break;
@@ -212,13 +212,13 @@ public class RotateScaleManager : MonoBehaviour {
 					case "created":
 						return;
 					case "model":
-						tom.model1.transform.localScale = new Vector3(scaleSlider.value, scaleSlider.value, scaleSlider.value);
+						tom.models[0].transform.localScale = new Vector3(scaleSlider.value, scaleSlider.value, scaleSlider.value);
 						break;
 					case "video":
-						tom.videoPlayer1.transform.localScale = new Vector3(scaleSlider.value, scaleSlider.value, scaleSlider.value);
+						tom.videoPlayers[0].transform.localScale = new Vector3(scaleSlider.value, scaleSlider.value, scaleSlider.value);
 						break;
 					case "image":
-						tom.image1.transform.localScale = new Vector3(scaleSlider.value, scaleSlider.value, scaleSlider.value);
+						tom.images[0].transform.localScale = new Vector3(scaleSlider.value, scaleSlider.value, scaleSlider.value);
 						break;
 				}
 				break;
@@ -231,13 +231,13 @@ public class RotateScaleManager : MonoBehaviour {
 					case "created":
 						return;
 					case "model":
-						tom.model2.transform.localScale = new Vector3(scaleSlider.value, scaleSlider.value, scaleSlider.value);
+						tom.models[1].transform.localScale = new Vector3(scaleSlider.value, scaleSlider.value, scaleSlider.value);
 						break;
 					case "video":
-						tom.videoPlayer2.transform.localScale = new Vector3(scaleSlider.value, scaleSlider.value, scaleSlider.value);
+						tom.videoPlayers[1].transform.localScale = new Vector3(scaleSlider.value, scaleSlider.value, scaleSlider.value);
 						break;
 					case "image":
-						tom.image2.transform.localScale = new Vector3(scaleSlider.value, scaleSlider.value, scaleSlider.value);
+						tom.images[1].transform.localScale = new Vector3(scaleSlider.value, scaleSlider.value, scaleSlider.value);
 						break;
 				}
 				break;
@@ -249,13 +249,13 @@ public class RotateScaleManager : MonoBehaviour {
 					case "created":
 						return;
 					case "model":
-						tom.model3.transform.localScale = new Vector3(scaleSlider.value, scaleSlider.value, scaleSlider.value);
+						tom.models[2].transform.localScale = new Vector3(scaleSlider.value, scaleSlider.value, scaleSlider.value);
 						break;
 					case "video":
-						tom.videoPlayer3.transform.localScale = new Vector3(scaleSlider.value, scaleSlider.value, scaleSlider.value);
+						tom.videoPlayers[2].transform.localScale = new Vector3(scaleSlider.value, scaleSlider.value, scaleSlider.value);
 						break;
 					case "image":
-						tom.image3.transform.localScale = new Vector3(scaleSlider.value, scaleSlider.value, scaleSlider.value);
+						tom.images[2].transform.localScale = new Vector3(scaleSlider.value, scaleSlider.value, scaleSlider.value);
 						break;
 				}
 				break;
@@ -268,13 +268,13 @@ public class RotateScaleManager : MonoBehaviour {
 					case "created":
 						return;
 					case "model":
-						tom.model4.transform.localScale = new Vector3(scaleSlider.value, scaleSlider.value, scaleSlider.value);
+						tom.models[3].transform.localScale = new Vector3(scaleSlider.value, scaleSlider.value, scaleSlider.value);
 						break;
 					case "video":
-						tom.videoPlayer4.transform.localScale = new Vector3(scaleSlider.value, scaleSlider.value, scaleSlider.value);
+						tom.videoPlayers[3].transform.localScale = new Vector3(scaleSlider.value, scaleSlider.value, scaleSlider.value);
 						break;
 					case "image":
-						tom.image4.transform.localScale = new Vector3(scaleSlider.value, scaleSlider.value, scaleSlider.value);
+						tom.images[3].transform.localScale = new Vector3(scaleSlider.value, scaleSlider.value, scaleSlider.value);
 						break;
 				}
 				break;
@@ -286,13 +286,13 @@ public class RotateScaleManager : MonoBehaviour {
 					case "created":
 						return;
 					case "model":
-						tom.model5.transform.localScale = new Vector3(scaleSlider.value, scaleSlider.value, scaleSlider.value);
+						tom.models[4].transform.localScale = new Vector3(scaleSlider.value, scaleSlider.value, scaleSlider.value);
 						break;
 					case "video":
-						tom.videoPlayer5.transform.localScale = new Vector3(scaleSlider.value, scaleSlider.value, scaleSlider.value);
+						tom.videoPlayers[4].transform.localScale = new Vector3(scaleSlider.value, scaleSlider.value, scaleSlider.value);
 						break;
 					case "image":
-						tom.image5.transform.localScale = new Vector3(scaleSlider.value, scaleSlider.value, scaleSlider.value);
+						tom.images[4].transform.localScale = new Vector3(scaleSlider.value, scaleSlider.value, scaleSlider.value);
 						break;
 				}
 				break;

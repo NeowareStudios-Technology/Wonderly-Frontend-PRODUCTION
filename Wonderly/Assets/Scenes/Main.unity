@@ -2570,7 +2570,6 @@ GameObject:
   m_Component:
   - component: {fileID: 82213648}
   - component: {fileID: 82213650}
-  - component: {fileID: 82213649}
   m_Layer: 5
   m_Name: CreateWonderScan-panel
   m_TagString: Untagged
@@ -2605,33 +2604,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: -0.000061035156}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &82213649
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 82213647}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -765806418, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.39215687}
-  m_RaycastTarget: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
-      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
 --- !u!222 &82213650
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -9571,11 +9543,6 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 309345672}
---- !u!1 &310645434 stripped
-GameObject:
-  m_PrefabParentObject: {fileID: 1118389124770412, guid: 12a481027c48f1b408148e3fba84cd72,
-    type: 2}
-  m_PrefabInternal: {fileID: 607009604}
 --- !u!1 &310920086
 GameObject:
   m_ObjectHideFlags: 0
@@ -14443,11 +14410,6 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 455718197}
---- !u!1 &458644102 stripped
-GameObject:
-  m_PrefabParentObject: {fileID: 1689620708093780, guid: 600859ec25d894247a3086c686f2b14d,
-    type: 2}
-  m_PrefabInternal: {fileID: 1068139592}
 --- !u!1 &465363424
 GameObject:
   m_ObjectHideFlags: 0
@@ -15573,7 +15535,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &498828339
 RectTransform:
   m_ObjectHideFlags: 0
@@ -20654,11 +20616,6 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 687115395}
---- !u!1 &696797975 stripped
-GameObject:
-  m_PrefabParentObject: {fileID: 1472784143176356, guid: 16c5fb8bc2b854e4c9f27f5c9903a0e0,
-    type: 2}
-  m_PrefabInternal: {fileID: 354539486}
 --- !u!1 &700251523
 GameObject:
   m_ObjectHideFlags: 0
@@ -30049,11 +30006,6 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
---- !u!1 &1026824824 stripped
-GameObject:
-  m_PrefabParentObject: {fileID: 1723567899229546, guid: 66090ba1edafddc45b6fe2598f1e17f6,
-    type: 2}
-  m_PrefabInternal: {fileID: 1981680260}
 --- !u!1 &1029220157
 GameObject:
   m_ObjectHideFlags: 0
@@ -43893,9 +43845,21 @@ MonoBehaviour:
     - 
     - 
     - 
+    coverImageUrl: 
     title: 
     description: 
-    browserLink: 
+    wonderTitle:
+    - 
+    - 
+    - 
+    - 
+    - 
+    wonderDescription:
+    - 
+    - 
+    - 
+    - 
+    - 
     vId:
     - 
     - 
@@ -43908,31 +43872,12 @@ MonoBehaviour:
     - 
     - 
     - 
-    mod1: 
-    mod2: 
-    mod3: 
-    mod4: 
-    mod5: 
-    rot1:
-    - 0
-    - 0
-    - 0
-    rot2:
-    - 0
-    - 0
-    - 0
-    rot3:
-    - 0
-    - 0
-    - 0
-    rot4:
-    - 0
-    - 0
-    - 0
-    rot5:
-    - 0
-    - 0
-    - 0
+    modId:
+    - 
+    - 
+    - 
+    - 
+    - 
   tom: {fileID: 1724798407}
   itm: {fileID: 1724798406}
   pm: {fileID: 508764250}
@@ -44282,36 +44227,42 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4bc75b5c41d309d43b125a2a9ba7af85, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  videoPlayer1: {fileID: 2018944151}
-  videoPlayer2: {fileID: 916161649}
-  videoPlayer3: {fileID: 1083026864}
-  videoPlayer4: {fileID: 203900622}
-  videoPlayer5: {fileID: 2083103097}
-  targetMarker1: {fileID: 310645434}
-  targetMarker2: {fileID: 458644102}
-  targetMarker3: {fileID: 1982502029}
-  targetMarker4: {fileID: 1026824824}
-  targetMarker5: {fileID: 696797975}
-  model1: {fileID: 0}
-  model2: {fileID: 0}
-  model3: {fileID: 0}
-  model4: {fileID: 0}
-  model5: {fileID: 0}
-  image1: {fileID: 993000755}
-  image2: {fileID: 964308952}
-  image3: {fileID: 1808839765}
-  image4: {fileID: 1452221261}
-  image5: {fileID: 1114312662}
-  modelId1: 
-  modelId2: 
-  modelId3: 
-  modelId4: 
-  modelId5: 
-  targetObjectThumbnail1: {fileID: 292150036}
-  targetObjectThumbnail2: {fileID: 1729092921}
-  targetObjectThumbnail3: {fileID: 1727660415}
-  targetObjectThumbnail4: {fileID: 668241707}
-  targetObjectThumbnail5: {fileID: 562984593}
+  videoPlayers:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  targetMarkers:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  models:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  images:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  modelIds:
+  - 
+  - 
+  - 
+  - 
+  - 
+  targetObjectThumbnails:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   blankSprite: {fileID: 1808366491}
   attribs: []
   fm: {fileID: 1724798404}
@@ -44472,8 +44423,20 @@ MonoBehaviour:
   title: {fileID: 0}
   editTitle: {fileID: 0}
   description: {fileID: 0}
-  browserLink: {fileID: 0}
   titleDisplay: {fileID: 0}
+  wonderTitles:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  wonderDescriptions:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  coverImageUrl: {fileID: 0}
 --- !u!1 &1726389635
 GameObject:
   m_ObjectHideFlags: 0
@@ -51586,11 +51549,6 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 66090ba1edafddc45b6fe2598f1e17f6, type: 2}
   m_IsPrefabParent: 0
---- !u!1 &1982502029 stripped
-GameObject:
-  m_PrefabParentObject: {fileID: 1759717651048604, guid: 955c9eff67d82c14db9c0d695b8b1a6a,
-    type: 2}
-  m_PrefabInternal: {fileID: 1527213512}
 --- !u!1 &1984009226
 GameObject:
   m_ObjectHideFlags: 0

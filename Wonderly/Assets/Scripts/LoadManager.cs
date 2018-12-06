@@ -313,27 +313,27 @@ public class LoadManager : MonoBehaviour {
 				{
 					case 0:
 						fm.targetStatus[0] = "model";
-						ImportModel(scd.mod1,i);
+						ImportModel(scd.modId[0],i);
 						yield return new WaitForSeconds(1);
 						break;
 					case 1:
 						fm.targetStatus[1] = "model";
-						ImportModel(scd.mod2,i);
+						ImportModel(scd.modId[1],i);
 						yield return new WaitForSeconds(1);
 						break;
 					case 2:
 						fm.targetStatus[2] = "model";
-						ImportModel(scd.mod3,i);
+						ImportModel(scd.modId[2],i);
 						yield return new WaitForSeconds(1);
 						break;
 					case 3:
 						fm.targetStatus[3] = "model";
-						ImportModel(scd.mod4,i);
+						ImportModel(scd.modId[3],i);
 						yield return new WaitForSeconds(1);
 						break;
 					case 4:
 						fm.targetStatus[4] = "model";
-						ImportModel(scd.mod5,i);
+						ImportModel(scd.modId[4],i);
 						break;
 				}
 			}
@@ -347,36 +347,36 @@ public class LoadManager : MonoBehaviour {
 					case 0:
 						fm.targetStatus[0] = "video";
 						itm.target1.SetActive(true);
-						tom.videoPlayer1.SetActive(true);
-						tom.videoPlayer1.GetComponent<SimplePlayback>().PlayYoutubeVideo(scd.vId[i]);
+						tom.videoPlayers[0].SetActive(true);
+						tom.videoPlayers[0].GetComponent<SimplePlayback>().PlayYoutubeVideo(scd.vId[i]);
 						StartCoroutine(setLoadedVideoThumb(i, scd.vId[i]));
 						break;
 					case 1:
 						fm.targetStatus[1] = "video";
 						itm.target2.SetActive(true);
-						tom.videoPlayer2.SetActive(true);
-						tom.videoPlayer2.GetComponent<SimplePlayback>().PlayYoutubeVideo(scd.vId[i]);
+						tom.videoPlayers[1].SetActive(true);
+						tom.videoPlayers[1].GetComponent<SimplePlayback>().PlayYoutubeVideo(scd.vId[i]);
 						StartCoroutine(setLoadedVideoThumb(i, scd.vId[i]));
 						break;
 					case 2:
 						fm.targetStatus[2] = "video";
 						itm.target3.SetActive(true);
-						tom.videoPlayer3.SetActive(true);
-						tom.videoPlayer3.GetComponent<SimplePlayback>().PlayYoutubeVideo(scd.vId[i]);
+						tom.videoPlayers[2].SetActive(true);
+						tom.videoPlayers[2].GetComponent<SimplePlayback>().PlayYoutubeVideo(scd.vId[i]);
 						StartCoroutine(setLoadedVideoThumb(i, scd.vId[i]));
 						break;
 					case 3:
 						fm.targetStatus[3] = "video";
 						itm.target4.SetActive(true);
-						tom.videoPlayer4.SetActive(true);
-						tom.videoPlayer4.GetComponent<SimplePlayback>().PlayYoutubeVideo(scd.vId[i]);
+						tom.videoPlayers[3].SetActive(true);
+						tom.videoPlayers[3].GetComponent<SimplePlayback>().PlayYoutubeVideo(scd.vId[i]);
 						StartCoroutine(setLoadedVideoThumb(i, scd.vId[i]));
 						break;
 					case 4:
 						fm.targetStatus[4] = "video";
 						itm.target5.SetActive(true);
-						tom.videoPlayer5.SetActive(true);
-						tom.videoPlayer5.GetComponent<SimplePlayback>().PlayYoutubeVideo(scd.vId[i]);
+						tom.videoPlayers[4].SetActive(true);
+						tom.videoPlayers[4].GetComponent<SimplePlayback>().PlayYoutubeVideo(scd.vId[i]);
 						StartCoroutine(setLoadedVideoThumb(i, scd.vId[i]));
 						break;
 				}
@@ -484,54 +484,54 @@ public class LoadManager : MonoBehaviour {
 			switch(j)
 			{
 				case 0:
-					GameObject model1 = result.Value.gameObject;
+					GameObject thisModel1 = result.Value.gameObject;
 					Transform transform1 = result.Value.gameObject.GetComponent(typeof(Transform)) as Transform;
 					transform1.position = new Vector3(0.0f, 0.75f, 0f);
-					transform1.tag = "importedModel1";
+					transform1.tag = "model1";
 					transform1.parent = itm.target1.transform;
 					fm.targetStatus[0] = "model";
-					tom.model1 = model1;
-					tom.modelId1 = scd.mod1;
+					tom.models[0] = thisModel1;
+					tom.modelIds[0] = scd.modId[0];
 					break;
 				case 1:
-					GameObject model2 = result.Value.gameObject;
+					GameObject thisModel2 = result.Value.gameObject;
 					Transform transform2 = result.Value.gameObject.GetComponent(typeof(Transform)) as Transform;
 					transform2.position = new Vector3(0.0f, 0.75f, 0f);
-					transform2.tag = "importedModel2";
+					transform2.tag = "model2";
 					transform2.parent = itm.target2.transform;
 					fm.targetStatus[1] = "model";
-					tom.model2 = model2;
-					tom.modelId2 = scd.mod2;
+					tom.models[1] = thisModel2;
+					tom.modelIds[1] = scd.modId[1];
 					break;
 				case 2:
-					GameObject model3 = result.Value.gameObject;
+					GameObject thisModel3 = result.Value.gameObject;
 					Transform transform3 = result.Value.gameObject.GetComponent(typeof(Transform)) as Transform;
 					transform3.position = new Vector3(0.0f, 0.75f, 0f);
-					transform3.tag = "importedModel3";
+					transform3.tag = "model3";
 					transform3.parent = itm.target3.transform;
 					fm.targetStatus[2] = "model";
-					tom.model3 = model3;
-					tom.modelId3 = scd.mod3;
+					tom.models[2] = thisModel3;
+					tom.modelIds[2] = scd.modId[2];
 					break;
 				case 3:
-					GameObject model4 = result.Value.gameObject;
+					GameObject thisModel4 = result.Value.gameObject;
 					Transform transform4 = result.Value.gameObject.GetComponent(typeof(Transform)) as Transform;
 					transform4.position = new Vector3(0.0f, 0.75f, 0f);
-					transform4.tag = "importedModel4";
+					transform4.tag = "model4";
 					transform4.parent = itm.target4.transform;
 					fm.targetStatus[3] = "model";
-					tom.model4 = model4;
-					tom.modelId4 = scd.mod4;
+					tom.models[3] = thisModel4;
+					tom.modelIds[3] = scd.modId[3];
 					break;
 				case 4:
-					GameObject model5 = result.Value.gameObject;
+					GameObject thisModel5 = result.Value.gameObject;
 					Transform transform5 = result.Value.gameObject.GetComponent(typeof(Transform)) as Transform;
 					transform5.position = new Vector3(0.0f, 0.75f, 0f);
-					transform5.tag = "importedModel5";
+					transform5.tag = "model5";
 					transform5.parent = itm.target5.transform;
 					fm.targetStatus[4] = "model";
-					tom.model5 = model5;
-					tom.modelId5 = scd.mod5;
+					tom.models[4] = thisModel5;
+					tom.modelIds[4] = scd.modId[4];
 					break;
 			}
 			modelIndices[j] = 0;
