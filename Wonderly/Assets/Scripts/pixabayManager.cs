@@ -9,44 +9,181 @@ using Sample;
 public class pixabayManager : MonoBehaviour {
 	public string searchUrl = "https://pixabay.com/api/?key=10416046-da227ed77f5d1960a9126dc7c&";
 	public InputField searchTerm;
-	public Image img1;
-	public Image img2;
-	public Image img3;
-	public Image img4;
-	public Image img5;
-	public Image img6;
-	public Image img7;
-	public Image img8;
-	public Image img9;
-	public Image img10;
-	public Image img11;
-	public Image img12;
-	public Image img13;
-	public Image img14;
-	public Image img15;
-	public Image img16;
-	public Image img17;
-	public Image img18;
+	public InputField coverImageSearchTerm;
+	public Image[] searchedThumbnails = new Image[18];
+	public Image[] searchedThumbnailsCoverImage = new Image[18];
 	public Image blankImage;
 	public GameObject image1;
 	public GameObject image2;
 	public GameObject image3;
 	public GameObject image4;
 	public GameObject image5;
+	public Image coverImage;
 	//public Text imageTitle1;
 	//public Text imageTitle2;
 	//public Text imageTitle3;
 	//public Text imageTitle4;
 	//public Text imageTitle5;
 	public string[] chosenUrls = new string[5];
+	public string chosenCoverImageUrl;
   public string[] imagePreviewUrl = new string[18];
 	public string[] imageUrl = new string[18];
+	public string[] coverImagePreviewUrl = new string[18];
+	public string[] coverImageUrl = new string[18];
 	public pixabayClass pxc;
 	public FilesManager fm;
 	public ArPairDisplayManager apdm;
 	public LoadManager lm;
 
 	public GameObject LoadingPanel;
+
+	//starts coroutine because coroutine cannot be called by UI
+	public void startSearchCoverImage() {
+		StartCoroutine("searchPicCoverImage");
+	}
+
+	//makes web call for searching for image in pixabay repo
+	public IEnumerator searchPicCoverImage() {
+		//holds the search term
+		string searchString = coverImageSearchTerm.text;
+		Debug.Log(searchString);
+		//makes search term url safe
+		string urlSafeSearchTerm = searchString.Replace(" ", "+");
+		//add delineator to search term for url
+		string finalizedSearchTerm = "q=" + urlSafeSearchTerm;
+		Debug.Log(finalizedSearchTerm);
+		//create full search url
+		string thisSearchUrl = searchUrl + finalizedSearchTerm;
+
+		Debug.Log(thisSearchUrl);
+
+		//create web request
+		using (UnityWebRequest imageSearchRequest = UnityWebRequest.Get(thisSearchUrl))
+		{
+			//set content type
+			imageSearchRequest.SetRequestHeader("Content-Type", "application/json");
+			
+			yield return imageSearchRequest.SendWebRequest();
+
+			//catch errors
+			if (imageSearchRequest.isNetworkError || imageSearchRequest.isHttpError)
+    	{
+			Debug.Log("Error getting image");
+			}
+
+			//show previews of each image
+			else 
+			{
+				Debug.Log(imageSearchRequest.responseCode);
+				byte[] results = imageSearchRequest.downloadHandler.data;
+        string jsonString = Encoding.UTF8.GetString(results);
+				Debug.Log(jsonString);
+				pxc = JsonUtility.FromJson<pixabayClass>(jsonString);
+
+				//get the url for each image returned in the image search request
+				int count = 0;
+				foreach (pixabayHitClass phc in pxc.hits)
+				{
+					if (count == 18)
+					{
+						break;
+					}
+					coverImagePreviewUrl[count] = phc.previewURL;
+					coverImageUrl[count] = phc.largeImageURL;
+					count ++;
+				}
+
+				//load the image previews to their UI
+				for (int j = 0; j < count; j++)
+				{
+					Debug.Log("download started");
+					StartCoroutine(loadPreviewImageCoverImage(j));
+				}
+			}
+		}
+	}
+
+	private IEnumerator loadPreviewImageCoverImage(int index) {
+		using (WWW previewRequest = new WWW(coverImagePreviewUrl[index]))
+		{
+			yield return previewRequest;
+			//catch errors
+			if (previewRequest.error != null)
+    	{
+				Debug.Log("Error getting image");
+			}
+
+			else
+			{
+				searchedThumbnailsCoverImage[index].sprite = Sprite.Create(previewRequest.texture, new Rect(0, 0, previewRequest.texture.width, previewRequest.texture.height), new Vector2(0, 0));
+			}
+		}
+	}
+
+	public void chooseCoverImageStarter(int index) {
+			chosenCoverImageUrl = coverImageUrl[index];
+
+			StartCoroutine(ChooseCoverImage(index));
+		}
+
+	
+
+		public IEnumerator ChooseCoverImage(int index) {
+			using (WWW imageRequest = new WWW(coverImageUrl[index]))
+			{
+				yield return imageRequest;
+				Debug.Log("request worked");
+				//catch errors
+				if (imageRequest.error != null)
+				{
+					Debug.Log("Error getting image:" + imageRequest.error);
+					LoadingPanel.SetActive(false);
+				}
+				else
+				{
+					coverImage.sprite = Sprite.Create(imageRequest.texture, new Rect(0, 0, imageRequest.texture.width, imageRequest.texture.height), new Vector2(0, 0));
+					//coverImage.GetComponent<Renderer>().material.mainTexture = imageRequest.texture;
+					
+				}
+
+				LoadingPanel.SetActive(false);
+				yield return null;
+
+				//clear url arrays and thumbnail images
+			
+				yield return new WaitForSeconds(2);
+				coverImageUrl = new string[18];
+				coverImagePreviewUrl = new string[18];
+				searchedThumbnailsCoverImage[0].sprite = blankImage.sprite;
+				searchedThumbnailsCoverImage[1].sprite = blankImage.sprite;
+				searchedThumbnailsCoverImage[2].sprite = blankImage.sprite;
+				searchedThumbnailsCoverImage[3].sprite = blankImage.sprite;
+				searchedThumbnailsCoverImage[4].sprite = blankImage.sprite;
+				searchedThumbnailsCoverImage[5].sprite = blankImage.sprite;
+				searchedThumbnailsCoverImage[6].sprite = blankImage.sprite;
+				searchedThumbnailsCoverImage[7].sprite = blankImage.sprite;
+				searchedThumbnailsCoverImage[8].sprite = blankImage.sprite;
+				searchedThumbnailsCoverImage[9].sprite = blankImage.sprite;
+				searchedThumbnailsCoverImage[10].sprite = blankImage.sprite;
+				searchedThumbnailsCoverImage[11].sprite = blankImage.sprite;
+				searchedThumbnailsCoverImage[12].sprite = blankImage.sprite;
+				searchedThumbnailsCoverImage[13].sprite = blankImage.sprite;
+				searchedThumbnailsCoverImage[14].sprite = blankImage.sprite;
+				searchedThumbnailsCoverImage[15].sprite = blankImage.sprite;
+				searchedThumbnailsCoverImage[16].sprite = blankImage.sprite;
+				searchedThumbnailsCoverImage[17].sprite = blankImage.sprite;
+
+			}
+		}
+
+
+	//logic for searching and applying picture to journey cover (above)
+
+	/***************************************************************************************************************************************************************** */
+	
+	// logic for searching and applying pictures to targets (below)
+
+
 
 	//starts coroutine because coroutine cannot be called by UI
 	public void startSearch() {
@@ -121,434 +258,29 @@ public class pixabayManager : MonoBehaviour {
 			//catch errors
 			if (previewRequest.error != null)
     	{
-			Debug.Log("Error getting image");
+				Debug.Log("Error getting image");
 			}
-			else{
-				switch(index)
-				{
-					case 0:
-						img1.sprite = Sprite.Create(previewRequest.texture, new Rect(0, 0, previewRequest.texture.width, previewRequest.texture.height), new Vector2(0, 0));
-						break;
-					case 1:
-						img2.sprite = Sprite.Create(previewRequest.texture, new Rect(0, 0, previewRequest.texture.width, previewRequest.texture.height), new Vector2(0, 0));
-						break;
-					case 2:
-						img3.sprite = Sprite.Create(previewRequest.texture, new Rect(0, 0, previewRequest.texture.width, previewRequest.texture.height), new Vector2(0, 0));
-						break;
-					case 3:
-						img4.sprite = Sprite.Create(previewRequest.texture, new Rect(0, 0, previewRequest.texture.width, previewRequest.texture.height), new Vector2(0, 0));
-						break;
-					case 4:
-						img5.sprite = Sprite.Create(previewRequest.texture, new Rect(0, 0, previewRequest.texture.width, previewRequest.texture.height), new Vector2(0, 0));
-						break;
-					case 5:
-						img6.sprite = Sprite.Create(previewRequest.texture, new Rect(0, 0, previewRequest.texture.width, previewRequest.texture.height), new Vector2(0, 0));
-						break;
-					case 6:
-						img7.sprite = Sprite.Create(previewRequest.texture, new Rect(0, 0, previewRequest.texture.width, previewRequest.texture.height), new Vector2(0, 0));
-						break;
-					case 7:
-						img8.sprite = Sprite.Create(previewRequest.texture, new Rect(0, 0, previewRequest.texture.width, previewRequest.texture.height), new Vector2(0, 0));
-						break;
-					case 8:
-						img9.sprite = Sprite.Create(previewRequest.texture, new Rect(0, 0, previewRequest.texture.width, previewRequest.texture.height), new Vector2(0, 0));
-						break;
-					case 9:
-						img10.sprite = Sprite.Create(previewRequest.texture, new Rect(0, 0, previewRequest.texture.width, previewRequest.texture.height), new Vector2(0, 0));
-						break;
-					case 10:
-						img11.sprite = Sprite.Create(previewRequest.texture, new Rect(0, 0, previewRequest.texture.width, previewRequest.texture.height), new Vector2(0, 0));
-						break;
-					case 11:
-						img12.sprite = Sprite.Create(previewRequest.texture, new Rect(0, 0, previewRequest.texture.width, previewRequest.texture.height), new Vector2(0, 0));
-						break;
-					case 12:
-						img13.sprite = Sprite.Create(previewRequest.texture, new Rect(0, 0, previewRequest.texture.width, previewRequest.texture.height), new Vector2(0, 0));
-						break;
-					case 13:
-						img14.sprite = Sprite.Create(previewRequest.texture, new Rect(0, 0, previewRequest.texture.width, previewRequest.texture.height), new Vector2(0, 0));
-						break;
-					case 14:
-						img15.sprite = Sprite.Create(previewRequest.texture, new Rect(0, 0, previewRequest.texture.width, previewRequest.texture.height), new Vector2(0, 0));
-						break;
-					case 15:
-						img16.sprite = Sprite.Create(previewRequest.texture, new Rect(0, 0, previewRequest.texture.width, previewRequest.texture.height), new Vector2(0, 0));
-						break;
-					case 16:
-						img17.sprite = Sprite.Create(previewRequest.texture, new Rect(0, 0, previewRequest.texture.width, previewRequest.texture.height), new Vector2(0, 0));
-						break;
-					case 17:
-						img18.sprite = Sprite.Create(previewRequest.texture, new Rect(0, 0, previewRequest.texture.width, previewRequest.texture.height), new Vector2(0, 0));
-						break;
-				}
+
+			else
+			{
+				searchedThumbnails[index].sprite = Sprite.Create(previewRequest.texture, new Rect(0, 0, previewRequest.texture.width, previewRequest.texture.height), new Vector2(0, 0));
 			}
 		}
 	}
 
 		public void chooseImageStarter(int index) {
-			switch(fm.currentTarget)
-			{
-				case 0:
-					break;
-				case 1:
-					//imageTitle1.text = searchTerm.text;
-					chosenUrls[0] = imageUrl[index];
-					lm.scd.imageUrl[0] = imageUrl[index];
-					break;
-				case 2:
-					//imageTitle2.text = searchTerm.text;
-					chosenUrls[1] = imageUrl[index];
-					lm.scd.imageUrl[1] = imageUrl[index];
-					break;
-				case 3:
-					//imageTitle3.text = searchTerm.text;
-					chosenUrls[2] = imageUrl[index];
-					lm.scd.imageUrl[2] = imageUrl[index];
-					break;
-				case 4:
-					//imageTitle4.text = searchTerm.text;
-					chosenUrls[3] = imageUrl[index];
-					lm.scd.imageUrl[3] = imageUrl[index];
-					break;
-				case 5:
-					//imageTitle5.text = searchTerm.text;
-					chosenUrls[4] = imageUrl[index];
-					lm.scd.imageUrl[4] = imageUrl[index];
-					break;
-			}
+
+			//do nothing if current target not valid
+			if (fm.currentTarget < 1)
+				return;
+
+			chosenUrls[fm.currentTarget -1] = imageUrl[index];
+			lm.scd.imageUrl[fm.currentTarget -1] = imageUrl[index];
+
 			StartCoroutine(ChooseImage(index));
 		}
 
-		public IEnumerator SetArPairThumbnail(int index)
-		{
-			switch(fm.currentTarget)
-					{
-						case 1:
-							switch(index)
-							{
-								case 0:
-									apdm.targetObjectThumb1.sprite = img1.sprite;
-									break;
-								case 1:
-									apdm.targetObjectThumb1.sprite = img2.sprite;
-									break;
-								case 2:
-									apdm.targetObjectThumb1.sprite = img3.sprite;
-									break;
-								case 3:
-									apdm.targetObjectThumb1.sprite = img4.sprite;
-									break;
-								case 4:
-									apdm.targetObjectThumb1.sprite = img5.sprite;
-									break;
-								case 5:
-									apdm.targetObjectThumb1.sprite = img6.sprite;
-									break;
-								case 6:
-									apdm.targetObjectThumb1.sprite = img7.sprite;
-									break;
-								case 7:
-									apdm.targetObjectThumb1.sprite = img8.sprite;
-									break;
-								case 8:
-									apdm.targetObjectThumb1.sprite = img9.sprite;
-									break;
-								case 9:
-									apdm.targetObjectThumb1.sprite = img10.sprite;
-									break;
-								case 10:
-									apdm.targetObjectThumb1.sprite = img11.sprite;
-									break;
-								case 11:
-									apdm.targetObjectThumb1.sprite = img12.sprite;
-									break;
-								case 12:
-									apdm.targetObjectThumb1.sprite = img13.sprite;
-									break;
-								case 13:
-									apdm.targetObjectThumb1.sprite = img14.sprite;
-									break;
-								case 14:
-									apdm.targetObjectThumb1.sprite = img15.sprite;
-									break;
-								case 15:
-									apdm.targetObjectThumb1.sprite = img16.sprite;
-									break;
-								case 16:
-									apdm.targetObjectThumb1.sprite = img17.sprite;
-									break;
-								case 17:
-									apdm.targetObjectThumb1.sprite = img18.sprite;
-									break;
-							}
-							break;
-						case 2:
-							switch(index)
-							{
-								case 0:
-									apdm.targetObjectThumb2.sprite = img1.sprite;
-									break;
-								case 1:
-									apdm.targetObjectThumb2.sprite = img2.sprite;
-									break;
-								case 2:
-									apdm.targetObjectThumb2.sprite = img3.sprite;
-									break;
-								case 3:
-									apdm.targetObjectThumb2.sprite = img4.sprite;
-									break;
-								case 4:
-									apdm.targetObjectThumb2.sprite = img5.sprite;
-									break;
-								case 5:
-									apdm.targetObjectThumb2.sprite = img6.sprite;
-									break;
-								case 6:
-									apdm.targetObjectThumb2.sprite = img7.sprite;
-									break;
-								case 7:
-									apdm.targetObjectThumb2.sprite = img8.sprite;
-									break;
-								case 8:
-									apdm.targetObjectThumb2.sprite = img9.sprite;
-									break;
-								case 9:
-									apdm.targetObjectThumb2.sprite = img10.sprite;
-									break;
-								case 10:
-									apdm.targetObjectThumb2.sprite = img11.sprite;
-									break;
-								case 11:
-									apdm.targetObjectThumb2.sprite = img12.sprite;
-									break;
-								case 12:
-									apdm.targetObjectThumb2.sprite = img13.sprite;
-									break;
-								case 13:
-									apdm.targetObjectThumb2.sprite = img14.sprite;
-									break;
-								case 14:
-									apdm.targetObjectThumb2.sprite = img15.sprite;
-									break;
-								case 15:
-									apdm.targetObjectThumb2.sprite = img16.sprite;
-									break;
-								case 16:
-									apdm.targetObjectThumb2.sprite = img17.sprite;
-									break;
-								case 17:
-									apdm.targetObjectThumb2.sprite = img18.sprite;
-									break;
-							}
-							break;
-						case 3:
-							switch(index)
-							{
-								case 0:
-									apdm.targetObjectThumb3.sprite = img1.sprite;
-									break;
-								case 1:
-									apdm.targetObjectThumb3.sprite = img2.sprite;
-									break;
-								case 2:
-									apdm.targetObjectThumb3.sprite = img3.sprite;
-									break;
-								case 3:
-									apdm.targetObjectThumb3.sprite = img4.sprite;
-									break;
-								case 4:
-									apdm.targetObjectThumb3.sprite = img5.sprite;
-									break;
-								case 5:
-									apdm.targetObjectThumb3.sprite = img6.sprite;
-									break;
-								case 6:
-									apdm.targetObjectThumb3.sprite = img7.sprite;
-									break;
-								case 7:
-									apdm.targetObjectThumb3.sprite = img8.sprite;
-									break;
-								case 8:
-									apdm.targetObjectThumb3.sprite = img9.sprite;
-									break;
-								case 9:
-									apdm.targetObjectThumb3.sprite = img10.sprite;
-									break;
-								case 10:
-									apdm.targetObjectThumb3.sprite = img11.sprite;
-									break;
-								case 11:
-									apdm.targetObjectThumb3.sprite = img12.sprite;
-									break;
-								case 12:
-									apdm.targetObjectThumb3.sprite = img13.sprite;
-									break;
-								case 13:
-									apdm.targetObjectThumb3.sprite = img14.sprite;
-									break;
-								case 14:
-									apdm.targetObjectThumb3.sprite = img15.sprite;
-									break;
-								case 15:
-									apdm.targetObjectThumb3.sprite = img16.sprite;
-									break;
-								case 16:
-									apdm.targetObjectThumb3.sprite = img17.sprite;
-									break;
-								case 17:
-									apdm.targetObjectThumb3.sprite = img18.sprite;
-									break;
-							}
-							break;
-						case 4:
-							switch(index)
-							{
-								case 0:
-									apdm.targetObjectThumb4.sprite = img1.sprite;
-									break;
-								case 1:
-									apdm.targetObjectThumb4.sprite = img2.sprite;
-									break;
-								case 2:
-									apdm.targetObjectThumb4.sprite = img3.sprite;
-									break;
-								case 3:
-									apdm.targetObjectThumb4.sprite = img4.sprite;
-									break;
-								case 4:
-									apdm.targetObjectThumb4.sprite = img5.sprite;
-									break;
-								case 5:
-									apdm.targetObjectThumb4.sprite = img6.sprite;
-									break;
-								case 6:
-									apdm.targetObjectThumb4.sprite = img7.sprite;
-									break;
-								case 7:
-									apdm.targetObjectThumb4.sprite = img8.sprite;
-									break;
-								case 8:
-									apdm.targetObjectThumb4.sprite = img9.sprite;
-									break;
-								case 9:
-									apdm.targetObjectThumb4.sprite = img10.sprite;
-									break;
-								case 10:
-									apdm.targetObjectThumb4.sprite = img11.sprite;
-									break;
-								case 11:
-									apdm.targetObjectThumb4.sprite = img12.sprite;
-									break;
-								case 12:
-									apdm.targetObjectThumb4.sprite = img13.sprite;
-									break;
-								case 13:
-									apdm.targetObjectThumb4.sprite = img14.sprite;
-									break;
-								case 14:
-									apdm.targetObjectThumb4.sprite = img15.sprite;
-									break;
-								case 15:
-									apdm.targetObjectThumb4.sprite = img16.sprite;
-									break;
-								case 16:
-									apdm.targetObjectThumb4.sprite = img17.sprite;
-									break;
-								case 17:
-									apdm.targetObjectThumb4.sprite = img18.sprite;
-									break;
-							}
-							break;
-						case 5:
-							switch(index)
-							{
-								case 0:
-									apdm.targetObjectThumb5.sprite = img1.sprite;
-									break;
-								case 1:
-									apdm.targetObjectThumb5.sprite = img2.sprite;
-									break;
-								case 2:
-									apdm.targetObjectThumb5.sprite = img3.sprite;
-									break;
-								case 3:
-									apdm.targetObjectThumb5.sprite = img4.sprite;
-									break;
-								case 4:
-									apdm.targetObjectThumb5.sprite = img5.sprite;
-									break;
-								case 5:
-									apdm.targetObjectThumb5.sprite = img6.sprite;
-									break;
-								case 6:
-									apdm.targetObjectThumb5.sprite = img7.sprite;
-									break;
-								case 7:
-									apdm.targetObjectThumb5.sprite = img8.sprite;
-									break;
-								case 8:
-									apdm.targetObjectThumb5.sprite = img9.sprite;
-									break;
-								case 9:
-									apdm.targetObjectThumb5.sprite = img10.sprite;
-									break;
-								case 10:
-									apdm.targetObjectThumb5.sprite = img11.sprite;
-									break;
-								case 11:
-									apdm.targetObjectThumb5.sprite = img12.sprite;
-									break;
-								case 12:
-									apdm.targetObjectThumb5.sprite = img13.sprite;
-									break;
-								case 13:
-									apdm.targetObjectThumb5.sprite = img14.sprite;
-									break;
-								case 14:
-									apdm.targetObjectThumb5.sprite = img15.sprite;
-									break;
-								case 15:
-									apdm.targetObjectThumb5.sprite = img16.sprite;
-									break;
-								case 16:
-									apdm.targetObjectThumb5.sprite = img17.sprite;
-									break;
-								case 17:
-									apdm.targetObjectThumb5.sprite = img18.sprite;
-									break;
-							}
-							break;
-
-				}
-/*/// 
-				Image chosenThumb = apdm.chosenThumb1;
-				switch(fm.currentTarget)
-				{
-					case 1:
-						chosenThumb.sprite = apdm.targetObjectThumb1.sprite;
-						break;
-					case 2:
-						chosenThumb = apdm.chosenThumb2;
-						chosenThumb.sprite = apdm.targetObjectThumb2.sprite;
-						break;
-					case 3:
-						chosenThumb = apdm.chosenThumb3;
-						chosenThumb.sprite = apdm.targetObjectThumb3.sprite;
-						break;
-					case 4:
-						chosenThumb = apdm.chosenThumb4;
-						chosenThumb.sprite = apdm.targetObjectThumb4.sprite;
-						break;
-					case 5:
-						chosenThumb = apdm.chosenThumb5;
-						chosenThumb.sprite = apdm.targetObjectThumb5.sprite;
-						break;
-				}
-///*/
-
-				yield return null;
-				//clear the url array
-		}
+	
 
 		public IEnumerator ChooseImage(int index) {
 			using (WWW imageRequest = new WWW(imageUrl[index]))
@@ -601,25 +333,60 @@ public class pixabayManager : MonoBehaviour {
 				yield return new WaitForSeconds(2);
 				imageUrl = new string[18];
 				imagePreviewUrl = new string[18];
-				img1.sprite = blankImage.sprite;
-				img2.sprite = blankImage.sprite;
-				img3.sprite = blankImage.sprite;
-				img4.sprite = blankImage.sprite;
-				img5.sprite = blankImage.sprite;
-				img6.sprite = blankImage.sprite;
-				img7.sprite = blankImage.sprite;
-				img8.sprite = blankImage.sprite;
-				img9.sprite = blankImage.sprite;
-				img10.sprite = blankImage.sprite;
-				img11.sprite = blankImage.sprite;
-				img12.sprite = blankImage.sprite;
-				img13.sprite = blankImage.sprite;
-				img14.sprite = blankImage.sprite;
-				img15.sprite = blankImage.sprite;
-				img16.sprite = blankImage.sprite;
-				img17.sprite = blankImage.sprite;
-				img18.sprite = blankImage.sprite;
+				searchedThumbnails[0].sprite = blankImage.sprite;
+				searchedThumbnails[1].sprite = blankImage.sprite;
+				searchedThumbnails[2].sprite = blankImage.sprite;
+				searchedThumbnails[3].sprite = blankImage.sprite;
+				searchedThumbnails[4].sprite = blankImage.sprite;
+				searchedThumbnails[5].sprite = blankImage.sprite;
+				searchedThumbnails[6].sprite = blankImage.sprite;
+				searchedThumbnails[7].sprite = blankImage.sprite;
+				searchedThumbnails[8].sprite = blankImage.sprite;
+				searchedThumbnails[9].sprite = blankImage.sprite;
+				searchedThumbnails[10].sprite = blankImage.sprite;
+				searchedThumbnails[11].sprite = blankImage.sprite;
+				searchedThumbnails[12].sprite = blankImage.sprite;
+				searchedThumbnails[13].sprite = blankImage.sprite;
+				searchedThumbnails[14].sprite = blankImage.sprite;
+				searchedThumbnails[15].sprite = blankImage.sprite;
+				searchedThumbnails[16].sprite = blankImage.sprite;
+				searchedThumbnails[17].sprite = blankImage.sprite;
 			*/
 			}
+		}
+
+
+		public IEnumerator SetArPairThumbnail(int index)
+		{
+
+			apdm.targetObjectThumbs[fm.currentTarget-1].sprite = searchedThumbnails[index].sprite;
+/*/// 
+				Image chosenThumb = apdm.chosenThumb1;
+				switch(fm.currentTarget)
+				{
+					case 1:
+						chosenThumb.sprite = apdm.targetObjectThumbs[0].sprite;
+						break;
+					case 2:
+						chosenThumb = apdm.chosenThumb2;
+						chosenThumb.sprite = apdm.targetObjectThumbs[1].sprite;
+						break;
+					case 3:
+						chosenThumb = apdm.chosenThumb3;
+						chosenThumb.sprite = apdm.targetObjectThumbs[2].sprite;
+						break;
+					case 4:
+						chosenThumb = apdm.chosenThumb4;
+						chosenThumb.sprite = apdm.targetObjectThumbs[3].sprite;
+						break;
+					case 5:
+						chosenThumb = apdm.chosenThumb5;
+						chosenThumb.sprite = apdm.targetObjectThumbs[4].sprite;
+						break;
+				}
+///*/
+
+				yield return null;
+				//clear the url array
 		}
 }

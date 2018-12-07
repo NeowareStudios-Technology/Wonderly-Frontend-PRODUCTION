@@ -14,16 +14,50 @@ public class SaveManager : MonoBehaviour {
 	public FirebaseStorageManager fsm;
 	public CloudEndpointsApiManager ceam;
 	public LoadManager lm;
+	public ArPairDisplayManager apdm;
 
 	public InputField title;
 	public InputField editTitle;
 	public InputField description;
-	public InputField titleDisplay;
-	///Probably need to make a function that controls which wonder title/description screen to display
-	public InputField[] wonderTitles = new InputField[5];
-	public InputField[] wonderDescriptions = new InputField[5];
+	public Text titleDisplay;
+	public Text descriptionDisplay;
+	public InputField wonderTitle;
+	public InputField wonderDescription;
 
-	public Text coverImageUrl;
+	private string[] wonderTitles = new string[5];
+	private string[] wonderDescriptions = new string[5];
+
+	public string coverImageUrl;
+
+	//add this function to button that saves/sets wonders
+	public void LocalSaveWonderTitleDesc()
+	{
+
+			if (fm.currentTarget < 0)
+			{
+				Debug.Log("current target index out of range");
+				return;
+			}
+		
+			//locally save Wonder titles and descriptions
+			wonderTitles[fm.currentTarget-1] = wonderTitle.text;
+			wonderDescriptions[fm.currentTarget-1] = wonderDescription.text;
+
+			//display Wonder titles and descriptions
+			apdm.wonderTitles[fm.currentTarget-1].text = wonderTitle.text;
+			apdm.wonderDescriptions[fm.currentTarget-1].text = wonderDescription.text;
+
+			wonderTitle.text = "";
+			wonderDescription.text = "";
+
+
+	}
+
+	public void SetJourneyTitleDescription()
+	{
+		titleDisplay.text = title.text;
+		descriptionDisplay.text = description.text;
+	}
 
 
 
@@ -42,7 +76,16 @@ public class SaveManager : MonoBehaviour {
 		//save the title and description of the experience
 		save.title = title.text;
 		save.description = description.text;
-		titleDisplay.text = title.text;
+
+		//save cover photo url
+		save.coverImageUrl = pm.chosenCoverImageUrl;
+
+		//save each wonder title and description
+		for (int k = 0; k< 5; k++)
+		{
+			save.wonderTitle[k] = wonderTitles[k];
+			save.wonderDescription[k] = wonderDescriptions[k];
+		}
 
 		//create save directory
 		Directory.CreateDirectory(fm.SaveDirectory);
@@ -75,10 +118,6 @@ public class SaveManager : MonoBehaviour {
 		//make sure to iterate over all 5 possible targets to make sure we get all targets if one has been deleted
 		for (int i = 0; i < 5; i++)
 		{
-				//save titles of each wonder
-				save.wonderTitle[i] = wonderTitles[i].text;
-				//save descriptions of each wonder
-				save.wonderDescription[i] = wonderDescriptions[i].text; 
 
 			//only save this target if the it has objects save to it
 			if (fm.targetStatus[i] != "none" || fm.targetStatus[i] != "created")
@@ -109,14 +148,64 @@ public class SaveManager : MonoBehaviour {
 						scaleX = tom.videoPlayers[i].transform.localScale.x;
 						scaleY = tom.videoPlayers[i].transform.localScale.y;
 						scaleZ = tom.videoPlayers[i].transform.localScale.z;
-						//save rotation of video player
-						save.rotationObjectArray[i].rotation[0] = x;
-						save.rotationObjectArray[i].rotation[1] = y;
-						save.rotationObjectArray[i].rotation[2] = z;
-						//save scale of video player
-						save.scaleObjectArray[i].scale[0] = scaleX;
-						save.scaleObjectArray[i].scale[1] = scaleY;
-						save.scaleObjectArray[i].scale[2] = scaleZ;
+						switch(i)
+						{
+							case 0:
+								//save rotation of video player
+								save.rot1[0] = x;
+								save.rot1[1] = y;
+								save.rot1[2] = z;
+								//save scale of video player
+								save.scale1[0]= scaleX;
+								save.scale1[1] = scaleY;
+								save.scale1[2] = scaleZ;
+								break;
+
+							case 1:
+								//save rotation of video player
+								save.rot2[0] = x;
+								save.rot2[1] = y;
+								save.rot2[2] = z;
+								//save scale of video player
+								save.scale2[0]= scaleX;
+								save.scale2[1] = scaleY;
+								save.scale2[2] = scaleZ;
+								break;
+
+							case 2:
+								//save rotation of video player
+								save.rot3[0] = x;
+								save.rot3[1] = y;
+								save.rot3[2] = z;
+								//save scale of video player
+								save.scale3[0]= scaleX;
+								save.scale3[1] = scaleY;
+								save.scale3[2] = scaleZ;
+								break;
+
+							case 3:
+								//save rotation of video player
+								save.rot4[0] = x;
+								save.rot4[1] = y;
+								save.rot4[2] = z;
+								//save scale of video player
+								save.scale4[0]= scaleX;
+								save.scale4[1] = scaleY;
+								save.scale4[2] = scaleZ;
+								break;
+							
+						case 4:
+								//save rotation of video player
+								save.rot5[0] = x;
+								save.rot5[1] = y;
+								save.rot5[2] = z;
+								//save scale of video player
+								save.scale5[0]= scaleX;
+								save.scale5[1] = scaleY;
+								save.scale5[2] = scaleZ;
+								break;
+
+						}
 						break;
 
 					//save model ID info and model rotation info to save class
@@ -129,12 +218,64 @@ public class SaveManager : MonoBehaviour {
 						scaleX = tom.models[i].transform.localScale.x;
 						scaleY = tom.models[i].transform.localScale.y;
 						scaleZ = tom.models[i].transform.localScale.z;
-						save.rotationObjectArray[i].rotation[0] = x;
-						save.rotationObjectArray[i].rotation[1] = y;
-						save.rotationObjectArray[i].rotation[2] = z;
-						save.scaleObjectArray[i].scale[0] = scaleX;
-						save.scaleObjectArray[i].scale[1] = scaleY;
-						save.scaleObjectArray[i].scale[2] = scaleZ;
+						switch(i)
+						{
+							case 0:
+								//save rotation of video player
+								save.rot1[0] = x;
+								save.rot1[1] = y;
+								save.rot1[2] = z;
+								//save scale of video player
+								save.scale1[0]= scaleX;
+								save.scale1[1] = scaleY;
+								save.scale1[2] = scaleZ;
+								break;
+
+							case 1:
+								//save rotation of video player
+								save.rot2[0] = x;
+								save.rot2[1] = y;
+								save.rot2[2] = z;
+								//save scale of video player
+								save.scale2[0]= scaleX;
+								save.scale2[1] = scaleY;
+								save.scale2[2] = scaleZ;
+								break;
+
+							case 2:
+								//save rotation of video player
+								save.rot3[0] = x;
+								save.rot3[1] = y;
+								save.rot3[2] = z;
+								//save scale of video player
+								save.scale3[0]= scaleX;
+								save.scale3[1] = scaleY;
+								save.scale3[2] = scaleZ;
+								break;
+
+							case 3:
+								//save rotation of video player
+								save.rot4[0] = x;
+								save.rot4[1] = y;
+								save.rot4[2] = z;
+								//save scale of video player
+								save.scale4[0]= scaleX;
+								save.scale4[1] = scaleY;
+								save.scale4[2] = scaleZ;
+								break;
+							
+						case 4:
+								//save rotation of video player
+								save.rot5[0] = x;
+								save.rot5[1] = y;
+								save.rot5[2] = z;
+								//save scale of video player
+								save.scale5[0]= scaleX;
+								save.scale5[1] = scaleY;
+								save.scale5[2] = scaleZ;
+								break;
+
+						}
 						break;
 
 					case "image":
@@ -145,12 +286,64 @@ public class SaveManager : MonoBehaviour {
 						scaleX = tom.images[i].transform.localScale.x;
 						scaleY = tom.images[i].transform.localScale.y;
 						scaleZ = tom.images[i].transform.localScale.z;
-						save.rotationObjectArray[i].rotation[0] = x;
-						save.rotationObjectArray[i].rotation[1] = y;
-						save.rotationObjectArray[i].rotation[2] = z;
-						save.scaleObjectArray[i].scale[0] = scaleX;
-						save.scaleObjectArray[i].scale[1] = scaleY;
-						save.scaleObjectArray[i].scale[2] = scaleZ;
+						switch(i)
+						{
+							case 0:
+								//save rotation of video player
+								save.rot1[0] = x;
+								save.rot1[1] = y;
+								save.rot1[2] = z;
+								//save scale of video player
+								save.scale1[0]= scaleX;
+								save.scale1[1] = scaleY;
+								save.scale1[2] = scaleZ;
+								break;
+
+							case 1:
+								//save rotation of video player
+								save.rot2[0] = x;
+								save.rot2[1] = y;
+								save.rot2[2] = z;
+								//save scale of video player
+								save.scale2[0]= scaleX;
+								save.scale2[1] = scaleY;
+								save.scale2[2] = scaleZ;
+								break;
+
+							case 2:
+								//save rotation of video player
+								save.rot3[0] = x;
+								save.rot3[1] = y;
+								save.rot3[2] = z;
+								//save scale of video player
+								save.scale3[0]= scaleX;
+								save.scale3[1] = scaleY;
+								save.scale3[2] = scaleZ;
+								break;
+
+							case 3:
+								//save rotation of video player
+								save.rot4[0] = x;
+								save.rot4[1] = y;
+								save.rot4[2] = z;
+								//save scale of video player
+								save.scale4[0]= scaleX;
+								save.scale4[1] = scaleY;
+								save.scale4[2] = scaleZ;
+								break;
+							
+						case 4:
+								//save rotation of video player
+								save.rot5[0] = x;
+								save.rot5[1] = y;
+								save.rot5[2] = z;
+								//save scale of video player
+								save.scale5[0]= scaleX;
+								save.scale5[1] = scaleY;
+								save.scale5[2] = scaleZ;
+								break;
+
+						}
 						break;
 				}
 			}
@@ -175,6 +368,15 @@ public class SaveManager : MonoBehaviour {
 			Debug.Log("**0** sm 266, Save file missing: "+saveFilePath);
 
 		fsm.startExperienceUpload();
+
+		//clear out local temp save of wonder titles/descriptions to be ready for next Journey creation
+		for (int m = 0; m < 5; m++)
+		{
+			wonderTitles[m] = "";
+			wonderDescriptions[m] = "";
+		}
+
+		pm.coverImage.sprite = pm.blankImage.sprite;
 	}
 
 
@@ -194,8 +396,11 @@ public class SaveManager : MonoBehaviour {
 		save.title = editTitle.text;
 		save.description = description.text;
 
-		titleDisplay.text = editTitle.text;
-
+		for (int k = 0; k< 5; k++)
+		{
+			save.wonderTitle[k] = wonderTitles[k];
+			save.wonderDescription[k] = wonderDescriptions[k];
+		}
 
 
 		//create save directory
@@ -228,10 +433,6 @@ public class SaveManager : MonoBehaviour {
 		//make sure to iterate over all 5 possible targets to make sure we get all targets if one has been deleted
 		for (int i = 0; i < 5; i++)
 		{
-				//save titles of each wonder
-				save.wonderTitle[i] = wonderTitles[i].text;
-				//save descriptions of each wonder
-				save.wonderDescription[i] = wonderDescriptions[i].text; 
 
 			//only save this target if the it has objects save to it
 			if (fm.targetStatus[i] != "none" || fm.targetStatus[i] != "created")
@@ -262,14 +463,64 @@ public class SaveManager : MonoBehaviour {
 						scaleX = tom.videoPlayers[i].transform.localScale.x;
 						scaleY = tom.videoPlayers[i].transform.localScale.y;
 						scaleZ = tom.videoPlayers[i].transform.localScale.z;
-						//save rotation of video player
-						save.rotationObjectArray[i].rotation[0] = x;
-						save.rotationObjectArray[i].rotation[1] = y;
-						save.rotationObjectArray[i].rotation[2] = z;
-						//save scale of video player
-						save.scaleObjectArray[i].scale[0] = scaleX;
-						save.scaleObjectArray[i].scale[1] = scaleY;
-						save.scaleObjectArray[i].scale[2] = scaleZ;
+						switch(i)
+						{
+							case 0:
+								//save rotation of video player
+								save.rot1[0] = x;
+								save.rot1[1] = y;
+								save.rot1[2] = z;
+								//save scale of video player
+								save.scale1[0]= scaleX;
+								save.scale1[1] = scaleY;
+								save.scale1[2] = scaleZ;
+								break;
+
+							case 1:
+								//save rotation of video player
+								save.rot2[0] = x;
+								save.rot2[1] = y;
+								save.rot2[2] = z;
+								//save scale of video player
+								save.scale2[0]= scaleX;
+								save.scale2[1] = scaleY;
+								save.scale2[2] = scaleZ;
+								break;
+
+							case 2:
+								//save rotation of video player
+								save.rot3[0] = x;
+								save.rot3[1] = y;
+								save.rot3[2] = z;
+								//save scale of video player
+								save.scale3[0]= scaleX;
+								save.scale3[1] = scaleY;
+								save.scale3[2] = scaleZ;
+								break;
+
+							case 3:
+								//save rotation of video player
+								save.rot4[0] = x;
+								save.rot4[1] = y;
+								save.rot4[2] = z;
+								//save scale of video player
+								save.scale4[0]= scaleX;
+								save.scale4[1] = scaleY;
+								save.scale4[2] = scaleZ;
+								break;
+							
+						case 4:
+								//save rotation of video player
+								save.rot5[0] = x;
+								save.rot5[1] = y;
+								save.rot5[2] = z;
+								//save scale of video player
+								save.scale5[0]= scaleX;
+								save.scale5[1] = scaleY;
+								save.scale5[2] = scaleZ;
+								break;
+
+						}
 						break;
 
 					//save model ID info and model rotation info to save class
@@ -282,12 +533,64 @@ public class SaveManager : MonoBehaviour {
 						scaleX = tom.models[i].transform.localScale.x;
 						scaleY = tom.models[i].transform.localScale.y;
 						scaleZ = tom.models[i].transform.localScale.z;
-						save.rotationObjectArray[i].rotation[0] = x;
-						save.rotationObjectArray[i].rotation[1] = y;
-						save.rotationObjectArray[i].rotation[2] = z;
-						save.scaleObjectArray[i].scale[0] = scaleX;
-						save.scaleObjectArray[i].scale[1] = scaleY;
-						save.scaleObjectArray[i].scale[2] = scaleZ;
+						switch(i)
+						{
+							case 0:
+								//save rotation of video player
+								save.rot1[0] = x;
+								save.rot1[1] = y;
+								save.rot1[2] = z;
+								//save scale of video player
+								save.scale1[0]= scaleX;
+								save.scale1[1] = scaleY;
+								save.scale1[2] = scaleZ;
+								break;
+
+							case 1:
+								//save rotation of video player
+								save.rot2[0] = x;
+								save.rot2[1] = y;
+								save.rot2[2] = z;
+								//save scale of video player
+								save.scale2[0]= scaleX;
+								save.scale2[1] = scaleY;
+								save.scale2[2] = scaleZ;
+								break;
+
+							case 2:
+								//save rotation of video player
+								save.rot3[0] = x;
+								save.rot3[1] = y;
+								save.rot3[2] = z;
+								//save scale of video player
+								save.scale3[0]= scaleX;
+								save.scale3[1] = scaleY;
+								save.scale3[2] = scaleZ;
+								break;
+
+							case 3:
+								//save rotation of video player
+								save.rot4[0] = x;
+								save.rot4[1] = y;
+								save.rot4[2] = z;
+								//save scale of video player
+								save.scale4[0]= scaleX;
+								save.scale4[1] = scaleY;
+								save.scale4[2] = scaleZ;
+								break;
+							
+						case 4:
+								//save rotation of video player
+								save.rot5[0] = x;
+								save.rot5[1] = y;
+								save.rot5[2] = z;
+								//save scale of video player
+								save.scale5[0]= scaleX;
+								save.scale5[1] = scaleY;
+								save.scale5[2] = scaleZ;
+								break;
+
+						}
 						break;
 
 					case "image":
@@ -298,12 +601,64 @@ public class SaveManager : MonoBehaviour {
 						scaleX = tom.images[i].transform.localScale.x;
 						scaleY = tom.images[i].transform.localScale.y;
 						scaleZ = tom.images[i].transform.localScale.z;
-						save.rotationObjectArray[i].rotation[0] = x;
-						save.rotationObjectArray[i].rotation[1] = y;
-						save.rotationObjectArray[i].rotation[2] = z;
-						save.scaleObjectArray[i].scale[0] = scaleX;
-						save.scaleObjectArray[i].scale[1] = scaleY;
-						save.scaleObjectArray[i].scale[2] = scaleZ;
+						switch(i)
+						{
+							case 0:
+								//save rotation of video player
+								save.rot1[0] = x;
+								save.rot1[1] = y;
+								save.rot1[2] = z;
+								//save scale of video player
+								save.scale1[0]= scaleX;
+								save.scale1[1] = scaleY;
+								save.scale1[2] = scaleZ;
+								break;
+
+							case 1:
+								//save rotation of video player
+								save.rot2[0] = x;
+								save.rot2[1] = y;
+								save.rot2[2] = z;
+								//save scale of video player
+								save.scale2[0]= scaleX;
+								save.scale2[1] = scaleY;
+								save.scale2[2] = scaleZ;
+								break;
+
+							case 2:
+								//save rotation of video player
+								save.rot3[0] = x;
+								save.rot3[1] = y;
+								save.rot3[2] = z;
+								//save scale of video player
+								save.scale3[0]= scaleX;
+								save.scale3[1] = scaleY;
+								save.scale3[2] = scaleZ;
+								break;
+
+							case 3:
+								//save rotation of video player
+								save.rot4[0] = x;
+								save.rot4[1] = y;
+								save.rot4[2] = z;
+								//save scale of video player
+								save.scale4[0]= scaleX;
+								save.scale4[1] = scaleY;
+								save.scale4[2] = scaleZ;
+								break;
+							
+						case 4:
+								//save rotation of video player
+								save.rot5[0] = x;
+								save.rot5[1] = y;
+								save.rot5[2] = z;
+								//save scale of video player
+								save.scale5[0]= scaleX;
+								save.scale5[1] = scaleY;
+								save.scale5[2] = scaleZ;
+								break;
+
+						}
 						break;
 				}
 			}
@@ -315,6 +670,15 @@ public class SaveManager : MonoBehaviour {
 		Debug.Log("AR Experience Saved");
 
 		ceam.startExperienceEdit2();
+
+		//clear out local temp save of wonder titles/descriptions to be ready for next Journey creation
+		for (int m = 0; m < 5; m++)
+		{
+			wonderTitles[m] = "";
+			wonderDescriptions[m] = "";
+		}
+
+		pm.coverImage.sprite = pm.blankImage.sprite;
 	}
 
 	public void deleteOldSave() 

@@ -436,24 +436,10 @@ public class UiManager : MonoBehaviour {
 	{
 		//wait for 2 seconds for better user experience
 		yield return new WaitForSeconds(2);
-		apdm.imgModel1.sprite = apdm.blankImage.sprite;
-		apdm.imgModel2.sprite = apdm.blankImage.sprite;
-		apdm.imgModel3.sprite = apdm.blankImage.sprite;
-		apdm.imgModel4.sprite = apdm.blankImage.sprite;
-		apdm.imgModel5.sprite = apdm.blankImage.sprite;
-		apdm.imgModel6.sprite = apdm.blankImage.sprite;
-		apdm.imgModel7.sprite = apdm.blankImage.sprite;
-		apdm.imgModel8.sprite = apdm.blankImage.sprite;
-		apdm.imgModel9.sprite = apdm.blankImage.sprite;
-		apdm.imgModel10.sprite = apdm.blankImage.sprite;
-		apdm.imgModel11.sprite = apdm.blankImage.sprite;
-		apdm.imgModel12.sprite = apdm.blankImage.sprite;
-		apdm.imgModel13.sprite = apdm.blankImage.sprite;
-		apdm.imgModel14.sprite = apdm.blankImage.sprite;
-		apdm.imgModel15.sprite = apdm.blankImage.sprite;
-		apdm.imgModel16.sprite = apdm.blankImage.sprite;
-		apdm.imgModel17.sprite = apdm.blankImage.sprite;
-		apdm.imgModel18.sprite = apdm.blankImage.sprite;
+		for (int i = 0; i < 18; i++)
+		{
+			apdm.modelThumbs[i].sprite = apdm.blankImage.sprite;
+		}
 	}
 
 	//used to reset the searched for video thumbnails 
@@ -467,24 +453,10 @@ public class UiManager : MonoBehaviour {
 	{
 		//wait for 2 seconds for better user experience
 		yield return new WaitForSeconds(2);
-		apdm.img1.sprite = apdm.blankImage.sprite;
-		apdm.img2.sprite = apdm.blankImage.sprite;
-		apdm.img3.sprite = apdm.blankImage.sprite;
-		apdm.img4.sprite = apdm.blankImage.sprite;
-		apdm.img5.sprite = apdm.blankImage.sprite;
-		apdm.img6.sprite = apdm.blankImage.sprite;
-		apdm.img7.sprite = apdm.blankImage.sprite;
-		apdm.img8.sprite = apdm.blankImage.sprite;
-		apdm.img9.sprite = apdm.blankImage.sprite;
-		apdm.img10.sprite = apdm.blankImage.sprite;
-		apdm.img11.sprite = apdm.blankImage.sprite;
-		apdm.img12.sprite = apdm.blankImage.sprite;
-		apdm.img13.sprite = apdm.blankImage.sprite;
-		apdm.img14.sprite = apdm.blankImage.sprite;
-		apdm.img15.sprite = apdm.blankImage.sprite;
-		apdm.img16.sprite = apdm.blankImage.sprite;
-		apdm.img17.sprite = apdm.blankImage.sprite;
-		apdm.img18.sprite = apdm.blankImage.sprite;
+		for (int i = 0; i < 18; i++)
+		{
+			apdm.videoThumbs[i].sprite = apdm.blankImage.sprite;
+		}
 	}
 }
 

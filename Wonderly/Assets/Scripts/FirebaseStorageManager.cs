@@ -81,7 +81,7 @@ public class FirebaseStorageManager : MonoBehaviour {
 
 		Debug.Log("1. Starting fsm.experienceUpload()...");
 		//reset code display
-		codeDisplay.text = "Loading...";
+		//codeDisplay.text = "Loading...";
 		//create a new upload class instance
 		UploadClassDeclaration upload = new UploadClassDeclaration();
 		upload.title = sm.title.text;
@@ -182,7 +182,7 @@ public class FirebaseStorageManager : MonoBehaviour {
 			ecc = JsonUtility.FromJson<ExperienceCodeClass>(jsonResponse);
 
 			Debug.Log("4. code being saved for uploading the experience files: "+ecc.code);
-			codeDisplay.text = ecc.code;
+			//codeDisplay.text = ecc.code;
 
 			if (File.Exists(saveFilePath))
 				Debug.Log("**4** fsm 189, Save file exists: "+saveFilePath);

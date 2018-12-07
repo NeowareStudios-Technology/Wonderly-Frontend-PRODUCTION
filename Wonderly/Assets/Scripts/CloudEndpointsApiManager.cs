@@ -20,8 +20,6 @@ public class CloudEndpointsApiManager : MonoBehaviour {
 	public ProfileInfoClass pic;
 	public checkEmailClass cec;
 	public checkEmailResponseClass cerc;
-	public Text firstName;
-	public Text lastName;
 	public Text editFirstName;
 	public Text editLastName;
 	public InputField editFirstNameInput;

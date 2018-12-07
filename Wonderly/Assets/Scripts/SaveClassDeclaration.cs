@@ -19,18 +19,16 @@ public class SaveClassDeclaration {
 	//public string mod4 = "";
 	//public string mod5 = "";
 	public string[] modId = new string[5];
-	//public float[] rot1 = new float[3];
-	//public float[] rot2 = new float[3];
-	//public float[] rot3 = new float[3];
-	//public float[] rot4 = new float[3];
-	//public float[] rot5 = new float[3];
-	public rotationObject[] rotationObjectArray = new rotationObject[5];
-	public scaleObject[] scaleObjectArray = new scaleObject[5];
-	//public float[] scale1 = new float[3];
-	//public float[] scale2 = new float[3];
-	//public float[] scale3 = new float[3];
-	//public float[] scale4 = new float[3];
-	//public float[] scale5 = new float[3];
+	public float[] rot1 = new float[3];
+	public float[] rot2 = new float[3];
+	public float[] rot3 = new float[3];
+	public float[] rot4 = new float[3];
+	public float[] rot5 = new float[3];
+	public float[] scale1 = new float[3];
+	public float[] scale2 = new float[3];
+	public float[] scale3 = new float[3];
+	public float[] scale4 = new float[3];
+	public float[] scale5 = new float[3];
 
 	public static SaveClassDeclaration CreateFromJSON(string jsonString)
   {
@@ -39,14 +37,5 @@ public class SaveClassDeclaration {
 
 }
 
-public class rotationObject
-{
-	public float[] rotation = new float[3];
-}
-
-public class scaleObject
-{
-	public float[] scale = new float[3];
-}
 
 
