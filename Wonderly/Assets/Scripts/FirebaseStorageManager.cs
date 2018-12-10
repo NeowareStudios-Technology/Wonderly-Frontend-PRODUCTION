@@ -782,6 +782,7 @@ saveFileRef.GetBytesAsync(maxAllowedSize).ContinueWith((Task<byte[]> task1) => {
 	public void startDownloadExperienceFilesDirect(int index)
 	{
 		whichIndex = index;
+		Debug.Log("this is the library index:"+whichIndex);
 		StartCoroutine("downloadExperienceFilesDirect");
 	}
 
@@ -817,165 +818,13 @@ saveFileRef.GetBytesAsync(maxAllowedSize).ContinueWith((Task<byte[]> task1) => {
 		Debug.Log("2f. fsm510, Target 5 path = "+targetPath5);
 
 		string expCode = "";
-		switch(whichIndex)
-		{
-			case 1:
-				expCode = ceam.code1.text;
-				break;
-			case 2:
-				expCode = ceam.code2.text;
-				break;
-			case 3:
-				expCode = ceam.code3.text;
-				break;
-			case 4:
-				expCode = ceam.code4.text;
-				break;
-			case 5:
-				expCode = ceam.code5.text;
-				break;
-			case 6:
-				expCode = ceam.code6.text;
-				break;
-			case 7:
-				expCode = ceam.code7.text;
-				break;
-			case 8:
-				expCode = ceam.code8.text;
-				break;
-			case 9:
-				expCode = ceam.code9.text;
-				break;
-			case 10:
-				expCode = ceam.code10.text;
-				break;
-			case 11:
-				expCode = ceam.code11.text;
-				break;
-			case 12:
-				expCode = ceam.code12.text;
-				break;
-			case 13:
-				expCode = ceam.code13.text;
-				break;
-			case 14:
-				expCode = ceam.code14.text;
-				break;
-			case 15:
-				expCode = ceam.code15.text;
-				break;
-			case 16:
-				expCode = ceam.code16.text;
-				break;
-			case 17:
-				expCode = ceam.code17.text;
-				break;
-			case 18:
-				expCode = ceam.code18.text;
-				break;
-			case 19:
-				expCode = ceam.code19.text;
-				break;
-			case 20:
-				expCode = ceam.code20.text;
-				break;
-			case 21:
-				expCode = ceam.code21.text;
-				break;
-			case 22:
-				expCode = ceam.code22.text;
-				break;
-			case 23:
-				expCode = ceam.code23.text;
-				break;
-			case 24:
-				expCode = ceam.code24.text;
-				break;
-			case 25:
-				expCode = ceam.code25.text;
-				break;
-			case 26:
-				expCode = ceam.code26.text;
-				break;
-			case 27:
-				expCode = ceam.code27.text;
-				break;
-			case 28:
-				expCode = ceam.code28.text;
-				break;
-			case 29:
-				expCode = ceam.code29.text;
-				break;
-			case 30:
-				expCode = ceam.code30.text;
-				break;
-			case 31:
-				expCode = ceam.code31.text;
-				break;
-			case 32:
-				expCode = ceam.code32.text;
-				break;
-			case 33:
-				expCode = ceam.code33.text;
-				break;
-			case 34:
-				expCode = ceam.code34.text;
-				break;
-			case 35:
-				expCode = ceam.code35.text;
-				break;
-			case 36:
-				expCode = ceam.code36.text;
-				break;
-			case 37:
-				expCode = ceam.code37.text;
-				break;
-			case 38:
-				expCode = ceam.code38.text;
-				break;
-			case 39:
-				expCode = ceam.code39.text;
-				break;
-			case 40:
-				expCode = ceam.code40.text;
-				break;
-			case 41:
-				expCode = ceam.code41.text;
-				break;
-			case 42:
-				expCode = ceam.code42.text;
-				break;
-			case 43:
-				expCode = ceam.code43.text;
-				break;
-			case 44:
-				expCode = ceam.code44.text;
-				break;
-			case 45:
-				expCode = ceam.code45.text;
-				break;
-			case 46:
-				expCode = ceam.code46.text;
-				break;
-			case 47:
-				expCode = ceam.code47.text;
-				break;
-			case 48:
-				expCode = ceam.code48.text;
-				break;
-			case 49:
-				expCode = ceam.code49.text;
-				break;
-			case 50:
-				expCode = ceam.code50.text;
-				break;
-		}
+
+		expCode = ceam.libraryCodes[whichIndex-1];
+		
 
 		//for debugging iOS download problem
 		Debug.Log("3. fsm668, Code from library = "+expCode);
 
-		//deactivate the library stubs so they do not get in the way of buttons
-		libraryPanel.SetActive(false);
 
 		//references to cloud filstore paths
 		Firebase.Storage.StorageReference saveFileRef = fbm.fbStorage.GetReference(expCode + "/" + "aoSave.json");

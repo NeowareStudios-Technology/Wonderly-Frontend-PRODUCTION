@@ -39,7 +39,21 @@ public class CloudEndpointsApiManager : MonoBehaviour {
 
 	public GameObject libraryPanel;
 
+	public string[] libraryCodes = new string[50];
+
+	
+
+	public GameObject[] libraryStubs = new GameObject[50];
+
+	public GameObject libraryStubPrefab;
+
+	public GameObject libraryScrollContent;
+
 	public string code;
+
+	///
+	///
+	///
 
 	public GameObject ref1;
 	public GameObject ref2;
@@ -245,6 +259,10 @@ public class CloudEndpointsApiManager : MonoBehaviour {
 	public Text code48;
 	public Text code49;
 	public Text code50;
+
+	///
+	///
+	///
 
 	public string deleteCode;
 	public string editCode;
@@ -853,312 +871,24 @@ public void startGetProfileInfo()
 			Debug.Log("Number of codes: "+numExperiences);
 		}
 
+		//this for loop creates the library stub GameObjects from a prefab (up to 50)
+		//for dynamic spawning way
+		
 		for (int i = 0; i < numExperiences; i++)
 		{
-			switch(i)
-			{
-				case 0:
-					ref1.SetActive(true);
-					title1.text=oec.titles[i];
-					date1.text=oec.dates[i];
-					code1.text=oec.codes[i];
-					break;
-				case 1:
-					ref2.SetActive(true);
-					title2.text=oec.titles[i];
-					date2.text=oec.dates[i];
-					code2.text=oec.codes[i];
-					break;
-				case 2:
-					ref3.SetActive(true);
-					title3.text=oec.titles[i];
-					date3.text=oec.dates[i];
-					code3.text=oec.codes[i];
-					break;
-				case 3:
-					ref4.SetActive(true);
-					title4.text=oec.titles[i];
-					date4.text=oec.dates[i];
-					code4.text=oec.codes[i];
-					break;
-				case 4:
-					ref5.SetActive(true);
-					title5.text=oec.titles[i];
-					date5.text=oec.dates[i];
-					code5.text=oec.codes[i];
-					break;
-				case 5:
-					ref6.SetActive(true);
-					title6.text=oec.titles[i];
-					date6.text=oec.dates[i];
-					code6.text=oec.codes[i];
-					break;
-				case 6:
-					ref7.SetActive(true);
-					title7.text=oec.titles[i];
-					date7.text=oec.dates[i];
-					code7.text=oec.codes[i];
-					break;
-				case 7:
-					ref8.SetActive(true);
-					title8.text=oec.titles[i];
-					date8.text=oec.dates[i];
-					code8.text=oec.codes[i];
-					break;
-				case 8:
-					ref9.SetActive(true);
-					title9.text=oec.titles[i];
-					date9.text=oec.dates[i];
-					code9.text=oec.codes[i];
-					break;
-				case 9:
-					ref10.SetActive(true);
-					title10.text=oec.titles[i];
-					date10.text=oec.dates[i];
-					code10.text=oec.codes[i];
-					break;
-				case 10:
-					ref11.SetActive(true);
-					title11.text=oec.titles[i];
-					date11.text=oec.dates[i];
-					code11.text=oec.codes[i];
-					break;
-				case 11:
-					ref12.SetActive(true);
-					title12.text=oec.titles[i];
-					date12.text=oec.dates[i];
-					code12.text=oec.codes[i];
-					break;
-				case 12:
-					ref13.SetActive(true);
-					title13.text=oec.titles[i];
-					date13.text=oec.dates[i];
-					code13.text=oec.codes[i];
-					break;
-				case 13:
-					ref14.SetActive(true);
-					title14.text=oec.titles[i];
-					date14.text=oec.dates[i];
-					code14.text=oec.codes[i];
-					break;
-				case 14:
-					ref15.SetActive(true);
-					title15.text=oec.titles[i];
-					date15.text=oec.dates[i];
-					code15.text=oec.codes[i];
-					break;
-				case 15:
-					ref16.SetActive(true);
-					title16.text=oec.titles[i];
-					date16.text=oec.dates[i];
-					code16.text=oec.codes[i];
-					break;
-				case 16:
-					ref17.SetActive(true);
-					title17.text=oec.titles[i];
-					date17.text=oec.dates[i];
-					code17.text=oec.codes[i];
-					break;
-				case 17:
-					ref18.SetActive(true);
-					title18.text=oec.titles[i];
-					date18.text=oec.dates[i];
-					code18.text=oec.codes[i];
-					break;
-				case 18:
-					ref19.SetActive(true);
-					title19.text=oec.titles[i];
-					date19.text=oec.dates[i];
-					code19.text=oec.codes[i];
-					break;
-				case 19:
-					ref20.SetActive(true);
-					title20.text=oec.titles[i];
-					date20.text=oec.dates[i];
-					code20.text=oec.codes[i];
-					break;
-				case 20:
-					ref21.SetActive(true);
-					title21.text=oec.titles[i];
-					date21.text=oec.dates[i];
-					code21.text=oec.codes[i];
-					break;
-				case 21:
-					ref22.SetActive(true);
-					title22.text=oec.titles[i];
-					date22.text=oec.dates[i];
-					code22.text=oec.codes[i];
-					break;
-				case 22:
-					ref23.SetActive(true);
-					title23.text=oec.titles[i];
-					date23.text=oec.dates[i];
-					code23.text=oec.codes[i];
-					break;
-				case 23:
-					ref24.SetActive(true);
-					title24.text=oec.titles[i];
-					date24.text=oec.dates[i];
-					code24.text=oec.codes[i];
-					break;
-				case 24:
-					ref25.SetActive(true);
-					title25.text=oec.titles[i];
-					date25.text=oec.dates[i];
-					code25.text=oec.codes[i];
-					break;
-				case 25:
-					ref26.SetActive(true);
-					title26.text=oec.titles[i];
-					date26.text=oec.dates[i];
-					code26.text=oec.codes[i];
-					break;
-				case 26:
-					ref27.SetActive(true);
-					title27.text=oec.titles[i];
-					date27.text=oec.dates[i];
-					code27.text=oec.codes[i];
-					break;
-				case 27:
-					ref28.SetActive(true);
-					title28.text=oec.titles[i];
-					date28.text=oec.dates[i];
-					code28.text=oec.codes[i];
-					break;
-				case 28:
-					ref29.SetActive(true);
-					title29.text=oec.titles[i];
-					date29.text=oec.dates[i];
-					code29.text=oec.codes[i];
-					break;
-				case 29:
-					ref30.SetActive(true);
-					title30.text=oec.titles[i];
-					date30.text=oec.dates[i];
-					code30.text=oec.codes[i];
-					break;
-				case 30:
-					ref31.SetActive(true);
-					title31.text=oec.titles[i];
-					date31.text=oec.dates[i];
-					code31.text=oec.codes[i];
-					break;
-				case 31:
-					ref32.SetActive(true);
-					title32.text=oec.titles[i];
-					date32.text=oec.dates[i];
-					code32.text=oec.codes[i];
-					break;
-				case 32:
-					ref33.SetActive(true);
-					title33.text=oec.titles[i];
-					date33.text=oec.dates[i];
-					code33.text=oec.codes[i];
-					break;
-				case 33:
-					ref34.SetActive(true);
-					title34.text=oec.titles[i];
-					date34.text=oec.dates[i];
-					code34.text=oec.codes[i];
-					break;
-				case 34:
-					ref35.SetActive(true);
-					title35.text=oec.titles[i];
-					date35.text=oec.dates[i];
-					code35.text=oec.codes[i];
-					break;
-				case 35:
-					ref36.SetActive(true);
-					title36.text=oec.titles[i];
-					date36.text=oec.dates[i];
-					code36.text=oec.codes[i];
-					break;
-				case 36:
-					ref37.SetActive(true);
-					title37.text=oec.titles[i];
-					date37.text=oec.dates[i];
-					code37.text=oec.codes[i];
-					break;
-				case 37:
-					ref38.SetActive(true);
-					title38.text=oec.titles[i];
-					date38.text=oec.dates[i];
-					code38.text=oec.codes[i];
-					break;
-				case 38:
-					ref39.SetActive(true);
-					title39.text=oec.titles[i];
-					date39.text=oec.dates[i];
-					code39.text=oec.codes[i];
-					break;
-				case 39:
-					ref40.SetActive(true);
-					title40.text=oec.titles[i];
-					date40.text=oec.dates[i];
-					code40.text=oec.codes[i];
-					break;
-				case 40:
-					ref41.SetActive(true);
-					title41.text=oec.titles[i];
-					date41.text=oec.dates[i];
-					code41.text=oec.codes[i];
-					break;
-				case 41:
-					ref42.SetActive(true);
-					title42.text=oec.titles[i];
-					date42.text=oec.dates[i];
-					code42.text=oec.codes[i];
-					break;
-				case 42:
-					ref43.SetActive(true);
-					title43.text=oec.titles[i];
-					date43.text=oec.dates[i];
-					code43.text=oec.codes[i];
-					break;
-				case 43:
-					ref44.SetActive(true);
-					title44.text=oec.titles[i];
-					date44.text=oec.dates[i];
-					code44.text=oec.codes[i];
-					break;
-				case 44:
-					ref45.SetActive(true);
-					title45.text=oec.titles[i];
-					date45.text=oec.dates[i];
-					code45.text=oec.codes[i];
-					break;
-				case 45:
-					ref46.SetActive(true);
-					title46.text=oec.titles[i];
-					date46.text=oec.dates[i];
-					code46.text=oec.codes[i];
-					break;
-				case 46:
-					ref47.SetActive(true);
-					title47.text=oec.titles[i];
-					date47.text=oec.dates[i];
-					code47.text=oec.codes[i];
-					break;
-				case 47:
-					ref48.SetActive(true);
-					title48.text=oec.titles[i];
-					date48.text=oec.dates[i];
-					code48.text=oec.codes[i];
-					break;
-				case 48:
-					ref49.SetActive(true);
-					title49.text=oec.titles[i];
-					date49.text=oec.dates[i];
-					code49.text=oec.codes[i];
-					break;
-				case 49:
-					ref50.SetActive(true);
-					title50.text=oec.titles[i];
-					date50.text=oec.dates[i];
-					code50.text=oec.codes[i];
-					break;
-			}
+			if (i == 49)
+				break;
+
+			int index = i;
+	
+			libraryStubs[i] = Instantiate(libraryStubPrefab,libraryScrollContent.transform);
+			libraryStubs[i].transform.GetChild(1).gameObject.GetComponent<Text>().text = oec.titles[i];
+			libraryStubs[i].transform.GetChild(8).gameObject.GetComponent<Text>().text = oec.dates[i];
+			libraryStubs[i].transform.GetChild(2).gameObject.GetComponent<Text>().text = oec.codes[i];
+			libraryStubs[i].transform.GetChild(5).gameObject.GetComponent<Button>().onClick.AddListener(delegate {fsm.startDownloadExperienceFilesDirect(index+1); });
+			libraryCodes[i] = oec.codes[i];
 		}
+		
 	}
 	
 
