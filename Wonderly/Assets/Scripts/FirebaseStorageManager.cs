@@ -47,7 +47,7 @@ public class FirebaseStorageManager : MonoBehaviour {
 
 	private int whichIndex;
 
-	private string saveApiUrl = "https://aliceone-221018.appspot.com/_ah/api/aliceOne/v1/exp";
+	private string saveApiUrl = "https://wonderly-225214.appspot.com/_ah/api/wonderly/v1/exp";
 
 
 	// Use this for initialization
@@ -178,6 +178,7 @@ public class FirebaseStorageManager : MonoBehaviour {
 
 			byte[] results = experienceUploadRequest.downloadHandler.data;
       string jsonResponse = Encoding.UTF8.GetString(results);
+			Debug.Log(jsonResponse);
 			Debug.Log("3. Response from cloud endpoints after creating experience data entry: " +jsonResponse);
 			ecc = JsonUtility.FromJson<ExperienceCodeClass>(jsonResponse);
 

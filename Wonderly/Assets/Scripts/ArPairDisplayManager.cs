@@ -8,11 +8,7 @@ using System.IO;
 public class ArPairDisplayManager : MonoBehaviour {
 	public UiManager um;
 
-	//public Image chosenThumb1;
-	//public Image chosenThumb2;
-	//public Image chosenThumb3;
-	//public Image chosenThumb4;
-	//public Image chosenThumb5;
+	public Image chosenThumb;
 
 	public Image[] targetThumbs = new Image[5];
 
@@ -54,6 +50,7 @@ public class ArPairDisplayManager : MonoBehaviour {
 		if (yvuArray[index].videoId =="")
 			return;
 
+		chosenThumb.sprite = videoThumbs[index].sprite;
 		targetObjectThumbs[fm.currentTarget-1].sprite = videoThumbs[index].sprite;
 
 
@@ -70,33 +67,15 @@ public class ArPairDisplayManager : MonoBehaviour {
 		//do nothing if target num not valid
 		if (fm.currentTarget < 1)
 			return;
+		//set object thubnail in Journey summary
 		targetObjectThumbs[fm.currentTarget-1].sprite = modelThumbs[index].sprite;
-/*///
-				Image chosenThumb = chosenThumb1;
-				switch(fm.currentTarget)
-				{
-					case 1:
-						chosenThumb.sprite = targetObjectThumbs[0].sprite;
-						break;
-					case 2:
-						chosenThumb = chosenThumb2;
-						chosenThumb.sprite = targetObjectThumbs[1].sprite;
-						break;
-					case 3:
-						chosenThumb = chosenThumb3;
-						chosenThumb.sprite = targetObjectThumbs[2].sprite;
-						break;
-					case 4:
-						chosenThumb = chosenThumb4;
-						chosenThumb.sprite = targetObjectThumbs[3].sprite;
-						break;
-					case 5:
-						chosenThumb = chosenThumb5;
-						chosenThumb.sprite = targetObjectThumbs[4].sprite;
-						break;
-				}
-		um.startResetModelThumbs();
-///*/
+
+		//set object thumbnail in select object
+		chosenThumb.sprite = targetObjectThumbs[fm.currentTarget-1].sprite;
+
+		//clears model thumbnails
+		//um.startResetModelThumbs();
+
 	}
 	
 

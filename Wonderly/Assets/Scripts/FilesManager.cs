@@ -14,6 +14,8 @@ using System.Collections.Generic;
 using System;
 using EasyAR;
 
+using UnityEngine.UI;
+
 
 namespace Sample
 {
@@ -36,6 +38,10 @@ namespace Sample
         //will hold whether each target has been set with an object ("none" or "set")
         //public string[] targetSet = {"none", "none", "none", "none", "none"};
 
+        public GameObject mainCanvas;
+        public Animator homeScreen;
+        public Animator welcomePanel;
+
         void Update () 
         {
 
@@ -46,11 +52,27 @@ namespace Sample
             currentTarget = current;
         }
 
+        private IEnumerator openHome(){
+            mainCanvas.GetComponent<PanelController>().initiallyOpen = homeScreen;
+            yield return new WaitForSeconds(1.0f);
+            mainCanvas.GetComponent<PanelController>().OpenPanel(homeScreen);
+             Debug.Log("logged in auto");
+        }
         void Awake()
-        {
-
-            if (PlayerPrefs.GetInt("isLoggedIn")==1);
+        {   
+            //PlayerPrefs.SetInt("isLoggedIn", 1);
+            //Debugging ^
+            
+            if (PlayerPrefs.GetInt("isLoggedIn")==1){
+                //coroutine OpenHome esures homeScreen is opened whether or not mainCanvas already opened InitialPanel
+                StartCoroutine(openHome());
                 StartCoroutine(fbm.InternalLoginProcessAutomatic(PlayerPrefs.GetString("email"), PlayerPrefs.GetString("password")));
+            }
+            //if not logged in open the welcomePanel
+            else{
+                mainCanvas.GetComponent<PanelController>().initiallyOpen = welcomePanel;
+            }
+                          
             //delete all previous scene targets and objects
 
             //ui = FindObjectOfType<takeTargetPicture>();

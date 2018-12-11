@@ -21,6 +21,8 @@ public class YoutubeAPIManager : MonoBehaviour {
     public GameObject chosenDisplay4;
     public GameObject chosenDisplay5;
 
+    public Text videoAttribute;
+
     //REMEMBER TO CHANGE HERE IF YOU NEED TO POINT TO YOUR GOOGLE APP. 
     /* 
      * TO CREATE YOUR GOOGLE APP AND USE YOUR API GO TO:
@@ -37,90 +39,7 @@ public class YoutubeAPIManager : MonoBehaviour {
 
     public void SetVideoInfo(int whichVideo)
     {
-        GameObject chosenDisplay = chosenDisplay1;
-        switch(fm.currentTarget)
-        {
-            case 0:
-                return;
-            case 1:
-                chosenDisplay = chosenDisplay1;
-                break;
-            case 2:
-                chosenDisplay = chosenDisplay2;
-                break;
-            case 3:
-                chosenDisplay = chosenDisplay3;
-                break;
-            case 4:
-                chosenDisplay = chosenDisplay4;
-                break;
-            case 5:
-                chosenDisplay = chosenDisplay5;
-                break;
-
-        }
-/*/// 
-        //set the chosen video title
-        switch(whichVideo)
-        {
-            case 1:
-                //set chosen display video text to correct youtube title
-                chosenDisplay.transform.GetChild(1).gameObject.GetComponent<Text>().text = YoutubeTitles[0];
-                break;
-            case 2:
-                chosenDisplay.transform.GetChild(1).gameObject.GetComponent<Text>().text = YoutubeTitles[1];
-                break;
-            case 3:
-                chosenDisplay.transform.GetChild(1).gameObject.GetComponent<Text>().text = YoutubeTitles[2];
-                break;
-            case 4:
-                chosenDisplay.transform.GetChild(1).gameObject.GetComponent<Text>().text = YoutubeTitles[3];
-                break;
-            case 5:
-                chosenDisplay.transform.GetChild(1).gameObject.GetComponent<Text>().text = YoutubeTitles[4];
-                break;
-            case 6:
-                chosenDisplay.transform.GetChild(1).gameObject.GetComponent<Text>().text = YoutubeTitles[5];
-                break;
-            case 7:
-                chosenDisplay.transform.GetChild(1).gameObject.GetComponent<Text>().text = YoutubeTitles[6];
-                break;
-            case 8:
-                chosenDisplay.transform.GetChild(1).gameObject.GetComponent<Text>().text = YoutubeTitles[7];
-                break;
-            case 9:
-                chosenDisplay.transform.GetChild(1).gameObject.GetComponent<Text>().text = YoutubeTitles[8];
-                break;
-            case 10:
-                chosenDisplay.transform.GetChild(1).gameObject.GetComponent<Text>().text = YoutubeTitles[9];
-                break;
-            case 11:
-                chosenDisplay.transform.GetChild(1).gameObject.GetComponent<Text>().text = YoutubeTitles[10];
-                break;
-            case 12:
-                chosenDisplay.transform.GetChild(1).gameObject.GetComponent<Text>().text = YoutubeTitles[11];
-                break;
-            case 13:
-                chosenDisplay.transform.GetChild(1).gameObject.GetComponent<Text>().text = YoutubeTitles[12];
-                break;
-            case 14:
-                chosenDisplay.transform.GetChild(1).gameObject.GetComponent<Text>().text = YoutubeTitles[13];
-                break;
-            case 15:
-                chosenDisplay.transform.GetChild(1).gameObject.GetComponent<Text>().text = YoutubeTitles[14];
-                break;
-            case 16:
-                chosenDisplay.transform.GetChild(1).gameObject.GetComponent<Text>().text = YoutubeTitles[15];
-                break;
-            case 17:
-                chosenDisplay.transform.GetChild(1).gameObject.GetComponent<Text>().text = YoutubeTitles[16];
-                break;
-            case 18:
-                chosenDisplay.transform.GetChild(1).gameObject.GetComponent<Text>().text = YoutubeTitles[17];
-                break;
-
-        }
-///*/
+        videoAttribute.text = YoutubeTitles[whichVideo-1];
     }
 
     public void GetVideoData(string videoId, Action<YoutubeData> callback)

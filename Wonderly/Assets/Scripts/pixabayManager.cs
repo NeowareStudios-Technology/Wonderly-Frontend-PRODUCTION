@@ -18,12 +18,10 @@ public class pixabayManager : MonoBehaviour {
 	public GameObject image3;
 	public GameObject image4;
 	public GameObject image5;
+	//journey cover image
 	public Image coverImage;
-	//public Text imageTitle1;
-	//public Text imageTitle2;
-	//public Text imageTitle3;
-	//public Text imageTitle4;
-	//public Text imageTitle5;
+	//for displaying after choosing thumbnail from search
+	public Text imageTitle;
 	public string[] chosenUrls = new string[5];
 	public string chosenCoverImageUrl;
   public string[] imagePreviewUrl = new string[18];
@@ -194,6 +192,7 @@ public class pixabayManager : MonoBehaviour {
 	public IEnumerator searchPic() {
 		//holds the search term
 		string searchString = searchTerm.text;
+		imageTitle.text = searchString;
 		Debug.Log(searchString);
 		//makes search term url safe
 		string urlSafeSearchTerm = searchString.Replace(" ", "+");
@@ -360,6 +359,7 @@ public class pixabayManager : MonoBehaviour {
 		{
 
 			apdm.targetObjectThumbs[fm.currentTarget-1].sprite = searchedThumbnails[index].sprite;
+			apdm.chosenThumb.sprite = searchedThumbnails[index].sprite;
 /*/// 
 				Image chosenThumb = apdm.chosenThumb1;
 				switch(fm.currentTarget)

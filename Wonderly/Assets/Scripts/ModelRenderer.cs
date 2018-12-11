@@ -24,11 +24,7 @@ public class ModelRenderer : MonoBehaviour {
 
     public string attributeString;
 
-    //public Text modelAttribs1;
-    //public Text modelAttribs2;
-    //public Text modelAttribs3;
-    //public Text modelAttribs4;
-    //public Text modelAttribs5;
+    public Text modelAttrib;
 
     public GameObject LoadingPanel;
  
@@ -115,7 +111,7 @@ public class ModelRenderer : MonoBehaviour {
             case 0:
                 return;
             case 1:
-                //modelAttribs1.text = attributeString;
+                modelAttrib.text = attributeString;
                 if(itm.target1.transform.childCount == 4)
                     Destroy(itm.target1.transform.GetChild(3).gameObject);
                 tom.modelIds[0] = ParseForModelId(attributeString);
@@ -124,7 +120,7 @@ public class ModelRenderer : MonoBehaviour {
                 PolyApi.GetAsset(tom.modelIds[0], GetAssetCallback);
                 break;
             case 2:
-                //modelAttribs2.text = attributeString;
+                modelAttrib.text = attributeString;
                 if(itm.target2.transform.childCount == 4)
                     Destroy(itm.target2.transform.GetChild(3).gameObject);
                 tom.modelIds[1] = ParseForModelId(attributeString);
@@ -133,7 +129,7 @@ public class ModelRenderer : MonoBehaviour {
                 PolyApi.GetAsset(tom.modelIds[1], GetAssetCallback);
                 break;
             case 3:
-                //modelAttribs3.text = attributeString;
+                modelAttrib.text = attributeString;
                 if(itm.target3.transform.childCount == 4)
                     Destroy(itm.target3.transform.GetChild(3).gameObject);
                 tom.modelIds[2] = ParseForModelId(attributeString);
@@ -142,7 +138,7 @@ public class ModelRenderer : MonoBehaviour {
                 PolyApi.GetAsset(tom.modelIds[2], GetAssetCallback);
                 break;
             case 4:
-                //modelAttribs4.text = attributeString;
+                modelAttrib.text = attributeString;
                 if(itm.target4.transform.childCount == 4)
                     Destroy(itm.target4.transform.GetChild(3).gameObject);
                 tom.modelIds[3] = ParseForModelId(attributeString);
@@ -151,7 +147,7 @@ public class ModelRenderer : MonoBehaviour {
                 PolyApi.GetAsset(tom.modelIds[3], GetAssetCallback);
                 break;
             case 5:
-                //modelAttribs5.text = attributeString;
+                modelAttrib.text = attributeString;
                 if(itm.target5.transform.childCount == 4)
                     Destroy(itm.target5.transform.GetChild(3).gameObject);
                 tom.modelIds[4] = ParseForModelId(attributeString);
@@ -161,7 +157,7 @@ public class ModelRenderer : MonoBehaviour {
                 break;
         }
 
-        ClearPolyAssetHolders();
+        //ClearPolyAssetHolders();
     }
 
     void GetAssetCallback(PolyStatusOr<PolyAsset> result) 
