@@ -266,14 +266,13 @@ public class CloudEndpointsApiManager : MonoBehaviour {
 
 	public string deleteCode;
 	public string editCode;
-
-	private string getProfileUrl = "https://aliceone-221018.appspot.com/_ah/api/aliceOne/v1/profile";
-	private string createProfileUrl = "https://aliceone-221018.appspot.com/_ah/api/aliceOne/v1/profile";
-	private string getOwnedCodesUrl = "https://aliceone-221018.appspot.com/_ah/api/aliceOne/v1/profile/codes";
-	private string deleteExpUrl = "https://aliceone-221018.appspot.com/_ah/api/aliceOne/v1/exp/delete";
-	private string editExpUrl = "https://aliceone-221018.appspot.com/_ah/api/aliceOne/v1/exp/edit";
-	private string emailCheckUrl = "https://aliceone-221018.appspot.com/_ah/api/aliceOne/v1/profile/check";
-	private string editProfileUrl = "https://aliceone-221018.appspot.com/_ah/api/aliceOne/v1/profile/edit";
+	private string getProfileUrl = "https://wonderly-225214.appspot.com/_ah/api/wonderly/v1/profile";
+	private string createProfileUrl = "https://wonderly-225214.appspot.com/_ah/api/wonderly/v1/profile";
+	private string getOwnedCodesUrl = "https://wonderly-225214.appspot.com/_ah/api/wonderly/v1/profile/codes";
+	private string deleteExpUrl = "https://wonderly-225214.appspot.com/_ah/api/wonderly/v1/exp/delete";
+	private string editExpUrl = "https://wonderly-225214.appspot.com/_ah/api/wonderly/v1/exp/edit";
+	private string emailCheckUrl = "https://wonderly-225214.appspot.com/_ah/api/wonderly/v1/profile/check";
+	private string editProfileUrl = "https://wonderly-225214.appspot.com/_ah/api/wonderly/v1/profile/edit";
 
 	public bool checkEmail;
 

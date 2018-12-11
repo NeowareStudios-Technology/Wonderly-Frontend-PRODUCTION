@@ -1,27 +1,27 @@
 {
   "project_info": {
-    "project_number": "528864229961",
-    "firebase_url": "https://aliceone-221018.firebaseio.com",
-    "project_id": "aliceone-221018",
-    "storage_bucket": "aliceone-221018.appspot.com"
+    "project_number": "582959696093",
+    "firebase_url": "https://wonderly-225214.firebaseio.com",
+    "project_id": "wonderly-225214",
+    "storage_bucket": "wonderly-225214.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:528864229961:android:ec8ecdafb71462a7",
+        "mobilesdk_app_id": "1:582959696093:android:ec8ecdafb71462a7",
         "android_client_info": {
           "package_name": "com.lwa.wonderly"
         }
       },
       "oauth_client": [
         {
-          "client_id": "528864229961-isklckk3f092hr98aftqpspfnigo7kjs.apps.googleusercontent.com",
+          "client_id": "582959696093-6emps5ivjnc1andqinlue7s1nj0bkabv.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCTBuFi-syxMD5ozRNwoQbgGN7YJjRMEkc"
+          "current_key": "AIzaSyD3EGwVOiQ8sxMw6QBWgZ6atgDWRqiuzQI"
         }
       ],
       "services": {

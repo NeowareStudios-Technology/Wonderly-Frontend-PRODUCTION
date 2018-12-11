@@ -293,7 +293,7 @@ public class FirebaseManager : MonoBehaviour {
 						"Could not resolve all Firebase dependencies: {0}", dependencyStatus));
 					// Firebase Unity SDK is not safe to use here.
 			}
-        FirebaseApp.DefaultInstance.SetEditorDatabaseUrl("https://aliceone-221018.firebaseio.com");
+        FirebaseApp.DefaultInstance.SetEditorDatabaseUrl("https://wonderly-225214.appspot.com");
 
 				//set class variable to auth instance
         auth = Firebase.Auth.FirebaseAuth.DefaultInstance;       
@@ -301,7 +301,7 @@ public class FirebaseManager : MonoBehaviour {
 				fbApp = FirebaseApp.DefaultInstance;
 				//set class variable to firebase storage instance
 			  fbStorage = Firebase.Storage.FirebaseStorage.DefaultInstance;
-				fbStorageRef = fbStorage.GetReferenceFromUrl("gs://aliceone-221018.appspot.com");
+				fbStorageRef = fbStorage.GetReferenceFromUrl("gs://wonderly-225214.appspot.com");
 
 		});
 	}
