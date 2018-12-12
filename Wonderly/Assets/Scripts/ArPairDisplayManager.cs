@@ -32,6 +32,7 @@ public class ArPairDisplayManager : MonoBehaviour {
 	public VideoSearchManager vsm;
 
 
+
 	// IMAGE THUMBNAIL HANDLING FOR AR PAIRS HANDLED IN IMAGE SCRIPTS
 
 
@@ -62,16 +63,18 @@ public class ArPairDisplayManager : MonoBehaviour {
 		}	
 	}
 
-		public void setModelThumbnailArPair(int index)
+		public void setModelThumbnailArPair(GameObject index)
   {
 		//do nothing if target num not valid
 		if (fm.currentTarget < 1)
 			return;
 		//set object thubnail in Journey summary
-		targetObjectThumbs[fm.currentTarget-1].sprite = modelThumbs[index].sprite;
+		targetObjectThumbs[fm.currentTarget-1].sprite = index.GetComponent<Image>().sprite;
+		//targetObjectThumbs[fm.currentTarget-1].sprite = modelThumbs[index].sprite;
 
 		//set object thumbnail in select object
-		chosenThumb.sprite = targetObjectThumbs[fm.currentTarget-1].sprite;
+		chosenThumb.sprite = index.GetComponent<Image>().sprite;
+		//chosenThumb.sprite = targetObjectThumbs[fm.currentTarget-1].sprite;
 
 		//clears model thumbnails
 		//um.startResetModelThumbs();

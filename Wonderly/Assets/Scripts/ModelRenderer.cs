@@ -35,7 +35,7 @@ public class ModelRenderer : MonoBehaviour {
     }
 
     // Callback invoked when the featured assets results are returned.
-    public void renderModel(int whichModel) {
+    public void renderModel(GameObject whichModel) {
         //if target not crerated for index yet or no targets exist, do nothing
         if (fm.currentTarget == 0)
             return;
@@ -44,6 +44,9 @@ public class ModelRenderer : MonoBehaviour {
 
 
         List<PolyAsset> renderList = new List<PolyAsset>();
+        
+        renderList.Add(whichModel.GetComponent<PolyAssetHolderClass>().heldAsset);
+        /* 
         switch(whichModel)
         {
             case 0:
@@ -101,7 +104,7 @@ public class ModelRenderer : MonoBehaviour {
                 renderList.Add(mi.thumbAsset18.heldAsset);
                 break;
         }
-        
+        */
         attributeString = PolyApi.GenerateAttributions(includeStatic: true, runtimeAssets: renderList);
 
 

@@ -580,7 +580,7 @@ saveFileRef.GetBytesAsync(maxAllowedSize).ContinueWith((Task<byte[]> task1) => {
 		Firebase.Storage.StorageReference targetRef5 = fbm.fbStorage.GetReference(editCode + "/" + "targetPhoto5.jpg");
 
 		Debug.Log(editCode);
-		codeDisplay.text = editCode;
+		//codeDisplay.text = editCode;
 
 		int maxAllowedSize = 1024*1024;
 		byte[] saveFileBytes = new byte[maxAllowedSize];

@@ -18611,6 +18611,8 @@ MonoBehaviour:
   password: {fileID: 0}
   email: {fileID: 0}
   UiCode: {fileID: 987221142}
+  journeySummaryAnimator: {fileID: 1985510215}
+  mainCanvasPanelController: {fileID: 2129064500}
   loadingPanel: {fileID: 220722290}
   libraryPanel: {fileID: 1285598970}
   libraryCodes:
@@ -19500,6 +19502,8 @@ GameObject:
   m_Component:
   - component: {fileID: 332600647}
   - component: {fileID: 332600648}
+  - component: {fileID: 332600650}
+  - component: {fileID: 332600649}
   m_Layer: 5
   m_Name: Content
   m_TagString: Untagged
@@ -19526,7 +19530,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0.000015147517, y: -0.000016092}
-  m_SizeDelta: {x: 0, y: 1075.5}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!222 &332600648
 CanvasRenderer:
@@ -19534,6 +19538,42 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 332600646}
+--- !u!114 &332600649
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 332600646}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1741964061, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_HorizontalFit: 0
+  m_VerticalFit: 1
+--- !u!114 &332600650
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 332600646}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -2095666955, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Padding:
+    m_Left: 20
+    m_Right: 0
+    m_Top: 0
+    m_Bottom: 0
+  m_ChildAlignment: 0
+  m_StartCorner: 0
+  m_StartAxis: 0
+  m_CellSize: {x: 125, y: 125}
+  m_Spacing: {x: 0, y: 0}
+  m_Constraint: 0
+  m_ConstraintCount: 2
 --- !u!1 &333518768
 GameObject:
   m_ObjectHideFlags: 0
@@ -26568,7 +26608,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 423.88477, y: -25}
+  m_AnchoredPosition: {x: 423.96756, y: -25}
   m_SizeDelta: {x: 100, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &465363426
@@ -32351,7 +32391,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 293.88477, y: -25}
+  m_AnchoredPosition: {x: 293.96756, y: -25}
   m_SizeDelta: {x: 100, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &560971370
@@ -34570,17 +34610,6 @@ MonoBehaviour:
         m_Arguments:
           m_ObjectArgument: {fileID: 1985510215}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Animator, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 1724798410}
-        m_MethodName: LocalSaveWonderTitleDesc
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -56926,7 +56955,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 970265268}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2129064500}
+        m_MethodName: OpenPanel
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 82213649}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Animator, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Open
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &970265268
@@ -62350,7 +62390,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1074960938
 RectTransform:
   m_ObjectHideFlags: 0
@@ -96301,6 +96341,18 @@ MonoBehaviour:
   descriptionDisplay: {fileID: 141455727}
   wonderTitle: {fileID: 1193432150}
   wonderDescription: {fileID: 297028698}
+  wonderTitles:
+  - 
+  - 
+  - 
+  - 
+  - 
+  wonderDescriptions:
+  - 
+  - 
+  - 
+  - 
+  - 
   coverImageUrl: 
 --- !u!1 &1726389635
 GameObject:
@@ -100231,6 +100283,14 @@ MonoBehaviour:
   thumbAsset16: {fileID: 1188309861}
   thumbAsset17: {fileID: 1704994347}
   thumbAsset18: {fileID: 86079827}
+  maxThumbResults: 50
+  modelThumbPrefab: {fileID: 1028897159533250, guid: 9f5ed6bd0ee174a4a8046cf575bc6578,
+    type: 2}
+  thumbNailParentContent: {fileID: 332600646}
+  mainCanvas: {fileID: 2129064495}
+  viewLibraryContentPanel: {fileID: 873534073}
+  localScriptHolder: {fileID: 1724798402}
+  thumbnailResults: []
   mr: {fileID: 1773463459}
   fm: {fileID: 1724798404}
   thumbnailCount: 0
@@ -114524,7 +114584,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 163.88477, y: -25}
+  m_AnchoredPosition: {x: 163.96756, y: -25}
   m_SizeDelta: {x: 100, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2064387269
@@ -114586,7 +114646,7 @@ MonoBehaviour:
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
-          m_BoolArgument: 1
+          m_BoolArgument: 0
         m_CallState: 2
       - m_Target: {fileID: 1440479891}
         m_MethodName: SetActive

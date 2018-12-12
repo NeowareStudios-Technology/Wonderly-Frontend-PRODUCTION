@@ -47,6 +47,13 @@ public class ModelInitializer : MonoBehaviour {
     public PolyAssetHolderClass thumbAsset17;
     public PolyAssetHolderClass thumbAsset18;
 
+    public int maxThumbResults = 50;
+    public GameObject modelThumbPrefab;
+    public GameObject thumbNailParentContent;
+    public GameObject mainCanvas;
+    public Animator viewLibraryContentPanel;
+    public GameObject localScriptHolder;
+    public GameObject[] thumbnailResults;
 
 
     //need to implement attributes
@@ -58,6 +65,9 @@ public class ModelInitializer : MonoBehaviour {
     public int thumbnailCount = 0;
     private RawImage thumb;
 
+    void Awake(){
+        thumbnailResults = new GameObject[maxThumbResults];
+    }
     public void GetThumbnails()
     {
         PolyListAssetsRequest req = new PolyListAssetsRequest();
@@ -84,7 +94,7 @@ public class ModelInitializer : MonoBehaviour {
         //modelAttributes.text = attribs;
         //mr.attributeString = attribs;
             //PolyApi.Import(result.Value.assets[i], options, ImportAssetCallback);
-        for (int i = 0; i < Mathf.Min(18, result.Value.assets.Count); i++) { 
+        for (int i = 0; i < Mathf.Min(maxThumbResults, result.Value.assets.Count); i++) { 
             Debug.Log(i+" "+ result.Value.assets[i]);
             PolyApi.FetchThumbnail(result.Value.assets[i], MyThumbnailCallback);
         }
@@ -103,6 +113,23 @@ public class ModelInitializer : MonoBehaviour {
         Debug.Log("Loading thumbnails");
         //thumb = Instantiate(thumbPrefab,content.transform);
         Rect rec = new Rect(0, 0, asset.thumbnailTexture.width, asset.thumbnailTexture.height);
+
+        string thumbNailName = "modelThumbnail" + thumbnailCount;
+        GameObject newThumbnail = Instantiate(modelThumbPrefab);
+        newThumbnail.name = thumbNailName;
+
+        newThumbnail.GetComponent<Image>().sprite = Sprite.Create(asset.thumbnailTexture, rec, new Vector2(0.5f, 0.5f), 100);
+
+        newThumbnail.transform.SetParent(thumbNailParentContent.GetComponent<Transform>());
+        thumbnailResults[thumbnailCount] = newThumbnail;
+        //newThumbnail.GetComponent<RectTransform>().size = new Vector3(1.0f,1.0f,1.0f);
+        newThumbnail.GetComponent<RectTransform>().localScale = new Vector3(1.0f,1.0f,1.0f);
+        newThumbnail.GetComponent<Button>().onClick.AddListener(delegate {mainCanvas.GetComponent<PanelController>().OpenPanel(viewLibraryContentPanel);});
+        newThumbnail.GetComponent<Button>().onClick.AddListener(delegate {mr.renderModel(newThumbnail);});
+        newThumbnail.GetComponent<Button>().onClick.AddListener(delegate {localScriptHolder.GetComponent<ArPairDisplayManager>().setModelThumbnailArPair(newThumbnail);});
+        newThumbnail.GetComponent<PolyAssetHolderClass>().heldAsset = asset;
+       
+    /*
         switch(thumbnailCount)
         {
             case 0:
@@ -177,8 +204,9 @@ public class ModelInitializer : MonoBehaviour {
                 thumbImage18.sprite = Sprite.Create(asset.thumbnailTexture, rec, new Vector2(0.5f, 0.5f), 100);
                 thumbAsset18.heldAsset = asset;
                 break;
+            
         }
-
+         */
         thumbnailCount++;
 
     }

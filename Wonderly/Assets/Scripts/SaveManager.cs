@@ -24,8 +24,8 @@ public class SaveManager : MonoBehaviour {
 	public InputField wonderTitle;
 	public InputField wonderDescription;
 
-	private string[] wonderTitles = new string[5];
-	private string[] wonderDescriptions = new string[5];
+	public string[] wonderTitles = new string[5];
+	public string[] wonderDescriptions = new string[5];
 
 	public string coverImageUrl;
 

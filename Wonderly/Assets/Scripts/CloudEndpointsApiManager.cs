@@ -35,6 +35,10 @@ public class CloudEndpointsApiManager : MonoBehaviour {
 	public Text email;
 	public Text UiCode;
 
+	public Animator journeySummaryAnimator;
+
+	public PanelController mainCanvasPanelController;
+
 	public GameObject loadingPanel;
 
 	public GameObject libraryPanel;
@@ -389,6 +393,7 @@ public void startGetProfileInfo()
 		//edit button
 		libraryPopupMenuInstantiated.transform.GetChild(2).GetChild(1).gameObject.GetComponent<Button>().onClick.AddListener(delegate {startExperienceEdit(index+1); });
 		libraryPopupMenuInstantiated.transform.GetChild(2).GetChild(1).gameObject.GetComponent<Button>().onClick.AddListener(delegate {libraryPopupMenuInstantiated.SetActive(false); });
+		libraryPopupMenuInstantiated.transform.GetChild(2).GetChild(1).gameObject.GetComponent<Button>().onClick.AddListener(delegate {mainCanvasPanelController.OpenPanel(journeySummaryAnimator); });
 		//cancel button
 		libraryPopupMenuInstantiated.transform.GetChild(1).GetChild(2).gameObject.GetComponent<Button>().onClick.AddListener(delegate {libraryPopupMenuInstantiated.SetActive(false); });
 	}
@@ -403,3 +408,4 @@ public void startGetProfileInfo()
 		}
 	}
 }
+
