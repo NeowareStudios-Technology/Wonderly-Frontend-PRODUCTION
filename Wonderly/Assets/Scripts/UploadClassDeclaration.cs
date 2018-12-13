@@ -8,13 +8,12 @@ public class UploadClassDeclaration {
 	public int model;
 	public int video;
 	public int image;
-	public bool text;
-	public bool weblink;
 	public bool t1;
 	public bool t2;
 	public bool t3;
 	public bool t4;
 	public bool t5;
+	public string coverImage = "";
 
 	
 

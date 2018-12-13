@@ -13,11 +13,6 @@ public class SaveClassDeclaration {
 	public string[] wonderDescription = new string[5];
 	public string[] vId = new string[5];
 	public string[] imageUrl = new string[5];
-	//public string mod1 = "";
-	//public string mod2 = "";
-	//public string mod3 = "";
-	//public string mod4 = "";
-	//public string mod5 = "";
 	public string[] modId = new string[5];
 	public float[] rot1 = new float[3];
 	public float[] rot2 = new float[3];

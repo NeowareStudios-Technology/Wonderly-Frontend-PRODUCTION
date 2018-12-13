@@ -42,6 +42,26 @@ public class ArPairDisplayManager : MonoBehaviour {
 		targetObjectThumbs[fm.currentTarget-1].sprite = blankImage.sprite;
 	}
 
+	public void setYoutubeThumbnailArPair(GameObject thumbNail)
+  	{
+		
+
+		if (thumbNail.GetComponent<YoutubeVideoUi>().videoId =="")
+			return;
+
+		chosenThumb.sprite = thumbNail.GetComponent<Image>().sprite;
+		targetObjectThumbs[fm.currentTarget-1].sprite = thumbNail.GetComponent<Image>().sprite;
+
+
+		um.startResetVideoThumbs();
+
+		// for (int k = 0; k < vsm.videoThumbList.Length; k++)
+		// {
+		// 	vsm.videoThumbList[k].GetComponent<YoutubeVideoUi>().videoId= "";
+		// }	
+	}
+
+/*
 
 	public void setYoutubeThumbnailArPair(int index)
   {
@@ -62,7 +82,7 @@ public class ArPairDisplayManager : MonoBehaviour {
 			yvuArray[k].videoId= "";
 		}	
 	}
-
+ */
 		public void setModelThumbnailArPair(GameObject index)
   {
 		//do nothing if target num not valid

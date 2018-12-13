@@ -170,6 +170,7 @@ public class FirebaseManager : MonoBehaviour {
 			yield return null;
 	}
 
+	//used for manual login
 	public void StartLoginProcess()
 	{
 			//login credentials
@@ -212,6 +213,7 @@ public class FirebaseManager : MonoBehaviour {
 					PlayerPrefs.SetString("password", p);
 					PlayerPrefs.SetInt("isLoggedIn", 1);
 			});
+
 	}
 
 
@@ -238,6 +240,9 @@ public class FirebaseManager : MonoBehaviour {
 					token = task.Result;
 					Debug.Log(token);
 					isLoggedIn = true;
+
+					//load in profile info to ui (called here because need to wait for token)
+					StartCoroutine(ceam.getProfileInfo());
 		});
 	}
 
@@ -265,13 +270,6 @@ public class FirebaseManager : MonoBehaviour {
 					Debug.Log(token);
 					isLoggedIn = true;
 					ceam.startProfileCreate();
-/* 
-					profileIcon1.SetActive(false);
-					profileIcon2.SetActive(true);
-					libraryIcon1.SetActive(false);
-					libraryIcon2.SetActive(true);
-					createIcon1.SetActive(false);
-					createIcon2.SetActive(true);*/
 		});
 	}
 

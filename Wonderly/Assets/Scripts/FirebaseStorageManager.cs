@@ -85,6 +85,7 @@ public class FirebaseStorageManager : MonoBehaviour {
 		//create a new upload class instance
 		UploadClassDeclaration upload = new UploadClassDeclaration();
 		upload.title = sm.title.text;
+		upload.coverImage = sm.save.coverImageUrl;
 
 		//get target object counts
 		int modelCount = 0;
@@ -152,10 +153,6 @@ public class FirebaseStorageManager : MonoBehaviour {
 		upload.model = modelCount;
 		upload.video = videoCount;
 		upload.image = imageCount;
-		if (sm.description.text == "")
-			upload.text = false;
-		else
-			upload.text = true;
 
 		//convert upload clas instance into json string
 		string uploadJson = JsonUtility.ToJson(upload);
@@ -425,76 +422,8 @@ saveFileRef.GetBytesAsync(maxAllowedSize).ContinueWith((Task<byte[]> task1) => {
 			}
 });
 
+//The below code works better than the above "GetBytesAsync" way above but will not function on iOS
 /* 
-		saveFileRef.GetBytesAsync(maxAllowedSize).ContinueWith((Task<byte[]> task1) => {
-			if (task1.IsFaulted || task1.IsCanceled) {
-				Debug.Log(task1.Exception.ToString());
-				// Uh-oh, an error occurred!
-			} else {
-				byte[] fileContents = task1.Result;
-				string saveContent = System.Text.Encoding.UTF8.GetString(fileContents, 0, fileContents.Length);
-				Debug.Log("Save File finished downloading!");
-				File.WriteAllText(saveFilePath, saveContent);
-				targetRef1.GetBytesAsync(maxAllowedSize).ContinueWith((Task<byte[]> task2) => {
-				if (task2.IsFaulted || task2.IsCanceled) {
-					Debug.Log(task2.Exception.ToString());
-					// Uh-oh, an error occurred!
-				} else {
-					byte[] fileContents1 = task2.Result;
-					Debug.Log("target1 finished downloading!");
-					File.WriteAllBytes(targetPath1, fileContents1);
-
-					targetRef2.GetBytesAsync(maxAllowedSize).ContinueWith((Task<byte[]> task3) => {
-					if (task3.IsFaulted || task3.IsCanceled) {
-						Debug.Log(task3.Exception.ToString());
-						// Uh-oh, an error occurred!
-					} else {
-						byte[] fileContents2 = task3.Result;
-						Debug.Log("target2 finished downloading!");
-						File.WriteAllBytes(targetPath2, fileContents2);
-
-						targetRef3.GetBytesAsync(maxAllowedSize).ContinueWith((Task<byte[]> task4) => {
-						if (task4.IsFaulted || task4.IsCanceled) {
-							Debug.Log(task4.Exception.ToString());
-							// Uh-oh, an error occurred!
-						} else {
-							byte[] fileContents3 = task4.Result;
-							Debug.Log("target3 finished downloading!");
-							File.WriteAllBytes(targetPath3, fileContents3);
-
-							targetRef4.GetBytesAsync(maxAllowedSize).ContinueWith((Task<byte[]> task5) => {
-							if (task5.IsFaulted || task5.IsCanceled) {
-								Debug.Log(task5.Exception.ToString());
-								// Uh-oh, an error occurred!
-							} else {
-								byte[] fileContents4 = task5.Result;
-								Debug.Log("target4 finished downloading!");
-								File.WriteAllBytes(targetPath4, fileContents4);
-
-								targetRef5.GetBytesAsync(maxAllowedSize).ContinueWith((Task<byte[]> task6) => {
-								if (task6.IsFaulted || task6.IsCanceled) {
-									Debug.Log(task6.Exception.ToString());
-									// Uh-oh, an error occurred!
-								} else {
-									byte[] fileContents5 = task6.Result;
-									Debug.Log("target5 finished downloading!");
-									File.WriteAllBytes(targetPath5, fileContents5);
-
-									lm.LoadFile();
-								}
-								});
-							}
-							});
-						}
-						});
-					}
-					});
-				}
-				});
-			}
-		});
-
-
 		saveFileRef.GetFileAsync(saveFilePath).ContinueWith(task => {
 			if (!task.IsFaulted && !task.IsCanceled) 
 			{
@@ -665,77 +594,8 @@ saveFileRef.GetBytesAsync(maxAllowedSize).ContinueWith((Task<byte[]> task1) => {
 			}
 });
 
+//The below code works better than the above "GetBytesAsync" way above but will not function on iOS
 /* 
-
-		saveFileRef.GetBytesAsync(maxAllowedSize).ContinueWith((Task<byte[]> task1) => {
-			if (task1.IsFaulted || task1.IsCanceled) {
-				Debug.Log(task1.Exception.ToString());
-				// Uh-oh, an error occurred!
-			} else {
-				byte[] fileContents = task1.Result;
-				string saveContent = System.Text.Encoding.UTF8.GetString(fileContents, 0, fileContents.Length);
-				Debug.Log("Save File finished downloading!");
-				File.WriteAllText(saveFilePath, saveContent);
-
-				targetRef1.GetBytesAsync(maxAllowedSize).ContinueWith((Task<byte[]> task2) => {
-				if (task2.IsFaulted || task2.IsCanceled) {
-					Debug.Log(task2.Exception.ToString());
-					// Uh-oh, an error occurred!
-				} else {
-					byte[] fileContents1 = task2.Result;
-					Debug.Log("target1 finished downloading!");
-					File.WriteAllBytes(targetPath1, fileContents1);
-
-					targetRef2.GetBytesAsync(maxAllowedSize).ContinueWith((Task<byte[]> task3) => {
-					if (task3.IsFaulted || task3.IsCanceled) {
-						Debug.Log(task3.Exception.ToString());
-						// Uh-oh, an error occurred!
-					} else {
-						byte[] fileContents2 = task3.Result;
-						Debug.Log("target2 finished downloading!");
-						File.WriteAllBytes(targetPath2, fileContents2);
-
-						targetRef3.GetBytesAsync(maxAllowedSize).ContinueWith((Task<byte[]> task4) => {
-						if (task4.IsFaulted || task4.IsCanceled) {
-							Debug.Log(task4.Exception.ToString());
-							// Uh-oh, an error occurred!
-						} else {
-							byte[] fileContents3 = task4.Result;
-							Debug.Log("target3 finished downloading!");
-							File.WriteAllBytes(targetPath3, fileContents3);
-
-							targetRef4.GetBytesAsync(maxAllowedSize).ContinueWith((Task<byte[]> task5) => {
-							if (task5.IsFaulted || task5.IsCanceled) {
-								Debug.Log(task5.Exception.ToString());
-								// Uh-oh, an error occurred!
-							} else {
-								byte[] fileContents4 = task5.Result;
-								Debug.Log("target4 finished downloading!");
-								File.WriteAllBytes(targetPath4, fileContents4);
-
-								targetRef5.GetBytesAsync(maxAllowedSize).ContinueWith((Task<byte[]> task6) => {
-								if (task6.IsFaulted || task6.IsCanceled) {
-									Debug.Log(task6.Exception.ToString());
-									// Uh-oh, an error occurred!
-								} else {
-									byte[] fileContents5 = task6.Result;
-									Debug.Log("target5 finished downloading!");
-									File.WriteAllBytes(targetPath5, fileContents5);
-
-									lm.LoadFile();
-								}
-								});
-							}
-							});
-						}
-						});
-					}
-					});
-				}
-				});
-			}
-		});
-
 		saveFileRef.GetFileAsync(saveFilePath).ContinueWith(task => {
     if (!task.IsFaulted && !task.IsCanceled) {
 			Debug.Log("Save file downloaded.");
@@ -932,77 +792,8 @@ saveFileRef.GetBytesAsync(maxAllowedSize).ContinueWith((Task<byte[]> task1) => {
 			}
 });
 
+//The below code works better than the above "GetBytesAsync" way above but will not function on iOS
 /* 
-
-		saveFileRef.GetBytesAsync(maxAllowedSize).ContinueWith((Task<byte[]> task1) => {
-			if (task1.IsFaulted || task1.IsCanceled) {
-				Debug.Log(task1.Exception.ToString());
-				// Uh-oh, an error occurred!
-			} else {
-				byte[] fileContents = task1.Result;
-				string saveContent = System.Text.Encoding.UTF8.GetString(fileContents, 0, fileContents.Length);
-				Debug.Log("Save File finished downloading!");
-				File.WriteAllText(saveFilePath, saveContent);
-
-				targetRef1.GetBytesAsync(maxAllowedSize).ContinueWith((Task<byte[]> task2) => {
-				if (task2.IsFaulted || task2.IsCanceled) {
-					Debug.Log(task2.Exception.ToString());
-					// Uh-oh, an error occurred!
-				} else {
-					byte[] fileContents1 = task2.Result;
-					Debug.Log("target1 finished downloading!");
-					File.WriteAllBytes(targetPath1, fileContents1);
-
-					targetRef2.GetBytesAsync(maxAllowedSize).ContinueWith((Task<byte[]> task3) => {
-					if (task3.IsFaulted || task3.IsCanceled) {
-						Debug.Log(task3.Exception.ToString());
-						// Uh-oh, an error occurred!
-					} else {
-						byte[] fileContents2 = task3.Result;
-						Debug.Log("target2 finished downloading!");
-						File.WriteAllBytes(targetPath2, fileContents2);
-
-						targetRef3.GetBytesAsync(maxAllowedSize).ContinueWith((Task<byte[]> task4) => {
-						if (task4.IsFaulted || task4.IsCanceled) {
-							Debug.Log(task4.Exception.ToString());
-							// Uh-oh, an error occurred!
-						} else {
-							byte[] fileContents3 = task4.Result;
-							Debug.Log("target3 finished downloading!");
-							File.WriteAllBytes(targetPath3, fileContents3);
-
-							targetRef4.GetBytesAsync(maxAllowedSize).ContinueWith((Task<byte[]> task5) => {
-							if (task5.IsFaulted || task5.IsCanceled) {
-								Debug.Log(task5.Exception.ToString());
-								// Uh-oh, an error occurred!
-							} else {
-								byte[] fileContents4 = task5.Result;
-								Debug.Log("target4 finished downloading!");
-								File.WriteAllBytes(targetPath4, fileContents4);
-
-								targetRef5.GetBytesAsync(maxAllowedSize).ContinueWith((Task<byte[]> task6) => {
-								if (task6.IsFaulted || task6.IsCanceled) {
-									Debug.Log(task6.Exception.ToString());
-									// Uh-oh, an error occurred!
-								} else {
-									byte[] fileContents5 = task6.Result;
-									Debug.Log("target5 finished downloading!");
-									File.WriteAllBytes(targetPath5, fileContents5);
-
-									lm.LoadFile();
-								}
-								});
-							}
-							});
-						}
-						});
-					}
-					});
-				}
-				});
-			}
-		});
-
 		saveFileRef.GetFileAsync(saveFilePath).ContinueWith(task => {
     if (!task.IsFaulted && !task.IsCanceled) {
 			//for debugging iOS download problem

@@ -19,6 +19,11 @@ TagManager:
   - importedModel3
   - importedModel4
   - importedModel5
+  - model1
+  - model2
+  - model3
+  - model4
+  - model5
   layers:
   - Default
   - TransparentFX

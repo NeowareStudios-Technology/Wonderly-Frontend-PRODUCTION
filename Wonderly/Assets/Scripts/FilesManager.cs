@@ -24,6 +24,7 @@ namespace Sample
         public targetObjectManager tom;
         public ImageTargetManager itm;
         public FirebaseManager fbm;
+        public CloudEndpointsApiManager ceam;
         public string MarksDirectory;
         public string SaveDirectory;
         private bool isWriting;
@@ -41,11 +42,6 @@ namespace Sample
         public GameObject mainCanvas;
         public Animator homeScreen;
         public Animator welcomePanel;
-
-        void Update () 
-        {
-
-        }
 
         public void setCurrentTarget(int current)
         {
@@ -82,6 +78,8 @@ namespace Sample
             Debug.Log("MarkPath:" + Application.persistentDataPath);
             Debug.Log("Save Folder Path: " + SaveDirectory);
 
+            Debug.Log("calling get profile info");
+/* 
             //set the current target to the first created target photo index (current target stays at 0 if no target photos exist)
             string target1Path = Path.Combine(MarksDirectory, "targetPhoto1.jpg");
             string target2Path = Path.Combine(MarksDirectory, "targetPhoto2.jpg");
@@ -112,6 +110,7 @@ namespace Sample
                 targetCount++;
 
             StartCoroutine("delayedReset");
+*/
         }
 
         ///need to fix this coroutine for new UI

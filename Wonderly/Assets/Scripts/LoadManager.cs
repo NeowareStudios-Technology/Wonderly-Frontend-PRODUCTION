@@ -15,13 +15,12 @@ public class LoadManager : MonoBehaviour {
 	public targetObjectManager tom; 
 	public ImageTargetManager itm;
 	public pixabayManager pm;
-	public UnityEngine.UI.Image preview1;
-	public UnityEngine.UI.Image preview2;
-	public UnityEngine.UI.Image preview3;
-	public UnityEngine.UI.Image preview4;
-	public UnityEngine.UI.Image preview5;
-
-	public Text viewTitle;
+	public ArPairDisplayManager apdm;
+	public UnityEngine.UI.Image targetPreview1;
+	public UnityEngine.UI.Image targetPreview2;
+	public UnityEngine.UI.Image targetPreview3;
+	public UnityEngine.UI.Image targetPreview4;
+	public UnityEngine.UI.Image targetPreview5;
 
 	public GameObject filledIn1;
 	public GameObject filledIn2;
@@ -35,16 +34,19 @@ public class LoadManager : MonoBehaviour {
 	public GameObject unfilled4;
 	public GameObject unfilled5;
 
-	public UnityEngine.UI.Image thumb1;
-	public UnityEngine.UI.Image thumb2;
-	public UnityEngine.UI.Image thumb3;
-	public UnityEngine.UI.Image thumb4;
-	public UnityEngine.UI.Image thumb5;
+	public UnityEngine.UI.Image linkedThumb1;
+	public UnityEngine.UI.Image linkedThumb2;
+	public UnityEngine.UI.Image linkedThumb3;
+	public UnityEngine.UI.Image linkedThumb4;
+	public UnityEngine.UI.Image linkedThumb5;
 
 	public GameObject loadingPanel;
 
+	public UnityEngine.UI.Image coverImage;
 	public InputField titleDisplay;
-	public Text descriptionDisplay;
+	public Text summaryTitleDisplay;
+	public InputField descriptionDisplay;
+	public Text summaryDescriptionDisplay;
 
 	public GameObject targetSetter;
 
@@ -77,6 +79,7 @@ public class LoadManager : MonoBehaviour {
 		//clear the scene
 		tom.clearScene();
 
+
 		//make sure save directory to load from exists, if it does import the save info from json save file to scd class
 		string savePath = Path.Combine(fm.SaveDirectory, "aoSave.json");
 		if (File.Exists(savePath))
@@ -92,19 +95,49 @@ public class LoadManager : MonoBehaviour {
 			return;
 		}
 
-		Debug.Log("3. lm91, Title saved to save class = "+scd.title);
-		//set the experience title and description
-		if (scd.title == "")
-			titleDisplay.text= "  ";
-		else
-			titleDisplay.text = scd.title;
-		
-		viewTitle.text = titleDisplay.text;
+		//load journey cover image
+		StartCoroutine("loadJourneyCoverImage");
 
-		if (scd.description == "")
-			descriptionDisplay.text = "  ";
+		Debug.Log("3. lm91, Title saved to save class = "+scd.title);
+		//set the experience title
+		if (scd.title == "")
+		{
+			titleDisplay.text= "  ";
+			summaryTitleDisplay.text = "  ";
+		}
 		else
+		{
+			titleDisplay.text = scd.title;
+			summaryTitleDisplay.text = scd.title;
+		}
+
+		//set the experience description
+		if (scd.description == "")
+		{
+			descriptionDisplay.text = "  ";
+			summaryDescriptionDisplay.text = "   ";
+		}
+		else
+		{
 			descriptionDisplay.text = scd.description;
+			summaryDescriptionDisplay.text = scd.description;
+		}
+
+		//set each wonder title
+		int titleCount =0;
+		foreach (string title in scd.wonderTitle)
+		{
+			apdm.wonderTitles[titleCount].text = title;
+			titleCount++;
+		}
+
+		//set each wonder description
+		int descriptionCount =0;
+		foreach (string description in scd.wonderDescription)
+		{
+			apdm.wonderDescriptions[descriptionCount].text = description;
+			descriptionCount++;
+		}
 
 		for (int i =0; i <5; i++)
 		{
@@ -286,18 +319,35 @@ public class LoadManager : MonoBehaviour {
 
 		//set preivew images
 		if (File.Exists(workingPath1))
-			preview1.sprite = IMG2Sprite.LoadNewSprite(workingPath1);
+			targetPreview1.sprite = IMG2Sprite.LoadNewSprite(workingPath1);
 		if (File.Exists(workingPath2))
-			preview2.sprite = IMG2Sprite.LoadNewSprite(workingPath2);
+			targetPreview2.sprite = IMG2Sprite.LoadNewSprite(workingPath2);
 		if (File.Exists(workingPath3))
-			preview3.sprite = IMG2Sprite.LoadNewSprite(workingPath3);
+			targetPreview3.sprite = IMG2Sprite.LoadNewSprite(workingPath3);
 		if (File.Exists(workingPath4))
-			preview4.sprite = IMG2Sprite.LoadNewSprite(workingPath4);
+			targetPreview4.sprite = IMG2Sprite.LoadNewSprite(workingPath4);
 		if (File.Exists(workingPath5))
-			preview5.sprite = IMG2Sprite.LoadNewSprite(workingPath5);
+			targetPreview5.sprite = IMG2Sprite.LoadNewSprite(workingPath5);
 		//call function to imported all loaded AR objects (pics/videos/models)
 		StartCoroutine("ImportLoadedItems");
 		targetSetter.SetActive(true);
+	}
+
+	private IEnumerator loadJourneyCoverImage() {
+		using (WWW imageRequest = new WWW(scd.coverImageUrl))
+		{
+			yield return imageRequest;
+			//catch errors
+			if (imageRequest.error != null)
+    	{
+				Debug.Log("Error getting image");
+			}
+
+			else
+			{	
+				coverImage.sprite = Sprite.Create(imageRequest.texture, new Rect(0, 0, imageRequest.texture.width, imageRequest.texture.height), new Vector2(0, 0));
+			}
+		}
 	}
 
 	//imports all AR objects from save directory
@@ -551,35 +601,35 @@ public class LoadManager : MonoBehaviour {
 				using (WWW imageThumbRequest1 = new WWW(scd.imageUrl[0]))
 				{
 					yield return imageThumbRequest1;
-					thumb1.sprite = Sprite.Create(imageThumbRequest1.texture, new Rect(0, 0, imageThumbRequest1.texture.width, imageThumbRequest1.texture.height), new Vector2(0, 0));
+					linkedThumb1.sprite = Sprite.Create(imageThumbRequest1.texture, new Rect(0, 0, imageThumbRequest1.texture.width, imageThumbRequest1.texture.height), new Vector2(0, 0));
 				}
 				break;
 			case 1:
 				using (WWW imageThumbRequest2 = new WWW(scd.imageUrl[1]))
 				{
 					yield return imageThumbRequest2;
-					thumb2.sprite = Sprite.Create(imageThumbRequest2.texture, new Rect(0, 0, imageThumbRequest2.texture.width, imageThumbRequest2.texture.height), new Vector2(0, 0));
+					linkedThumb2.sprite = Sprite.Create(imageThumbRequest2.texture, new Rect(0, 0, imageThumbRequest2.texture.width, imageThumbRequest2.texture.height), new Vector2(0, 0));
 				}
 				break;
 			case 2:
 				using (WWW imageThumbRequest3 = new WWW(scd.imageUrl[2]))
 				{
 					yield return imageThumbRequest3;
-					thumb3.sprite = Sprite.Create(imageThumbRequest3.texture, new Rect(0, 0, imageThumbRequest3.texture.width, imageThumbRequest3.texture.height), new Vector2(0, 0));
+					linkedThumb3.sprite = Sprite.Create(imageThumbRequest3.texture, new Rect(0, 0, imageThumbRequest3.texture.width, imageThumbRequest3.texture.height), new Vector2(0, 0));
 				}
 				break;
 			case 3:
 				using (WWW imageThumbRequest4 = new WWW(scd.imageUrl[3]))
 				{
 					yield return imageThumbRequest4;
-					thumb4.sprite = Sprite.Create(imageThumbRequest4.texture, new Rect(0, 0, imageThumbRequest4.texture.width, imageThumbRequest4.texture.height), new Vector2(0, 0));
+					linkedThumb4.sprite = Sprite.Create(imageThumbRequest4.texture, new Rect(0, 0, imageThumbRequest4.texture.width, imageThumbRequest4.texture.height), new Vector2(0, 0));
 				}
 				break;
 			case 4:
 				using (WWW imageThumbRequest5 = new WWW(scd.imageUrl[4]))
 				{
 					yield return imageThumbRequest5;
-					thumb5.sprite = Sprite.Create(imageThumbRequest5.texture, new Rect(0, 0, imageThumbRequest5.texture.width, imageThumbRequest5.texture.height), new Vector2(0, 0));
+					linkedThumb5.sprite = Sprite.Create(imageThumbRequest5.texture, new Rect(0, 0, imageThumbRequest5.texture.width, imageThumbRequest5.texture.height), new Vector2(0, 0));
 				}
 				break;
 		}
@@ -603,19 +653,19 @@ public class LoadManager : MonoBehaviour {
 		switch(globalModelIndexTracker)
 		{
 			case 0:
-				thumb1.sprite = Sprite.Create(asset.thumbnailTexture, new Rect(0, 0, asset.thumbnailTexture.width, asset.thumbnailTexture.height), new Vector2(0.5f, 0.5f), 100);
+				linkedThumb1.sprite = Sprite.Create(asset.thumbnailTexture, new Rect(0, 0, asset.thumbnailTexture.width, asset.thumbnailTexture.height), new Vector2(0.5f, 0.5f), 100);
 				break;
 			case 1:
-				thumb2.sprite = Sprite.Create(asset.thumbnailTexture, new Rect(0, 0, asset.thumbnailTexture.width, asset.thumbnailTexture.height), new Vector2(0.5f, 0.5f), 100);
+				linkedThumb2.sprite = Sprite.Create(asset.thumbnailTexture, new Rect(0, 0, asset.thumbnailTexture.width, asset.thumbnailTexture.height), new Vector2(0.5f, 0.5f), 100);
 				break;
 			case 2:
-				thumb3.sprite = Sprite.Create(asset.thumbnailTexture, new Rect(0, 0, asset.thumbnailTexture.width, asset.thumbnailTexture.height), new Vector2(0.5f, 0.5f), 100);
+				linkedThumb3.sprite = Sprite.Create(asset.thumbnailTexture, new Rect(0, 0, asset.thumbnailTexture.width, asset.thumbnailTexture.height), new Vector2(0.5f, 0.5f), 100);
 				break;
 			case 3:
-				thumb4.sprite = Sprite.Create(asset.thumbnailTexture, new Rect(0, 0, asset.thumbnailTexture.width, asset.thumbnailTexture.height), new Vector2(0.5f, 0.5f), 100);
+				linkedThumb4.sprite = Sprite.Create(asset.thumbnailTexture, new Rect(0, 0, asset.thumbnailTexture.width, asset.thumbnailTexture.height), new Vector2(0.5f, 0.5f), 100);
 				break;
 			case 4:
-				thumb5.sprite = Sprite.Create(asset.thumbnailTexture, new Rect(0, 0, asset.thumbnailTexture.width, asset.thumbnailTexture.height), new Vector2(0.5f, 0.5f), 100);
+				linkedThumb5.sprite = Sprite.Create(asset.thumbnailTexture, new Rect(0, 0, asset.thumbnailTexture.width, asset.thumbnailTexture.height), new Vector2(0.5f, 0.5f), 100);
 				break;
 		}
 	}
@@ -631,170 +681,38 @@ public class LoadManager : MonoBehaviour {
 				using (WWW videoThumbRequest1 = new WWW(thumbnailUrl))
 				{
 					yield return videoThumbRequest1;
-					thumb1.sprite = Sprite.Create(videoThumbRequest1.texture, new Rect(0, 0, videoThumbRequest1.texture.width, videoThumbRequest1.texture.height), new Vector2(0, 0));
+					linkedThumb1.sprite = Sprite.Create(videoThumbRequest1.texture, new Rect(0, 0, videoThumbRequest1.texture.width, videoThumbRequest1.texture.height), new Vector2(0, 0));
 				}
 				break;
 			case 1:
 				using (WWW videoThumbRequest2 = new WWW(thumbnailUrl))
 				{
 					yield return videoThumbRequest2;
-					thumb2.sprite = Sprite.Create(videoThumbRequest2.texture, new Rect(0, 0, videoThumbRequest2.texture.width, videoThumbRequest2.texture.height), new Vector2(0, 0));
+					linkedThumb2.sprite = Sprite.Create(videoThumbRequest2.texture, new Rect(0, 0, videoThumbRequest2.texture.width, videoThumbRequest2.texture.height), new Vector2(0, 0));
 				}
 				break;
 			case 2:
 				using (WWW videoThumbRequest3 = new WWW(thumbnailUrl))
 				{
 					yield return videoThumbRequest3;
-					thumb3.sprite = Sprite.Create(videoThumbRequest3.texture, new Rect(0, 0, videoThumbRequest3.texture.width, videoThumbRequest3.texture.height), new Vector2(0, 0));
+					linkedThumb3.sprite = Sprite.Create(videoThumbRequest3.texture, new Rect(0, 0, videoThumbRequest3.texture.width, videoThumbRequest3.texture.height), new Vector2(0, 0));
 				}
 				break;
 			case 3:
 				using (WWW videoThumbRequest4 = new WWW(thumbnailUrl))
 				{
 					yield return videoThumbRequest4;
-					thumb4.sprite = Sprite.Create(videoThumbRequest4.texture, new Rect(0, 0, videoThumbRequest4.texture.width, videoThumbRequest4.texture.height), new Vector2(0, 0));
+					linkedThumb4.sprite = Sprite.Create(videoThumbRequest4.texture, new Rect(0, 0, videoThumbRequest4.texture.width, videoThumbRequest4.texture.height), new Vector2(0, 0));
 				}
 				break;
 			case 4:
 				using (WWW videoThumbRequest5 = new WWW(thumbnailUrl))
 				{
 					yield return videoThumbRequest5;
-					thumb5.sprite = Sprite.Create(videoThumbRequest5.texture, new Rect(0, 0, videoThumbRequest5.texture.width, videoThumbRequest5.texture.height), new Vector2(0, 0));
+					linkedThumb5.sprite = Sprite.Create(videoThumbRequest5.texture, new Rect(0, 0, videoThumbRequest5.texture.width, videoThumbRequest5.texture.height), new Vector2(0, 0));
 				}
 				break;
 		}
-	}
-
-
-
-	//the following 2 functions control the UI to preview the target images in the "view" screen
-	public void nextPreview()
-	{
-		if (previewIndex == 4)
-			return;
-
-		switch(previewIndex)
-		{
-			case 0:
-				preview1.gameObject.SetActive(false);
-				filledIn1.SetActive(false);
-				unfilled1.SetActive(true);
-				break;
-			case 1:
-				preview2.gameObject.SetActive(false);
-				filledIn2.SetActive(false);
-				unfilled2.SetActive(true);
-				break;
-			case 2:
-				preview3.gameObject.SetActive(false);
-				filledIn3.SetActive(false);
-				unfilled3.SetActive(true);
-				break;
-			case 3:
-				preview4.gameObject.SetActive(false);
-				filledIn4.SetActive(false);
-				unfilled4.SetActive(true);
-				break;
-			case 4:
-				preview5.gameObject.SetActive(false);
-				filledIn5.SetActive(false);
-				unfilled5.SetActive(true);
-				break;
-		}
-		previewIndex++;
-		switch(previewIndex)
-		{
-			case 0:
-				preview1.gameObject.SetActive(true);
-				filledIn1.SetActive(true);
-				unfilled1.SetActive(false);
-				break;
-			case 1:
-				preview2.gameObject.SetActive(true);
-				filledIn2.SetActive(true);
-				unfilled2.SetActive(false);
-				break;
-			case 2:
-				preview3.gameObject.SetActive(true);
-				filledIn3.SetActive(true);
-				unfilled3.SetActive(false);
-				break;
-			case 3:
-				preview4.gameObject.SetActive(true);
-				filledIn4.SetActive(true);
-				unfilled4.SetActive(false);
-				break;
-			case 4:
-				preview5.gameObject.SetActive(true);
-				filledIn5.SetActive(true);
-				unfilled5.SetActive(false);
-				break;
-		}
-	}
-
-		public void prevPreview()
-	{
-		if (previewIndex == 0)
-			return;
-
-		switch(previewIndex)
-		{
-			case 0:
-				preview1.gameObject.SetActive(false);
-				filledIn1.SetActive(false);
-				unfilled1.SetActive(true);
-				break;
-			case 1:
-				preview2.gameObject.SetActive(false);
-				filledIn2.SetActive(false);
-				unfilled2.SetActive(true);
-				break;
-			case 2:
-				preview3.gameObject.SetActive(false);
-				filledIn3.SetActive(false);
-				unfilled3.SetActive(true);
-				break;
-			case 3:
-				preview4.gameObject.SetActive(false);
-				filledIn4.SetActive(false);
-				unfilled4.SetActive(true);
-				break;
-			case 4:
-				preview5.gameObject.SetActive(false);
-				filledIn5.SetActive(false);
-				unfilled5.SetActive(true);
-				break;
-		}
-		previewIndex--;
-		switch(previewIndex)
-		{
-			case 0:
-				preview1.gameObject.SetActive(true);
-				filledIn1.SetActive(true);
-				unfilled1.SetActive(false);
-				break;
-			case 1:
-				preview2.gameObject.SetActive(true);
-				filledIn2.SetActive(true);
-				unfilled2.SetActive(false);
-				break;
-			case 2:
-				preview3.gameObject.SetActive(true);
-				filledIn3.SetActive(true);
-				unfilled3.SetActive(false);
-				break;
-			case 3:
-				preview4.gameObject.SetActive(true);
-				filledIn4.SetActive(true);
-				unfilled4.SetActive(false);
-				break;
-			case 4:
-				preview5.gameObject.SetActive(true);
-				filledIn5.SetActive(true);
-				unfilled5.SetActive(false);
-				break;
-		}
-
 	}
 
 

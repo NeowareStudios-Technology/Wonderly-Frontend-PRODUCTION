@@ -122,7 +122,7 @@ public class ModelInitializer : MonoBehaviour {
 
         newThumbnail.transform.SetParent(thumbNailParentContent.GetComponent<Transform>());
         thumbnailResults[thumbnailCount] = newThumbnail;
-        //newThumbnail.GetComponent<RectTransform>().size = new Vector3(1.0f,1.0f,1.0f);
+        
         newThumbnail.GetComponent<RectTransform>().localScale = new Vector3(1.0f,1.0f,1.0f);
         newThumbnail.GetComponent<Button>().onClick.AddListener(delegate {mainCanvas.GetComponent<PanelController>().OpenPanel(viewLibraryContentPanel);});
         newThumbnail.GetComponent<Button>().onClick.AddListener(delegate {mr.renderModel(newThumbnail);});

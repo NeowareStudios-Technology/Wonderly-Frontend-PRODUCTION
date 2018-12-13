@@ -10,8 +10,8 @@ public class pixabayManager : MonoBehaviour {
 	public string searchUrl = "https://pixabay.com/api/?key=10416046-da227ed77f5d1960a9126dc7c&";
 	public InputField searchTerm;
 	public InputField coverImageSearchTerm;
-	public Image[] searchedThumbnails = new Image[18];
-	public Image[] searchedThumbnailsCoverImage = new Image[18];
+	public Image[] searchedThumbnails = new Image[50];
+	public Image[] searchedThumbnailsCoverImage = new Image[50];
 	public Image blankImage;
 	public GameObject image1;
 	public GameObject image2;
@@ -24,16 +24,30 @@ public class pixabayManager : MonoBehaviour {
 	public Text imageTitle;
 	public string[] chosenUrls = new string[5];
 	public string chosenCoverImageUrl;
-  public string[] imagePreviewUrl = new string[18];
-	public string[] imageUrl = new string[18];
-	public string[] coverImagePreviewUrl = new string[18];
-	public string[] coverImageUrl = new string[18];
+  	public string[] imagePreviewUrl = new string[50];
+	public string[] imageUrl = new string[50];
+	public string[] coverImagePreviewUrl = new string[50];
+	public string[] coverImageUrl = new string[50];
 	public pixabayClass pxc;
 	public FilesManager fm;
 	public ArPairDisplayManager apdm;
 	public LoadManager lm;
 
 	public GameObject LoadingPanel;
+	
+	public int maxThumbResults = 50;
+
+	public GameObject imgThumbPrefab;
+	public GameObject thumbNailParentContent;
+	public GameObject thumbNailParentContentCoverImage;
+	public GameObject chooseCoverImagePanel;
+    public GameObject mainCanvas;
+    public Animator viewLibraryContentPanel;
+    public GameObject localScriptHolder;
+    public GameObject[] thumbnailResults;
+    void Awake(){
+        thumbnailResults = new GameObject[maxThumbResults];
+    }
 
 	//starts coroutine because coroutine cannot be called by UI
 	public void startSearchCoverImage() {
@@ -51,7 +65,10 @@ public class pixabayManager : MonoBehaviour {
 		string finalizedSearchTerm = "q=" + urlSafeSearchTerm;
 		Debug.Log(finalizedSearchTerm);
 		//create full search url
-		string thisSearchUrl = searchUrl + finalizedSearchTerm;
+
+		string per_page = "per_page=" + 50;
+
+		string thisSearchUrl = searchUrl + finalizedSearchTerm + "&" + per_page;
 
 		Debug.Log(thisSearchUrl);
 
@@ -77,12 +94,12 @@ public class pixabayManager : MonoBehaviour {
         string jsonString = Encoding.UTF8.GetString(results);
 				Debug.Log(jsonString);
 				pxc = JsonUtility.FromJson<pixabayClass>(jsonString);
-
+				
 				//get the url for each image returned in the image search request
 				int count = 0;
 				foreach (pixabayHitClass phc in pxc.hits)
 				{
-					if (count == 18)
+					if (count == 50)
 					{
 						break;
 					}
@@ -113,20 +130,29 @@ public class pixabayManager : MonoBehaviour {
 
 			else
 			{
-				searchedThumbnailsCoverImage[index].sprite = Sprite.Create(previewRequest.texture, new Rect(0, 0, previewRequest.texture.width, previewRequest.texture.height), new Vector2(0, 0));
+				string thumbNailName = "imageThumbnail" + index;
+       			GameObject newThumbnail = Instantiate(imgThumbPrefab);
+				newThumbnail.name = thumbNailName;
+				newThumbnail.transform.SetParent(thumbNailParentContentCoverImage.GetComponent<Transform>());
+				thumbnailResults[index] = newThumbnail;
+				newThumbnail.GetComponent<RectTransform>().localScale = new Vector3(1.0f,1.0f,1.0f);
+				newThumbnail.GetComponent<Image>().sprite = Sprite.Create(previewRequest.texture, new Rect(0, 0, previewRequest.texture.width, previewRequest.texture.height), new Vector2(0, 0));
+				newThumbnail.GetComponent<Button>().onClick.AddListener(delegate {chooseCoverImageStarter(index, newThumbnail);});
+				newThumbnail.GetComponent<Button>().onClick.AddListener(delegate {chooseCoverImagePanel.SetActive(false);});
+				//searchedThumbnailsCoverImage[index].sprite = Sprite.Create(previewRequest.texture, new Rect(0, 0, previewRequest.texture.width, previewRequest.texture.height), new Vector2(0, 0));
 			}
 		}
 	}
 
-	public void chooseCoverImageStarter(int index) {
+	public void chooseCoverImageStarter(int index, GameObject newThumbnail) {
 			chosenCoverImageUrl = coverImageUrl[index];
 
-			StartCoroutine(ChooseCoverImage(index));
+			StartCoroutine(ChooseCoverImage(index, newThumbnail));
 		}
 
 	
 
-		public IEnumerator ChooseCoverImage(int index) {
+		public IEnumerator ChooseCoverImage(int index, GameObject newThumbnail) {
 			using (WWW imageRequest = new WWW(coverImageUrl[index]))
 			{
 				yield return imageRequest;
@@ -139,7 +165,8 @@ public class pixabayManager : MonoBehaviour {
 				}
 				else
 				{
-					coverImage.sprite = Sprite.Create(imageRequest.texture, new Rect(0, 0, imageRequest.texture.width, imageRequest.texture.height), new Vector2(0, 0));
+					coverImage.sprite = newThumbnail.GetComponent<Image>().sprite;
+					//coverImage.sprite = Sprite.Create(imageRequest.texture, new Rect(0, 0, imageRequest.texture.width, imageRequest.texture.height), new Vector2(0, 0));
 					//coverImage.GetComponent<Renderer>().material.mainTexture = imageRequest.texture;
 					
 				}
@@ -193,14 +220,16 @@ public class pixabayManager : MonoBehaviour {
 		//holds the search term
 		string searchString = searchTerm.text;
 		imageTitle.text = searchString;
-		Debug.Log(searchString);
+		Debug.Log("search string = " + searchString);
 		//makes search term url safe
 		string urlSafeSearchTerm = searchString.Replace(" ", "+");
 		//add delineator to search term for url
 		string finalizedSearchTerm = "q=" + urlSafeSearchTerm;
+
+		string per_page = "per_page=" + 50;
 		Debug.Log(finalizedSearchTerm);
 		//create full search url
-		string thisSearchUrl = searchUrl + finalizedSearchTerm;
+		string thisSearchUrl = searchUrl + finalizedSearchTerm + "&" + per_page;
 
 		Debug.Log(thisSearchUrl);
 
@@ -223,7 +252,7 @@ public class pixabayManager : MonoBehaviour {
 			{
 				Debug.Log(imageSearchRequest.responseCode);
 				byte[] results = imageSearchRequest.downloadHandler.data;
-        string jsonString = Encoding.UTF8.GetString(results);
+        		string jsonString = Encoding.UTF8.GetString(results);
 				Debug.Log(jsonString);
 				pxc = JsonUtility.FromJson<pixabayClass>(jsonString);
 
@@ -231,7 +260,8 @@ public class pixabayManager : MonoBehaviour {
 				int count = 0;
 				foreach (pixabayHitClass phc in pxc.hits)
 				{
-					if (count == 18)
+					
+					if (count == 50)
 					{
 						break;
 					}
@@ -262,12 +292,32 @@ public class pixabayManager : MonoBehaviour {
 
 			else
 			{
-				searchedThumbnails[index].sprite = Sprite.Create(previewRequest.texture, new Rect(0, 0, previewRequest.texture.width, previewRequest.texture.height), new Vector2(0, 0));
+
+			
+
+			string thumbNailName = "imageThumbnail" + index;
+       		GameObject newThumbnail = Instantiate(imgThumbPrefab);
+			newThumbnail.name = thumbNailName;
+
+			//newThumbnail.GetComponent<Image>().sprite = Sprite.Create(asset.thumbnailTexture, rec, new Vector2(0.5f, 0.5f), 100);
+
+			newThumbnail.transform.SetParent(thumbNailParentContent.GetComponent<Transform>());
+			thumbnailResults[index] = newThumbnail;
+			
+			newThumbnail.GetComponent<RectTransform>().localScale = new Vector3(1.0f,1.0f,1.0f);
+			newThumbnail.GetComponent<Image>().sprite = Sprite.Create(previewRequest.texture, new Rect(0, 0, previewRequest.texture.width, previewRequest.texture.height), new Vector2(0, 0));
+			newThumbnail.GetComponent<Button>().onClick.AddListener(delegate {mainCanvas.GetComponent<PanelController>().OpenPanel(viewLibraryContentPanel);});
+			newThumbnail.GetComponent<Button>().onClick.AddListener(delegate {chooseImageStarter(index, newThumbnail);});
+			newThumbnail.GetComponent<Button>().onClick.AddListener(delegate {fm.ModifyTargetStatusArray("image");});
+			
+			
+
+
 			}
 		}
 	}
 
-		public void chooseImageStarter(int index) {
+		public void chooseImageStarter(int index, GameObject nThumbnail) {
 
 			//do nothing if current target not valid
 			if (fm.currentTarget < 1)
@@ -276,12 +326,12 @@ public class pixabayManager : MonoBehaviour {
 			chosenUrls[fm.currentTarget -1] = imageUrl[index];
 			lm.scd.imageUrl[fm.currentTarget -1] = imageUrl[index];
 
-			StartCoroutine(ChooseImage(index));
+			StartCoroutine(ChooseImage(index, nThumbnail));
 		}
 
 	
 
-		public IEnumerator ChooseImage(int index) {
+		public IEnumerator ChooseImage(int index, GameObject newThumbnail) {
 			using (WWW imageRequest = new WWW(imageUrl[index]))
 			{
 				yield return imageRequest;
@@ -293,35 +343,38 @@ public class pixabayManager : MonoBehaviour {
 					LoadingPanel.SetActive(false);
 				}
 				else
-				{
-					switch(fm.currentTarget)
-					{
-						case 1:
-							image1.GetComponent<Renderer>().material.mainTexture = imageRequest.texture;
-							StartCoroutine(SetArPairThumbnail(index));
-							fm.targetStatus[0] = "image";
-							break;
-						case 2:
-							image2.GetComponent<Renderer>().material.mainTexture = imageRequest.texture;
-							StartCoroutine(SetArPairThumbnail(index));
-							fm.targetStatus[1] = "image";
-							break;
-						case 3:
-							image3.GetComponent<Renderer>().material.mainTexture = imageRequest.texture;
-							StartCoroutine(SetArPairThumbnail(index));
-							fm.targetStatus[2] = "image";
-							break;
-						case 4:
-							image4.GetComponent<Renderer>().material.mainTexture = imageRequest.texture;
-							StartCoroutine(SetArPairThumbnail(index));
-							fm.targetStatus[3] = "image";
-							break;
-						case 5:
-							image5.GetComponent<Renderer>().material.mainTexture = imageRequest.texture;
-							StartCoroutine(SetArPairThumbnail(index));
-							fm.targetStatus[4] = "image";
-							break;
-					}
+				{   
+					Rect rec = new Rect(0, 0, imageRequest.texture.width, imageRequest.texture.height);
+					newThumbnail.GetComponent<Image>().sprite = Sprite.Create(imageRequest.texture, rec, new Vector2(0.5f, 0.5f), 100);
+					StartCoroutine(SetArPairThumbnail(newThumbnail));
+					// switch(fm.currentTarget)
+					// {
+					// 	case 1:
+					// 		image1.GetComponent<Renderer>().material.mainTexture = imageRequest.texture;
+					// 		StartCoroutine(SetArPairThumbnail(index));
+					// 		fm.targetStatus[0] = "image";
+					// 		break;
+					// 	case 2:
+					// 		image2.GetComponent<Renderer>().material.mainTexture = imageRequest.texture;
+					// 		StartCoroutine(SetArPairThumbnail(index));
+					// 		fm.targetStatus[1] = "image";
+					// 		break;
+					// 	case 3:
+					// 		image3.GetComponent<Renderer>().material.mainTexture = imageRequest.texture;
+					// 		StartCoroutine(SetArPairThumbnail(index));
+					// 		fm.targetStatus[2] = "image";
+					// 		break;
+					// 	case 4:
+					// 		image4.GetComponent<Renderer>().material.mainTexture = imageRequest.texture;
+					// 		StartCoroutine(SetArPairThumbnail(index));
+					// 		fm.targetStatus[3] = "image";
+					// 		break;
+					// 	case 5:
+					// 		image5.GetComponent<Renderer>().material.mainTexture = imageRequest.texture;
+					// 		StartCoroutine(SetArPairThumbnail(index));
+					// 		fm.targetStatus[4] = "image";
+					// 		break;
+					// }
 				}
 
 				LoadingPanel.SetActive(false);
@@ -355,11 +408,11 @@ public class pixabayManager : MonoBehaviour {
 		}
 
 
-		public IEnumerator SetArPairThumbnail(int index)
+		public IEnumerator SetArPairThumbnail(GameObject newThumbnail)
 		{
 
-			apdm.targetObjectThumbs[fm.currentTarget-1].sprite = searchedThumbnails[index].sprite;
-			apdm.chosenThumb.sprite = searchedThumbnails[index].sprite;
+			apdm.targetObjectThumbs[fm.currentTarget-1].sprite = newThumbnail.GetComponent<Image>().sprite;
+			apdm.chosenThumb.sprite = newThumbnail.GetComponent<Image>().sprite;
 /*/// 
 				Image chosenThumb = apdm.chosenThumb1;
 				switch(fm.currentTarget)

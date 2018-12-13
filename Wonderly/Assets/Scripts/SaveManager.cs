@@ -16,6 +16,8 @@ public class SaveManager : MonoBehaviour {
 	public LoadManager lm;
 	public ArPairDisplayManager apdm;
 
+	public SaveClassDeclaration save;
+
 	public InputField title;
 	public InputField editTitle;
 	public InputField description;
@@ -68,7 +70,7 @@ public class SaveManager : MonoBehaviour {
 		deleteOldSave();
 
 		//create a new save class instance
-		SaveClassDeclaration save = new SaveClassDeclaration();
+		save = new SaveClassDeclaration();
 		save.targetNum = fm.targetCount;
 		save.targetStatus = fm.targetStatus;
 		Debug.Log("2. number of targets being saved (first element to be saved): " +save.targetNum);
@@ -79,6 +81,8 @@ public class SaveManager : MonoBehaviour {
 
 		//save cover photo url
 		save.coverImageUrl = pm.chosenCoverImageUrl;
+		if (save.coverImageUrl == "")
+			save.coverImageUrl = "none";
 
 		//save each wonder title and description
 		for (int k = 0; k< 5; k++)
@@ -388,13 +392,18 @@ public class SaveManager : MonoBehaviour {
 		deleteOldSave();
 
 		//create a new save class instance
-		SaveClassDeclaration save = new SaveClassDeclaration();
+		save = new SaveClassDeclaration();
 		save.targetNum = fm.targetCount;
 		save.targetStatus = fm.targetStatus;
 
 		//save the title and description of the experience
 		save.title = editTitle.text;
 		save.description = description.text;
+
+		//save cover photo url
+		save.coverImageUrl = pm.chosenCoverImageUrl;
+		if (save.coverImageUrl == "")
+			save.coverImageUrl = "none";
 
 		for (int k = 0; k< 5; k++)
 		{

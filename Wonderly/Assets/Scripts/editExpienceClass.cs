@@ -11,4 +11,5 @@ public class editExperienceClass {
 	public bool text;
 	public bool weblink;
 	public string code;
+	public string coverImageUrl;
 }

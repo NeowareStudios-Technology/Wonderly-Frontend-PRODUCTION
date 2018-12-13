@@ -39,7 +39,7 @@ public class YoutubeAPIManager : MonoBehaviour {
 
     public void SetVideoInfo(int whichVideo)
     {
-        videoAttribute.text = YoutubeTitles[whichVideo-1];
+        videoAttribute.text = YoutubeTitles[whichVideo];
     }
 
     public void GetVideoData(string videoId, Action<YoutubeData> callback)

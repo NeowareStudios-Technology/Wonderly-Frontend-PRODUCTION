@@ -31,7 +31,17 @@ public class VideoSearchManager : MonoBehaviour {
     public FilesManager fm;
     public List<string> thumbUrls = new List<string>();
 
+    public int maxThumbResults = 50;
+    public GameObject videoThumbPrefab;
+    public GameObject thumbNailParentContent;
+    public GameObject mainCanvas;
+    public Animator viewLibraryContentPanel;
+    public GameObject localScriptHolder;
+    public GameObject[] videoThumbList;
 	
+    void Awake(){
+        videoThumbList = new GameObject[maxThumbResults];
+    }
 	public void Search()
     {
         thumbUrls.Clear();
@@ -71,7 +81,7 @@ public class VideoSearchManager : MonoBehaviour {
 
         YoutubeAPIManager.YoutubeSearchOrderFilter mainFilter = YoutubeAPIManager.YoutubeSearchOrderFilter.none;
        
-        youtubeapi.Search(searchField.text, 18, mainFilter, YoutubeAPIManager.YoutubeSafeSearchFilter.none, OnSearchDone);
+        youtubeapi.Search(searchField.text, maxThumbResults, mainFilter, YoutubeAPIManager.YoutubeSafeSearchFilter.none, OnSearchDone);
     }
 
     public void SearchByLocation(string location)
@@ -82,7 +92,7 @@ public class VideoSearchManager : MonoBehaviour {
         float latitude = float.Parse(splited[0]);
         float longitude = float.Parse(splited[1]);
         int locationRadius = 10;
-        youtubeapi.SearchByLocation(searchField.text, 10, locationRadius, latitude, longitude, mainFilter, YoutubeAPIManager.YoutubeSafeSearchFilter.none, OnSearchDone);
+        youtubeapi.SearchByLocation(searchField.text, maxThumbResults, locationRadius, latitude, longitude, mainFilter, YoutubeAPIManager.YoutubeSafeSearchFilter.none, OnSearchDone);
     }
 
     void OnSearchDone(YoutubeData[] results)
@@ -93,6 +103,44 @@ public class VideoSearchManager : MonoBehaviour {
 
     void LoadVideosOnUI(YoutubeData[] videoList)
     {
+        for(int i = 0; i < videoList.Length; i++){
+            int TempIterator = i;
+            string thumbNailName = "videoThumbnail" + i;
+            GameObject newThumbnail = Instantiate(videoThumbPrefab);
+            newThumbnail.name = thumbNailName;
+            //newThumbnail.GetComponent<Image>().sprite = Sprite.Create(asset.thumbnailTexture, rec, new Vector2(0.5f, 0.5f), 100);
+            newThumbnail.transform.SetParent(thumbNailParentContent.GetComponent<Transform>());
+
+        videoThumbList[i] = newThumbnail;
+
+        //newThumbnail.GetComponent<RectTransform>().size = new Vector3(1.0f,1.0f,1.0f);
+        newThumbnail.GetComponent<RectTransform>().localScale = new Vector3(1.0f,1.0f,1.0f);
+
+
+
+
+        newThumbnail.GetComponent<YoutubeVideoUi>().videoId = videoList[i].id;
+            newThumbnail.GetComponent<YoutubeVideoUi>().thumbUrl = videoList[i].snippet.thumbnails.defaultThumbnail.url;
+            thumbUrls.Add(videoList[i].snippet.thumbnails.defaultThumbnail.url);
+            newThumbnail.GetComponent<YoutubeVideoUi>().LoadThumbnail();
+
+        
+        //newThumbnail.GetComponent<Button>().onClick.AddListener(delegate {mr.renderModel(newThumbnail);});
+
+        newThumbnail.GetComponent<Button>().onClick.AddListener(delegate {newThumbnail.GetComponent<YoutubeVideoUi>().PlayYoutubeVideo();});
+
+        newThumbnail.GetComponent<Button>().onClick.AddListener(delegate {localScriptHolder.GetComponent<ArPairDisplayManager>().setYoutubeThumbnailArPair(newThumbnail);});
+
+        newThumbnail.GetComponent<Button>().onClick.AddListener(delegate {this.GetComponent<YoutubeAPIManager>().SetVideoInfo(TempIterator);});
+        
+        newThumbnail.GetComponent<Button>().onClick.AddListener(delegate {mainCanvas.GetComponent<PanelController>().OpenPanel(viewLibraryContentPanel);});
+        //newThumbnail.GetComponent<PolyAssetHolderClass>().heldAsset = asset;
+
+        } 
+        
+        /*
+        
+        
         for (int x = 0; x < videoList.Length; x++)
         {
             //videoListUI[x].GetComponent<YoutubeVideoUi>().videoName.text = videoList[x].snippet.title;
@@ -101,6 +149,8 @@ public class VideoSearchManager : MonoBehaviour {
             thumbUrls.Add(videoList[x].snippet.thumbnails.defaultThumbnail.url);
             videoListUI[x].GetComponent<YoutubeVideoUi>().LoadThumbnail();
         }
+    */
+         
     }
 
 }

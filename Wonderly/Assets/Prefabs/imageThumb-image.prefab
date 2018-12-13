@@ -23,6 +23,7 @@ GameObject:
   - component: {fileID: 114311938978934530}
   - component: {fileID: 114083945954308600}
   - component: {fileID: 114268799558128474}
+  - component: {fileID: 114648680080988868}
   m_Layer: 5
   m_Name: imageThumb-image
   m_TagString: Untagged
@@ -133,6 +134,25 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &114648680080988868
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1183126049457936}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1679637790, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IgnoreLayout: 0
+  m_MinWidth: 125
+  m_MinHeight: 125
+  m_PreferredWidth: -1
+  m_PreferredHeight: -1
+  m_FlexibleWidth: -1
+  m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!222 &222607609191900740
 CanvasRenderer:
   m_ObjectHideFlags: 1

@@ -24,8 +24,10 @@ public class CloudEndpointsApiManager : MonoBehaviour {
 	public Text editLastName;
 	public InputField editFirstNameInput;
 	public InputField editLastNameInput;
+	public Text displayFirstNameHome;
 	public Text displayFirstName;
 	public Text displayLastName;
+	public Text displayName;
 	public Text displayEmail;
 	public Text displayExpNum;
 	public Text firstNamePlaceHolder;
@@ -95,7 +97,11 @@ public class CloudEndpointsApiManager : MonoBehaviour {
 			loadingPanel.SetActive(false);
 
 			Debug.Log(newProfileRequest.responseCode);
+
+			//load in profile info to ui (called here because need to wait for cookie and profile creation)
+			StartCoroutine("getProfileInfo");
 		}
+
 	}
 
 	public void startProfileEdit()
@@ -234,6 +240,7 @@ public class CloudEndpointsApiManager : MonoBehaviour {
 		editExperienceClass editExperience = new editExperienceClass();
 		editExperience.title = sm.editTitle.text;
 		editExperience.code = code;
+		editExperience.coverImageUrl = sm.save.coverImageUrl;
 
 		//get target object counts
 		int modelCount = 0;
@@ -285,8 +292,11 @@ public void startGetProfileInfo()
 		StartCoroutine("getProfileInfo");
 	}
 
+
+
 	public IEnumerator getProfileInfo() 
 	{
+
 		using (UnityWebRequest newProfileInfoRequest = UnityWebRequest.Get(getProfileUrl))
 		{
 			//set content type
@@ -302,29 +312,27 @@ public void startGetProfileInfo()
 			Debug.Log(jsonString);
 			pic = JsonUtility.FromJson<ProfileInfoClass>(jsonString);
 
-			displayFirstName.text = pic.firstName;
-			displayLastName.text = pic.lastName;
-			displayEmail.text = pic.email;
+			//for home screen
+			displayFirstNameHome.text = "Hi,"+" "+pic.firstName+"!";
+
+			//for profile info screen
+			string fullName = pic.firstName + " " + pic.lastName;
+			displayName.text = fullName;
+			//add "" to make the int into a string without c# complaining
+			displayExpNum.text = pic.createdExp +"";
+
+			//for profile edit screen
 			firstNamePlaceHolder.text = pic.firstName;
 			lastNamePlaceHolder.text = pic.lastName;
 			emailPlaceHolder.text = pic.email;
-
-			//add "" to make the int into a string without c# complaining
-			displayExpNum.text = pic.createdExp +"";
 		}
 
-		loadingPanel.SetActive(false);
 	}
 
 
 
 
-
-
-
-
-
-
+	//called when user opens library to populate library stubs with saved info on server
 	public void startGetOwnedCodes()
 	{
 		StartCoroutine("getOwnedCodes");
@@ -377,10 +385,35 @@ public void startGetProfileInfo()
 			libraryStubs[i].transform.GetChild(8).gameObject.GetComponent<Text>().text = oec.dates[i];
 			libraryStubs[i].transform.GetChild(2).gameObject.GetComponent<Text>().text = oec.codes[i];
 			libraryStubs[i].transform.GetChild(5).gameObject.GetComponent<Button>().onClick.AddListener(delegate {fsm.startDownloadExperienceFilesDirect(index+1); });
+			libraryStubs[i].transform.GetChild(5).gameObject.GetComponent<Button>().onClick.AddListener(delegate {mainCanvasPanelController.OpenPanel(journeySummaryAnimator); });
 			libraryStubs[i].transform.GetChild(7).gameObject.GetComponent<Button>().onClick.AddListener(delegate {createLibraryPopup(index); });
 			libraryCodes[i] = oec.codes[i];
+
+			//get cover image from pixabay
+			if (oec.coverImages[i] != "none")
+			{
+				StartCoroutine(loadJourneyCoverImage(libraryStubs[i], oec.coverImages[i]));
+			}
+
 		}
 		
+	}
+
+	private IEnumerator loadJourneyCoverImage(GameObject libStub, string coverImageUrl) {
+		using (WWW imageRequest = new WWW(coverImageUrl))
+		{
+			yield return imageRequest;
+			//catch errors
+			if (imageRequest.error != null)
+    	{
+				Debug.Log("Error getting image");
+			}
+
+			else
+			{	
+				libStub.transform.GetChild(5).gameObject.GetComponent<Image>().sprite = Sprite.Create(imageRequest.texture, new Rect(0, 0, imageRequest.texture.width, imageRequest.texture.height), new Vector2(0, 0));
+			}
+		}
 	}
 
 	//creates library menu UI

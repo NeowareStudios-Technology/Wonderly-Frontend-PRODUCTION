@@ -6,5 +6,5 @@ using UnityEngine;
 public class pixabayClass {
 public int total = 0;
 public int totalHits;
-public pixabayHitClass[] hits = new pixabayHitClass[10];
+public pixabayHitClass[] hits = new pixabayHitClass[50];
 }
