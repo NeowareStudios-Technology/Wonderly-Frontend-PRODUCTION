@@ -39,6 +39,8 @@ public class CloudEndpointsApiManager : MonoBehaviour {
 
 	public Animator journeySummaryAnimator;
 
+	public Animator ViewScreenAnimator;
+
 	public PanelController mainCanvasPanelController;
 
 	public GameObject loadingPanel;
@@ -385,7 +387,7 @@ public void startGetProfileInfo()
 			libraryStubs[i].transform.GetChild(8).gameObject.GetComponent<Text>().text = oec.dates[i];
 			libraryStubs[i].transform.GetChild(2).gameObject.GetComponent<Text>().text = oec.codes[i];
 			libraryStubs[i].transform.GetChild(5).gameObject.GetComponent<Button>().onClick.AddListener(delegate {fsm.startDownloadExperienceFilesDirect(index+1); });
-			libraryStubs[i].transform.GetChild(5).gameObject.GetComponent<Button>().onClick.AddListener(delegate {mainCanvasPanelController.OpenPanel(journeySummaryAnimator); });
+			libraryStubs[i].transform.GetChild(5).gameObject.GetComponent<Button>().onClick.AddListener(delegate {mainCanvasPanelController.OpenPanel(ViewScreenAnimator); });
 			libraryStubs[i].transform.GetChild(7).gameObject.GetComponent<Button>().onClick.AddListener(delegate {createLibraryPopup(index); });
 			libraryCodes[i] = oec.codes[i];
 

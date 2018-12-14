@@ -21,10 +21,17 @@ public class SaveManager : MonoBehaviour {
 	public InputField title;
 	public InputField editTitle;
 	public InputField description;
+	//the below 2 are for the edit title/description screen marked SINGLE
+	public InputField editTitle2;
+	public InputField editDescription2;
+
 	public Text titleDisplay;
 	public Text descriptionDisplay;
 	public InputField wonderTitle;
 	public InputField wonderDescription;
+	//the below 2 are for the edit title/description screen marked SINGLE
+	public InputField wonderTitle2;
+	public InputField wonderDescription2;
 
 	public string[] wonderTitles = new string[5];
 	public string[] wonderDescriptions = new string[5];
@@ -55,10 +62,32 @@ public class SaveManager : MonoBehaviour {
 
 	}
 
+	//add this function to button that saves/sets wonders
+	public void LocalSaveWonderTitleDescManualIndex(int whichTarget)
+	{
+
+			//locally save Wonder titles and descriptions
+			wonderTitles[whichTarget-1] = wonderTitle2.text;
+			wonderDescriptions[whichTarget-1] = wonderDescription2.text;
+
+			//display Wonder titles and descriptions
+			apdm.wonderTitles[whichTarget-1].text = wonderTitle2.text;
+			apdm.wonderDescriptions[whichTarget-1].text = wonderDescription2.text;
+
+			wonderTitle2.text = "";
+			wonderDescription2.text = "";
+	}
+
 	public void SetJourneyTitleDescription()
 	{
 		titleDisplay.text = title.text;
 		descriptionDisplay.text = description.text;
+	}
+
+	public void SetEditedJourneyTitleDescription()
+	{
+		titleDisplay.text = editTitle2.text;
+		descriptionDisplay.text = editDescription2.text;
 	}
 
 

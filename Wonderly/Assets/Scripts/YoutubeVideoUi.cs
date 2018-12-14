@@ -16,6 +16,15 @@ public class YoutubeVideoUi : MonoBehaviour {
     public targetObjectManager tom;
     public ImageTargetManager itm;
 
+    //set all needed script variables here (cant do this in GUI because this is a spawned script)
+    void Awake()
+    {
+        GameObject localScriptHolder = GameObject.Find("Local Script Holder");
+        fm = localScriptHolder.GetComponent<FilesManager>();
+        tom = localScriptHolder.GetComponent<targetObjectManager>();
+        itm = localScriptHolder.GetComponent<ImageTargetManager>();
+    }
+
     public void PlayYoutubeVideo()
     {
         if (videoId == "")
@@ -23,7 +32,10 @@ public class YoutubeVideoUi : MonoBehaviour {
             return;
         }
 
+        Debug.Log("Now starting YoutubeVideoUi.PlayYoutubeVideo()");
         Debug.Log("video id: "+videoId);
+        Debug.Log("current target: "+fm.currentTarget);
+        Debug.Log("CORRECT CURRENT TARGET = 1");
 
             string videoPlayerString = "";
             switch(fm.currentTarget)
@@ -36,6 +48,12 @@ public class YoutubeVideoUi : MonoBehaviour {
                     {
                         return;
                     }
+
+
+                    //debug
+                    Debug.Log("video player null? :" + tom.videoPlayers[0]);
+
+
                     fm.targetStatus[0] = "video";
                     itm.target1.SetActive(true);
                     tom.videoPlayers[0].SetActive(true);

@@ -25,6 +25,7 @@ public class ModelRenderer : MonoBehaviour {
     public string attributeString;
 
     public Text modelAttrib;
+    public Text modelAttrib2;
 
     public GameObject LoadingPanel;
  
@@ -115,6 +116,7 @@ public class ModelRenderer : MonoBehaviour {
                 return;
             case 1:
                 modelAttrib.text = attributeString;
+                modelAttrib2.text =attributeString;
                 if(itm.target1.transform.childCount == 4)
                     Destroy(itm.target1.transform.GetChild(3).gameObject);
                 tom.modelIds[0] = ParseForModelId(attributeString);
@@ -124,6 +126,7 @@ public class ModelRenderer : MonoBehaviour {
                 break;
             case 2:
                 modelAttrib.text = attributeString;
+                modelAttrib2.text =attributeString;
                 if(itm.target2.transform.childCount == 4)
                     Destroy(itm.target2.transform.GetChild(3).gameObject);
                 tom.modelIds[1] = ParseForModelId(attributeString);
@@ -133,6 +136,7 @@ public class ModelRenderer : MonoBehaviour {
                 break;
             case 3:
                 modelAttrib.text = attributeString;
+                modelAttrib2.text =attributeString;
                 if(itm.target3.transform.childCount == 4)
                     Destroy(itm.target3.transform.GetChild(3).gameObject);
                 tom.modelIds[2] = ParseForModelId(attributeString);
@@ -142,6 +146,7 @@ public class ModelRenderer : MonoBehaviour {
                 break;
             case 4:
                 modelAttrib.text = attributeString;
+                modelAttrib2.text =attributeString;
                 if(itm.target4.transform.childCount == 4)
                     Destroy(itm.target4.transform.GetChild(3).gameObject);
                 tom.modelIds[3] = ParseForModelId(attributeString);
@@ -151,6 +156,7 @@ public class ModelRenderer : MonoBehaviour {
                 break;
             case 5:
                 modelAttrib.text = attributeString;
+                modelAttrib2.text =attributeString;
                 if(itm.target5.transform.childCount == 4)
                     Destroy(itm.target5.transform.GetChild(3).gameObject);
                 tom.modelIds[4] = ParseForModelId(attributeString);

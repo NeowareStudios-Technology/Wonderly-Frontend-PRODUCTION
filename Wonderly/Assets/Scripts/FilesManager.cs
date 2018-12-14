@@ -29,7 +29,7 @@ namespace Sample
         public string SaveDirectory;
         private bool isWriting;
         //private takeTargetPicture ui;
-        public int TARGET_LIMIT = 5;
+        public int TARGET_LIMIT = 3;
         public int targetCount = 0;
         public int currentTarget =0;
         //will hold whether each target has image, video, model, is "created" , or "none"
@@ -79,6 +79,8 @@ namespace Sample
             Debug.Log("Save Folder Path: " + SaveDirectory);
 
             Debug.Log("calling get profile info");
+
+            StartCoroutine("delayedReset");
 /* 
             //set the current target to the first created target photo index (current target stays at 0 if no target photos exist)
             string target1Path = Path.Combine(MarksDirectory, "targetPhoto1.jpg");
@@ -143,7 +145,6 @@ namespace Sample
                 Debug.Log("Target limit of 5 reached");
                 return;
             }
-            currentTarget++;
             if (!Directory.Exists(MarksDirectory))
                 Directory.CreateDirectory(MarksDirectory);
             if (!isWriting)
@@ -174,15 +175,30 @@ namespace Sample
             string testPath4 = Path.Combine(MarksDirectory, "targetPhoto4.jpg");
             string testPath5 = Path.Combine(MarksDirectory, "targetPhoto5.jpg");
             if (!File.Exists(testPath1))
+            {
                 pathString = "targetPhoto1.jpg";
+                currentTarget = 1;
+            }
             else if (!File.Exists(testPath2))
+            {
                 pathString = "targetPhoto2.jpg";
+                currentTarget = 2;
+            }
             else if (!File.Exists(testPath3))
+            {
                 pathString = "targetPhoto3.jpg";
+                currentTarget = 3;
+            }
             else if (!File.Exists(testPath4))
+            {
                 pathString = "targetPhoto4.jpg";
+                currentTarget = 4;
+            }
             else   
+            {
                 pathString = "targetPhoto5.jpg";
+                currentTarget = 5;
+            }
 
 
             string photoPath = Path.Combine(MarksDirectory, pathString);

@@ -50,6 +50,11 @@ public class ModelInitializer : MonoBehaviour {
     public int maxThumbResults = 50;
     public GameObject modelThumbPrefab;
     public GameObject thumbNailParentContent;
+    //used by second edit AR object screen marked SINGLE
+    public GameObject thumbNailParentContent2;
+    public InputField keyword2;
+    public Animator viewLibraryContentPanel2;
+
     public GameObject mainCanvas;
     public Animator viewLibraryContentPanel;
     public GameObject localScriptHolder;
@@ -68,6 +73,8 @@ public class ModelInitializer : MonoBehaviour {
     void Awake(){
         thumbnailResults = new GameObject[maxThumbResults];
     }
+
+    //Flow for get thumbnails: GetThumbnails -> ListAssetsCallback -> myThumbnailCallback (this one makes the thumbnails)
     public void GetThumbnails()
     {
         PolyListAssetsRequest req = new PolyListAssetsRequest();
@@ -88,18 +95,26 @@ public class ModelInitializer : MonoBehaviour {
         }
  
 
-      
 
-        //string attribs = PolyApi.GenerateAttributions(includeStatic: true, runtimeAssets: assetsInUse);
-        //modelAttributes.text = attribs;
-        //mr.attributeString = attribs;
-            //PolyApi.Import(result.Value.assets[i], options, ImportAssetCallback);
+
+        DeleteThumbnails();
+        ClearSearchText();
+
         for (int i = 0; i < Mathf.Min(maxThumbResults, result.Value.assets.Count); i++) { 
             Debug.Log(i+" "+ result.Value.assets[i]);
             PolyApi.FetchThumbnail(result.Value.assets[i], MyThumbnailCallback);
         }
     }
-
+    public void DeleteThumbnails(){
+       
+			foreach (Transform child in thumbNailParentContent.transform) {
+				GameObject.Destroy(child.gameObject);
+			}
+	
+    }
+    public void ClearSearchText(){
+			keyword.text = "";
+		}
     void MyThumbnailCallback(PolyAsset asset, PolyStatus status)
     {
         Debug.Log("in callback");
@@ -128,113 +143,87 @@ public class ModelInitializer : MonoBehaviour {
         newThumbnail.GetComponent<Button>().onClick.AddListener(delegate {mr.renderModel(newThumbnail);});
         newThumbnail.GetComponent<Button>().onClick.AddListener(delegate {localScriptHolder.GetComponent<ArPairDisplayManager>().setModelThumbnailArPair(newThumbnail);});
         newThumbnail.GetComponent<PolyAssetHolderClass>().heldAsset = asset;
-       
-    /*
-        switch(thumbnailCount)
-        {
-            case 0:
-                thumbImage1.sprite = Sprite.Create(asset.thumbnailTexture, rec, new Vector2(0.5f, 0.5f), 100);
-                thumbAsset1.heldAsset = asset;
-                break;
-            case 1:
-                thumbImage2.sprite = Sprite.Create(asset.thumbnailTexture, rec, new Vector2(0.5f, 0.5f), 100);
-                thumbAsset2.heldAsset = asset;
-                break;
-            case 2:
-                thumbImage3.sprite = Sprite.Create(asset.thumbnailTexture, rec, new Vector2(0.5f, 0.5f), 100);
-                thumbAsset3.heldAsset = asset;
-                break;
-            case 3:
-                thumbImage4.sprite = Sprite.Create(asset.thumbnailTexture, rec, new Vector2(0.5f, 0.5f), 100);
-                thumbAsset4.heldAsset = asset;
-                break;
-            case 4:
-                thumbImage5.sprite = Sprite.Create(asset.thumbnailTexture, rec, new Vector2(0.5f, 0.5f), 100);
-                thumbAsset5.heldAsset = asset;
-                break;
-            case 5:
-                thumbImage6.sprite = Sprite.Create(asset.thumbnailTexture, rec, new Vector2(0.5f, 0.5f), 100);
-                thumbAsset6.heldAsset = asset;
-                break;
-            case 6:
-                thumbImage7.sprite = Sprite.Create(asset.thumbnailTexture, rec, new Vector2(0.5f, 0.5f), 100);
-                thumbAsset7.heldAsset = asset;
-                break;
-            case 7:
-                thumbImage8.sprite = Sprite.Create(asset.thumbnailTexture, rec, new Vector2(0.5f, 0.5f), 100);
-                thumbAsset8.heldAsset = asset;
-                break;
-            case 8:
-                thumbImage9.sprite = Sprite.Create(asset.thumbnailTexture, rec, new Vector2(0.5f, 0.5f), 100);
-                thumbAsset9.heldAsset = asset;
-                break;
-            case 9:
-                thumbImage10.sprite = Sprite.Create(asset.thumbnailTexture, rec, new Vector2(0.5f, 0.5f), 100);
-                thumbAsset10.heldAsset = asset;
-                break;
-            case 10:
-                thumbImage11.sprite = Sprite.Create(asset.thumbnailTexture, rec, new Vector2(0.5f, 0.5f), 100);
-                thumbAsset11.heldAsset = asset;
-                break;
-            case 11:
-                thumbImage12.sprite = Sprite.Create(asset.thumbnailTexture, rec, new Vector2(0.5f, 0.5f), 100);
-                thumbAsset12.heldAsset = asset;
-                break;
-            case 12:
-                thumbImage13.sprite = Sprite.Create(asset.thumbnailTexture, rec, new Vector2(0.5f, 0.5f), 100);
-                thumbAsset13.heldAsset = asset;
-                break;
-            case 13:
-                thumbImage14.sprite = Sprite.Create(asset.thumbnailTexture, rec, new Vector2(0.5f, 0.5f), 100);
-                thumbAsset14.heldAsset = asset;
-                break;
-            case 14:
-                thumbImage15.sprite = Sprite.Create(asset.thumbnailTexture, rec, new Vector2(0.5f, 0.5f), 100);
-                thumbAsset15.heldAsset = asset;
-                break;
-            case 15:
-                thumbImage16.sprite = Sprite.Create(asset.thumbnailTexture, rec, new Vector2(0.5f, 0.5f), 100);
-                thumbAsset16.heldAsset = asset;
-                break;
-            case 16:
-                thumbImage17.sprite = Sprite.Create(asset.thumbnailTexture, rec, new Vector2(0.5f, 0.5f), 100);
-                thumbAsset17.heldAsset = asset;
-                break;
-            case 17:
-                thumbImage18.sprite = Sprite.Create(asset.thumbnailTexture, rec, new Vector2(0.5f, 0.5f), 100);
-                thumbAsset18.heldAsset = asset;
-                break;
-            
-        }
-         */
+    
         thumbnailCount++;
 
     }
-/* 
-    public void ShowNextThumbnail() {
-        if (assetIndex < assetsInUse.Count){
-            assetIndex++;
-            PolyApi.FetchThumbnail(assetsInUse[assetIndex], MyThumbnailCallback);
 
-            List<PolyAsset> assetAttributes = new List<PolyAsset>();
-            assetAttributes.Add(assetsInUse[assetIndex]);
-            string attribs = PolyApi.GenerateAttributions(includeStatic: true, runtimeAssets: assetAttributes);
-            //modelAttributes.text = attribs;
-            mr.attributeString = attribs;
-        }
+
+//Above: called by initial set AR object screen
+/***************************************************************************************************************************************************************/
+//Below: called by second set AR screen activated when editing AR object from summary screen
+
+    //Flow for get thumbnails: GetThumbnails2 -> ListAssetsCallback2-> myThumbnailCallback2 (this one makes the thumbnails)
+    public void GetThumbnails2()
+    {
+        PolyListAssetsRequest req = new PolyListAssetsRequest();
+        req.keywords = keyword2.text;
+        req.curated = true;
+        req.orderBy = PolyOrderBy.BEST;
+        req.maxComplexity = PolyMaxComplexityFilter.UNSPECIFIED;
+        PolyApi.ListAssets(req, ListAssetsCallback2);
+        thumbnailCount = 0;
     }
 
-    public void ShowPreviousThumbnail() {
-        if (assetIndex > 1){
-            assetIndex--;
-            PolyApi.FetchThumbnail(assetsInUse[assetIndex], MyThumbnailCallback);
+    // Callback invoked when the featured assets results are returned.
+    private void ListAssetsCallback2(PolyStatusOr<PolyListAssetsResult> result) {
+        
+        if (!result.Ok) {
+            Debug.LogError("Failed to get featured assets. :( Reason: " + result.Status);
+            return;
+        }
+ 
 
-            List<PolyAsset> assetAttributes = new List<PolyAsset>();
-            assetAttributes.Add(assetsInUse[assetIndex]);
-            string attribs = PolyApi.GenerateAttributions(includeStatic: true, runtimeAssets: assetAttributes);
-            //modelAttributes.text = attribs;
-            mr.attributeString = attribs;
+
+
+        DeleteThumbnails2();
+        ClearSearchText2();
+
+        for (int i = 0; i < Mathf.Min(maxThumbResults, result.Value.assets.Count); i++) { 
+            Debug.Log(i+" "+ result.Value.assets[i]);
+            PolyApi.FetchThumbnail(result.Value.assets[i], MyThumbnailCallback2);
         }
     }
-    */
+    public void DeleteThumbnails2(){
+       
+			foreach (Transform child in thumbNailParentContent2.transform) {
+				GameObject.Destroy(child.gameObject);
+			}
+	
+    }
+    public void ClearSearchText2(){
+			keyword2.text = "";
+		}
+    void MyThumbnailCallback2(PolyAsset asset, PolyStatus status)
+    {
+        Debug.Log("in callback");
+        if (!status.ok)
+        {
+            Debug.Log("Loading thumbnails fail");
+            // Handle error;
+            return;
+        }
+        // Display the asset.thumbnailTexture.
+        Debug.Log("Loading thumbnails");
+        //thumb = Instantiate(thumbPrefab,content.transform);
+        Rect rec = new Rect(0, 0, asset.thumbnailTexture.width, asset.thumbnailTexture.height);
+
+        string thumbNailName = "modelThumbnail" + thumbnailCount;
+        GameObject newThumbnail = Instantiate(modelThumbPrefab);
+        newThumbnail.name = thumbNailName;
+
+        newThumbnail.GetComponent<Image>().sprite = Sprite.Create(asset.thumbnailTexture, rec, new Vector2(0.5f, 0.5f), 100);
+
+        newThumbnail.transform.SetParent(thumbNailParentContent2.GetComponent<Transform>());
+        thumbnailResults[thumbnailCount] = newThumbnail;
+        
+        newThumbnail.GetComponent<RectTransform>().localScale = new Vector3(1.0f,1.0f,1.0f);
+        newThumbnail.GetComponent<Button>().onClick.AddListener(delegate {mainCanvas.GetComponent<PanelController>().OpenPanel(viewLibraryContentPanel2);});
+        newThumbnail.GetComponent<Button>().onClick.AddListener(delegate {mr.renderModel(newThumbnail);});
+        newThumbnail.GetComponent<Button>().onClick.AddListener(delegate {localScriptHolder.GetComponent<ArPairDisplayManager>().setModelThumbnailArPair(newThumbnail);});
+        newThumbnail.GetComponent<PolyAssetHolderClass>().heldAsset = asset;
+    
+        thumbnailCount++;
+
+    }
 }

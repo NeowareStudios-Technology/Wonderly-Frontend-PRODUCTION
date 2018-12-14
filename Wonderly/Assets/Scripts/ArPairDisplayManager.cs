@@ -9,6 +9,7 @@ public class ArPairDisplayManager : MonoBehaviour {
 	public UiManager um;
 
 	public Image chosenThumb;
+	public Image chosenThumb2;
 
 	public Image[] targetThumbs = new Image[5];
 
@@ -30,6 +31,7 @@ public class ArPairDisplayManager : MonoBehaviour {
 
 	public FilesManager fm;
 	public VideoSearchManager vsm;
+	public ModelInitializer mi;
 
 
 
@@ -52,8 +54,9 @@ public class ArPairDisplayManager : MonoBehaviour {
 		chosenThumb.sprite = thumbNail.GetComponent<Image>().sprite;
 		targetObjectThumbs[fm.currentTarget-1].sprite = thumbNail.GetComponent<Image>().sprite;
 
-
-		um.startResetVideoThumbs();
+		vsm.ClearSearchField();
+		vsm.DeleteThumbnails();
+		//um.startResetVideoThumbs();
 
 		// for (int k = 0; k < vsm.videoThumbList.Length; k++)
 		// {
@@ -94,11 +97,13 @@ public class ArPairDisplayManager : MonoBehaviour {
 
 		//set object thumbnail in select object
 		chosenThumb.sprite = index.GetComponent<Image>().sprite;
+		chosenThumb2.sprite = index.GetComponent<Image>().sprite;
 		//chosenThumb.sprite = targetObjectThumbs[fm.currentTarget-1].sprite;
 
 		//clears model thumbnails
 		//um.startResetModelThumbs();
-
+		mi.DeleteThumbnails();
+		mi.ClearSearchText();
 	}
 	
 

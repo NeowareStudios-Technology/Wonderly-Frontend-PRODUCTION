@@ -44,6 +44,7 @@ public class VideoSearchManager : MonoBehaviour {
     }
 	public void Search()
     {
+        DeleteThumbnails();
         thumbUrls.Clear();
         //turn on target's video player
 
@@ -108,33 +109,27 @@ public class VideoSearchManager : MonoBehaviour {
             string thumbNailName = "videoThumbnail" + i;
             GameObject newThumbnail = Instantiate(videoThumbPrefab);
             newThumbnail.name = thumbNailName;
-            //newThumbnail.GetComponent<Image>().sprite = Sprite.Create(asset.thumbnailTexture, rec, new Vector2(0.5f, 0.5f), 100);
             newThumbnail.transform.SetParent(thumbNailParentContent.GetComponent<Transform>());
 
-        videoThumbList[i] = newThumbnail;
+            videoThumbList[i] = newThumbnail;
 
-        //newThumbnail.GetComponent<RectTransform>().size = new Vector3(1.0f,1.0f,1.0f);
-        newThumbnail.GetComponent<RectTransform>().localScale = new Vector3(1.0f,1.0f,1.0f);
+            //newThumbnail.GetComponent<RectTransform>().size = new Vector3(1.0f,1.0f,1.0f);
+            newThumbnail.GetComponent<RectTransform>().localScale = new Vector3(1.0f,1.0f,1.0f);
 
-
-
-
-        newThumbnail.GetComponent<YoutubeVideoUi>().videoId = videoList[i].id;
+            newThumbnail.GetComponent<YoutubeVideoUi>().videoId = videoList[i].id;
+            
             newThumbnail.GetComponent<YoutubeVideoUi>().thumbUrl = videoList[i].snippet.thumbnails.defaultThumbnail.url;
             thumbUrls.Add(videoList[i].snippet.thumbnails.defaultThumbnail.url);
             newThumbnail.GetComponent<YoutubeVideoUi>().LoadThumbnail();
 
-        
-        //newThumbnail.GetComponent<Button>().onClick.AddListener(delegate {mr.renderModel(newThumbnail);});
+            newThumbnail.GetComponent<Button>().onClick.AddListener(delegate {newThumbnail.GetComponent<YoutubeVideoUi>().PlayYoutubeVideo();});
 
-        newThumbnail.GetComponent<Button>().onClick.AddListener(delegate {newThumbnail.GetComponent<YoutubeVideoUi>().PlayYoutubeVideo();});
+            newThumbnail.GetComponent<Button>().onClick.AddListener(delegate {localScriptHolder.GetComponent<ArPairDisplayManager>().setYoutubeThumbnailArPair(newThumbnail);});
 
-        newThumbnail.GetComponent<Button>().onClick.AddListener(delegate {localScriptHolder.GetComponent<ArPairDisplayManager>().setYoutubeThumbnailArPair(newThumbnail);});
-
-        newThumbnail.GetComponent<Button>().onClick.AddListener(delegate {this.GetComponent<YoutubeAPIManager>().SetVideoInfo(TempIterator);});
-        
-        newThumbnail.GetComponent<Button>().onClick.AddListener(delegate {mainCanvas.GetComponent<PanelController>().OpenPanel(viewLibraryContentPanel);});
-        //newThumbnail.GetComponent<PolyAssetHolderClass>().heldAsset = asset;
+            newThumbnail.GetComponent<Button>().onClick.AddListener(delegate {this.GetComponent<YoutubeAPIManager>().SetVideoInfo(TempIterator + 1);});
+            
+            newThumbnail.GetComponent<Button>().onClick.AddListener(delegate {mainCanvas.GetComponent<PanelController>().OpenPanel(viewLibraryContentPanel);});
+       
 
         } 
         
@@ -152,5 +147,12 @@ public class VideoSearchManager : MonoBehaviour {
     */
          
     }
-
+    public void DeleteThumbnails(){
+		foreach (Transform child in thumbNailParentContent.transform) {
+     			GameObject.Destroy(child.gameObject);
+        }
+	}
+    public void ClearSearchField(){
+        searchField.text = "";
+    }
 }
