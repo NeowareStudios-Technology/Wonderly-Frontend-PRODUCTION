@@ -68,6 +68,9 @@ public class UiManager : MonoBehaviour {
 	public Text chosenVideoText;
 	public Text chosenImageText;
 
+	//used to disable button if there are 3 targets
+	public GameObject addWonderButton;
+
 	//public GameObject rotateButton1;
 	//public Text rotateButton1Text;
 	//public GameObject rotateButton2;
@@ -106,20 +109,15 @@ public class UiManager : MonoBehaviour {
 	// handles what UI will be displayed based on the 1 model/video/pic per target rule
 	void Update () {
 
-		/*
-		if (fm.currentTarget == 0)
+		//controls whether the addWonder button appears based on number of targets
+		if (fm.targetCount == 3)
 		{
-			videoHighlight.gameObject.SetActive(false);
-			modelHighlight.gameObject.SetActive(false);
-			imageHighlight.gameObject.SetActive(false);
-			textHighlight.gameObject.SetActive(false);
+			addWonderButton.SetActive(false);
 		}
-		*/
-
-
-
-		///if(sm.title.text != "")
-			///summaryTitle.text = sm.title.text;
+		else if (fm.targetCount < 3)
+		{
+			addWonderButton.SetActive(true);
+		}
 
 		switch(fm.targetStatus[0])
 		{

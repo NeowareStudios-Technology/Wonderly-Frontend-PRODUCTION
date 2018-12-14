@@ -412,7 +412,7 @@ public class FirebaseManager : MonoBehaviour {
 				}
 
 				//activate notifaction 
-				passwordChangedNotification.SetActive(true);
+				//passwordChangedNotification.SetActive(true);
 				//set new password in player prefs for auto log in
 				PlayerPrefs.SetString("password", newPassword);
 				Debug.Log("Password updated successfully.");

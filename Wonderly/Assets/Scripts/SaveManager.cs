@@ -19,7 +19,7 @@ public class SaveManager : MonoBehaviour {
 	public SaveClassDeclaration save;
 
 	public InputField title;
-	public InputField editTitle;
+	public Text editTitle;
 	public InputField description;
 	//the below 2 are for the edit title/description screen marked SINGLE
 	public InputField editTitle2;
@@ -36,7 +36,7 @@ public class SaveManager : MonoBehaviour {
 	public string[] wonderTitles = new string[5];
 	public string[] wonderDescriptions = new string[5];
 
-	public string coverImageUrl;
+	//public string coverImageUrl;
 
 	//add this function to button that saves/sets wonders
 	public void LocalSaveWonderTitleDesc()
@@ -94,6 +94,8 @@ public class SaveManager : MonoBehaviour {
 
 	public void CreateSaveFile()
 	{
+		Debug.Log("creating normal save file");
+
 		Debug.Log("1. Starting SaveManager.CreateSaveFile()...");
 		//delete the previous save
 		deleteOldSave();
@@ -417,6 +419,7 @@ public class SaveManager : MonoBehaviour {
 
 	public void CreateSaveFileForEdit()
 	{
+		Debug.Log("creating save file for edit");
 		//delete the previous save
 		deleteOldSave();
 

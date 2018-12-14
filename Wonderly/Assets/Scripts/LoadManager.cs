@@ -16,6 +16,7 @@ public class LoadManager : MonoBehaviour {
 	public ImageTargetManager itm;
 	public pixabayManager pm;
 	public ArPairDisplayManager apdm;
+	public SaveManager sm;
 	public UnityEngine.UI.Image targetPreview1;
 	public UnityEngine.UI.Image targetPreview2;
 	public UnityEngine.UI.Image targetPreview3;
@@ -123,11 +124,16 @@ public class LoadManager : MonoBehaviour {
 			summaryDescriptionDisplay.text = scd.description;
 		}
 
+		//set cover image url
+		//sm.coverImageUrl = scd.coverImageUrl;
+		pm.chosenCoverImageUrl = scd.coverImageUrl;
+
 		//set each wonder title
 		int titleCount =0;
 		foreach (string title in scd.wonderTitle)
 		{
 			apdm.wonderTitles[titleCount].text = title;
+			sm.wonderTitles[titleCount] = title;
 			titleCount++;
 		}
 
@@ -136,6 +142,7 @@ public class LoadManager : MonoBehaviour {
 		foreach (string description in scd.wonderDescription)
 		{
 			apdm.wonderDescriptions[descriptionCount].text = description;
+			sm.wonderDescriptions[descriptionCount] = description;
 			descriptionCount++;
 		}
 

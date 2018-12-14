@@ -20,6 +20,7 @@ public class CloudEndpointsApiManager : MonoBehaviour {
 	public ProfileInfoClass pic;
 	public checkEmailClass cec;
 	public checkEmailResponseClass cerc;
+	public CreateOrEditController coec;
 	public Text editFirstName;
 	public Text editLastName;
 	public InputField editFirstNameInput;
@@ -58,6 +59,8 @@ public class CloudEndpointsApiManager : MonoBehaviour {
 	public GameObject libraryPopupMenuPrefab;
 
 	public GameObject libraryPopupMenuInstantiated;
+
+	public GameObject iconPanel;
 
 	public string code;
 
@@ -133,6 +136,11 @@ public class CloudEndpointsApiManager : MonoBehaviour {
 
 			yield return editProfileRequest.SendWebRequest();
 			Debug.Log(editProfileRequest.responseCode);
+
+			if ((fbm.editPassword.text != "") && (fbm.editPassword2.text != ""))
+			{
+				fbm.changeUserPassword();
+			}
 
 			//call this to fill the profile page with the changed content (lets user know edit worked)
 			//getProfileInfo will disable loading screen on completion
@@ -242,7 +250,10 @@ public class CloudEndpointsApiManager : MonoBehaviour {
 		editExperienceClass editExperience = new editExperienceClass();
 		editExperience.title = sm.editTitle.text;
 		editExperience.code = code;
-		editExperience.coverImageUrl = sm.save.coverImageUrl;
+		Debug.Log("In experienceEdit: cover image url from sm is "+sm.save.coverImageUrl);
+		editExperience.coverImage = sm.save.coverImageUrl;
+		if (editExperience.coverImage == "" || editExperience.coverImage == null)
+			editExperience.coverImage = "none";
 
 		//get target object counts
 		int modelCount = 0;
@@ -274,6 +285,8 @@ public class CloudEndpointsApiManager : MonoBehaviour {
 
 		//convert editExperience clas instance into json string
 		string editExperienceJson = JsonUtility.ToJson(editExperience);
+
+
 
 		using (UnityWebRequest editExperienceRequest = UnityWebRequest.Put(editExpUrl,editExperienceJson))
 		{
@@ -381,13 +394,14 @@ public void startGetProfileInfo()
 
 			int index = i;
 	
-			//spawn and fill out library stubb
+			//spawn and fill out library stub
 			libraryStubs[i] = Instantiate(libraryStubPrefab,libraryScrollContent.transform);
 			libraryStubs[i].transform.GetChild(1).gameObject.GetComponent<Text>().text = oec.titles[i];
 			libraryStubs[i].transform.GetChild(8).gameObject.GetComponent<Text>().text = oec.dates[i];
 			libraryStubs[i].transform.GetChild(2).gameObject.GetComponent<Text>().text = oec.codes[i];
 			libraryStubs[i].transform.GetChild(5).gameObject.GetComponent<Button>().onClick.AddListener(delegate {fsm.startDownloadExperienceFilesDirect(index+1); });
 			libraryStubs[i].transform.GetChild(5).gameObject.GetComponent<Button>().onClick.AddListener(delegate {mainCanvasPanelController.OpenPanel(ViewScreenAnimator); });
+			libraryStubs[i].transform.GetChild(5).gameObject.GetComponent<Button>().onClick.AddListener(delegate {iconPanel.SetActive(false); });
 			libraryStubs[i].transform.GetChild(7).gameObject.GetComponent<Button>().onClick.AddListener(delegate {createLibraryPopup(index); });
 			libraryCodes[i] = oec.codes[i];
 
@@ -429,6 +443,8 @@ public void startGetProfileInfo()
 		libraryPopupMenuInstantiated.transform.GetChild(2).GetChild(1).gameObject.GetComponent<Button>().onClick.AddListener(delegate {startExperienceEdit(index+1); });
 		libraryPopupMenuInstantiated.transform.GetChild(2).GetChild(1).gameObject.GetComponent<Button>().onClick.AddListener(delegate {libraryPopupMenuInstantiated.SetActive(false); });
 		libraryPopupMenuInstantiated.transform.GetChild(2).GetChild(1).gameObject.GetComponent<Button>().onClick.AddListener(delegate {mainCanvasPanelController.OpenPanel(journeySummaryAnimator); });
+		libraryPopupMenuInstantiated.transform.GetChild(2).GetChild(1).gameObject.GetComponent<Button>().onClick.AddListener(delegate {iconPanel.SetActive(false); });
+		libraryPopupMenuInstantiated.transform.GetChild(2).GetChild(1).gameObject.GetComponent<Button>().onClick.AddListener(delegate {coec.setCreateOrEdit("edit"); });
 		//cancel button
 		libraryPopupMenuInstantiated.transform.GetChild(1).GetChild(2).gameObject.GetComponent<Button>().onClick.AddListener(delegate {libraryPopupMenuInstantiated.SetActive(false); });
 	}

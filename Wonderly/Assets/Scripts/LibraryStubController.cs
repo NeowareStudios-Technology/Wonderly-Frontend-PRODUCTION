@@ -5,6 +5,19 @@ using UnityEngine;
 public class LibraryStubController : MonoBehaviour {
 
 	public CloudEndpointsApiManager ceam;
+	public FirebaseManager fm;
+
+	void Awake()
+	{
+		StartCoroutine("delayedFillLibrary");
+	}
+
+	private IEnumerator delayedFillLibrary()
+	{
+		yield return new WaitForSeconds(2);
+		if (fm.token != null)
+			ceam.startGetOwnedCodes();
+	}
 
 	//makes sure that library is clear whenever library exited
 	void OnDisable() 
@@ -13,9 +26,8 @@ public class LibraryStubController : MonoBehaviour {
 	}
 
 	//makes sure that library is populated when active
-	void OnEnable() 
+  void OnEnable() 
 	{
-		ceam.getOwnedCodes();
+		ceam.startGetOwnedCodes();
 	}
-
 }

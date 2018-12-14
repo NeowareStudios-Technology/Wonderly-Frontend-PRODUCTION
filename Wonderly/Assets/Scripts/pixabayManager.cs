@@ -202,6 +202,8 @@ public class pixabayManager : MonoBehaviour {
 	public void chooseCoverImageStarter(int index, GameObject newThumbnail) {
 			chosenCoverImageUrl = coverImageUrl[index];
 
+			Debug.Log(coverImageUrl[index]);
+
 			StartCoroutine(ChooseCoverImage(index, newThumbnail));
 		}
 

@@ -40,7 +40,7 @@ namespace Sample
         //public string[] targetSet = {"none", "none", "none", "none", "none"};
 
         public GameObject mainCanvas;
-        public Animator homeScreen;
+        public Animator firstPanelIfLoggedIn;
         public Animator welcomePanel;
 
         public void setCurrentTarget(int current)
@@ -49,9 +49,11 @@ namespace Sample
         }
 
         private IEnumerator openHome(){
-            mainCanvas.GetComponent<PanelController>().initiallyOpen = homeScreen;
+            mainCanvas.GetComponent<PanelController>().initiallyOpen = firstPanelIfLoggedIn;
+            mainCanvas.GetComponent<PanelController>().SetBottomPanelActive(true);
             yield return new WaitForSeconds(1.0f);
-            mainCanvas.GetComponent<PanelController>().OpenPanel(homeScreen);
+            mainCanvas.GetComponent<PanelController>().OpenPanel(firstPanelIfLoggedIn);
+            
              Debug.Log("logged in auto");
         }
         void Awake()
@@ -81,38 +83,7 @@ namespace Sample
             Debug.Log("calling get profile info");
 
             StartCoroutine("delayedReset");
-/* 
-            //set the current target to the first created target photo index (current target stays at 0 if no target photos exist)
-            string target1Path = Path.Combine(MarksDirectory, "targetPhoto1.jpg");
-            string target2Path = Path.Combine(MarksDirectory, "targetPhoto2.jpg");
-            string target3Path = Path.Combine(MarksDirectory, "targetPhoto3.jpg");
-            string target4Path = Path.Combine(MarksDirectory, "targetPhoto4.jpg");
-            string target5Path = Path.Combine(MarksDirectory, "targetPhoto5.jpg");
 
-            if (File.Exists(target1Path))
-                currentTarget = 1;
-            else if (File.Exists(target2Path))
-                currentTarget = 2;
-            else if (File.Exists(target3Path))
-                currentTarget = 3;
-            else if (File.Exists(target4Path))
-                currentTarget = 4;
-            else if (File.Exists(target5Path))
-                currentTarget = 5;
-
-            if (File.Exists(target1Path))
-                targetCount++;
-            if (File.Exists(target2Path))
-                targetCount++;
-            if (File.Exists(target3Path))
-                targetCount++;
-            if (File.Exists(target4Path))
-                targetCount++;
-            if (File.Exists(target5Path))
-                targetCount++;
-
-            StartCoroutine("delayedReset");
-*/
         }
 
         ///need to fix this coroutine for new UI
@@ -275,5 +246,6 @@ namespace Sample
                 currentTarget--;
             }
         }
+
     }
 }

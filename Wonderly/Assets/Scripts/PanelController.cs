@@ -9,7 +9,7 @@ public class PanelController : MonoBehaviour {
 
 	//Screen to open automatically at the start of the Scene
     public Animator initiallyOpen;
-
+    public GameObject bottomPanel;
     //Currently Open Screen
     private Animator m_Open;
 
@@ -34,7 +34,14 @@ public class PanelController : MonoBehaviour {
             return;
         OpenPanel(initiallyOpen);
     }
-
+    public void SetBottomPanelActive(bool setPanelActive){
+        if(setPanelActive){
+            bottomPanel.SetActive(true);
+        }
+        else{
+            bottomPanel.SetActive(false);
+        }
+    }
     //Closes the currently open panel and opens the provided one.
     //It also takes care of handling the navigation, setting the new Selected element.
     public void OpenPanel (Animator anim)
@@ -47,9 +54,14 @@ public class PanelController : MonoBehaviour {
         //Save the currently selected button that was used to open this Screen. (CloseCurrent will modify it)
         var newPreviouslySelected = EventSystem.current.currentSelectedGameObject;
         //Move the Screen to front.
+        
         anim.transform.SetAsLastSibling();
+        bottomPanel.transform.SetAsLastSibling();
+        
+        
 
         CloseCurrent();
+        
 
         m_PreviouslySelected = newPreviouslySelected;
 
