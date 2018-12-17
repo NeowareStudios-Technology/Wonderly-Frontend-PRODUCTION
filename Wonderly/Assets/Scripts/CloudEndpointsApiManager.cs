@@ -48,6 +48,9 @@ public class CloudEndpointsApiManager : MonoBehaviour {
 
 	public GameObject libraryPanel;
 
+	public GameObject inFrontOfBottomPanel;
+	public GameObject frontCanvas;
+
 	public string[] libraryCodes = new string[50];
 
 	public GameObject[] libraryStubs = new GameObject[50];
@@ -435,18 +438,22 @@ public void startGetProfileInfo()
 	//creates library menu UI
 	void createLibraryPopup(int index)
 	{
-		libraryPopupMenuInstantiated = Instantiate(libraryPopupMenuPrefab, libraryPanel.transform);
+		frontCanvas.SetActive(true);
+		libraryPopupMenuInstantiated = Instantiate(libraryPopupMenuPrefab, inFrontOfBottomPanel.transform);
 		//delete button
 		libraryPopupMenuInstantiated.transform.GetChild(2).GetChild(3).gameObject.GetComponent<Button>().onClick.AddListener(delegate {startExperienceDelete(index+1); });
-		libraryPopupMenuInstantiated.transform.GetChild(2).GetChild(3).gameObject.GetComponent<Button>().onClick.AddListener(delegate {libraryPopupMenuInstantiated.SetActive(false); });
+		libraryPopupMenuInstantiated.transform.GetChild(2).GetChild(3).gameObject.GetComponent<Button>().onClick.AddListener(delegate {frontCanvas.SetActive(false); });
+		libraryPopupMenuInstantiated.transform.GetChild(2).GetChild(3).gameObject.GetComponent<Button>().onClick.AddListener(delegate {Destroy(libraryPopupMenuInstantiated); });
 		//edit button
 		libraryPopupMenuInstantiated.transform.GetChild(2).GetChild(1).gameObject.GetComponent<Button>().onClick.AddListener(delegate {startExperienceEdit(index+1); });
-		libraryPopupMenuInstantiated.transform.GetChild(2).GetChild(1).gameObject.GetComponent<Button>().onClick.AddListener(delegate {libraryPopupMenuInstantiated.SetActive(false); });
 		libraryPopupMenuInstantiated.transform.GetChild(2).GetChild(1).gameObject.GetComponent<Button>().onClick.AddListener(delegate {mainCanvasPanelController.OpenPanel(journeySummaryAnimator); });
 		libraryPopupMenuInstantiated.transform.GetChild(2).GetChild(1).gameObject.GetComponent<Button>().onClick.AddListener(delegate {iconPanel.SetActive(false); });
 		libraryPopupMenuInstantiated.transform.GetChild(2).GetChild(1).gameObject.GetComponent<Button>().onClick.AddListener(delegate {coec.setCreateOrEdit("edit"); });
+		libraryPopupMenuInstantiated.transform.GetChild(2).GetChild(1).gameObject.GetComponent<Button>().onClick.AddListener(delegate {frontCanvas.SetActive(false); });
+		libraryPopupMenuInstantiated.transform.GetChild(2).GetChild(1).gameObject.GetComponent<Button>().onClick.AddListener(delegate {Destroy(libraryPopupMenuInstantiated); });
 		//cancel button
-		libraryPopupMenuInstantiated.transform.GetChild(1).GetChild(2).gameObject.GetComponent<Button>().onClick.AddListener(delegate {libraryPopupMenuInstantiated.SetActive(false); });
+		libraryPopupMenuInstantiated.transform.GetChild(1).GetChild(2).gameObject.GetComponent<Button>().onClick.AddListener(delegate {frontCanvas.SetActive(false); });
+		libraryPopupMenuInstantiated.transform.GetChild(1).GetChild(2).gameObject.GetComponent<Button>().onClick.AddListener(delegate {Destroy(libraryPopupMenuInstantiated); });
 	}
 	
 
