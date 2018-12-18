@@ -34,6 +34,13 @@ public class FirebaseStorageManager : MonoBehaviour {
 	private string targetPath4;
 	private string targetPath5;
 
+	private string coverImage;
+	private string linkedImage1;
+	private string linkedImage2;
+	private string linkedImage3;
+	private string linkedImage4;
+	private string linkedImage5;
+
 	public GameObject wrongCodeNotification;
 
 	public GameObject viewScreenButton1;
@@ -46,6 +53,8 @@ public class FirebaseStorageManager : MonoBehaviour {
 	public GameObject loadPanel;
 
 	private int whichIndex;
+
+	public string expCode;
 
 	private string saveApiUrl = "https://wonderly-225214.appspot.com/_ah/api/wonderly/v1/exp";
 
@@ -61,6 +70,13 @@ public class FirebaseStorageManager : MonoBehaviour {
 		targetPath3 = Path.Combine(saveFolderPath, "targetPhoto3.jpg");
 		targetPath4 = Path.Combine(saveFolderPath, "targetPhoto4.jpg");
 		targetPath5 = Path.Combine(saveFolderPath, "targetPhoto5.jpg");
+
+		coverImage = Path.Combine(fm.SaveDirectory, "coverImage.jpg");
+		linkedImage1 = Path.Combine(fm.SaveDirectory, "linkedImage1.jpg");
+		linkedImage2 = Path.Combine(fm.SaveDirectory, "linkedImage2.jpg");
+		linkedImage3 = Path.Combine(fm.SaveDirectory, "linkedImage3.jpg");
+		linkedImage4 = Path.Combine(fm.SaveDirectory, "linkedImage4.jpg");
+		linkedImage5 = Path.Combine(fm.SaveDirectory, "linkedImage5.jpg");
 	}
 
 	public void startExperienceUpload()
@@ -201,6 +217,12 @@ public class FirebaseStorageManager : MonoBehaviour {
 		byte[] target3 = new byte[0];
 		byte[] target4 = new byte[0];
 		byte[] target5 = new byte[0];
+		byte[] cover = new byte[0];
+		byte[] linked1 = new byte[0];
+		byte[] linked2 = new byte[0];
+		byte[] linked3 = new byte[0];
+		byte[] linked4 = new byte[0];
+		byte[] linked5 = new byte[0];
 		byte[] saveFile = new byte[0];
 
 		if (File.Exists(saveFilePath))
@@ -302,8 +324,104 @@ public class FirebaseStorageManager : MonoBehaviour {
     		}		
 			});
 		}
+		
+		if (File.Exists(coverImage))
+		{
+			cover = System.IO.File.ReadAllBytes(coverImage);
+			Firebase.Storage.StorageReference coverRef = fbm.fbStorageRef.Child(ecc.code + "/" + "coverImage.jpg");
+			coverRef.PutBytesAsync(cover).ContinueWith ((Task<StorageMetadata> task) => {
+			if (task.IsFaulted || task.IsCanceled) {
+					Debug.Log(task.Exception.ToString());
+					// Uh-oh, an error occurred!
+			} else {
+					// Metadata contains file metadata such as size, content-type, and download URL.
+					Firebase.Storage.StorageMetadata metadata = task.Result;
+					Debug.Log("Finished uploading cover image...");
+    		}		
+			});
+		}
+		
+		if (File.Exists(linkedImage1))
+		{
+			linked1 = System.IO.File.ReadAllBytes(linkedImage1);
+			Firebase.Storage.StorageReference linked1Ref = fbm.fbStorageRef.Child(ecc.code + "/" + "linkedImage1.jpg");
+			linked1Ref.PutBytesAsync(linked1).ContinueWith ((Task<StorageMetadata> task) => {
+			if (task.IsFaulted || task.IsCanceled) {
+					Debug.Log(task.Exception.ToString());
+					// Uh-oh, an error occurred!
+			} else {
+					// Metadata contains file metadata such as size, content-type, and download URL.
+					Firebase.Storage.StorageMetadata metadata = task.Result;
+					Debug.Log("Finished uploading linked image 1...");
+    		}		
+			});
+		}
+		if (File.Exists(linkedImage2))
+		{
+			linked2 = System.IO.File.ReadAllBytes(linkedImage2);
+			Firebase.Storage.StorageReference linked2Ref = fbm.fbStorageRef.Child(ecc.code + "/" + "linkedImage2.jpg");
+			linked2Ref.PutBytesAsync(linked2).ContinueWith ((Task<StorageMetadata> task) => {
+			if (task.IsFaulted || task.IsCanceled) {
+					Debug.Log(task.Exception.ToString());
+					// Uh-oh, an error occurred!
+			} else {
+					// Metadata contains file metadata such as size, content-type, and download URL.
+					Firebase.Storage.StorageMetadata metadata = task.Result;
+					Debug.Log("Finished uploading linked image 2...");
+    		}		
+			});
+		}
+		if (File.Exists(linkedImage3))
+		{
+			linked3 = System.IO.File.ReadAllBytes(linkedImage3);
+			Firebase.Storage.StorageReference linked3Ref = fbm.fbStorageRef.Child(ecc.code + "/" + "linkedImage3.jpg");
+			linked3Ref.PutBytesAsync(linked3).ContinueWith ((Task<StorageMetadata> task) => {
+			if (task.IsFaulted || task.IsCanceled) {
+					Debug.Log(task.Exception.ToString());
+					// Uh-oh, an error occurred!
+			} else {
+					// Metadata contains file metadata such as size, content-type, and download URL.
+					Firebase.Storage.StorageMetadata metadata = task.Result;
+					Debug.Log("Finished uploading linked image 3...");
+    		}		
+			});
+		}
+		if (File.Exists(linkedImage4))
+		{
+			linked4 = System.IO.File.ReadAllBytes(linkedImage4);
+			Firebase.Storage.StorageReference linked4Ref = fbm.fbStorageRef.Child(ecc.code + "/" + "linkedImage4.jpg");
+			linked4Ref.PutBytesAsync(linked4).ContinueWith ((Task<StorageMetadata> task) => {
+			if (task.IsFaulted || task.IsCanceled) {
+					Debug.Log(task.Exception.ToString());
+					// Uh-oh, an error occurred!
+			} else {
+					// Metadata contains file metadata such as size, content-type, and download URL.
+					Firebase.Storage.StorageMetadata metadata = task.Result;
+					Debug.Log("Finished uploading linked image 4...");
+    		}		
+			});
+		}
+		if (File.Exists(linkedImage5))
+		{
+			linked5 = System.IO.File.ReadAllBytes(linkedImage5);
+			Firebase.Storage.StorageReference linked5Ref = fbm.fbStorageRef.Child(ecc.code + "/" + "linkedImage5.jpg");
+			linked5Ref.PutBytesAsync(linked5).ContinueWith ((Task<StorageMetadata> task) => {
+			if (task.IsFaulted || task.IsCanceled) {
+					Debug.Log(task.Exception.ToString());
+					// Uh-oh, an error occurred!
+			} else {
+					// Metadata contains file metadata such as size, content-type, and download URL.
+					Firebase.Storage.StorageMetadata metadata = task.Result;
+					Debug.Log("Finished uploading linked image 5...");
+    		}		
+			});
+		}
+		
+		
 
 		itm.DeleteAllTargetsAndText();
+		sm.deleteOldSave();
+		
 	}
 
 	public void startDownloadExperienceFiles()
@@ -677,8 +795,6 @@ saveFileRef.GetBytesAsync(maxAllowedSize).ContinueWith((Task<byte[]> task1) => {
 		Debug.Log("2e. fsm508, Target 4 path = "+targetPath4);
 		//for debugging iOS download problem
 		Debug.Log("2f. fsm510, Target 5 path = "+targetPath5);
-
-		string expCode = "";
 
 		expCode = ceam.libraryCodes[whichIndex-1];
 		

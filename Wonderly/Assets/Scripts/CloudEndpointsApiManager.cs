@@ -10,6 +10,8 @@ using Sample;
 using System.Threading.Tasks;
 
 public class CloudEndpointsApiManager : MonoBehaviour {
+
+	public GameObject lsh;
 	public FirebaseManager fbm;
 	public FirebaseStorageManager fsm;
 	public SaveManager sm;
@@ -78,6 +80,10 @@ public class CloudEndpointsApiManager : MonoBehaviour {
 	private string editProfileUrl = "https://wonderly-225214.appspot.com/_ah/api/wonderly/v1/profile/edit";
 
 	public bool checkEmail;
+
+	int maxAllowedSize = 2000*2000;
+
+	public byte[] fileContents;
 
 	public void startProfileCreate()
 	{
@@ -395,8 +401,30 @@ public void startGetProfileInfo()
 			if (i == 49)
 				break;
 
+			//get cover image from pixabay
+			if (oec.coverImages[i] != "none")
+			{
+				Firebase.Storage.StorageReference coverImageRef = fbm.fbStorage.GetReference(oec.codes[i] + "/" + "coverImage.jpg");
+
+				coverImageRef.GetBytesAsync(maxAllowedSize).ContinueWith((Task<byte[]> task1) => {
+			if (task1.IsFaulted || task1.IsCanceled) {
+				Debug.Log(task1.Exception.ToString());
+				// Uh-oh, an error occurred!
+			} else {
+				fileContents = task1.Result;
+				Debug.Log("cover image finished downloading!");
+				//tex = new Texture2D(2000, 2000);
+				//tex.LoadImage(fileContents);
+			}
+			});
+				//StartCoroutine(loadJourneyCoverImage(libraryStubs[i], oec.coverImages[i]));
+		}
+
+			Texture2D tex = new Texture2D(2000, 2000);
+			tex.LoadImage(fileContents);
+
 			int index = i;
-	
+
 			//spawn and fill out library stub
 			libraryStubs[i] = Instantiate(libraryStubPrefab,libraryScrollContent.transform);
 			libraryStubs[i].transform.GetChild(1).gameObject.GetComponent<Text>().text = oec.titles[i];
@@ -405,18 +433,15 @@ public void startGetProfileInfo()
 			libraryStubs[i].transform.GetChild(5).gameObject.GetComponent<Button>().onClick.AddListener(delegate {fsm.startDownloadExperienceFilesDirect(index+1); });
 			libraryStubs[i].transform.GetChild(5).gameObject.GetComponent<Button>().onClick.AddListener(delegate {mainCanvasPanelController.OpenPanel(ViewScreenAnimator); });
 			libraryStubs[i].transform.GetChild(5).gameObject.GetComponent<Button>().onClick.AddListener(delegate {iconPanel.SetActive(false); });
+			libraryStubs[i].transform.GetChild(5).gameObject.GetComponent<Image>().sprite = Sprite.Create(tex, new Rect(0, 0, tex.width, tex.height), new Vector2(0, 0));
 			libraryStubs[i].transform.GetChild(7).gameObject.GetComponent<Button>().onClick.AddListener(delegate {createLibraryPopup(index); });
 			libraryCodes[i] = oec.codes[i];
 
-			//get cover image from pixabay
-			if (oec.coverImages[i] != "none")
-			{
-				StartCoroutine(loadJourneyCoverImage(libraryStubs[i], oec.coverImages[i]));
-			}
+			
 
-		}
-		
 	}
+	}
+		
 
 	private IEnumerator loadJourneyCoverImage(GameObject libStub, string coverImageUrl) {
 		using (WWW imageRequest = new WWW(coverImageUrl))
@@ -454,6 +479,10 @@ public void startGetProfileInfo()
 		//cancel button
 		libraryPopupMenuInstantiated.transform.GetChild(1).GetChild(2).gameObject.GetComponent<Button>().onClick.AddListener(delegate {frontCanvas.SetActive(false); });
 		libraryPopupMenuInstantiated.transform.GetChild(1).GetChild(2).gameObject.GetComponent<Button>().onClick.AddListener(delegate {Destroy(libraryPopupMenuInstantiated); });
+		//share
+		libraryPopupMenuInstantiated.transform.GetChild(2).GetChild(2).gameObject.GetComponent<Button>().onClick.AddListener(delegate {lsh.GetComponent<Sharing>().SharingCodeJourneyContextMenu(index); });
+		libraryPopupMenuInstantiated.transform.GetChild(2).GetChild(2).gameObject.GetComponent<Button>().onClick.AddListener(delegate {Destroy(libraryPopupMenuInstantiated); });
+		libraryPopupMenuInstantiated.transform.GetChild(2).GetChild(2).gameObject.GetComponent<Button>().onClick.AddListener(delegate {frontCanvas.SetActive(false); });
 	}
 	
 

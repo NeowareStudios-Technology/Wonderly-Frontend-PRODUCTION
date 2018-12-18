@@ -98,7 +98,7 @@ public class SaveManager : MonoBehaviour {
 
 		Debug.Log("1. Starting SaveManager.CreateSaveFile()...");
 		//delete the previous save
-		deleteOldSave();
+		//deleteOldSave();
 
 		//create a new save class instance
 		save = new SaveClassDeclaration();
@@ -421,7 +421,7 @@ public class SaveManager : MonoBehaviour {
 	{
 		Debug.Log("creating save file for edit");
 		//delete the previous save
-		deleteOldSave();
+		//deleteOldSave();
 
 		//create a new save class instance
 		save = new SaveClassDeclaration();

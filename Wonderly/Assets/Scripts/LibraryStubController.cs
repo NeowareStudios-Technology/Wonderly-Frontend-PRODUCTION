@@ -16,6 +16,7 @@ public class LibraryStubController : MonoBehaviour {
 	{
 		yield return new WaitForSeconds(2);
 		if (fm.token != null)
+			ceam.deactivateLibraryStubs();
 			ceam.startGetOwnedCodes();
 	}
 

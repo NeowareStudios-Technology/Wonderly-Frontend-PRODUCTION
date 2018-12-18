@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Text;
+using System.IO;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Networking;
@@ -224,39 +225,17 @@ public class pixabayManager : MonoBehaviour {
 				}
 				else
 				{
-					coverImage.sprite = newThumbnail.GetComponent<Image>().sprite;
-					//coverImage.sprite = Sprite.Create(imageRequest.texture, new Rect(0, 0, imageRequest.texture.width, imageRequest.texture.height), new Vector2(0, 0));
-					//coverImage.GetComponent<Renderer>().material.mainTexture = imageRequest.texture;
+					coverImage.sprite = Sprite.Create(imageRequest.texture, new Rect(0, 0, imageRequest.texture.width, imageRequest.texture.height), new Vector2(0, 0));
+					string coverImagePath = Path.Combine(fm.SaveDirectory, "coverImage.jpg");
+					byte[] coverJpg = ImageConversion.EncodeToJPG(imageRequest.texture, 100); 
+					File.WriteAllBytes(coverImagePath, coverJpg);
 					
 				}
 				
 				LoadingPanel.SetActive(false);
 				yield return null;
 
-				//clear url arrays and thumbnail images
 
-				//yield return new WaitForSeconds(.1f);
-				
-				// coverImageUrl = new string[18];
-				// coverImagePreviewUrl = new string[18];
-				// searchedThumbnailsCoverImage[0].sprite = blankImage.sprite;
-				// searchedThumbnailsCoverImage[1].sprite = blankImage.sprite;
-				// searchedThumbnailsCoverImage[2].sprite = blankImage.sprite;
-				// searchedThumbnailsCoverImage[3].sprite = blankImage.sprite;
-				// searchedThumbnailsCoverImage[4].sprite = blankImage.sprite;
-				// searchedThumbnailsCoverImage[5].sprite = blankImage.sprite;
-				// searchedThumbnailsCoverImage[6].sprite = blankImage.sprite;
-				// searchedThumbnailsCoverImage[7].sprite = blankImage.sprite;
-				// searchedThumbnailsCoverImage[8].sprite = blankImage.sprite;
-				// searchedThumbnailsCoverImage[9].sprite = blankImage.sprite;
-				// searchedThumbnailsCoverImage[10].sprite = blankImage.sprite;
-				// searchedThumbnailsCoverImage[11].sprite = blankImage.sprite;
-				// searchedThumbnailsCoverImage[12].sprite = blankImage.sprite;
-				// searchedThumbnailsCoverImage[13].sprite = blankImage.sprite;
-				// searchedThumbnailsCoverImage[14].sprite = blankImage.sprite;
-				// searchedThumbnailsCoverImage[15].sprite = blankImage.sprite;
-				// searchedThumbnailsCoverImage[16].sprite = blankImage.sprite;
-				// searchedThumbnailsCoverImage[17].sprite = blankImage.sprite;
 
 			}
 		}
@@ -411,32 +390,49 @@ public class pixabayManager : MonoBehaviour {
 					Rect rec = new Rect(0, 0, imageRequest.texture.width, imageRequest.texture.height);
 					newThumbnail.GetComponent<Image>().sprite = Sprite.Create(imageRequest.texture, rec, new Vector2(0.5f, 0.5f), 100);
 					StartCoroutine(SetArPairThumbnail(newThumbnail));
+
+					
 					
 					switch(fm.currentTarget)
 					{
 						case 1:
 							image1.GetComponent<Renderer>().material.mainTexture = imageRequest.texture;
 							StartCoroutine(SetArPairThumbnail(newThumbnail));
+							string linkedImage1Path = Path.Combine(fm.SaveDirectory, "linkedImage1.jpg");
+							byte[] linkedJpg1 = ImageConversion.EncodeToJPG(imageRequest.texture, 100); 
+							File.WriteAllBytes(linkedImage1Path, linkedJpg1);
 							fm.targetStatus[0] = "image";
 							break;
 						case 2:
 							image2.GetComponent<Renderer>().material.mainTexture = imageRequest.texture;
 							StartCoroutine(SetArPairThumbnail(newThumbnail));
+							string linkedImage2Path = Path.Combine(fm.SaveDirectory, "linkedImage2.jpg");
+							byte[] linkedJpg2 = ImageConversion.EncodeToJPG(imageRequest.texture, 100); 
+							File.WriteAllBytes(linkedImage2Path, linkedJpg2);
 							fm.targetStatus[1] = "image";
 							break;
 						case 3:
 							image3.GetComponent<Renderer>().material.mainTexture = imageRequest.texture;
 							StartCoroutine(SetArPairThumbnail(newThumbnail));
+							string linkedImage3Path = Path.Combine(fm.SaveDirectory, "linkedImage3.jpg");
+							byte[] linkedJpg3 = ImageConversion.EncodeToJPG(imageRequest.texture, 100); 
+							File.WriteAllBytes(linkedImage3Path, linkedJpg3);
 							fm.targetStatus[2] = "image";
 							break;
 						case 4:
 							image4.GetComponent<Renderer>().material.mainTexture = imageRequest.texture;
 							StartCoroutine(SetArPairThumbnail(newThumbnail));
+							string linkedImage4Path = Path.Combine(fm.SaveDirectory, "linkedImage4.jpg");
+							byte[] linkedJpg4 = ImageConversion.EncodeToJPG(imageRequest.texture, 100); 
+							File.WriteAllBytes(linkedImage4Path, linkedJpg4);
 							fm.targetStatus[3] = "image";
 							break;
 						case 5:
 							image5.GetComponent<Renderer>().material.mainTexture = imageRequest.texture;
 							StartCoroutine(SetArPairThumbnail(newThumbnail));
+							string linkedImage5Path = Path.Combine(fm.SaveDirectory, "linkedImage5.jpg");
+							byte[] linkedJpg5 = ImageConversion.EncodeToJPG(imageRequest.texture, 100); 
+							File.WriteAllBytes(linkedImage5Path, linkedJpg5);
 							fm.targetStatus[4] = "image";
 							break;
 					}
@@ -668,26 +664,41 @@ public class pixabayManager : MonoBehaviour {
 						case 1:
 							image1.GetComponent<Renderer>().material.mainTexture = imageRequest.texture;
 							StartCoroutine(SetArPairThumbnail2(newThumbnail));
+							string linkedImage1Path = Path.Combine(fm.SaveDirectory, "linkedImage1.jpg");
+							byte[] linkedJpg1 = ImageConversion.EncodeToJPG(imageRequest.texture, 100); 
+							File.WriteAllBytes(linkedImage1Path, linkedJpg1);
 							fm.targetStatus[0] = "image";
 							break;
 						case 2:
 							image2.GetComponent<Renderer>().material.mainTexture = imageRequest.texture;
 							StartCoroutine(SetArPairThumbnail2(newThumbnail));
+							string linkedImage2Path = Path.Combine(fm.SaveDirectory, "linkedImage2.jpg");
+							byte[] linkedJpg2 = ImageConversion.EncodeToJPG(imageRequest.texture, 100); 
+							File.WriteAllBytes(linkedImage2Path, linkedJpg2);
 							fm.targetStatus[1] = "image";
 							break;
 						case 3:
 							image3.GetComponent<Renderer>().material.mainTexture = imageRequest.texture;
 							StartCoroutine(SetArPairThumbnail2(newThumbnail));
+							string linkedImage3Path = Path.Combine(fm.SaveDirectory, "linkedImage3.jpg");
+							byte[] linkedJpg3 = ImageConversion.EncodeToJPG(imageRequest.texture, 100); 
+							File.WriteAllBytes(linkedImage3Path, linkedJpg3);
 							fm.targetStatus[2] = "image";
 							break;
 						case 4:
 							image4.GetComponent<Renderer>().material.mainTexture = imageRequest.texture;
 							StartCoroutine(SetArPairThumbnail2(newThumbnail));
+							string linkedImage4Path = Path.Combine(fm.SaveDirectory, "linkedImage4.jpg");
+							byte[] linkedJpg4 = ImageConversion.EncodeToJPG(imageRequest.texture, 100); 
+							File.WriteAllBytes(linkedImage4Path, linkedJpg4);
 							fm.targetStatus[3] = "image";
 							break;
 						case 5:
 							image5.GetComponent<Renderer>().material.mainTexture = imageRequest.texture;
 							StartCoroutine(SetArPairThumbnail2(newThumbnail));
+							string linkedImage5Path = Path.Combine(fm.SaveDirectory, "linkedImage5.jpg");
+							byte[] linkedJpg5 = ImageConversion.EncodeToJPG(imageRequest.texture, 100); 
+							File.WriteAllBytes(linkedImage5Path, linkedJpg5);
 							fm.targetStatus[4] = "image";
 							break;
 					}

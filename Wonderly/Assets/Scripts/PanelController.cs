@@ -55,8 +55,16 @@ public class PanelController : MonoBehaviour {
         var newPreviouslySelected = EventSystem.current.currentSelectedGameObject;
         //Move the Screen to front.
         
+        if (anim.gameObject.name == "MyJourneys-panel"){
+            bottomPanel.SetActive(true);
+        }
+        else{
+            bottomPanel.SetActive(false);
+        }
+
         anim.transform.SetAsLastSibling();
         bottomPanel.transform.SetAsLastSibling();
+        
         
         
 

@@ -76,6 +76,8 @@ namespace Sample
             //ui = FindObjectOfType<takeTargetPicture>();
             MarksDirectory = Application.persistentDataPath;
             SaveDirectory = Path.Combine(MarksDirectory, "SaveFolder");
+
+            Directory.CreateDirectory(SaveDirectory);
             //Directory.CreateDirectory(MarksDirectory);
             Debug.Log("MarkPath:" + Application.persistentDataPath);
             Debug.Log("Save Folder Path: " + SaveDirectory);
