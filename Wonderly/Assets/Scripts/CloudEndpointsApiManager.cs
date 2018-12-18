@@ -85,6 +85,8 @@ public class CloudEndpointsApiManager : MonoBehaviour {
 
 	public byte[] fileContents;
 
+	public Image testImage;
+
 	public void startProfileCreate()
 	{
 		StartCoroutine("profileCreate");
@@ -411,17 +413,18 @@ public void startGetProfileInfo()
 				Debug.Log(task1.Exception.ToString());
 				// Uh-oh, an error occurred!
 			} else {
-				fileContents = task1.Result;
+				byte[] fileContents = task1.Result;
 				Debug.Log("cover image finished downloading!");
-				//tex = new Texture2D(2000, 2000);
-				//tex.LoadImage(fileContents);
+				Texture2D tex = new Texture2D(2000, 2000);
+				tex.LoadImage(fileContents);
+				testImage.sprite = Sprite.Create(tex, new Rect(0, 0, tex.width, tex.height), new Vector2(0, 0));
+
+				//NEED TO ASSIGN IMAGE TO STUB HERE
 			}
 			});
 				//StartCoroutine(loadJourneyCoverImage(libraryStubs[i], oec.coverImages[i]));
 		}
 
-			Texture2D tex = new Texture2D(2000, 2000);
-			tex.LoadImage(fileContents);
 
 			int index = i;
 
@@ -433,7 +436,6 @@ public void startGetProfileInfo()
 			libraryStubs[i].transform.GetChild(5).gameObject.GetComponent<Button>().onClick.AddListener(delegate {fsm.startDownloadExperienceFilesDirect(index+1); });
 			libraryStubs[i].transform.GetChild(5).gameObject.GetComponent<Button>().onClick.AddListener(delegate {mainCanvasPanelController.OpenPanel(ViewScreenAnimator); });
 			libraryStubs[i].transform.GetChild(5).gameObject.GetComponent<Button>().onClick.AddListener(delegate {iconPanel.SetActive(false); });
-			libraryStubs[i].transform.GetChild(5).gameObject.GetComponent<Image>().sprite = Sprite.Create(tex, new Rect(0, 0, tex.width, tex.height), new Vector2(0, 0));
 			libraryStubs[i].transform.GetChild(7).gameObject.GetComponent<Button>().onClick.AddListener(delegate {createLibraryPopup(index); });
 			libraryCodes[i] = oec.codes[i];
 
