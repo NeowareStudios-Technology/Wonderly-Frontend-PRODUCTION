@@ -67,6 +67,7 @@ public class UiManager : MonoBehaviour {
 	public Text chosenModelText;
 	public Text chosenVideoText;
 	public Text chosenImageText;
+	public GameObject loadingPanel;
 
 	//used to disable button if there are 3 targets
 	public GameObject addWonderButton;
@@ -77,13 +78,17 @@ public class UiManager : MonoBehaviour {
 
 	public Text description;
 
-	//public InputField targetSwitchTitle;
+    //public InputField targetSwitchTitle;
 
-	//public InputField summaryTitle;
-
-
+    //public InputField summaryTitle;
+    public RectTransform wonderPanelRectTrans;
+    public Vector2 noWondersHeight = new Vector2(0,1600);
+    public Vector2 oneWondersHeight= new Vector2(0,1850);
+    public Vector2 twoWondersHeight =  new Vector2(0,2550);
+    public Vector2 fullWondersHeight = new Vector2(0,3200);
 	// Use this for initialization
-	void Start () {
+	void Start ()
+    {
 		//videoHighlight.gameObject.SetActive(false);
 		//modelHighlight.gameObject.SetActive(false);
 		//imageHighlight.gameObject.SetActive(false);
@@ -119,7 +124,20 @@ public class UiManager : MonoBehaviour {
 			addWonderButton.SetActive(true);
 		}
 
-		switch(fm.targetStatus[0])
+
+        //Sets Content Rect Transform based on target count
+        if(fm.targetCount == 0)
+            wonderPanelRectTrans.sizeDelta = noWondersHeight;        
+        else if(fm.targetCount ==1)        
+            wonderPanelRectTrans.sizeDelta = oneWondersHeight;
+        else if(fm.targetCount ==2)        
+            wonderPanelRectTrans.sizeDelta = twoWondersHeight;       
+        else if(fm.targetCount ==3)     
+            wonderPanelRectTrans.sizeDelta = fullWondersHeight;
+
+        
+
+        switch (fm.targetStatus[0])
 		{
 			case "none":
 				arPair1.SetActive(false);
@@ -454,6 +472,16 @@ public class UiManager : MonoBehaviour {
 		for (int i = 0; i < 18; i++)
 		{
 			apdm.videoThumbs[i].sprite = apdm.blankImage.sprite;
+		}
+	}
+	public void SetLoadingPanelActive(bool settingActive){
+		if (settingActive){
+			loadingPanel.SetActive(true);
+			loadingPanel.transform.parent.gameObject.SetActive(true);
+		}
+		else{
+			loadingPanel.SetActive(false);
+			loadingPanel.transform.parent.gameObject.SetActive(false);
 		}
 	}
 }

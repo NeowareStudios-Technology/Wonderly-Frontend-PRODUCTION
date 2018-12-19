@@ -55,6 +55,32 @@ public class LoadManager : MonoBehaviour {
 
 	public PolyAsset[] allAssets = new PolyAsset[5];
 
+	private string coverPath;
+	private string linkedPath1;
+	private string linkedPath2;
+	private string linkedPath3;
+	private string linkedPath4;
+	private string linkedPath5;
+	private string workingPath1;
+	private string workingPath2;
+	private string workingPath3;
+	private string workingPath4;
+	private string workingPath5;
+	private string targetPath1;
+	private string targetPath2;
+	private string targetPath3;
+	private string targetPath4;
+	private string targetPath5;
+
+	//for previewing journey before viewing
+	public UnityEngine.UI.Image previewCoverImage;
+	public Text previewTitleDisplay;
+	public Text previewDescriptionDisplay;
+	public UnityEngine.UI.Image viewFlowTargetPreview1;
+	public UnityEngine.UI.Image viewFlowTargetPreview2;
+	public UnityEngine.UI.Image viewFlowTargetPreview3;
+	public UnityEngine.UI.Image viewFlowTargetPreview4;
+	public UnityEngine.UI.Image viewFlowTargetPreview5;
 
 	//keeps track of first available index for a model
 	public int[] modelIndices = new int[5];
@@ -64,7 +90,6 @@ public class LoadManager : MonoBehaviour {
 
 	public int globalModelArrayIndex;
 	public int globalModelIndexTracker;
-	
 
 
 
@@ -96,6 +121,24 @@ public class LoadManager : MonoBehaviour {
 			return;
 		}
 
+		//set up paths for all local images
+		workingPath1 = Path.Combine(fm.MarksDirectory, "targetPhoto1.jpg");
+		workingPath2 = Path.Combine(fm.MarksDirectory, "targetPhoto2.jpg");
+		workingPath3 = Path.Combine(fm.MarksDirectory, "targetPhoto3.jpg");
+		workingPath4 = Path.Combine(fm.MarksDirectory, "targetPhoto4.jpg");
+		workingPath5 = Path.Combine(fm.MarksDirectory, "targetPhoto5.jpg");
+		targetPath1 = Path.Combine(fm.SaveDirectory, "targetPhoto1.jpg");
+		targetPath2 = Path.Combine(fm.SaveDirectory, "targetPhoto2.jpg");
+		targetPath3 = Path.Combine(fm.SaveDirectory, "targetPhoto3.jpg");
+		targetPath4 = Path.Combine(fm.SaveDirectory, "targetPhoto4.jpg");
+		targetPath5 = Path.Combine(fm.SaveDirectory, "targetPhoto5.jpg");
+		coverPath = Path.Combine(fm.SaveDirectory, "coverImage.jpg");
+		linkedPath1 = Path.Combine(fm.SaveDirectory, "linkedImage1.jpg");
+		linkedPath2 = Path.Combine(fm.SaveDirectory, "linkedImage2.jpg");
+		linkedPath3 = Path.Combine(fm.SaveDirectory, "linkedImage3.jpg");
+		linkedPath4 = Path.Combine(fm.SaveDirectory, "linkedImage4.jpg");
+		linkedPath5 = Path.Combine(fm.SaveDirectory, "linkedImage5.jpg");
+
 		//load journey cover image
 		StartCoroutine("loadJourneyCoverImage");
 
@@ -105,11 +148,13 @@ public class LoadManager : MonoBehaviour {
 		{
 			titleDisplay.text= "  ";
 			summaryTitleDisplay.text = "  ";
+			previewTitleDisplay.text = "  ";
 		}
 		else
 		{
 			titleDisplay.text = scd.title;
 			summaryTitleDisplay.text = scd.title;
+			previewTitleDisplay.text = scd.title;
 		}
 
 		//set the experience description
@@ -117,34 +162,40 @@ public class LoadManager : MonoBehaviour {
 		{
 			descriptionDisplay.text = "  ";
 			summaryDescriptionDisplay.text = "   ";
+			previewDescriptionDisplay.text = "   " ;
 		}
 		else
 		{
 			descriptionDisplay.text = scd.description;
 			summaryDescriptionDisplay.text = scd.description;
+			previewDescriptionDisplay.text = scd.description;
 		}
+		Debug.Log("1");
 
 		//set cover image url
 		//sm.coverImageUrl = scd.coverImageUrl;
 		pm.chosenCoverImageUrl = scd.coverImageUrl;
+		Debug.Log("2");
 
 		//set each wonder title
-		int titleCount =0;
-		foreach (string title in scd.wonderTitle)
+		for (int g = 0; g < 3; g++)
 		{
-			apdm.wonderTitles[titleCount].text = title;
-			sm.wonderTitles[titleCount] = title;
-			titleCount++;
-		}
+			Debug.Log("in wonder title set");
+			apdm.wonderTitles[g].text = scd.wonderTitle[g];
+			apdm.previewWonderTitles[g].text = scd.wonderTitle[g];
+			sm.wonderTitles[g] = scd.wonderTitle[g];
 
-		//set each wonder description
-		int descriptionCount =0;
-		foreach (string description in scd.wonderDescription)
-		{
-			apdm.wonderDescriptions[descriptionCount].text = description;
-			sm.wonderDescriptions[descriptionCount] = description;
-			descriptionCount++;
 		}
+		Debug.Log("2");
+
+		//set each wonder description (CHANGE THIS TO % IF NEED TO INCREASE TARGETS TO 5)
+		for (int h = 0; h < 3; h++)
+		{
+			apdm.wonderDescriptions[h].text = scd.wonderDescription[h];
+			apdm.previewWonderDescriptions[h].text = scd.wonderDescription[h];
+			sm.wonderDescriptions[h] = scd.wonderDescription[h];
+		}
+		Debug.Log("3");
 
 		for (int i =0; i <5; i++)
 		{
@@ -152,64 +203,52 @@ public class LoadManager : MonoBehaviour {
 			fm.targetStatus[i] = scd.targetStatus[i];
 		}
 
-		//set up paths for all target photos in save directory and working directory
-		string workingPath1 = Path.Combine(fm.MarksDirectory, "targetPhoto1.jpg");
-		string workingPath2 = Path.Combine(fm.MarksDirectory, "targetPhoto2.jpg");
-		string workingPath3 = Path.Combine(fm.MarksDirectory, "targetPhoto3.jpg");
-		string workingPath4 = Path.Combine(fm.MarksDirectory, "targetPhoto4.jpg");
-		string workingPath5 = Path.Combine(fm.MarksDirectory, "targetPhoto5.jpg");
-		string savePath1 = Path.Combine(fm.SaveDirectory, "targetPhoto1.jpg");
-		string savePath2 = Path.Combine(fm.SaveDirectory, "targetPhoto2.jpg");
-		string savePath3 = Path.Combine(fm.SaveDirectory, "targetPhoto3.jpg");
-		string savePath4 = Path.Combine(fm.SaveDirectory, "targetPhoto4.jpg");
-		string savePath5 = Path.Combine(fm.SaveDirectory, "targetPhoto5.jpg");
-
 		//for debugging iOS
 		Debug.Log("5a. lm122, target1 working path = "+workingPath1);
 		Debug.Log("5b. lm123, target2 working path = "+workingPath2);
 		Debug.Log("5c. lm124, target3 working path = "+workingPath3);
 		Debug.Log("5d. lm125, target4 working path = "+workingPath4);
 		Debug.Log("5e. lm126, target5 working path = "+workingPath5);
-		Debug.Log("6a. lm127, target1 save file path = "+savePath1);
-		Debug.Log("6b. lm128, target2 save file path = "+savePath2);
-		Debug.Log("6c. lm129, target3 save file path = "+savePath3);
-		Debug.Log("6d. lm130, target4 save file path = "+savePath4);
-		Debug.Log("6e. lm131, target5 save file path = "+savePath5);
+		Debug.Log("6a. lm127, target1 save file path = "+targetPath1);
+		Debug.Log("6b. lm128, target2 save file path = "+targetPath2);
+		Debug.Log("6c. lm129, target3 save file path = "+targetPath3);
+		Debug.Log("6d. lm130, target4 save file path = "+targetPath4);
+		Debug.Log("6e. lm131, target5 save file path = "+targetPath5);
 
 		//copy the target images from the save directory to the working directory
-		if (File.Exists(savePath1))
+		if (File.Exists(targetPath1))
 		{
 			//for debugging iOS
 			Debug.Log("7. lm137, target1 save file exists");
-			System.IO.File.Copy(savePath1, workingPath1, true);
+			System.IO.File.Copy(targetPath1, workingPath1, true);
 			fm.targetCount++;
 		}
-		if (File.Exists(savePath2))
+		if (File.Exists(targetPath2))
 		{
 			//for debugging iOS
 			Debug.Log("8. lm144, target2 save file exists");
-			System.IO.File.Copy(savePath2, workingPath2, true);
+			System.IO.File.Copy(targetPath2, workingPath2, true);
 			fm.targetCount++;
 		}
-		if (File.Exists(savePath3))
+		if (File.Exists(targetPath3))
 		{
 			//for debugging iOS
 			Debug.Log("9. lm151, target3 save file exists");
-			System.IO.File.Copy(savePath3, workingPath3, true);
+			System.IO.File.Copy(targetPath3, workingPath3, true);
 			fm.targetCount++;
 		}
-		if (File.Exists(savePath4))
+		if (File.Exists(targetPath4))
 		{
 			//for debugging iOS
 			Debug.Log("10. lm158, target4 save file exists");
-			System.IO.File.Copy(savePath4, workingPath4, true);
+			System.IO.File.Copy(targetPath4, workingPath4, true);
 			fm.targetCount++;
 		}
-		if (File.Exists(savePath5))
+		if (File.Exists(targetPath5))
 		{
 			//for debugging iOS
 			Debug.Log("11. lm165, target5 save file exists");
-			System.IO.File.Copy(savePath5, workingPath5, true);
+			System.IO.File.Copy(targetPath5, workingPath5, true);
 			fm.targetCount++;
 		}
 
@@ -326,39 +365,55 @@ public class LoadManager : MonoBehaviour {
 
 		//set preivew images
 		if (File.Exists(workingPath1))
+		{
 			targetPreview1.sprite = IMG2Sprite.LoadNewSprite(workingPath1);
+			viewFlowTargetPreview1.sprite = IMG2Sprite.LoadNewSprite(workingPath1);
+		}
 		if (File.Exists(workingPath2))
+		{
 			targetPreview2.sprite = IMG2Sprite.LoadNewSprite(workingPath2);
+			viewFlowTargetPreview2.sprite = IMG2Sprite.LoadNewSprite(workingPath1);
+		}
 		if (File.Exists(workingPath3))
+		{
 			targetPreview3.sprite = IMG2Sprite.LoadNewSprite(workingPath3);
+			viewFlowTargetPreview3.sprite = IMG2Sprite.LoadNewSprite(workingPath1);
+		}
 		if (File.Exists(workingPath4))
+		{
 			targetPreview4.sprite = IMG2Sprite.LoadNewSprite(workingPath4);
+			viewFlowTargetPreview4.sprite = IMG2Sprite.LoadNewSprite(workingPath1);
+		}
 		if (File.Exists(workingPath5))
+	 	{
 			targetPreview5.sprite = IMG2Sprite.LoadNewSprite(workingPath5);
+			viewFlowTargetPreview5.sprite = IMG2Sprite.LoadNewSprite(workingPath1);
+		 }
 		//call function to imported all loaded AR objects (pics/videos/models)
 		StartCoroutine("ImportLoadedItems");
 		targetSetter.SetActive(true);
 	}
 
 	private IEnumerator loadJourneyCoverImage() {
-		using (WWW imageRequest = new WWW(scd.coverImageUrl))
+		Debug.Log("loadJourneyCoverImage starting");
+		Debug.Log(coverPath);
+		Debug.Log(File.Exists(coverPath));
+		if (File.Exists(coverPath))
 		{
-			yield return imageRequest;
-			//catch errors
-			if (imageRequest.error != null)
-    	{
-				Debug.Log("Error getting image");
-			}
-
-			else
-			{	
-				coverImage.sprite = Sprite.Create(imageRequest.texture, new Rect(0, 0, imageRequest.texture.width, imageRequest.texture.height), new Vector2(0, 0));
-			}
+			Debug.Log("inside if");
+			byte[] coverImageBytes = File.ReadAllBytes(coverPath);
+			Texture2D tex = new Texture2D(2000,2000);
+			tex.LoadImage(coverImageBytes);
+			coverImage.sprite = Sprite.Create(tex, new Rect(0, 0, tex.width, tex.height), new Vector2(0, 0));
+			previewCoverImage.sprite = Sprite.Create(tex, new Rect(0, 0, tex.width, tex.height), new Vector2(0, 0));
+			Debug.Log("cover image displayed on UI");
 		}
+		yield return null;
 	}
 
 	//imports all AR objects from save directory
 	private IEnumerator ImportLoadedItems() {
+		Debug.Log("importLoadedItems started");
 		yield return new WaitForSeconds(1);
 		for (int i = 0; i < 5; i ++)
 		{
@@ -442,7 +497,7 @@ public class LoadManager : MonoBehaviour {
 				else if (scd.targetStatus[i] == "image")
 			{
 				StartCoroutine(setImage(i));
-				StartCoroutine(setLoadedImageThumb(i));
+				//StartCoroutine(setLoadedImageThumb(i));
 			}
 		}
 		loadingPanel.SetActive(false);
@@ -459,46 +514,49 @@ public class LoadManager : MonoBehaviour {
 		switch(index)
 				{
 					case 0:
+						//sets target object image
 						fm.targetStatus[0] = "image";
-						using (WWW imageRequest = new WWW(scd.imageUrl[0]))
-						{
-							yield return imageRequest;
-							pm.image1.GetComponent<Renderer>().material.mainTexture = imageRequest.texture;
-						}
+						byte[] linkedImageBytes1 = File.ReadAllBytes(linkedPath1);
+						Texture2D tex1 = new Texture2D(2000,2000);
+						tex1.LoadImage(linkedImageBytes1);
+						pm.image1.GetComponent<Renderer>().material.mainTexture = tex1;
+						//sets thumbnail image
+						linkedThumb1.sprite = Sprite.Create(tex1, new Rect(0, 0, tex1.width, tex1.height), new Vector2(0, 0));
 						break;
 					case 1:
 						fm.targetStatus[1] = "image";
-						using (WWW imageRequest = new WWW(scd.imageUrl[1]))
-						{
-							yield return imageRequest;
-							pm.image2.GetComponent<Renderer>().material.mainTexture = imageRequest.texture;
-						}
+						byte[] linkedImageBytes2 = File.ReadAllBytes(linkedPath2);
+						Texture2D tex2 = new Texture2D(2000,2000);
+						tex2.LoadImage(linkedImageBytes2);
+						pm.image2.GetComponent<Renderer>().material.mainTexture = tex2;
+						linkedThumb2.sprite = Sprite.Create(tex2, new Rect(0, 0, tex2.width, tex2.height), new Vector2(0, 0));
 						break;
 					case 2:
 						fm.targetStatus[2] = "image";
-						using (WWW imageRequest = new WWW(scd.imageUrl[2]))
-						{
-							yield return imageRequest;
-							pm.image3.GetComponent<Renderer>().material.mainTexture = imageRequest.texture;
-						}
+						byte[] linkedImageBytes3 = File.ReadAllBytes(linkedPath3);
+						Texture2D tex3 = new Texture2D(2000,2000);
+						tex3.LoadImage(linkedImageBytes3);
+						pm.image3.GetComponent<Renderer>().material.mainTexture = tex3;
+						linkedThumb3.sprite = Sprite.Create(tex3, new Rect(0, 0, tex3.width, tex3.height), new Vector2(0, 0));
 						break;
 					case 3:
 						fm.targetStatus[3] = "image";
-						using (WWW imageRequest = new WWW(scd.imageUrl[3]))
-						{
-							yield return imageRequest;
-							pm.image4.GetComponent<Renderer>().material.mainTexture = imageRequest.texture;
-						}
+						byte[] linkedImageBytes4 = File.ReadAllBytes(linkedPath4);
+						Texture2D tex4 = new Texture2D(2000,2000);
+						tex4.LoadImage(linkedImageBytes4);
+						pm.image4.GetComponent<Renderer>().material.mainTexture = tex4;
+						linkedThumb4.sprite = Sprite.Create(tex4, new Rect(0, 0, tex4.width, tex4.height), new Vector2(0, 0));
 						break;
 					case 4:
 						fm.targetStatus[4] = "image";
-						using (WWW imageRequest = new WWW(scd.imageUrl[4]))
-						{
-							yield return imageRequest;
-							pm.image5.GetComponent<Renderer>().material.mainTexture = imageRequest.texture;
-						}
+						byte[] linkedImageBytes5 = File.ReadAllBytes(linkedPath5);
+						Texture2D tex5 = new Texture2D(2000,2000);
+						tex5.LoadImage(linkedImageBytes5);
+						pm.image5.GetComponent<Renderer>().material.mainTexture = tex5;
+						linkedThumb5.sprite = Sprite.Create(tex5, new Rect(0, 0, tex5.width, tex5.height), new Vector2(0, 0));
 						break;
 				}
+				yield return null;
 	}
 
 	//set of 3 helper functions to import model
@@ -598,13 +656,18 @@ public class LoadManager : MonoBehaviour {
 	}
 	}
 
-
+	//this function has been incorporated into SetImage
+/* 
 	//helper function to load image to corrent thumbnail (called by loadFile)
 	private IEnumerator setLoadedImageThumb(int whichIndex)
 	{
 		switch (whichIndex)
 		{
 			case 0:
+				byte[] coverImageBytes = File.ReadAllBytes(coverPath);
+				Texture2D tex = new Texture2D(2000,2000);
+				tex.LoadImage(coverImageBytes);
+				coverImage.sprite = Sprite.Create(tex, new Rect(0, 0, tex.width, tex.height), new Vector2(0, 0));
 				using (WWW imageThumbRequest1 = new WWW(scd.imageUrl[0]))
 				{
 					yield return imageThumbRequest1;
@@ -641,6 +704,7 @@ public class LoadManager : MonoBehaviour {
 				break;
 		}
 	}
+	*/
 
 	private void setLoadedModelThumb(int whichIndex)
 	{

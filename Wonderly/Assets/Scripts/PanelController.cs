@@ -8,6 +8,7 @@ using System.Collections.Generic;
 public class PanelController : MonoBehaviour {
 
 	//Screen to open automatically at the start of the Scene
+    public GameObject backgroundImg;
     public Animator initiallyOpen;
     public GameObject bottomPanel;
     //Currently Open Screen
@@ -61,7 +62,15 @@ public class PanelController : MonoBehaviour {
         else{
             bottomPanel.SetActive(false);
         }
-
+        if (anim.gameObject.name == "CreateWonderScan-panel" 
+            || anim.gameObject.name == "CreateWonderLink-panel" 
+            || anim.gameObject.name == "CwPlaceLibraryContent-panel" 
+            || anim.gameObject.name == "ViewScreen-panel" ){
+            backgroundImg.SetActive(false);
+        }
+        else{
+            backgroundImg.SetActive(true);
+        }
         anim.transform.SetAsLastSibling();
         bottomPanel.transform.SetAsLastSibling();
         

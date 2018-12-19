@@ -110,7 +110,13 @@ public class ModelInitializer : MonoBehaviour {
 			foreach (Transform child in thumbNailParentContent.transform) {
 				GameObject.Destroy(child.gameObject);
 			}
+            Debug.Log("done destroying");
+            TurnOffLoadingPanel();
 	
+    }
+    public void TurnOffLoadingPanel(){
+        
+		localScriptHolder.GetComponent<UiManager>().SetLoadingPanelActive(false);
     }
     public void ClearSearchText(){
 			keyword.text = "";
@@ -139,9 +145,14 @@ public class ModelInitializer : MonoBehaviour {
         thumbnailResults[thumbnailCount] = newThumbnail;
         
         newThumbnail.GetComponent<RectTransform>().localScale = new Vector3(1.0f,1.0f,1.0f);
+        newThumbnail.GetComponent<Button>().onClick.AddListener(delegate {localScriptHolder.GetComponent<UiManager>().SetLoadingPanelActive(true);});
         newThumbnail.GetComponent<Button>().onClick.AddListener(delegate {mainCanvas.GetComponent<PanelController>().OpenPanel(viewLibraryContentPanel);});
         newThumbnail.GetComponent<Button>().onClick.AddListener(delegate {mr.renderModel(newThumbnail);});
+
+        //loading panel is turned off at the end of this thread after DeleteThumbnails()
         newThumbnail.GetComponent<Button>().onClick.AddListener(delegate {localScriptHolder.GetComponent<ArPairDisplayManager>().setModelThumbnailArPair(newThumbnail);});
+        
+       
         newThumbnail.GetComponent<PolyAssetHolderClass>().heldAsset = asset;
     
         thumbnailCount++;

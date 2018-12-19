@@ -13,6 +13,8 @@ using UnityEngine.SceneManagement;
 
 public class FirebaseManager : MonoBehaviour {
 	public CloudEndpointsApiManager ceam;
+	public PanelController pc; 
+	public Animator libraryPanelAnimator;
 	public InputField email;
   public InputField Password;
 	public InputField newEmail;
@@ -45,6 +47,8 @@ public class FirebaseManager : MonoBehaviour {
 	public GameObject libraryIcon1;
 	public GameObject libraryIcon2;
 
+	public GameObject lsh;
+
 	public GameObject wrongLoginNotification;
 	public GameObject wrongSignUpNotification;
 
@@ -54,6 +58,7 @@ public class FirebaseManager : MonoBehaviour {
 	public GameObject loadingPanel;
 
 	public bool isLoggedIn;
+
 
 
 	public void createNewFirebaseUser()
@@ -173,6 +178,8 @@ public class FirebaseManager : MonoBehaviour {
 	//used for manual login
 	public void StartLoginProcess()
 	{
+			lsh.GetComponent<UiManager>().SetLoadingPanelActive(true);
+
 			//login credentials
 			string e = email.text;
 			string p = Password.text;
@@ -192,7 +199,7 @@ public class FirebaseManager : MonoBehaviour {
 							Debug.LogError("SignInWithEmailAndPasswordAsync encountered an error: " + task.Exception);
 							Debug.Log("Password or email incorrect");
 							//turn off loading animattion
-							loadingPanel.SetActive(false);
+							lsh.GetComponent<UiManager>().SetLoadingPanelActive(false);
 							wrongLoginNotification.SetActive(true);
 							return;
 					}
@@ -200,8 +207,9 @@ public class FirebaseManager : MonoBehaviour {
 					Debug.Log("after task fault check");
 
 					//turn off loading animation
-					loadingPanel.SetActive(false);
-					signInScreen.SetActive(false);
+					pc.SetBottomPanelActive(true);
+					pc.OpenPanel(libraryPanelAnimator);
+
 					Debug.Log("after setting inactive");
 					Firebase.Auth.FirebaseUser newUser = task.Result;
 					Debug.LogFormat("User signed in successfully: {0} ({1})",
@@ -212,6 +220,7 @@ public class FirebaseManager : MonoBehaviour {
 					PlayerPrefs.SetString("email", e);
 					PlayerPrefs.SetString("password", p);
 					PlayerPrefs.SetInt("isLoggedIn", 1);
+
 			});
 
 	}

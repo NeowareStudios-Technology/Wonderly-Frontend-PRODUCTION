@@ -25,9 +25,13 @@ public class ArPairDisplayManager : MonoBehaviour {
 
 	public int[] targetThumbCheck = {0,0,0,0,0};
 
+	//for summary screen
 	public Text[] wonderTitles = new Text[5];
-
 	public Text[] wonderDescriptions = new Text[5];
+
+	//for preview screen
+	public Text[] previewWonderDescriptions = new Text[5];
+	public Text[] previewWonderTitles = new Text[5];
 
 	public FilesManager fm;
 	public VideoSearchManager vsm;

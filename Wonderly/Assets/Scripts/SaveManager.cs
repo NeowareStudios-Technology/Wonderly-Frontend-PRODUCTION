@@ -16,6 +16,8 @@ public class SaveManager : MonoBehaviour {
 	public LoadManager lm;
 	public ArPairDisplayManager apdm;
 
+	public GameObject lsh;
+
 	public SaveClassDeclaration save;
 
 	public InputField title;
@@ -94,6 +96,7 @@ public class SaveManager : MonoBehaviour {
 
 	public void CreateSaveFile()
 	{
+		lsh.GetComponent<UiManager>().SetLoadingPanelActive(true);
 		Debug.Log("creating normal save file");
 
 		Debug.Log("1. Starting SaveManager.CreateSaveFile()...");
@@ -419,6 +422,7 @@ public class SaveManager : MonoBehaviour {
 
 	public void CreateSaveFileForEdit()
 	{
+		lsh.GetComponent<UiManager>().SetLoadingPanelActive(true);
 		Debug.Log("creating save file for edit");
 		//delete the previous save
 		//deleteOldSave();

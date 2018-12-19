@@ -16,7 +16,7 @@ public class CloudEndpointsApiManager : MonoBehaviour {
 	public FirebaseStorageManager fsm;
 	public SaveManager sm;
 	public FilesManager fm;
-	public SignUpManager sum;
+	public ErrorMessageFlowManager emfm;
 	public OwnedExperiencesClass oec;
 	public TargetIndicesClass tic;
 	public ProfileInfoClass pic;
@@ -39,10 +39,11 @@ public class CloudEndpointsApiManager : MonoBehaviour {
 	public Text password;
 	public Text email;
 	public Text UiCode;
+	public Text displayCode;
 
 	public Animator journeySummaryAnimator;
-
 	public Animator ViewScreenAnimator;
+	public Animator PreviewScreenAnimator;
 
 	public PanelController mainCanvasPanelController;
 
@@ -189,10 +190,14 @@ public class CloudEndpointsApiManager : MonoBehaviour {
 			if (cerc.exists == "n")
 			{
 				Debug.Log("The email is free to use");
+				emfm.activateSignUpPanel2();
+				emfm.signUpIndex++;
 			}
-
-			if (cerc.exists == "y")
+			else if (cerc.exists == "y")
+			{
 				Debug.Log("The email is already in use");
+				emfm.displayEmailError();
+			}
 		}
 	}
 
@@ -235,6 +240,7 @@ public class CloudEndpointsApiManager : MonoBehaviour {
 
 	public void startExperienceEdit(int index)
 	{
+		lsh.GetComponent<UiManager>().SetLoadingPanelActive(true);
 		editCode = libraryCodes[index-1];
 		
 		fsm.ecc.code = editCode;
@@ -261,6 +267,7 @@ public class CloudEndpointsApiManager : MonoBehaviour {
 		editExperienceClass editExperience = new editExperienceClass();
 		editExperience.title = sm.editTitle.text;
 		editExperience.code = code;
+		displayCode.text = code;
 		Debug.Log("In experienceEdit: cover image url from sm is "+sm.save.coverImageUrl);
 		editExperience.coverImage = sm.save.coverImageUrl;
 		if (editExperience.coverImage == "" || editExperience.coverImage == null)
@@ -322,7 +329,7 @@ public void startGetProfileInfo()
 
 	public IEnumerator getProfileInfo() 
 	{
-
+		//lsh.GetComponent<UiManager>().SetLoadingPanelActive(true);
 		using (UnityWebRequest newProfileInfoRequest = UnityWebRequest.Get(getProfileUrl))
 		{
 			//set content type
@@ -352,7 +359,7 @@ public void startGetProfileInfo()
 			lastNamePlaceHolder.text = pic.lastName;
 			emailPlaceHolder.text = pic.email;
 		}
-
+		
 	}
 
 
@@ -366,6 +373,7 @@ public void startGetProfileInfo()
 
 	public IEnumerator getOwnedCodes() 
 	{
+		lsh.GetComponent<UiManager>().SetLoadingPanelActive(true);
 		int numExperiences = 0;
 		using (UnityWebRequest getOwnedCodesRequest = UnityWebRequest.Get(getOwnedCodesUrl))
 		{
@@ -399,11 +407,12 @@ public void startGetProfileInfo()
 		//for dynamic spawning way
 		for (int i = 0; i < numExperiences; i++)
 		{
+			Texture2D tex = new Texture2D(2000, 2000);
 			//make sure there arent more than 50 experiences (journeys)
 			if (i == 49)
 				break;
 
-			//get cover image from pixabay
+			//get cover image from our firebase storage project
 			if (oec.coverImages[i] != "none")
 			{
 				Firebase.Storage.StorageReference coverImageRef = fbm.fbStorage.GetReference(oec.codes[i] + "/" + "coverImage.jpg");
@@ -415,36 +424,45 @@ public void startGetProfileInfo()
 			} else {
 				byte[] fileContents = task1.Result;
 				Debug.Log("cover image finished downloading!");
-				Texture2D tex = new Texture2D(2000, 2000);
+				
 				tex.LoadImage(fileContents);
 				testImage.sprite = Sprite.Create(tex, new Rect(0, 0, tex.width, tex.height), new Vector2(0, 0));
-
+				
 				//NEED TO ASSIGN IMAGE TO STUB HERE
 			}
 			});
-				//StartCoroutine(loadJourneyCoverImage(libraryStubs[i], oec.coverImages[i]));
+			//if a cover image was selected by a user create a new sprite! 
+			libraryStubs[i] = Instantiate(libraryStubPrefab,libraryScrollContent.transform);
+			libraryStubs[i].transform.GetChild(5).GetComponent<Image>().sprite = Sprite.Create(tex, new Rect(0, 0, tex.width, tex.height), new Vector2(0, 0));
+		}
+		else{
+			//if a cover image was NOT selected by a user do not create a new sprite! 
+			libraryStubs[i] = Instantiate(libraryStubPrefab,libraryScrollContent.transform);
 		}
 
 
 			int index = i;
 
 			//spawn and fill out library stub
-			libraryStubs[i] = Instantiate(libraryStubPrefab,libraryScrollContent.transform);
+			
 			libraryStubs[i].transform.GetChild(1).gameObject.GetComponent<Text>().text = oec.titles[i];
-			libraryStubs[i].transform.GetChild(8).gameObject.GetComponent<Text>().text = oec.dates[i];
 			libraryStubs[i].transform.GetChild(2).gameObject.GetComponent<Text>().text = oec.codes[i];
+			// Get Child 5 = JourneyCoverPhoto
 			libraryStubs[i].transform.GetChild(5).gameObject.GetComponent<Button>().onClick.AddListener(delegate {fsm.startDownloadExperienceFilesDirect(index+1); });
-			libraryStubs[i].transform.GetChild(5).gameObject.GetComponent<Button>().onClick.AddListener(delegate {mainCanvasPanelController.OpenPanel(ViewScreenAnimator); });
+			libraryStubs[i].transform.GetChild(5).gameObject.GetComponent<Button>().onClick.AddListener(delegate {mainCanvasPanelController.OpenPanel(PreviewScreenAnimator); });
 			libraryStubs[i].transform.GetChild(5).gameObject.GetComponent<Button>().onClick.AddListener(delegate {iconPanel.SetActive(false); });
+			libraryStubs[i].transform.GetChild(5).gameObject.GetComponent<Button>().onClick.AddListener(delegate {lsh.GetComponent<UiManager>().SetLoadingPanelActive(true); });
 			libraryStubs[i].transform.GetChild(7).gameObject.GetComponent<Button>().onClick.AddListener(delegate {createLibraryPopup(index); });
+			libraryStubs[i].transform.GetChild(8).gameObject.GetComponent<Text>().text = oec.dates[i];
 			libraryCodes[i] = oec.codes[i];
 
-			
+		//	StartCoroutine(loadJourneyCoverImage(libraryStubs[i], oec.coverImages[i]));
 
 	}
+	lsh.GetComponent<UiManager>().SetLoadingPanelActive(false);
 	}
 		
-
+/* 
 	private IEnumerator loadJourneyCoverImage(GameObject libStub, string coverImageUrl) {
 		using (WWW imageRequest = new WWW(coverImageUrl))
 		{
@@ -460,7 +478,7 @@ public void startGetProfileInfo()
 				libStub.transform.GetChild(5).gameObject.GetComponent<Image>().sprite = Sprite.Create(imageRequest.texture, new Rect(0, 0, imageRequest.texture.width, imageRequest.texture.height), new Vector2(0, 0));
 			}
 		}
-	}
+	}*/
 
 	//creates library menu UI
 	void createLibraryPopup(int index)
@@ -472,11 +490,13 @@ public void startGetProfileInfo()
 		libraryPopupMenuInstantiated.transform.GetChild(2).GetChild(3).gameObject.GetComponent<Button>().onClick.AddListener(delegate {frontCanvas.SetActive(false); });
 		libraryPopupMenuInstantiated.transform.GetChild(2).GetChild(3).gameObject.GetComponent<Button>().onClick.AddListener(delegate {Destroy(libraryPopupMenuInstantiated); });
 		//edit button
+		
 		libraryPopupMenuInstantiated.transform.GetChild(2).GetChild(1).gameObject.GetComponent<Button>().onClick.AddListener(delegate {startExperienceEdit(index+1); });
+		libraryPopupMenuInstantiated.transform.GetChild(2).GetChild(1).gameObject.GetComponent<Button>().onClick.AddListener(delegate {lsh.GetComponent<UiManager>().SetLoadingPanelActive(true); });
 		libraryPopupMenuInstantiated.transform.GetChild(2).GetChild(1).gameObject.GetComponent<Button>().onClick.AddListener(delegate {mainCanvasPanelController.OpenPanel(journeySummaryAnimator); });
 		libraryPopupMenuInstantiated.transform.GetChild(2).GetChild(1).gameObject.GetComponent<Button>().onClick.AddListener(delegate {iconPanel.SetActive(false); });
 		libraryPopupMenuInstantiated.transform.GetChild(2).GetChild(1).gameObject.GetComponent<Button>().onClick.AddListener(delegate {coec.setCreateOrEdit("edit"); });
-		libraryPopupMenuInstantiated.transform.GetChild(2).GetChild(1).gameObject.GetComponent<Button>().onClick.AddListener(delegate {frontCanvas.SetActive(false); });
+		//libraryPopupMenuInstantiated.transform.GetChild(2).GetChild(1).gameObject.GetComponent<Button>().onClick.AddListener(delegate {frontCanvas.SetActive(false); });
 		libraryPopupMenuInstantiated.transform.GetChild(2).GetChild(1).gameObject.GetComponent<Button>().onClick.AddListener(delegate {Destroy(libraryPopupMenuInstantiated); });
 		//cancel button
 		libraryPopupMenuInstantiated.transform.GetChild(1).GetChild(2).gameObject.GetComponent<Button>().onClick.AddListener(delegate {frontCanvas.SetActive(false); });

@@ -22,6 +22,8 @@ public class FirebaseStorageManager : MonoBehaviour {
 	public LoadManager lm;
 	public ExperienceCodeClass ecc;
 
+	public GameObject lsh;
+
 	public Text codeDisplay;
 
 	public string editCode;
@@ -195,16 +197,17 @@ public class FirebaseStorageManager : MonoBehaviour {
 			Debug.Log("3. Response from cloud endpoints after creating experience data entry: " +jsonResponse);
 			ecc = JsonUtility.FromJson<ExperienceCodeClass>(jsonResponse);
 
-			Debug.Log("4. code being saved for uploading the experience files: "+ecc.code);
-			//codeDisplay.text = ecc.code;
-
 			if (File.Exists(saveFilePath))
 				Debug.Log("**4** fsm 189, Save file exists: "+saveFilePath);
 			else	
 				Debug.Log("**4** fsm 191, Save file missing: "+saveFilePath);
 
 			if (ecc.code != "")
+			{
+				//display code
+				codeDisplay.text = ecc.code;
 				uploadExperienceFiles();
+			}
 		}
 	}
 
@@ -417,7 +420,7 @@ public class FirebaseStorageManager : MonoBehaviour {
 			});
 		}
 		
-		
+		lsh.GetComponent<UiManager>().SetLoadingPanelActive(false);
 
 		itm.DeleteAllTargetsAndText();
 		sm.deleteOldSave();
@@ -446,6 +449,12 @@ public class FirebaseStorageManager : MonoBehaviour {
 		string targetPath3 = Path.Combine(fm.SaveDirectory, "targetPhoto3.jpg");
 		string targetPath4 = Path.Combine(fm.SaveDirectory, "targetPhoto4.jpg");
 		string targetPath5 = Path.Combine(fm.SaveDirectory, "targetPhoto5.jpg");
+		string coverPath = Path.Combine(fm.SaveDirectory, "coverImage.jpg");
+		string linkedPath1 = Path.Combine(fm.SaveDirectory, "linkedImage1.jpg");
+		string linkedPath2 = Path.Combine(fm.SaveDirectory, "linkedImage2.jpg");
+		string linkedPath3 = Path.Combine(fm.SaveDirectory, "linkedImage3.jpg");
+		string linkedPath4 = Path.Combine(fm.SaveDirectory, "linkedImage4.jpg");
+		string linkedPath5 = Path.Combine(fm.SaveDirectory, "linkedImage5.jpg");
 
 		//references to cloud filstore paths
 		Firebase.Storage.StorageReference saveFileRef = fbm.fbStorage.GetReference(ceam.UiCode.text + "/" + "aoSave.json");
@@ -454,14 +463,14 @@ public class FirebaseStorageManager : MonoBehaviour {
 		Firebase.Storage.StorageReference targetRef3 = fbm.fbStorage.GetReference(ceam.UiCode.text + "/" + "targetPhoto3.jpg");
 		Firebase.Storage.StorageReference targetRef4 = fbm.fbStorage.GetReference(ceam.UiCode.text + "/" + "targetPhoto4.jpg");
 		Firebase.Storage.StorageReference targetRef5 = fbm.fbStorage.GetReference(ceam.UiCode.text + "/" + "targetPhoto5.jpg");
+		Firebase.Storage.StorageReference coverRef = fbm.fbStorage.GetReference(ceam.UiCode.text + "/" + "coverImage.jpg");
+		Firebase.Storage.StorageReference linkedRef1 = fbm.fbStorage.GetReference(ceam.UiCode.text + "/" + "linkedImage1.jpg");
+		Firebase.Storage.StorageReference linkedRef2 = fbm.fbStorage.GetReference(ceam.UiCode.text + "/" + "linkedImage2.jpg");
+		Firebase.Storage.StorageReference linkedRef3 = fbm.fbStorage.GetReference(ceam.UiCode.text + "/" + "linkedImage3.jpg");
+		Firebase.Storage.StorageReference linkedRef4 = fbm.fbStorage.GetReference(ceam.UiCode.text + "/" + "linkedImage4.jpg");
+		Firebase.Storage.StorageReference linkedRef5 = fbm.fbStorage.GetReference(ceam.UiCode.text + "/" + "linkedImage5.jpg");
 
-		int maxAllowedSize = 1024*1024;
-		byte[] saveFileBytes = new byte[maxAllowedSize];
-		byte[] targetBytes1 = new byte[maxAllowedSize];
-		byte[] targetBytes2 = new byte[maxAllowedSize];
-		byte[] targetBytes3 = new byte[maxAllowedSize];
-		byte[] targetBytes4 = new byte[maxAllowedSize];
-		byte[] targetBytes5 = new byte[maxAllowedSize];
+		int maxAllowedSize = 2000*2000;
 
 		targetRef1.GetBytesAsync(maxAllowedSize).ContinueWith((Task<byte[]> task1) => {
 			if (task1.IsFaulted || task1.IsCanceled) {
@@ -523,6 +532,78 @@ targetRef5.GetBytesAsync(maxAllowedSize).ContinueWith((Task<byte[]> task1) => {
 			}
 });
 
+coverRef.GetBytesAsync(maxAllowedSize).ContinueWith((Task<byte[]> task1) => {
+			if (task1.IsFaulted || task1.IsCanceled) {
+				Debug.Log(task1.Exception.ToString());
+				// Uh-oh, an error occurred!
+			} else {
+				byte[] fileContents = task1.Result;
+					Debug.Log("cover image finished downloading!");
+					File.WriteAllBytes(coverPath, fileContents);
+
+			}
+});
+
+linkedRef1.GetBytesAsync(maxAllowedSize).ContinueWith((Task<byte[]> task1) => {
+			if (task1.IsFaulted || task1.IsCanceled) {
+				Debug.Log(task1.Exception.ToString());
+				// Uh-oh, an error occurred!
+			} else {
+				byte[] fileContents = task1.Result;
+					Debug.Log("linked image 1 finished downloading!");
+					File.WriteAllBytes(linkedPath1, fileContents);
+
+			}
+});
+
+linkedRef2.GetBytesAsync(maxAllowedSize).ContinueWith((Task<byte[]> task1) => {
+			if (task1.IsFaulted || task1.IsCanceled) {
+				Debug.Log(task1.Exception.ToString());
+				// Uh-oh, an error occurred!
+			} else {
+				byte[] fileContents = task1.Result;
+					Debug.Log("linked image 2 finished downloading!");
+					File.WriteAllBytes(linkedPath2, fileContents);
+
+			}
+});
+
+linkedRef3.GetBytesAsync(maxAllowedSize).ContinueWith((Task<byte[]> task1) => {
+			if (task1.IsFaulted || task1.IsCanceled) {
+				Debug.Log(task1.Exception.ToString());
+				// Uh-oh, an error occurred!
+			} else {
+				byte[] fileContents = task1.Result;
+					Debug.Log("linked image 3 finished downloading!");
+					File.WriteAllBytes(linkedPath3, fileContents);
+
+			}
+});
+
+linkedRef4.GetBytesAsync(maxAllowedSize).ContinueWith((Task<byte[]> task1) => {
+			if (task1.IsFaulted || task1.IsCanceled) {
+				Debug.Log(task1.Exception.ToString());
+				// Uh-oh, an error occurred!
+			} else {
+				byte[] fileContents = task1.Result;
+					Debug.Log("linked image 4 finished downloading!");
+					File.WriteAllBytes(linkedPath4, fileContents);
+
+			}
+});
+
+linkedRef5.GetBytesAsync(maxAllowedSize).ContinueWith((Task<byte[]> task1) => {
+			if (task1.IsFaulted || task1.IsCanceled) {
+				Debug.Log(task1.Exception.ToString());
+				// Uh-oh, an error occurred!
+			} else {
+				byte[] fileContents = task1.Result;
+					Debug.Log("linked image 5 finished downloading!");
+					File.WriteAllBytes(linkedPath5, fileContents);
+
+			}
+});
+
 yield return new WaitForSeconds(5);
 
 saveFileRef.GetBytesAsync(maxAllowedSize).ContinueWith((Task<byte[]> task1) => {
@@ -539,56 +620,7 @@ saveFileRef.GetBytesAsync(maxAllowedSize).ContinueWith((Task<byte[]> task1) => {
 				lm.LoadFile();
 			}
 });
-
-//The below code works better than the above "GetBytesAsync" way above but will not function on iOS
-/* 
-		saveFileRef.GetFileAsync(saveFilePath).ContinueWith(task => {
-			if (!task.IsFaulted && !task.IsCanceled) 
-			{
-					Debug.Log("Save file downloaded.");
-
-					targetRef1.GetFileAsync(targetPath1).ContinueWith(task1 => {
-						if (!task1.IsFaulted && !task1.IsCanceled) {
-								Debug.Log("Target 1 file downloaded.");
-						}
-						targetRef2.GetFileAsync(targetPath2).ContinueWith(task2 => {
-							if (!task2.IsFaulted && !task2.IsCanceled) {
-									Debug.Log("Target 2 file downloaded.");
-							}
-							targetRef3.GetFileAsync(targetPath3).ContinueWith(task3 => {
-								if (!task3.IsFaulted && !task3.IsCanceled) {
-										Debug.Log("Target 3 file downloaded.");
-								}
-								targetRef4.GetFileAsync(targetPath4).ContinueWith(task4 => {
-									if (!task4.IsFaulted && !task4.IsCanceled) {
-											Debug.Log("Target 4 file downloaded.");
-									}
-									targetRef5.GetFileAsync(targetPath5).ContinueWith(task5 => {
-										if (!task5.IsFaulted && !task5.IsCanceled) {
-												Debug.Log("Target 5 file downloaded.");
-										}
-										lm.LoadFile();
-										});
-									});
-								});
-							});
-						});
-			}
-			else
-			{
-				Debug.Log("could not find experience");
-				viewScreenButton1.SetActive(false);
-				viewScreenButton2.SetActive(false);
-				viewScreenButton3.SetActive(false);
-				viewScreenCoachmark.SetActive(false);
-				wrongCodeNotification.SetActive(true);
-			}
-		});
-	*/
-
-		yield return null;
-	
-			
+	itm.gameObject.GetComponent<UiManager>().SetLoadingPanelActive(false);
 	}
 
 
@@ -617,6 +649,12 @@ saveFileRef.GetBytesAsync(maxAllowedSize).ContinueWith((Task<byte[]> task1) => {
 		string targetPath3 = Path.Combine(fm.SaveDirectory, "targetPhoto3.jpg");
 		string targetPath4 = Path.Combine(fm.SaveDirectory, "targetPhoto4.jpg");
 		string targetPath5 = Path.Combine(fm.SaveDirectory, "targetPhoto5.jpg");
+		string coverPath = Path.Combine(fm.SaveDirectory, "coverImage.jpg");
+		string linkedPath1 = Path.Combine(fm.SaveDirectory, "linkedImage1.jpg");
+		string linkedPath2 = Path.Combine(fm.SaveDirectory, "linkedImage2.jpg");
+		string linkedPath3 = Path.Combine(fm.SaveDirectory, "linkedImage3.jpg");
+		string linkedPath4 = Path.Combine(fm.SaveDirectory, "linkedImage4.jpg");
+		string linkedPath5 = Path.Combine(fm.SaveDirectory, "linkedImage5.jpg");
 
 		//references to cloud filstore paths
 		Firebase.Storage.StorageReference saveFileRef = fbm.fbStorage.GetReference(editCode + "/" + "aoSave.json");
@@ -625,17 +663,17 @@ saveFileRef.GetBytesAsync(maxAllowedSize).ContinueWith((Task<byte[]> task1) => {
 		Firebase.Storage.StorageReference targetRef3 = fbm.fbStorage.GetReference(editCode + "/" + "targetPhoto3.jpg");
 		Firebase.Storage.StorageReference targetRef4 = fbm.fbStorage.GetReference(editCode + "/" + "targetPhoto4.jpg");
 		Firebase.Storage.StorageReference targetRef5 = fbm.fbStorage.GetReference(editCode + "/" + "targetPhoto5.jpg");
+		Firebase.Storage.StorageReference coverRef = fbm.fbStorage.GetReference(editCode + "/" + "coverImage.jpg");
+		Firebase.Storage.StorageReference linkedRef1 = fbm.fbStorage.GetReference(editCode + "/" + "linkedImage1.jpg");
+		Firebase.Storage.StorageReference linkedRef2 = fbm.fbStorage.GetReference(editCode + "/" + "linkedImage2.jpg");
+		Firebase.Storage.StorageReference linkedRef3 = fbm.fbStorage.GetReference(editCode + "/" + "linkedImage3.jpg");
+		Firebase.Storage.StorageReference linkedRef4 = fbm.fbStorage.GetReference(editCode + "/" + "linkedImage4.jpg");
+		Firebase.Storage.StorageReference linkedRef5 = fbm.fbStorage.GetReference(editCode + "/" + "linkedImage5.jpg");
 
 		Debug.Log(editCode);
 		//codeDisplay.text = editCode;
 
-		int maxAllowedSize = 1024*1024;
-		byte[] saveFileBytes = new byte[maxAllowedSize];
-		byte[] targetBytes1 = new byte[maxAllowedSize];
-		byte[] targetBytes2 = new byte[maxAllowedSize];
-		byte[] targetBytes3 = new byte[maxAllowedSize];
-		byte[] targetBytes4 = new byte[maxAllowedSize];
-		byte[] targetBytes5 = new byte[maxAllowedSize];
+		int maxAllowedSize = 2000*2000;
 
 		targetRef1.GetBytesAsync(maxAllowedSize).ContinueWith((Task<byte[]> task1) => {
 			if (task1.IsFaulted || task1.IsCanceled) {
@@ -697,6 +735,78 @@ targetRef5.GetBytesAsync(maxAllowedSize).ContinueWith((Task<byte[]> task1) => {
 			}
 });
 
+coverRef.GetBytesAsync(maxAllowedSize).ContinueWith((Task<byte[]> task1) => {
+			if (task1.IsFaulted || task1.IsCanceled) {
+				Debug.Log(task1.Exception.ToString());
+				// Uh-oh, an error occurred!
+			} else {
+				byte[] fileContents = task1.Result;
+					Debug.Log("cover image finished downloading!");
+					File.WriteAllBytes(coverPath, fileContents);
+
+			}
+});
+
+linkedRef1.GetBytesAsync(maxAllowedSize).ContinueWith((Task<byte[]> task1) => {
+			if (task1.IsFaulted || task1.IsCanceled) {
+				Debug.Log(task1.Exception.ToString());
+				// Uh-oh, an error occurred!
+			} else {
+				byte[] fileContents = task1.Result;
+					Debug.Log("linked image 1 finished downloading!");
+					File.WriteAllBytes(linkedPath1, fileContents);
+
+			}
+});
+
+linkedRef2.GetBytesAsync(maxAllowedSize).ContinueWith((Task<byte[]> task1) => {
+			if (task1.IsFaulted || task1.IsCanceled) {
+				Debug.Log(task1.Exception.ToString());
+				// Uh-oh, an error occurred!
+			} else {
+				byte[] fileContents = task1.Result;
+					Debug.Log("linked image 2 finished downloading!");
+					File.WriteAllBytes(linkedPath2, fileContents);
+
+			}
+});
+
+linkedRef3.GetBytesAsync(maxAllowedSize).ContinueWith((Task<byte[]> task1) => {
+			if (task1.IsFaulted || task1.IsCanceled) {
+				Debug.Log(task1.Exception.ToString());
+				// Uh-oh, an error occurred!
+			} else {
+				byte[] fileContents = task1.Result;
+					Debug.Log("linked image 3 finished downloading!");
+					File.WriteAllBytes(linkedPath3, fileContents);
+
+			}
+});
+
+linkedRef4.GetBytesAsync(maxAllowedSize).ContinueWith((Task<byte[]> task1) => {
+			if (task1.IsFaulted || task1.IsCanceled) {
+				Debug.Log(task1.Exception.ToString());
+				// Uh-oh, an error occurred!
+			} else {
+				byte[] fileContents = task1.Result;
+					Debug.Log("linked image 4 finished downloading!");
+					File.WriteAllBytes(linkedPath4, fileContents);
+
+			}
+});
+
+linkedRef5.GetBytesAsync(maxAllowedSize).ContinueWith((Task<byte[]> task1) => {
+			if (task1.IsFaulted || task1.IsCanceled) {
+				Debug.Log(task1.Exception.ToString());
+				// Uh-oh, an error occurred!
+			} else {
+				byte[] fileContents = task1.Result;
+					Debug.Log("linked image 5 finished downloading!");
+					File.WriteAllBytes(linkedPath5, fileContents);
+
+			}
+});
+
 yield return new WaitForSeconds(5);
 
 saveFileRef.GetBytesAsync(maxAllowedSize).ContinueWith((Task<byte[]> task1) => {
@@ -711,41 +821,7 @@ saveFileRef.GetBytesAsync(maxAllowedSize).ContinueWith((Task<byte[]> task1) => {
 				lm.LoadFile();
 			}
 });
-
-//The below code works better than the above "GetBytesAsync" way above but will not function on iOS
-/* 
-		saveFileRef.GetFileAsync(saveFilePath).ContinueWith(task => {
-    if (!task.IsFaulted && !task.IsCanceled) {
-			Debug.Log("Save file downloaded.");
-			targetRef1.GetFileAsync(targetPath1).ContinueWith(task1 => {
-				if (!task.IsFaulted && !task.IsCanceled) {
-						Debug.Log("Target 1 file downloaded.");
-				}
-				targetRef2.GetFileAsync(targetPath2).ContinueWith(task2 => {
-					if (!task.IsFaulted && !task.IsCanceled) {
-							Debug.Log("Target 2 file downloaded.");
-					}
-					targetRef3.GetFileAsync(targetPath3).ContinueWith(task3 => {
-						if (!task.IsFaulted && !task.IsCanceled) {
-								Debug.Log("Target 3 file downloaded.");
-						}
-						targetRef4.GetFileAsync(targetPath4).ContinueWith(task4 => {
-							if (!task.IsFaulted && !task.IsCanceled) {
-									Debug.Log("Target 4 file downloaded.");
-							}
-							targetRef5.GetFileAsync(targetPath5).ContinueWith(task5 => {
-								if (!task.IsFaulted && !task.IsCanceled) {
-										Debug.Log("Target 5 file downloaded.");
-								}
-								lm.LoadFile();
-							});
-						});
-					});
-				});
-			});
-    }
-		});
-*/
+	itm.gameObject.GetComponent<UiManager>().SetLoadingPanelActive(false);
 	}
 
 
@@ -782,6 +858,12 @@ saveFileRef.GetBytesAsync(maxAllowedSize).ContinueWith((Task<byte[]> task1) => {
 		string targetPath3 = Path.Combine(fm.SaveDirectory, "targetPhoto3.jpg");
 		string targetPath4 = Path.Combine(fm.SaveDirectory, "targetPhoto4.jpg");
 		string targetPath5 = Path.Combine(fm.SaveDirectory, "targetPhoto5.jpg");
+		string coverPath = Path.Combine(fm.SaveDirectory, "coverImage.jpg");
+		string linkedPath1 = Path.Combine(fm.SaveDirectory, "linkedImage1.jpg");
+		string linkedPath2 = Path.Combine(fm.SaveDirectory, "linkedImage2.jpg");
+		string linkedPath3 = Path.Combine(fm.SaveDirectory, "linkedImage3.jpg");
+		string linkedPath4 = Path.Combine(fm.SaveDirectory, "linkedImage4.jpg");
+		string linkedPath5 = Path.Combine(fm.SaveDirectory, "linkedImage5.jpg");
 
 		//for debugging iOS download problem
 		Debug.Log("2a. fsm500, Save file path = "+saveFilePath);
@@ -810,6 +892,12 @@ saveFileRef.GetBytesAsync(maxAllowedSize).ContinueWith((Task<byte[]> task1) => {
 		Firebase.Storage.StorageReference targetRef3 = fbm.fbStorage.GetReference(expCode + "/" + "targetPhoto3.jpg");
 		Firebase.Storage.StorageReference targetRef4 = fbm.fbStorage.GetReference(expCode + "/" + "targetPhoto4.jpg");
 		Firebase.Storage.StorageReference targetRef5 = fbm.fbStorage.GetReference(expCode + "/" + "targetPhoto5.jpg");
+		Firebase.Storage.StorageReference coverRef = fbm.fbStorage.GetReference(expCode + "/" + "coverImage.jpg");
+		Firebase.Storage.StorageReference linkedRef1 = fbm.fbStorage.GetReference(expCode + "/" + "linkedImage1.jpg");
+		Firebase.Storage.StorageReference linkedRef2 = fbm.fbStorage.GetReference(expCode + "/" + "linkedImage2.jpg");
+		Firebase.Storage.StorageReference linkedRef3 = fbm.fbStorage.GetReference(expCode + "/" + "linkedImage3.jpg");
+		Firebase.Storage.StorageReference linkedRef4 = fbm.fbStorage.GetReference(expCode + "/" + "linkedImage4.jpg");
+		Firebase.Storage.StorageReference linkedRef5 = fbm.fbStorage.GetReference(expCode + "/" + "linkedImage5.jpg");
 
 		//for debugging iOS download problem
 		Debug.Log("4a. fsm682, Save file download path = "+expCode + "/" + "aoSave.json");
@@ -824,13 +912,7 @@ saveFileRef.GetBytesAsync(maxAllowedSize).ContinueWith((Task<byte[]> task1) => {
 		//for debugging iOS download problem
 		Debug.Log("4f. fsm692, Target 5 download path = "+expCode + "/" + "targetPhoto5.jpg");
 
-		int maxAllowedSize = 1024*1024;
-		byte[] saveFileBytes = new byte[maxAllowedSize];
-		byte[] targetBytes1 = new byte[maxAllowedSize];
-		byte[] targetBytes2 = new byte[maxAllowedSize];
-		byte[] targetBytes3 = new byte[maxAllowedSize];
-		byte[] targetBytes4 = new byte[maxAllowedSize];
-		byte[] targetBytes5 = new byte[maxAllowedSize];
+		int maxAllowedSize = 2000*2000;
 
 
 targetRef1.GetBytesAsync(maxAllowedSize).ContinueWith((Task<byte[]> task1) => {
@@ -893,6 +975,78 @@ targetRef5.GetBytesAsync(maxAllowedSize).ContinueWith((Task<byte[]> task1) => {
 			}
 });
 
+coverRef.GetBytesAsync(maxAllowedSize).ContinueWith((Task<byte[]> task1) => {
+			if (task1.IsFaulted || task1.IsCanceled) {
+				Debug.Log(task1.Exception.ToString());
+				// Uh-oh, an error occurred!
+			} else {
+				byte[] fileContents = task1.Result;
+					Debug.Log("cover image finished downloading!");
+					File.WriteAllBytes(coverPath, fileContents);
+
+			}
+});
+
+linkedRef1.GetBytesAsync(maxAllowedSize).ContinueWith((Task<byte[]> task1) => {
+			if (task1.IsFaulted || task1.IsCanceled) {
+				Debug.Log(task1.Exception.ToString());
+				// Uh-oh, an error occurred!
+			} else {
+				byte[] fileContents = task1.Result;
+					Debug.Log("linked image 1 finished downloading!");
+					File.WriteAllBytes(linkedPath1, fileContents);
+
+			}
+});
+
+linkedRef2.GetBytesAsync(maxAllowedSize).ContinueWith((Task<byte[]> task1) => {
+			if (task1.IsFaulted || task1.IsCanceled) {
+				Debug.Log(task1.Exception.ToString());
+				// Uh-oh, an error occurred!
+			} else {
+				byte[] fileContents = task1.Result;
+					Debug.Log("linked image 2 finished downloading!");
+					File.WriteAllBytes(linkedPath2, fileContents);
+
+			}
+});
+
+linkedRef3.GetBytesAsync(maxAllowedSize).ContinueWith((Task<byte[]> task1) => {
+			if (task1.IsFaulted || task1.IsCanceled) {
+				Debug.Log(task1.Exception.ToString());
+				// Uh-oh, an error occurred!
+			} else {
+				byte[] fileContents = task1.Result;
+					Debug.Log("linked image 3 finished downloading!");
+					File.WriteAllBytes(linkedPath3, fileContents);
+
+			}
+});
+
+linkedRef4.GetBytesAsync(maxAllowedSize).ContinueWith((Task<byte[]> task1) => {
+			if (task1.IsFaulted || task1.IsCanceled) {
+				Debug.Log(task1.Exception.ToString());
+				// Uh-oh, an error occurred!
+			} else {
+				byte[] fileContents = task1.Result;
+					Debug.Log("linked image 4 finished downloading!");
+					File.WriteAllBytes(linkedPath4, fileContents);
+
+			}
+});
+
+linkedRef5.GetBytesAsync(maxAllowedSize).ContinueWith((Task<byte[]> task1) => {
+			if (task1.IsFaulted || task1.IsCanceled) {
+				Debug.Log(task1.Exception.ToString());
+				// Uh-oh, an error occurred!
+			} else {
+				byte[] fileContents = task1.Result;
+					Debug.Log("linked image 5 finished downloading!");
+					File.WriteAllBytes(linkedPath5, fileContents);
+
+			}
+});
+
 yield return new WaitForSeconds(5);
 
 saveFileRef.GetBytesAsync(maxAllowedSize).ContinueWith((Task<byte[]> task1) => {
@@ -907,50 +1061,8 @@ saveFileRef.GetBytesAsync(maxAllowedSize).ContinueWith((Task<byte[]> task1) => {
 				lm.LoadFile();
 			}
 });
-
-//The below code works better than the above "GetBytesAsync" way above but will not function on iOS
-/* 
-		saveFileRef.GetFileAsync(saveFilePath).ContinueWith(task => {
-    if (!task.IsFaulted && !task.IsCanceled) {
-			//for debugging iOS download problem
-			Debug.Log("5. fsm697, Save file downloaded.");
-			string debug = File.ReadAllText(saveFilePath);
-			Debug.Log("6. fsm700, Contents of downloaded save file = "+debug);
-			targetRef1.GetFileAsync(targetPath1).ContinueWith(task1 => {
-				if (!task.IsFaulted && !task.IsCanceled) {
-						Debug.Log("7. fsm703, Target 1 file downloaded.");
-				}
-				targetRef2.GetFileAsync(targetPath2).ContinueWith(task2 => {
-					if (!task.IsFaulted && !task.IsCanceled) {
-							Debug.Log("8, fsm707, Target 2 file downloaded.");
-					}
-					targetRef3.GetFileAsync(targetPath3).ContinueWith(task3 => {
-						if (!task.IsFaulted && !task.IsCanceled) {
-								Debug.Log("9, fsm711, Target 3 file downloaded.");
-						}
-						targetRef4.GetFileAsync(targetPath4).ContinueWith(task4 => {
-							if (!task.IsFaulted && !task.IsCanceled) {
-									Debug.Log("10, fsm715, Target 4 file downloaded.");
-							}
-							targetRef5.GetFileAsync(targetPath5).ContinueWith(task5 => {
-								if (!task.IsFaulted && !task.IsCanceled) {
-										Debug.Log("11, fsm719, Target 5 file downloaded.");
-								}
-								lm.LoadFile();
-							});
-						});
-					});
-				});
-			});
-    }
-		else
-		{
-			Debug.Log("5. fsm732, Save File failed to download: error = "+ task.Exception);
-		}
-		});
-		*/
-		yield return null;
 		whichIndex = 0;
+		itm.gameObject.GetComponent<UiManager>().SetLoadingPanelActive(false);
 	}
 
 	public void DeleteExperience(string code)

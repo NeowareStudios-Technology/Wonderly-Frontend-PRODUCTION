@@ -349,6 +349,7 @@ public class pixabayManager : MonoBehaviour {
 			newThumbnail.GetComponent<Button>().onClick.AddListener(delegate {mainCanvas.GetComponent<PanelController>().OpenPanel(viewLibraryContentPanel);});
 			newThumbnail.GetComponent<Button>().onClick.AddListener(delegate {chooseImageStarter(index, newThumbnail);});
 			newThumbnail.GetComponent<Button>().onClick.AddListener(delegate {fm.ModifyTargetStatusArray("image");});
+			newThumbnail.GetComponent<Button>().onClick.AddListener(delegate {localScriptHolder.GetComponent<UiManager>().SetLoadingPanelActive(true);});
 			
 			
 
@@ -383,7 +384,7 @@ public class pixabayManager : MonoBehaviour {
 				if (imageRequest.error != null)
 				{
 					Debug.Log("Error getting image:" + imageRequest.error);
-					LoadingPanel.SetActive(false);
+					//LoadingPanel.SetActive(false);
 				}
 				else
 				{   
@@ -437,8 +438,9 @@ public class pixabayManager : MonoBehaviour {
 							break;
 					}
 				}
-
-				LoadingPanel.SetActive(false);
+				localScriptHolder.GetComponent<UiManager>().SetLoadingPanelActive(false);
+				//LoadingPanel.SetActive(false);
+				
 				yield return null;
 
 				//clear url arrays and thumbnail images

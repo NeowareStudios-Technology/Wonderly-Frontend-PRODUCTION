@@ -60,6 +60,7 @@ namespace Sample
         {   
             //PlayerPrefs.SetInt("isLoggedIn", 1);
             //Debugging ^
+
             
             if (PlayerPrefs.GetInt("isLoggedIn")==1){
                 //coroutine OpenHome esures homeScreen is opened whether or not mainCanvas already opened InitialPanel

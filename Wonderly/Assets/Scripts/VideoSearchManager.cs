@@ -115,9 +115,13 @@ public class VideoSearchManager : MonoBehaviour {
             thumbUrls.Add(videoList[i].snippet.thumbnails.defaultThumbnail.url);
             newThumbnail.GetComponent<YoutubeVideoUi>().LoadThumbnail();
             newThumbnail.GetComponent<Button>().onClick.AddListener(delegate {newThumbnail.GetComponent<YoutubeVideoUi>().PlayYoutubeVideo();});
+
+             //loading panel is turned off at the end of this thread after DeleteThumbnails()
             newThumbnail.GetComponent<Button>().onClick.AddListener(delegate {localScriptHolder.GetComponent<ArPairDisplayManager>().setYoutubeThumbnailArPair(newThumbnail);});
+            
             newThumbnail.GetComponent<Button>().onClick.AddListener(delegate {this.GetComponent<YoutubeAPIManager>().SetVideoInfo(TempIterator + 1);});
             newThumbnail.GetComponent<Button>().onClick.AddListener(delegate {mainCanvas.GetComponent<PanelController>().OpenPanel(viewLibraryContentPanel);});
+            newThumbnail.GetComponent<Button>().onClick.AddListener(delegate {localScriptHolder.GetComponent<UiManager>().SetLoadingPanelActive(true);});
        
 
         }
@@ -129,7 +133,12 @@ public class VideoSearchManager : MonoBehaviour {
 		foreach (Transform child in thumbNailParentContent.transform) {
      			GameObject.Destroy(child.gameObject);
         }
+        TurnOffLoadingPanel();
 	}
+    public void TurnOffLoadingPanel(){
+		localScriptHolder.GetComponent<UiManager>().SetLoadingPanelActive(false);
+    }
+
     public void ClearSearchField(){
         searchField.text = "";
     }
