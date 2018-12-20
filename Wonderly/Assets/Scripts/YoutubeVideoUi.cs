@@ -15,6 +15,7 @@ public class YoutubeVideoUi : MonoBehaviour {
     public FilesManager fm;
     public targetObjectManager tom;
     public ImageTargetManager itm;
+    public GameObject lsh;
 
     //set all needed script variables here (cant do this in GUI because this is a spawned script)
     void Awake()
@@ -27,10 +28,16 @@ public class YoutubeVideoUi : MonoBehaviour {
 
     public void PlayYoutubeVideo()
     {
+        //set lsh for loading panel
+        lsh = GameObject.Find("Local Script Holder");
+        
         if (videoId == "")
         {
             return;
         }
+
+        //loading Panel deactivated in RequestResolver.DownloadUrl()
+        lsh.GetComponent<UiManager>().SetLoadingPanelActive(true);
 
         Debug.Log("Now starting YoutubeVideoUi.PlayYoutubeVideo()");
         Debug.Log("video id: "+videoId);

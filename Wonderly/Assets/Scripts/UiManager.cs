@@ -131,15 +131,15 @@ public class UiManager : MonoBehaviour {
 		}
 
 
-        //Sets Content Rect Transform based on target count
-        if(fm.targetCount == 0)
-            wonderPanelRectTrans.sizeDelta = noWondersHeight;        
-        else if(fm.targetCount ==1)        
-            wonderPanelRectTrans.sizeDelta = oneWondersHeight;
-        else if(fm.targetCount ==2)        
-            wonderPanelRectTrans.sizeDelta = twoWondersHeight;       
-        else if(fm.targetCount ==3)     
-            wonderPanelRectTrans.sizeDelta = fullWondersHeight;
+        // //Sets Content Rect Transform based on target count
+        // if(fm.targetCount == 0)
+        //     wonderPanelRectTrans.sizeDelta = noWondersHeight;        
+        // else if(fm.targetCount ==1)        
+        //     wonderPanelRectTrans.sizeDelta = oneWondersHeight;
+        // else if(fm.targetCount ==2)        
+        //     wonderPanelRectTrans.sizeDelta = twoWondersHeight;       
+        // else if(fm.targetCount ==3)     
+        //     wonderPanelRectTrans.sizeDelta = fullWondersHeight;
 
 			
 		//display correct repo logo depending on which repo is being searched
@@ -518,7 +518,7 @@ public class UiManager : MonoBehaviour {
 
 	public void EnsureJourneyTitleInput2()
 	{
-		if (titleInput1.text == "")
+		if (titleInput2.text == "")
 		{
 			journeyInputError2.SetActive(true);
 		}
@@ -542,7 +542,7 @@ public class UiManager : MonoBehaviour {
 
 	public void EnsureWonderTitleInput2()
 	{
-		if (wonderTitleInput1.text == "")
+		if (wonderTitleInput2.text == "")
 		{
 			wonderInputError2.SetActive(true);
 		}

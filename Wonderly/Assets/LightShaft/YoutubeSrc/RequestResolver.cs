@@ -14,7 +14,8 @@ namespace YoutubeLight
     {
         private const string RateBypassFlag = "ratebypass";
         private const string SignatureQuery = "signature";
-        public GameObject LoadingPanel;
+        //public GameObject LoadingPanel;
+        public GameObject lsh;
         public IEnumerator DecryptDownloadUrl(Action<string> callback, VideoInfo videoInfo)
         {
             IDictionary<string, string> queries = HTTPHelperYoutube.ParseQueryString(videoInfo.DownloadUrl);
@@ -385,8 +386,14 @@ namespace YoutubeLight
             request.SetRequestHeader("User-Agent", "Mozilla/5.0 (X11; Linux x86_64; rv:10.0) Gecko/20100101 Firefox/10.0 (Chrome)");
             yield return request.Send();
             downloadUrlResponse.httpCode = request.responseCode;
-            if (request.isNetworkError) { Debug.Log("Youtube UnityWebRequest isNetworkError!"); LoadingPanel.SetActive(false); }
-            else if (request.isHttpError) { Debug.Log("Youtube UnityWebRequest isHttpError!"); LoadingPanel.SetActive(false); }
+            if (request.isNetworkError) { 
+                Debug.Log("Youtube UnityWebRequest isNetworkError!"); 
+                lsh.GetComponent<UiManager>().SetLoadingPanelActive(false);
+            }
+            else if (request.isHttpError) { 
+                Debug.Log("Youtube UnityWebRequest isHttpError!"); 
+                lsh.GetComponent<UiManager>().SetLoadingPanelActive(false);
+            }
             else if (request.responseCode == 200)
             {
                 Debug.Log("Youtube UnityWebRequest responseCode 200: OK!");
@@ -394,12 +401,19 @@ namespace YoutubeLight
                 {
                     downloadUrlResponse.isValid = true;
                     downloadUrlResponse.data = request.downloadHandler.text;
-                    LoadingPanel.SetActive(false);
+                    lsh.GetComponent<UiManager>().SetLoadingPanelActive(false);
                 }
-                else { Debug.Log("Youtube UnityWebRequest Null response"); LoadingPanel.SetActive(false); }
+                else 
+                {
+                     Debug.Log("Youtube UnityWebRequest Null response"); 
+                    lsh.GetComponent<UiManager>().SetLoadingPanelActive(false);
+                }
             }
             else
-            { Debug.Log("Youtube UnityWebRequest responseCode:" + request.responseCode); LoadingPanel.SetActive(false); }
+            { 
+                Debug.Log("Youtube UnityWebRequest responseCode:" + request.responseCode); 
+                lsh.GetComponent<UiManager>().SetLoadingPanelActive(false);
+            }
         }
 
         private static void ThrowYoutubeParseException(Exception innerException, string videoUrl)

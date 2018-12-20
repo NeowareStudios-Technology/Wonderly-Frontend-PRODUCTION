@@ -164,6 +164,17 @@ namespace Sample
             /// titleInput.text = "";
 
             pathManager.targetCount = 0;
+
+            //clear save file
+            if (Directory.Exists(fm.SaveDirectory))
+            {
+                DirectoryInfo di = new DirectoryInfo(fm.SaveDirectory);
+
+                foreach (FileInfo file in di.GetFiles())
+                {
+                    file.Delete(); 
+                }
+            }
         }
         
         //gets called by UI to delete currently indexed target

@@ -522,7 +522,7 @@ public class LoadManager : MonoBehaviour {
 						tex1.LoadImage(linkedImageBytes1);
 						pm.image1.GetComponent<Renderer>().material.mainTexture = tex1;
 						//sets thumbnail image
-						linkedThumb1.sprite = Sprite.Create(tex1, new Rect(0, 0, tex1.width, tex1.height), new Vector2(0, 0));
+						apdm.targetObjectThumbs[0].sprite = Sprite.Create(tex1, new Rect(0, 0, tex1.width, tex1.height), new Vector2(0, 0));
 						break;
 					case 1:
 						fm.targetStatus[1] = "image";
@@ -530,7 +530,7 @@ public class LoadManager : MonoBehaviour {
 						Texture2D tex2 = new Texture2D(2000,2000);
 						tex2.LoadImage(linkedImageBytes2);
 						pm.image2.GetComponent<Renderer>().material.mainTexture = tex2;
-						linkedThumb2.sprite = Sprite.Create(tex2, new Rect(0, 0, tex2.width, tex2.height), new Vector2(0, 0));
+						apdm.targetObjectThumbs[1].sprite = Sprite.Create(tex2, new Rect(0, 0, tex2.width, tex2.height), new Vector2(0, 0));
 						break;
 					case 2:
 						fm.targetStatus[2] = "image";
@@ -538,7 +538,7 @@ public class LoadManager : MonoBehaviour {
 						Texture2D tex3 = new Texture2D(2000,2000);
 						tex3.LoadImage(linkedImageBytes3);
 						pm.image3.GetComponent<Renderer>().material.mainTexture = tex3;
-						linkedThumb3.sprite = Sprite.Create(tex3, new Rect(0, 0, tex3.width, tex3.height), new Vector2(0, 0));
+						apdm.targetObjectThumbs[2].sprite = Sprite.Create(tex3, new Rect(0, 0, tex3.width, tex3.height), new Vector2(0, 0));
 						break;
 					case 3:
 						fm.targetStatus[3] = "image";
@@ -546,7 +546,7 @@ public class LoadManager : MonoBehaviour {
 						Texture2D tex4 = new Texture2D(2000,2000);
 						tex4.LoadImage(linkedImageBytes4);
 						pm.image4.GetComponent<Renderer>().material.mainTexture = tex4;
-						linkedThumb4.sprite = Sprite.Create(tex4, new Rect(0, 0, tex4.width, tex4.height), new Vector2(0, 0));
+						apdm.targetObjectThumbs[3].sprite = Sprite.Create(tex4, new Rect(0, 0, tex4.width, tex4.height), new Vector2(0, 0));
 						break;
 					case 4:
 						fm.targetStatus[4] = "image";
@@ -554,7 +554,7 @@ public class LoadManager : MonoBehaviour {
 						Texture2D tex5 = new Texture2D(2000,2000);
 						tex5.LoadImage(linkedImageBytes5);
 						pm.image5.GetComponent<Renderer>().material.mainTexture = tex5;
-						linkedThumb5.sprite = Sprite.Create(tex5, new Rect(0, 0, tex5.width, tex5.height), new Vector2(0, 0));
+						apdm.targetObjectThumbs[4].sprite = Sprite.Create(tex5, new Rect(0, 0, tex5.width, tex5.height), new Vector2(0, 0));
 						break;
 				}
 				yield return null;
@@ -725,19 +725,19 @@ public class LoadManager : MonoBehaviour {
 		switch(globalModelIndexTracker)
 		{
 			case 0:
-				linkedThumb1.sprite = Sprite.Create(asset.thumbnailTexture, new Rect(0, 0, asset.thumbnailTexture.width, asset.thumbnailTexture.height), new Vector2(0.5f, 0.5f), 100);
+				apdm.targetObjectThumbs[0].sprite = Sprite.Create(asset.thumbnailTexture, new Rect(0, 0, asset.thumbnailTexture.width, asset.thumbnailTexture.height), new Vector2(0.5f, 0.5f), 100);
 				break;
 			case 1:
-				linkedThumb2.sprite = Sprite.Create(asset.thumbnailTexture, new Rect(0, 0, asset.thumbnailTexture.width, asset.thumbnailTexture.height), new Vector2(0.5f, 0.5f), 100);
+				apdm.targetObjectThumbs[1].sprite = Sprite.Create(asset.thumbnailTexture, new Rect(0, 0, asset.thumbnailTexture.width, asset.thumbnailTexture.height), new Vector2(0.5f, 0.5f), 100);
 				break;
 			case 2:
-				linkedThumb3.sprite = Sprite.Create(asset.thumbnailTexture, new Rect(0, 0, asset.thumbnailTexture.width, asset.thumbnailTexture.height), new Vector2(0.5f, 0.5f), 100);
+				apdm.targetObjectThumbs[2].sprite = Sprite.Create(asset.thumbnailTexture, new Rect(0, 0, asset.thumbnailTexture.width, asset.thumbnailTexture.height), new Vector2(0.5f, 0.5f), 100);
 				break;
 			case 3:
-				linkedThumb4.sprite = Sprite.Create(asset.thumbnailTexture, new Rect(0, 0, asset.thumbnailTexture.width, asset.thumbnailTexture.height), new Vector2(0.5f, 0.5f), 100);
+				apdm.targetObjectThumbs[3].sprite = Sprite.Create(asset.thumbnailTexture, new Rect(0, 0, asset.thumbnailTexture.width, asset.thumbnailTexture.height), new Vector2(0.5f, 0.5f), 100);
 				break;
 			case 4:
-				linkedThumb5.sprite = Sprite.Create(asset.thumbnailTexture, new Rect(0, 0, asset.thumbnailTexture.width, asset.thumbnailTexture.height), new Vector2(0.5f, 0.5f), 100);
+				apdm.targetObjectThumbs[4].sprite = Sprite.Create(asset.thumbnailTexture, new Rect(0, 0, asset.thumbnailTexture.width, asset.thumbnailTexture.height), new Vector2(0.5f, 0.5f), 100);
 				break;
 		}
 	}
@@ -753,35 +753,35 @@ public class LoadManager : MonoBehaviour {
 				using (WWW videoThumbRequest1 = new WWW(thumbnailUrl))
 				{
 					yield return videoThumbRequest1;
-					linkedThumb1.sprite = Sprite.Create(videoThumbRequest1.texture, new Rect(0, 0, videoThumbRequest1.texture.width, videoThumbRequest1.texture.height), new Vector2(0, 0));
+					apdm.targetObjectThumbs[0].sprite = Sprite.Create(videoThumbRequest1.texture, new Rect(0, 0, videoThumbRequest1.texture.width, videoThumbRequest1.texture.height), new Vector2(0, 0));
 				}
 				break;
 			case 1:
 				using (WWW videoThumbRequest2 = new WWW(thumbnailUrl))
 				{
 					yield return videoThumbRequest2;
-					linkedThumb2.sprite = Sprite.Create(videoThumbRequest2.texture, new Rect(0, 0, videoThumbRequest2.texture.width, videoThumbRequest2.texture.height), new Vector2(0, 0));
+					apdm.targetObjectThumbs[1].sprite = Sprite.Create(videoThumbRequest2.texture, new Rect(0, 0, videoThumbRequest2.texture.width, videoThumbRequest2.texture.height), new Vector2(0, 0));
 				}
 				break;
 			case 2:
 				using (WWW videoThumbRequest3 = new WWW(thumbnailUrl))
 				{
 					yield return videoThumbRequest3;
-					linkedThumb3.sprite = Sprite.Create(videoThumbRequest3.texture, new Rect(0, 0, videoThumbRequest3.texture.width, videoThumbRequest3.texture.height), new Vector2(0, 0));
+					apdm.targetObjectThumbs[2].sprite = Sprite.Create(videoThumbRequest3.texture, new Rect(0, 0, videoThumbRequest3.texture.width, videoThumbRequest3.texture.height), new Vector2(0, 0));
 				}
 				break;
 			case 3:
 				using (WWW videoThumbRequest4 = new WWW(thumbnailUrl))
 				{
 					yield return videoThumbRequest4;
-					linkedThumb4.sprite = Sprite.Create(videoThumbRequest4.texture, new Rect(0, 0, videoThumbRequest4.texture.width, videoThumbRequest4.texture.height), new Vector2(0, 0));
+					apdm.targetObjectThumbs[3].sprite = Sprite.Create(videoThumbRequest4.texture, new Rect(0, 0, videoThumbRequest4.texture.width, videoThumbRequest4.texture.height), new Vector2(0, 0));
 				}
 				break;
 			case 4:
 				using (WWW videoThumbRequest5 = new WWW(thumbnailUrl))
 				{
 					yield return videoThumbRequest5;
-					linkedThumb5.sprite = Sprite.Create(videoThumbRequest5.texture, new Rect(0, 0, videoThumbRequest5.texture.width, videoThumbRequest5.texture.height), new Vector2(0, 0));
+					apdm.targetObjectThumbs[4].sprite = Sprite.Create(videoThumbRequest5.texture, new Rect(0, 0, videoThumbRequest5.texture.width, videoThumbRequest5.texture.height), new Vector2(0, 0));
 				}
 				break;
 		}

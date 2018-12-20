@@ -77,8 +77,22 @@ namespace Sample
             //ui = FindObjectOfType<takeTargetPicture>();
             MarksDirectory = Application.persistentDataPath;
             SaveDirectory = Path.Combine(MarksDirectory, "SaveFolder");
+            //clear save file if it exists
+            if (Directory.Exists(SaveDirectory))
+            {
+                DirectoryInfo di = new DirectoryInfo(SaveDirectory);
 
-            Directory.CreateDirectory(SaveDirectory);
+                foreach (FileInfo file in di.GetFiles())
+                {
+                    file.Delete(); 
+                }
+            }
+            //if save file doesnt exist, make one
+            else
+            {
+                Directory.CreateDirectory(SaveDirectory);
+            }
+
             //Directory.CreateDirectory(MarksDirectory);
             Debug.Log("MarkPath:" + Application.persistentDataPath);
             Debug.Log("Save Folder Path: " + SaveDirectory);

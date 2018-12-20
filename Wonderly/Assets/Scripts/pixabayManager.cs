@@ -18,6 +18,7 @@ public class pixabayManager : MonoBehaviour {
 	public Animator viewLibraryContentPanel2;
 
 	public InputField coverImageSearchTerm;
+	public InputField coverImageSearchTerm2;
 	public Image[] searchedThumbnails = new Image[50];
 	public Image[] searchedThumbnailsCoverImage = new Image[50];
 	public Image blankImage;
@@ -78,7 +79,11 @@ public class pixabayManager : MonoBehaviour {
 
 		DestroyChildrenOfCoverImageContent();
 		//holds the search term
-		string searchString = coverImageSearchTerm.text;
+		string searchString;
+		if (whichParent == 1)
+			searchString = coverImageSearchTerm.text;
+		else 
+			searchString = coverImageSearchTerm2.text;
 		Debug.Log(searchString);
 		//makes search term url safe
 		string urlSafeSearchTerm = searchString.Replace(" ", "+");
