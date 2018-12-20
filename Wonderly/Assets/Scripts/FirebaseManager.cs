@@ -56,6 +56,7 @@ public class FirebaseManager : MonoBehaviour {
 	public GameObject passwordResetFailNotification;
 
 	public GameObject loadingPanel;
+	public LibraryStubController StubController;
 
 	public bool isLoggedIn;
 
@@ -63,6 +64,7 @@ public class FirebaseManager : MonoBehaviour {
 
 	public void createNewFirebaseUser()
 	{
+		lsh.GetComponent<UiManager>().SetLoadingPanelActive(true);
 		
 		//make sure password is at least 6 chars long
 		if (newPassword.text.Length < 6)
@@ -80,7 +82,7 @@ public class FirebaseManager : MonoBehaviour {
 			if (task.IsFaulted) {
 				Debug.LogError("CreateUserWithEmailAndPasswordAsync encountered an error: " + task.Exception);
 				//turn of loading animation
-				loadingPanel.SetActive(false);
+				lsh.GetComponent<UiManager>().SetLoadingPanelActive(false);
 				//wrongSignUpNotification.SetActive(true);
 				return;
 			}
@@ -88,7 +90,7 @@ public class FirebaseManager : MonoBehaviour {
 			// Firebase user has been created.
 			Firebase.Auth.FirebaseUser newUser = task.Result;
 			//turn off loading animation
-			loadingPanel.SetActive(false);
+			lsh.GetComponent<UiManager>().SetLoadingPanelActive(false);
 			Debug.LogFormat("Firebase user created successfully: {0} ({1})",
 					newUser.DisplayName, newUser.UserId);
 
@@ -183,7 +185,7 @@ public class FirebaseManager : MonoBehaviour {
 			//login credentials
 			string e = email.text;
 			string p = Password.text;
-	
+
 			//firebase signin
 			FirebaseAuth auth = Firebase.Auth.FirebaseAuth.DefaultInstance;
 			auth.SignInWithEmailAndPasswordAsync(e, p).ContinueWith(task =>
@@ -205,26 +207,29 @@ public class FirebaseManager : MonoBehaviour {
 					}
 
 					Debug.Log("after task fault check");
-
+					
 					//turn off loading animation
 					pc.SetBottomPanelActive(true);
+					StubController.getNewToken = true;
 					pc.OpenPanel(libraryPanelAnimator);
-
+					
+					
 					Debug.Log("after setting inactive");
 					Firebase.Auth.FirebaseUser newUser = task.Result;
 					Debug.LogFormat("User signed in successfully: {0} ({1})",
 							newUser.DisplayName, newUser.UserId);
 					GetToken(auth);
-
+					
 					Debug.Log("Logging in: " + e + " " + p);
 					PlayerPrefs.SetString("email", e);
 					PlayerPrefs.SetString("password", p);
 					PlayerPrefs.SetInt("isLoggedIn", 1);
-
+					
 			});
 
 	}
-
+	
+	
 
 	public void GetToken(FirebaseAuth auth)
 	{
@@ -248,12 +253,14 @@ public class FirebaseManager : MonoBehaviour {
 
 					token = task.Result;
 					Debug.Log(token);
+					ceam.startGetOwnedCodes();
 					isLoggedIn = true;
 
 					//load in profile info to ui (called here because need to wait for token)
 					StartCoroutine(ceam.getProfileInfo());
 		});
 	}
+	
 
 	public void GetTokenAfterNewUserCreation(FirebaseAuth auth)
 	{

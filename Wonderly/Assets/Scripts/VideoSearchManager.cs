@@ -133,12 +133,13 @@ public class VideoSearchManager : MonoBehaviour {
 		foreach (Transform child in thumbNailParentContent.transform) {
      			GameObject.Destroy(child.gameObject);
         }
-        TurnOffLoadingPanel();
+        StartCoroutine(TurnOffLoadingPanel());
 	}
-    public void TurnOffLoadingPanel(){
-		localScriptHolder.GetComponent<UiManager>().SetLoadingPanelActive(false);
-    }
 
+    private IEnumerator TurnOffLoadingPanel(){
+        yield return new WaitForSeconds(0.2f);
+        localScriptHolder.GetComponent<UiManager>().SetLoadingPanelActive(false);
+    }
     public void ClearSearchField(){
         searchField.text = "";
     }

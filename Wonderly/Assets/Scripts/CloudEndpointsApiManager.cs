@@ -9,6 +9,7 @@ using UnityEngine.SceneManagement;
 using Sample;
 using System.Threading.Tasks;
 
+
 public class CloudEndpointsApiManager : MonoBehaviour {
 
 	public GameObject lsh;
@@ -23,6 +24,7 @@ public class CloudEndpointsApiManager : MonoBehaviour {
 	public checkEmailClass cec;
 	public checkEmailResponseClass cerc;
 	public CreateOrEditController coec;
+	public UiManager um;
 	public Text editFirstName;
 	public Text editLastName;
 	public InputField editFirstNameInput;
@@ -87,6 +89,8 @@ public class CloudEndpointsApiManager : MonoBehaviour {
 	public byte[] fileContents;
 
 	public Image testImage;
+
+  public GameObject noJourneyPanel;
 
 	public void startProfileCreate()
 	{
@@ -329,37 +333,37 @@ public void startGetProfileInfo()
 
 	public IEnumerator getProfileInfo() 
 	{
-		//lsh.GetComponent<UiManager>().SetLoadingPanelActive(true);
-		using (UnityWebRequest newProfileInfoRequest = UnityWebRequest.Get(getProfileUrl))
-		{
-			//set content type
-			newProfileInfoRequest.SetRequestHeader("Content-Type", "application/json");
-			//set auth header
-			newProfileInfoRequest.SetRequestHeader("Authorization", "Bearer " + fbm.token);
+        //lsh.GetComponent<UiManager>().SetLoadingPanelActive(true);
+        using (UnityWebRequest newProfileInfoRequest = UnityWebRequest.Get(getProfileUrl))
+        {
+            //set content type
+            newProfileInfoRequest.SetRequestHeader("Content-Type", "application/json");
+            //set auth header
+            newProfileInfoRequest.SetRequestHeader("Authorization", "Bearer " + fbm.token);
 
-			yield return newProfileInfoRequest.SendWebRequest();
+            yield return newProfileInfoRequest.SendWebRequest();
 
-			Debug.Log(newProfileInfoRequest.responseCode);
-			byte[] results = newProfileInfoRequest.downloadHandler.data;
-			string jsonString = Encoding.UTF8.GetString(results);
-			Debug.Log(jsonString);
-			pic = JsonUtility.FromJson<ProfileInfoClass>(jsonString);
+            Debug.Log(newProfileInfoRequest.responseCode);
+            byte[] results = newProfileInfoRequest.downloadHandler.data;
+            string jsonString = Encoding.UTF8.GetString(results);
+            Debug.Log(jsonString);
+            pic = JsonUtility.FromJson<ProfileInfoClass>(jsonString);
 
-			//for home screen
-			displayFirstNameHome.text = "Hi,"+" "+pic.firstName+"!";
+            //for home screen
+            displayFirstNameHome.text = "Hi," + " " + pic.firstName + "!";
 
-			//for profile info screen
-			string fullName = pic.firstName + " " + pic.lastName;
-			displayName.text = fullName;
-			//add "" to make the int into a string without c# complaining
-			displayExpNum.text = pic.createdExp +"";
+            //for profile info screen
+            string fullName = pic.firstName + " " + pic.lastName;
+            displayName.text = fullName;
+            //add "" to make the int into a string without c# complaining
+            displayExpNum.text = pic.createdExp + "";
 
-			//for profile edit screen
-			firstNamePlaceHolder.text = pic.firstName;
-			lastNamePlaceHolder.text = pic.lastName;
-			emailPlaceHolder.text = pic.email;
-		}
-		
+            //for profile edit screen
+            firstNamePlaceHolder.text = pic.firstName;
+            lastNamePlaceHolder.text = pic.lastName;
+            emailPlaceHolder.text = pic.email;
+			
+        }	
 	}
 
 
@@ -368,7 +372,8 @@ public void startGetProfileInfo()
 	//called when user opens library to populate library stubs with saved info on server
 	public void startGetOwnedCodes()
 	{
-		StartCoroutine("getOwnedCodes");
+		StartCoroutine(getOwnedCodes());
+		Debug.Log("start get ownded codes called this mayn");
 	}
 
 	public IEnumerator getOwnedCodes() 
@@ -400,9 +405,20 @@ public void startGetProfileInfo()
 				numExperiences++;
 			}
 
+			if (numExperiences == 0 && getOwnedCodesRequest.responseCode == 200)
+			{
+					noJourneyPanel.SetActive(true);
+			}
+			else
+			{
+					noJourneyPanel.SetActive(false);
+			}
+
 			Debug.Log("Number of codes: "+numExperiences);
 		}
-
+		foreach (GameObject x in libraryStubs){
+			Destroy(x);
+		}
 		//this for loop creates the library stub GameObjects from a prefab (up to 50)
 		//for dynamic spawning way
 		for (int i = 0; i < numExperiences; i++)
@@ -490,7 +506,7 @@ public void startGetProfileInfo()
 		libraryPopupMenuInstantiated.transform.GetChild(2).GetChild(3).gameObject.GetComponent<Button>().onClick.AddListener(delegate {frontCanvas.SetActive(false); });
 		libraryPopupMenuInstantiated.transform.GetChild(2).GetChild(3).gameObject.GetComponent<Button>().onClick.AddListener(delegate {Destroy(libraryPopupMenuInstantiated); });
 		//edit button
-		
+		libraryPopupMenuInstantiated.transform.GetChild(2).GetChild(1).gameObject.GetComponent<Button>().onClick.AddListener(delegate {um.InstantResetSummaryScreen(); });
 		libraryPopupMenuInstantiated.transform.GetChild(2).GetChild(1).gameObject.GetComponent<Button>().onClick.AddListener(delegate {startExperienceEdit(index+1); });
 		libraryPopupMenuInstantiated.transform.GetChild(2).GetChild(1).gameObject.GetComponent<Button>().onClick.AddListener(delegate {lsh.GetComponent<UiManager>().SetLoadingPanelActive(true); });
 		libraryPopupMenuInstantiated.transform.GetChild(2).GetChild(1).gameObject.GetComponent<Button>().onClick.AddListener(delegate {mainCanvasPanelController.OpenPanel(journeySummaryAnimator); });

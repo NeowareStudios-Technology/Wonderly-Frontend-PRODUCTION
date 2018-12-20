@@ -11,13 +11,9 @@ public class UiManager : MonoBehaviour {
 	public SaveManager sm;
 	public ArPairDisplayManager apdm;
 	public ModelInitializer mi;
+	public PanelController pc;
 
 	public int currentTargetNum;
-
-	//public Image videoHighlight;
-	//public Image modelHighlight;
-	//public Image imageHighlight;
-	//public Image textHighlight;
 
 	public Text ArLabel1;
 	public Text ArLabel2;
@@ -30,18 +26,6 @@ public class UiManager : MonoBehaviour {
 	public GameObject arPair3;
 	public GameObject arPair4;
 	public GameObject arPair5;
-
-	//public GameObject arPairCover1;
-	//public GameObject arPairCover2;
-	//public GameObject arPairCover3;
-	//public GameObject arPairCover4;
-	//public GameObject arPairCover5;
-
-	//public GameObject deletePair1;
-	//public GameObject deletePair2;
-	//public GameObject deletePair3;
-	//public GameObject deletePair4;
-	//public GameObject deletePair5;
 
 	public GameObject modelIcon1;
 	public GameObject imageIcon1;
@@ -59,15 +43,16 @@ public class UiManager : MonoBehaviour {
 	public GameObject imageIcon5;
 	public GameObject videoIcon5;
 
-	//public GameObject chosenObjectDisplay1;
-	//public GameObject chosenObjectDisplay2;
-	//public GameObject chosenObjectDisplay3;
-	//public GameObject chosenObjectDisplay4;
-	//public GameObject chosenObjectDisplay5;
 	public Text chosenModelText;
 	public Text chosenVideoText;
 	public Text chosenImageText;
 	public GameObject loadingPanel;
+
+	//used to control display of repo logo
+	public GameObject youtubeLogo;
+	public GameObject pixabayLogo;
+	public GameObject polyLogo;
+
 
 	//used to disable button if there are 3 targets
 	public GameObject addWonderButton;
@@ -78,36 +63,57 @@ public class UiManager : MonoBehaviour {
 
 	public Text description;
 
-    //public InputField targetSwitchTitle;
+	//for sizing Summary screen depending on target number
+	public RectTransform wonderPanelRectTrans;
+	public Vector2 noWondersHeight = new Vector2(0,1600);
+	public Vector2 oneWondersHeight= new Vector2(0,1850);
+	public Vector2 twoWondersHeight =  new Vector2(0,2550);
+	public Vector2 fullWondersHeight = new Vector2(0,3200);
 
-    //public InputField summaryTitle;
-    public RectTransform wonderPanelRectTrans;
-    public Vector2 noWondersHeight = new Vector2(0,1600);
-    public Vector2 oneWondersHeight= new Vector2(0,1850);
-    public Vector2 twoWondersHeight =  new Vector2(0,2550);
-    public Vector2 fullWondersHeight = new Vector2(0,3200);
-	// Use this for initialization
-	void Start ()
-    {
-		//videoHighlight.gameObject.SetActive(false);
-		//modelHighlight.gameObject.SetActive(false);
-		//imageHighlight.gameObject.SetActive(false);
-		//textHighlight.gameObject.SetActive(false);
+	//for clearing ViewLibraryContent screen
+	public Text contentAttribs;
+	public Image contentImage;
 
-		//summaryTitle.onValueChange.AddListener(delegate {OnSummaryTitleChange(); });
-		//targetSwitchTitle.onValueChange.AddListener(delegate {OnSwitchTitleChange(); });
-	}
+	//for clearing preview screen
+	public Text previewTitle;
+	public Text previewDescription;
+	public Text[] previewWonderTitles = new Text[5];
+	public Text[] previewWonderDescriptions = new Text[5];
+	public Image[] previewImages = new Image[5];
+	public Image previewCoverImage;
+
+	//for clearing summary screen
+	public Text summaryTitle;
+	public Text summaryDescription;
+	public Text[] summaryWonderTitles = new Text[5];
+	public Text[] summaryWonderDescriptions = new Text[5];
+	public Image[] summaryTargetImages = new Image[5];
+	public Image[] summaryLinkedImages = new Image[5];
+	public Image summaryCoverImage;
+
+	//for checking input on journey title screen (main flow)
+	public InputField titleInput1;
+	public GameObject journeyInputError1;
+	public Animator scanWonderAnimator;
+
+	//for checking input on journey title screen (edit flow)
+	public InputField titleInput2;
+	public GameObject journeyInputError2;
+	public Animator summaryAnimator;
+
+	//for checking input on wonder title screen (main flow)
+	public InputField wonderTitleInput1;
+	public GameObject wonderInputError1;
+	//uses summaryAnimator
+
+	//for checking input on wonder title screen (edit flow)
+	public InputField wonderTitleInput2;
+	public GameObject wonderInputError2;
+	//uses summaryAnimator
 
 
-	public void OnSummaryTitleChange()
-	{
-			//targetSwitchTitle.text = summaryTitle.text;
-	}
-
-	public void OnSwitchTitleChange()
-	{
-			//summaryTitle.text = targetSwitchTitle.text;
-	}
+	public Image blankImage;
+	public Image iconImage;
 
 	
 	
@@ -135,9 +141,43 @@ public class UiManager : MonoBehaviour {
         else if(fm.targetCount ==3)     
             wonderPanelRectTrans.sizeDelta = fullWondersHeight;
 
-        
+			
+		//display correct repo logo depending on which repo is being searched
+		if (fm.currentTarget > 0)
+		{
+			switch (fm.targetStatus[fm.currentTarget-1])
+			{
+				case "none":
+					youtubeLogo.SetActive(false);
+					polyLogo.SetActive(false);
+					pixabayLogo.SetActive(false);
+					break;
+				case "created":
+					youtubeLogo.SetActive(false);
+					polyLogo.SetActive(false);
+					pixabayLogo.SetActive(false);
+					break;
+				case "model":
+					youtubeLogo.SetActive(false);
+					polyLogo.SetActive(true);
+					pixabayLogo.SetActive(false);
+					break;
+				case "image":
+					youtubeLogo.SetActive(false);
+					polyLogo.SetActive(false);
+					pixabayLogo.SetActive(true);
+					break;
+				case "video":
+					youtubeLogo.SetActive(true);
+					polyLogo.SetActive(false);
+					pixabayLogo.SetActive(false);
+					break;
+			}
+		}
 
-        switch (fm.targetStatus[0])
+        
+		//controls ar pair display
+    switch (fm.targetStatus[0])
 		{
 			case "none":
 				arPair1.SetActive(false);
@@ -341,103 +381,7 @@ public class UiManager : MonoBehaviour {
 				videoIcon5.SetActive(true);
 				break;
 		}
-/*/// 
-		//activate chosen object gameObject depending on which target is selected
-		GameObject chosenObjectDisplay = chosenObjectDisplay1;
-		switch(fm.currentTarget)
-		{
-			//if the current target is 0, return so that index out of range error doesnt occur
-			case 0:
-				chosenObjectDisplay1.SetActive(false);
-				chosenObjectDisplay2.SetActive(false);
-				chosenObjectDisplay3.SetActive(false);
-				chosenObjectDisplay4.SetActive(false);
-				chosenObjectDisplay5.SetActive(false);
-				return;
-			case 1:
-				chosenObjectDisplay1.SetActive(true);
-				chosenObjectDisplay2.SetActive(false);
-				chosenObjectDisplay3.SetActive(false);
-				chosenObjectDisplay4.SetActive(false);
-				chosenObjectDisplay5.SetActive(false);
-				chosenObjectDisplay = chosenObjectDisplay1;
-				break;
-			case 2:
-				chosenObjectDisplay1.SetActive(false);
-				chosenObjectDisplay2.SetActive(true);
-				chosenObjectDisplay3.SetActive(false);
-				chosenObjectDisplay4.SetActive(false);
-				chosenObjectDisplay5.SetActive(false);
-				chosenObjectDisplay = chosenObjectDisplay2;
-				break;
-			case 3:
-				chosenObjectDisplay1.SetActive(false);
-				chosenObjectDisplay2.SetActive(false);
-				chosenObjectDisplay3.SetActive(true);
-				chosenObjectDisplay4.SetActive(false);
-				chosenObjectDisplay5.SetActive(false);
-				chosenObjectDisplay = chosenObjectDisplay3;
-				break;
-			case 4:
-				chosenObjectDisplay1.SetActive(false);
-				chosenObjectDisplay2.SetActive(false);
-				chosenObjectDisplay3.SetActive(false);
-				chosenObjectDisplay4.SetActive(true);
-				chosenObjectDisplay5.SetActive(false);
-				chosenObjectDisplay = chosenObjectDisplay4;
-				break;
-			case 5:
-				chosenObjectDisplay1.SetActive(false);
-				chosenObjectDisplay2.SetActive(false);
-				chosenObjectDisplay3.SetActive(false);
-				chosenObjectDisplay4.SetActive(false);
-				chosenObjectDisplay5.SetActive(true);
-				chosenObjectDisplay = chosenObjectDisplay5;
-				break;
-		}
 
-		//activate/deactivate chosen object text based on object type
-		switch(fm.targetStatus[fm.currentTarget-1])
-		{
-			case "none":
-				//rotateButton1.SetActive(false);
-				//rotateButton2.SetActive(false);
-				chosenObjectDisplay.SetActive(false);
-				break;
-			case "created":
-				//rotateButton1.SetActive(false);
-				//rotateButton2.SetActive(false);
-				chosenObjectDisplay.SetActive(false);
-				break;
-			case "model":
-				//rotateButton1.SetActive(true);
-				//rotateButton1Text.text = "Rotate X";
-				//rotateButton2.SetActive(true);
-				chosenObjectDisplay.SetActive(true);
-				chosenObjectDisplay.transform.GetChild(1).gameObject.SetActive(false);
-				chosenObjectDisplay.transform.GetChild(2).gameObject.SetActive(true);
-				chosenObjectDisplay.transform.GetChild(3).gameObject.SetActive(false);
-				break;
-			case "image":
-				//rotateButton1.SetActive(true);
-				//rotateButton1Text.text = "Rotate";
-				//rotateButton2.SetActive(false);
-				chosenObjectDisplay.SetActive(true);
-				chosenObjectDisplay.transform.GetChild(1).gameObject.SetActive(false);
-				chosenObjectDisplay.transform.GetChild(2).gameObject.SetActive(false);
-				chosenObjectDisplay.transform.GetChild(3).gameObject.SetActive(true);
-				break;
-			case "video":	
-				//rotateButton1.SetActive(true);
-				//rotateButton1Text.text = "Rotate";
-				//rotateButton2.SetActive(false);
-				chosenObjectDisplay.SetActive(true);
-				chosenObjectDisplay.transform.GetChild(1).gameObject.SetActive(true);
-				chosenObjectDisplay.transform.GetChild(2).gameObject.SetActive(false);
-				chosenObjectDisplay.transform.GetChild(3).gameObject.SetActive(false);
-				break;
-		}
-		///*/
 
 	}
 
@@ -482,6 +426,129 @@ public class UiManager : MonoBehaviour {
 		else{
 			loadingPanel.SetActive(false);
 			loadingPanel.transform.parent.gameObject.SetActive(false);
+		}
+	}
+
+	//delayed reset so that UI doesnt look bad with instant reset
+	//called by ViewLibraryContent back button
+	public void startResetViewLibraryContent()
+	{
+		StartCoroutine("ResetViewLibraryContent");
+	}
+
+
+	public IEnumerator ResetViewLibraryContent()
+	{
+		yield return new WaitForSeconds(2);
+		contentAttribs.text = "  ";
+		contentImage.sprite = blankImage.sprite;
+	}
+
+	//called by CompleteJourneyCopy add new wonder button
+	public void instantResetViewLibraryContent()
+	{
+		contentAttribs.text = "  ";
+		contentImage.sprite = blankImage.sprite;
+	}
+
+
+
+
+	//delayed reset so that UI doesnt look bad with instant reset
+	public void startResetPreviewScreen()
+	{
+		StartCoroutine("ResetPreviewScreen");
+	}
+
+
+	public IEnumerator ResetPreviewScreen()
+	{
+		yield return new WaitForSeconds(2);
+		previewTitle.text = " ";
+		previewDescription.text = " ";
+		previewCoverImage.sprite = iconImage.sprite;
+		for(int i = 0; i<5; i++)
+		{
+			previewImages[i].sprite = iconImage.sprite;
+			previewWonderTitles[i].text = " ";
+			previewWonderDescriptions[i].text = " ";
+		}
+	}
+
+
+	public void InstantResetPreviewScreen()
+	{
+		previewTitle.text = " ";
+		previewDescription.text = " ";
+		previewCoverImage.sprite = iconImage.sprite;
+		for(int i = 0; i<5; i++)
+		{
+			previewImages[i].sprite = iconImage.sprite;
+			previewWonderTitles[i].text = " ";
+			previewWonderDescriptions[i].text = " ";
+		}
+	}
+
+
+	public void InstantResetSummaryScreen()
+	{
+		summaryTitle.text = " ";
+		summaryDescription.text = " ";
+		summaryCoverImage.sprite = iconImage.sprite;
+		for(int i = 0; i<5; i++)
+		{
+			summaryLinkedImages[i].sprite = iconImage.sprite;
+			summaryTargetImages[i].sprite = iconImage.sprite;
+			summaryWonderTitles[i].text = " ";
+			summaryWonderDescriptions[i].text = " ";
+		}
+	}
+
+	public void EnsureJourneyTitleInput1()
+	{
+		if (titleInput1.text == "")
+		{
+			journeyInputError1.SetActive(true);
+		}
+		else 
+		{
+			pc.OpenPanel(scanWonderAnimator);
+		}
+	}
+
+	public void EnsureJourneyTitleInput2()
+	{
+		if (titleInput1.text == "")
+		{
+			journeyInputError2.SetActive(true);
+		}
+		else 
+		{
+			pc.OpenPanel(summaryAnimator);
+		}
+	}
+
+	public void EnsureWonderTitleInput1()
+	{
+		if (wonderTitleInput1.text == "")
+		{
+			wonderInputError1.SetActive(true);
+		}
+		else 
+		{
+			pc.OpenPanel(summaryAnimator);
+		}
+	}
+
+	public void EnsureWonderTitleInput2()
+	{
+		if (wonderTitleInput1.text == "")
+		{
+			wonderInputError2.SetActive(true);
+		}
+		else 
+		{
+			pc.OpenPanel(summaryAnimator);
 		}
 	}
 }

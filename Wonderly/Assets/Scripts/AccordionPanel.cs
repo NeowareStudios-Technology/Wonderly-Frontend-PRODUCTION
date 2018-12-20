@@ -40,4 +40,12 @@ public class AccordionPanel : MonoBehaviour {
 		}
 		
 	}
+	public void SetActiveDescriptionAndImage(GameObject descriptionGameObject){
+		if (descriptionGameObject.activeSelf){
+			descriptionGameObject.SetActive(false);
+		}
+		else{
+			descriptionGameObject.SetActive(true);
+		}
+	}
 }

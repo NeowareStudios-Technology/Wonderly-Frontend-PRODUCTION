@@ -7,9 +7,11 @@ public class LibraryStubController : MonoBehaviour {
 	public CloudEndpointsApiManager ceam;
 	public FirebaseManager fm;
 
+	public bool getNewToken = false;
+
 	void Awake()
 	{
-		StartCoroutine("delayedFillLibrary");
+		//StartCoroutine("delayedFillLibrary");
 	}
 
 	private IEnumerator delayedFillLibrary()
@@ -29,6 +31,12 @@ public class LibraryStubController : MonoBehaviour {
 	//makes sure that library is populated when active
   void OnEnable() 
 	{
-		ceam.startGetOwnedCodes();
+		if (getNewToken){
+			getNewToken = false;
+		}
+		else{
+			ceam.startGetOwnedCodes();
+		}
+			
 	}
 }

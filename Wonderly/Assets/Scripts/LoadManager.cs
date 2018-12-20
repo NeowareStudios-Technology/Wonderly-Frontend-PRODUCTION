@@ -144,6 +144,7 @@ public class LoadManager : MonoBehaviour {
 
 		Debug.Log("3. lm91, Title saved to save class = "+scd.title);
 		//set the experience title
+		Debug.Log(scd.title);
 		if (scd.title == "")
 		{
 			titleDisplay.text= "  ";
@@ -372,22 +373,22 @@ public class LoadManager : MonoBehaviour {
 		if (File.Exists(workingPath2))
 		{
 			targetPreview2.sprite = IMG2Sprite.LoadNewSprite(workingPath2);
-			viewFlowTargetPreview2.sprite = IMG2Sprite.LoadNewSprite(workingPath1);
+			viewFlowTargetPreview2.sprite = IMG2Sprite.LoadNewSprite(workingPath2);
 		}
 		if (File.Exists(workingPath3))
 		{
 			targetPreview3.sprite = IMG2Sprite.LoadNewSprite(workingPath3);
-			viewFlowTargetPreview3.sprite = IMG2Sprite.LoadNewSprite(workingPath1);
+			viewFlowTargetPreview3.sprite = IMG2Sprite.LoadNewSprite(workingPath3);
 		}
 		if (File.Exists(workingPath4))
 		{
 			targetPreview4.sprite = IMG2Sprite.LoadNewSprite(workingPath4);
-			viewFlowTargetPreview4.sprite = IMG2Sprite.LoadNewSprite(workingPath1);
+			viewFlowTargetPreview4.sprite = IMG2Sprite.LoadNewSprite(workingPath4);
 		}
 		if (File.Exists(workingPath5))
 	 	{
 			targetPreview5.sprite = IMG2Sprite.LoadNewSprite(workingPath5);
-			viewFlowTargetPreview5.sprite = IMG2Sprite.LoadNewSprite(workingPath1);
+			viewFlowTargetPreview5.sprite = IMG2Sprite.LoadNewSprite(workingPath5);
 		 }
 		//call function to imported all loaded AR objects (pics/videos/models)
 		StartCoroutine("ImportLoadedItems");

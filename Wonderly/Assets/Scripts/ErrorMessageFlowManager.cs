@@ -17,7 +17,8 @@ public class ErrorMessageFlowManager : MonoBehaviour {
 	public GameObject emptylastNameNotification;
 	public GameObject existingEmailNotification;
 
-	public Animator accountCreationNotification;
+	public GameObject acceptTermsMenu;
+
 
 	public InputField email;
 	public InputField firstName;
@@ -147,8 +148,7 @@ public class ErrorMessageFlowManager : MonoBehaviour {
 	{
 		if (password.text == password2.text)
 		{
-			fbm.createNewFirebaseUser();
-			canvasPanelController.OpenPanel(signUpScreensAnimators[5]);
+			acceptTermsMenu.SetActive(true);
 		}
 		else
 		{

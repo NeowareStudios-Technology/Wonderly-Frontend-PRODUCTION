@@ -223,55 +223,68 @@ namespace Sample
             }
 
             pathManager.targetCount --;
+        }
 
-            //destroy the indexed target script, model assigned to target, and reset youtube player
-            /* 
-            foreach (var obj in imageTargetDic)
-            {
-                
-                Destroy(obj.Value.gameObject.GetComponent<DynamicImageTagetBehaviour>());
-                
-                if (localCount == pathManager.currentTarget)
-                {
-                    if (obj.Value.gameObject.transform.childCount == 4)
-                        Destroy(obj.Value.gameObject.transform.GetChild(3).gameObject);
-                    
-                    obj.Value.gameObject.transform.GetChild(0).gameObject.GetComponent<UnityEngine.Video.VideoPlayer>().url = "none";
-                    obj.Value.gameObject.transform.GetChild(0).gameObject.GetComponent<HighQualityPlayback>().videoId = "bc0sJvtKrRM";
-                }
-                localCount++;
-            }
+        //gets called by UI to delete currently indexed target
+        public void DeleteCurrentTarget()
+        {
+            //if there is no target loaded to this index, do nothing
+            if (pathManager.targetStatus[pathManager.currentTarget-1] == "none")
+                return;
+            int localCount = 1;
+
+            Debug.Log("1. Starting DeleteTarget()");
+
             string thisPath = "";
             switch(pathManager.currentTarget)
             {
                 case 1:
+                    Debug.Log("2. Deleting targetPhoto1.jpg");
                     thisPath = Path.Combine(pathManager.MarksDirectory, "targetPhoto1.jpg");
                     File.Delete(thisPath);
+                    Destroy(target1.GetComponent<DynamicImageTagetBehaviour>());
+                    its.imageTargetDic.Remove("targetPhoto1");
+                    tom.removeTargetObject(1);
+                    fm.targetStatus[0] = "none";
                     break;
                 case 2:
                     thisPath = Path.Combine(pathManager.MarksDirectory, "targetPhoto2.jpg");
                     File.Delete(thisPath);
+                    Destroy(target2.GetComponent<DynamicImageTagetBehaviour>());
+                    its.imageTargetDic.Remove("targetPhoto2");
+                    tom.removeTargetObject(2);
+                    fm.targetStatus[1] = "none";
                     break;
                 case 3:
                     thisPath = Path.Combine(pathManager.MarksDirectory, "targetPhoto3.jpg");
                     File.Delete(thisPath);
+                    Destroy(target3.GetComponent<DynamicImageTagetBehaviour>());
+                    its.imageTargetDic.Remove("targetPhoto3");
+                    tom.removeTargetObject(3);
+                    fm.targetStatus[2] = "none";
                     break;
                 case 4:
                     thisPath = Path.Combine(pathManager.MarksDirectory, "targetPhoto4.jpg");
                     File.Delete(thisPath);
+                    Destroy(target4.GetComponent<DynamicImageTagetBehaviour>());
+                    its.imageTargetDic.Remove("targetPhoto4");
+                    tom.removeTargetObject(4);
+                    fm.targetStatus[3] = "none";
                     break;
                 case 5:
                     thisPath = Path.Combine(pathManager.MarksDirectory, "targetPhoto5.jpg");
                     File.Delete(thisPath);
+                    Destroy(target5.GetComponent<DynamicImageTagetBehaviour>());
+                    its.imageTargetDic.Remove("targetPhoto5");
+                    tom.removeTargetObject(5);
+                    fm.targetStatus[4] = "none";
                     break;
             }
 
-            pathManager.targetStatus[pathManager.currentTarget-1] = "none";
             pathManager.targetCount --;
-            imageTargetDic = new Dictionary<string, DynamicImageTagetBehaviour>();
-            count = 0;
-            */
         }
+
+
 
     // THIS FUNCTION CURRENTLY UNUSED
     //used for finding closest target index that exists and making that the current target when we delete the current target
