@@ -515,8 +515,8 @@ public void startGetProfileInfo()
 		//libraryPopupMenuInstantiated.transform.GetChild(2).GetChild(1).gameObject.GetComponent<Button>().onClick.AddListener(delegate {frontCanvas.SetActive(false); });
 		libraryPopupMenuInstantiated.transform.GetChild(2).GetChild(1).gameObject.GetComponent<Button>().onClick.AddListener(delegate {Destroy(libraryPopupMenuInstantiated); });
 		//cancel button
-		libraryPopupMenuInstantiated.transform.GetChild(4).GetChild(2).gameObject.GetComponent<Button>().onClick.AddListener(delegate {frontCanvas.SetActive(false); });
-		libraryPopupMenuInstantiated.transform.GetChild(4).GetChild(2).gameObject.GetComponent<Button>().onClick.AddListener(delegate {Destroy(libraryPopupMenuInstantiated); });
+		libraryPopupMenuInstantiated.transform.GetChild(4).GetChild(0).gameObject.GetComponent<Button>().onClick.AddListener(delegate {frontCanvas.SetActive(false); });
+		libraryPopupMenuInstantiated.transform.GetChild(4).GetChild(0).gameObject.GetComponent<Button>().onClick.AddListener(delegate {Destroy(libraryPopupMenuInstantiated); });
 		//share
 		libraryPopupMenuInstantiated.transform.GetChild(2).GetChild(2).gameObject.GetComponent<Button>().onClick.AddListener(delegate {lsh.GetComponent<Sharing>().SharingCodeJourneyContextMenu(index); });
 		libraryPopupMenuInstantiated.transform.GetChild(2).GetChild(2).gameObject.GetComponent<Button>().onClick.AddListener(delegate {Destroy(libraryPopupMenuInstantiated); });
