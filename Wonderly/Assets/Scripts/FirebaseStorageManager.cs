@@ -1058,7 +1058,10 @@ saveFileRef.GetBytesAsync(maxAllowedSize).ContinueWith((Task<byte[]> task1) => {
 				string saveContent = System.Text.Encoding.UTF8.GetString(fileContents, 0, fileContents.Length);
 				Debug.Log("Save File finished downloading!");
 				File.WriteAllText(saveFilePath, saveContent);
+				Debug.Log("5. fsm1061 Does save file exist at correct path? "+ File.Exists(saveFilePath));
+				Debug.Log("5.a. fsm1062 Contents of save file: "+File.ReadAllText(saveFilePath));
 				lm.LoadFile();
+
 			}
 });
 		whichIndex = 0;
