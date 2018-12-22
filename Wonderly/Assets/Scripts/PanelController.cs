@@ -64,7 +64,8 @@ public class PanelController : MonoBehaviour {
         }
         if (anim.gameObject.name == "CreateWonderScan-panel" 
             || anim.gameObject.name == "CreateWonderLink-panel" 
-            || anim.gameObject.name == "CwPlaceLibraryContent-panel" 
+            || anim.gameObject.name == "CwPlaceLibraryContent-panel"
+            || anim.gameObject.name == "OverviewVideo-panel" 
             || anim.gameObject.name == "ViewScreen-panel" ){
             backgroundImg.SetActive(false);
         }

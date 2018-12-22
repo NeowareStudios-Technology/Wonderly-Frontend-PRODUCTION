@@ -8,6 +8,7 @@
 
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEditor;
 using System.Collections;
 using System.IO;
 using System.Collections.Generic;
@@ -29,7 +30,7 @@ namespace Sample
         public string SaveDirectory;
         private bool isWriting;
         //private takeTargetPicture ui;
-        public int TARGET_LIMIT = 3;
+        public int TARGET_LIMIT = 2;
         public int targetCount = 0;
         public int currentTarget =0;
         //will hold whether each target has image, video, model, is "created" , or "none"
@@ -130,7 +131,7 @@ namespace Sample
             //if target limit is reached, do not take another picture
             if (targetCount >= TARGET_LIMIT)
             {
-                Debug.Log("Target limit of 5 reached");
+                Debug.Log("Target limit of 2 reached");
                 return;
             }
             if (!Directory.Exists(MarksDirectory))
@@ -159,9 +160,9 @@ namespace Sample
             //create image for earliest possible image "slot"
             string testPath1 = Path.Combine(MarksDirectory, "targetPhoto1.jpg");
             string testPath2 = Path.Combine(MarksDirectory, "targetPhoto2.jpg");
-            string testPath3 = Path.Combine(MarksDirectory, "targetPhoto3.jpg");
-            string testPath4 = Path.Combine(MarksDirectory, "targetPhoto4.jpg");
-            string testPath5 = Path.Combine(MarksDirectory, "targetPhoto5.jpg");
+            //string testPath3 = Path.Combine(MarksDirectory, "targetPhoto3.jpg");
+            //string testPath4 = Path.Combine(MarksDirectory, "targetPhoto4.jpg");
+            //string testPath5 = Path.Combine(MarksDirectory, "targetPhoto5.jpg");
             if (!File.Exists(testPath1))
             {
                 pathString = "targetPhoto1.jpg";
@@ -172,7 +173,7 @@ namespace Sample
                 pathString = "targetPhoto2.jpg";
                 currentTarget = 2;
             }
-            else if (!File.Exists(testPath3))
+            /* else if (!File.Exists(testPath3))
             {
                 pathString = "targetPhoto3.jpg";
                 currentTarget = 3;
@@ -186,7 +187,7 @@ namespace Sample
             {
                 pathString = "targetPhoto5.jpg";
                 currentTarget = 5;
-            }
+            }*/
 
 
             string photoPath = Path.Combine(MarksDirectory, pathString);
@@ -264,5 +265,9 @@ namespace Sample
             }
         }
 
+        public void unloadUnused()
+        {
+            Resources.UnloadUnusedAssets();
+        }
     }
 }

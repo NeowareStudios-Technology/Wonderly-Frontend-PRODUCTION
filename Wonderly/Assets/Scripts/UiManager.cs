@@ -121,11 +121,11 @@ public class UiManager : MonoBehaviour {
 	void Update () {
 
 		//controls whether the addWonder button appears based on number of targets
-		if (fm.targetCount == 3)
+		if (fm.targetCount == 2)
 		{
 			addWonderButton.SetActive(false);
 		}
-		else if (fm.targetCount < 3)
+		else if (fm.targetCount < 2)
 		{
 			addWonderButton.SetActive(true);
 		}

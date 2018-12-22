@@ -74,7 +74,7 @@ public class ImageTargetSetter : MonoBehaviour {
                     //count++;
                     }
                 }
-
+                /*
                 else if (obj.Key == "targetPhoto3")
                 {
                     //Debug.Log("case recognized: targetPhoto3");
@@ -149,6 +149,7 @@ public class ImageTargetSetter : MonoBehaviour {
                     //count++;
                     }
                 }
+                */
             }
     }
 }
