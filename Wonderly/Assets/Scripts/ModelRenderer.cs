@@ -27,7 +27,7 @@ public class ModelRenderer : MonoBehaviour {
     public Text modelAttrib;
     public Text modelAttrib2;
 
-    public GameObject LoadingPanel;
+    //public GameObject LoadingPanel;
  
     //Destroys children of target passed to it
     private void destroyChildren(GameObject currentTarget) {
@@ -175,7 +175,7 @@ public class ModelRenderer : MonoBehaviour {
             {
                 Debug.Log("There was an error importing the loaded asset");
                 return;
-                LoadingPanel.SetActive(false);
+                //LoadingPanel.SetActive(false);
             }
 
         // Set the import options.
@@ -238,7 +238,7 @@ public class ModelRenderer : MonoBehaviour {
                     break;
             }
         }
-        LoadingPanel.SetActive(false);
+        //LoadingPanel.SetActive(false);
     }
 
     public void changeModelFlag() {
