@@ -26,6 +26,9 @@ namespace Sample
         public ImageTargetManager itm;
         public FirebaseManager fbm;
         public CloudEndpointsApiManager ceam;
+        public ModelInitializer mi;
+        public VideoSearchManager vsm;
+        public pixabayManager pm;
         public string MarksDirectory;
         public string SaveDirectory;
         private bool isWriting;
@@ -267,6 +270,20 @@ namespace Sample
 
         public void unloadUnused()
         {
+            //clear pixabay thumbnails
+            pm.DestroyChildrenOfCoverImageContent();
+            pm.DestroyChildrenOfCoverImageContent2();
+            pm.DestroyChildrenOfImageContent();
+            pm.DestroyChildrenOfImageContent2();
+
+            //clear poly thumbnails
+            mi.DeleteThumbnails();
+            mi.DeleteThumbnails2();
+
+            //clear youtube thumbnails
+            vsm.DeleteThumbnails();
+            vsm.DeleteThumbnails2();
+
             Resources.UnloadUnusedAssets();
         }
     }

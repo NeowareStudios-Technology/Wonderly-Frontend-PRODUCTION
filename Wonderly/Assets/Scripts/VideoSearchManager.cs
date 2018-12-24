@@ -48,7 +48,7 @@ public class VideoSearchManager : MonoBehaviour {
     }
 	public void Search()
     {
-        DeleteThumbnails();
+        fm.unloadUnused();
         thumbUrls.Clear();
         //turn on target's video player
         //need to implement this in V2 when assets ready
@@ -134,6 +134,7 @@ public class VideoSearchManager : MonoBehaviour {
      			GameObject.Destroy(child.gameObject);
         }
         StartCoroutine(TurnOffLoadingPanel());
+        Resources.UnloadUnusedAssets();
 	}
 
     private IEnumerator TurnOffLoadingPanel(){
@@ -150,7 +151,7 @@ public class VideoSearchManager : MonoBehaviour {
 
 public void Search2()
     {
-        DeleteThumbnails2();
+        fm.unloadUnused();
         thumbUrls.Clear();
         //turn on target's video player
         //need to implement this in V2 when assets ready
@@ -217,6 +218,7 @@ public void Search2()
 		foreach (Transform child in thumbNailParentContent2.transform) {
      			GameObject.Destroy(child.gameObject);
         }
+        Resources.UnloadUnusedAssets();
 	}
 
     public void ClearSearchField2(){

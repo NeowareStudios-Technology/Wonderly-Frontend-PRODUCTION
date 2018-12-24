@@ -97,7 +97,7 @@ public class ModelInitializer : MonoBehaviour {
 
 
 
-        DeleteThumbnails();
+        fm.unloadUnused();
         ClearSearchText();
 
         for (int i = 0; i < Mathf.Min(maxThumbResults, result.Value.assets.Count); i++) { 
@@ -188,7 +188,7 @@ public class ModelInitializer : MonoBehaviour {
 
 
 
-        DeleteThumbnails2();
+        fm.unloadUnused();
         ClearSearchText2();
 
         for (int i = 0; i < Mathf.Min(maxThumbResults, result.Value.assets.Count); i++) { 

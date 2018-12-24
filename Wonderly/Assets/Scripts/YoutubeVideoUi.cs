@@ -16,18 +16,25 @@ public class YoutubeVideoUi : MonoBehaviour {
     public targetObjectManager tom;
     public ImageTargetManager itm;
     public GameObject lsh;
+    public VideoSearchManager vsm;
 
     //set all needed script variables here (cant do this in GUI because this is a spawned script)
     void Awake()
     {
         GameObject localScriptHolder = GameObject.Find("Local Script Holder");
+        GameObject youtubeScriptHolder = GameObject.Find("Youtube Script Holder");
         fm = localScriptHolder.GetComponent<FilesManager>();
         tom = localScriptHolder.GetComponent<targetObjectManager>();
         itm = localScriptHolder.GetComponent<ImageTargetManager>();
+        vsm = youtubeScriptHolder.GetComponent<VideoSearchManager>();
     }
 
     public void PlayYoutubeVideo()
     {
+
+        //clear thumbnails
+        vsm.DeleteThumbnails();
+        vsm.DeleteThumbnails2();
         //set lsh for loading panel
         lsh = GameObject.Find("Local Script Holder");
         

@@ -60,14 +60,14 @@ public class pixabayManager : MonoBehaviour {
         thumbnailResults = new GameObject[maxThumbResults];
     }
 
-	private void DestroyChildrenOfCoverImageContent(){
+	public void DestroyChildrenOfCoverImageContent(){
 		foreach (Transform child in thumbNailParentContentCoverImage.transform) {
 			GameObject.Destroy(child.gameObject);
 		}
 		Resources.UnloadUnusedAssets();
 	}
 
-	private void DestroyChildrenOfCoverImageContent2(){
+	public void DestroyChildrenOfCoverImageContent2(){
 		foreach (Transform child in thumbNailParentContentCoverImage2.transform) {
 			GameObject.Destroy(child.gameObject);
 		}
@@ -87,8 +87,7 @@ public class pixabayManager : MonoBehaviour {
 	//makes web call for searching for image in pixabay repo
 	public IEnumerator searchPicCoverImage(int whichParent) {
 
-		DestroyChildrenOfCoverImageContent();
-		DestroyChildrenOfCoverImageContent2();
+		fm.unloadUnused();
 		//holds the search term
 		string searchString;
 		if (whichParent == 1)
@@ -232,8 +231,7 @@ public class pixabayManager : MonoBehaviour {
 				yield return imageRequest;
 				Debug.Log("request worked");
 				//catch errors
-				DestroyChildrenOfCoverImageContent();
-				DestroyChildrenOfCoverImageContent2();
+				fm.unloadUnused();
 				ClearSearchTextCoverImage();
 				if (imageRequest.error != null)
 				{
@@ -274,7 +272,7 @@ public class pixabayManager : MonoBehaviour {
 	//makes web call for searching for image in pixabay repo
 	public IEnumerator searchPic() {
 		//holds the search term
-		DestroyChildrenOfImageContent();
+		fm.unloadUnused();
 		string searchString = searchTerm.text;
 		imageTitle.text = searchString;
 		Debug.Log("search string = " + searchString);
@@ -394,7 +392,7 @@ public class pixabayManager : MonoBehaviour {
 			{
 				yield return imageRequest;
 				Debug.Log("request worked");
-				DestroyChildrenOfImageContent();
+				fm.unloadUnused();
 				ClearSearchTextImage();
 				//catch errors
 				
@@ -522,7 +520,7 @@ public class pixabayManager : MonoBehaviour {
 				yield return null;
 				//clear the url array
 		}
-		private void DestroyChildrenOfImageContent(){
+		public void DestroyChildrenOfImageContent(){
 			foreach (Transform child in thumbNailParentContent.transform) {
 				GameObject.Destroy(child.gameObject);
 			}
@@ -545,7 +543,7 @@ public class pixabayManager : MonoBehaviour {
 	//makes web call for searching for image in pixabay repo
 	public IEnumerator searchPic2() {
 		//holds the search term
-		DestroyChildrenOfImageContent2();
+		fm.unloadUnused();
 		string searchString = searchTerm2.text;
 		imageTitle2.text = searchString;
 		Debug.Log("search string = " + searchString);
@@ -664,7 +662,7 @@ public class pixabayManager : MonoBehaviour {
 			{
 				yield return imageRequest;
 				Debug.Log("request worked");
-				DestroyChildrenOfImageContent2();
+				fm.unloadUnused();
 				ClearSearchTextImage2();
 				//catch errors
 				
@@ -740,7 +738,7 @@ public class pixabayManager : MonoBehaviour {
 				yield return null;
 				//clear the url array
 		}
-		private void DestroyChildrenOfImageContent2(){
+		public void DestroyChildrenOfImageContent2(){
 			foreach (Transform child in thumbNailParentContent2.transform) {
 				GameObject.Destroy(child.gameObject);
 			}

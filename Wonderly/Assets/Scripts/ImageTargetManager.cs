@@ -175,6 +175,8 @@ namespace Sample
                     file.Delete(); 
                 }
             }
+
+            Resources.UnloadUnusedAssets();
         }
         
         //gets called by UI to delete currently indexed target
@@ -234,6 +236,8 @@ namespace Sample
             }
 
             pathManager.targetCount --;
+
+            Resources.UnloadUnusedAssets();
         }
 
         //gets called by UI to delete currently indexed target
@@ -293,6 +297,8 @@ namespace Sample
             }
 
             pathManager.targetCount --;
+
+            Resources.UnloadUnusedAssets();
         }
 
 

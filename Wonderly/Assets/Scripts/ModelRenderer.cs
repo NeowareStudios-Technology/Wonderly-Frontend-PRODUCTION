@@ -167,6 +167,9 @@ public class ModelRenderer : MonoBehaviour {
         }
 
         //ClearPolyAssetHolders();
+        //delete thumbnails and clear memory
+        mi.DeleteThumbnails();
+        mi.DeleteThumbnails2();
     }
 
     void GetAssetCallback(PolyStatusOr<PolyAsset> result) 
