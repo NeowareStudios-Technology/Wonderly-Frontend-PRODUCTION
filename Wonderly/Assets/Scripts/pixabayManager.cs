@@ -65,7 +65,17 @@ public class pixabayManager : MonoBehaviour {
 		foreach (Transform child in thumbNailParentContentCoverImage.transform) {
 			GameObject.Destroy(child.gameObject);
 		}
+		Resources.UnloadUnusedAssets();
 	}
+
+	private void DestroyChildrenOfCoverImageContent2(){
+		foreach (Transform child in thumbNailParentContentCoverImage2.transform) {
+			GameObject.Destroy(child.gameObject);
+		}
+		Resources.UnloadUnusedAssets();
+	}
+
+
 	private void ClearSearchTextCoverImage(){
 		coverImageSearchTerm.text = "";
 	}
@@ -78,6 +88,7 @@ public class pixabayManager : MonoBehaviour {
 	public IEnumerator searchPicCoverImage(int whichParent) {
 
 		DestroyChildrenOfCoverImageContent();
+		DestroyChildrenOfCoverImageContent2();
 		//holds the search term
 		string searchString;
 		if (whichParent == 1)
@@ -222,6 +233,7 @@ public class pixabayManager : MonoBehaviour {
 				Debug.Log("request worked");
 				//catch errors
 				DestroyChildrenOfCoverImageContent();
+				DestroyChildrenOfCoverImageContent2();
 				ClearSearchTextCoverImage();
 				if (imageRequest.error != null)
 				{
