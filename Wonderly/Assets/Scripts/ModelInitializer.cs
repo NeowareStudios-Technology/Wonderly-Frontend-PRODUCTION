@@ -112,6 +112,7 @@ public class ModelInitializer : MonoBehaviour {
 			}
             Debug.Log("done destroying");
             TurnOffLoadingPanel();
+            Resources.UnloadUnusedAssets();
 	
     }
     public void TurnOffLoadingPanel(){
@@ -200,7 +201,7 @@ public class ModelInitializer : MonoBehaviour {
 			foreach (Transform child in thumbNailParentContent2.transform) {
 				GameObject.Destroy(child.gameObject);
 			}
-	
+            Resources.UnloadUnusedAssets();
     }
     public void ClearSearchText2(){
 			keyword2.text = "";
