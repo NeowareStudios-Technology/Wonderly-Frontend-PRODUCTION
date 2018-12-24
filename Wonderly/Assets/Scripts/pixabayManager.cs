@@ -60,7 +60,6 @@ public class pixabayManager : MonoBehaviour {
         thumbnailResults = new GameObject[maxThumbResults];
     }
 
-
 	private void DestroyChildrenOfCoverImageContent(){
 		foreach (Transform child in thumbNailParentContentCoverImage.transform) {
 			GameObject.Destroy(child.gameObject);
@@ -74,6 +73,7 @@ public class pixabayManager : MonoBehaviour {
 		}
 		Resources.UnloadUnusedAssets();
 	}
+
 
 
 	private void ClearSearchTextCoverImage(){
@@ -526,6 +526,7 @@ public class pixabayManager : MonoBehaviour {
 			foreach (Transform child in thumbNailParentContent.transform) {
 				GameObject.Destroy(child.gameObject);
 			}
+			Resources.UnloadUnusedAssets();
 		}
 		private void ClearSearchTextImage(){
 			searchTerm.text = "";
@@ -544,7 +545,7 @@ public class pixabayManager : MonoBehaviour {
 	//makes web call for searching for image in pixabay repo
 	public IEnumerator searchPic2() {
 		//holds the search term
-		DestroyChildrenOfImageContent();
+		DestroyChildrenOfImageContent2();
 		string searchString = searchTerm2.text;
 		imageTitle2.text = searchString;
 		Debug.Log("search string = " + searchString);
@@ -743,6 +744,7 @@ public class pixabayManager : MonoBehaviour {
 			foreach (Transform child in thumbNailParentContent2.transform) {
 				GameObject.Destroy(child.gameObject);
 			}
+			Resources.UnloadUnusedAssets();
 		}
 		private void ClearSearchTextImage2(){
 			searchTerm.text = "";
