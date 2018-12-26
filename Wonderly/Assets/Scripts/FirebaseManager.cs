@@ -37,6 +37,7 @@ public class FirebaseManager : MonoBehaviour {
 	public GameObject notMatchingCurrentPasswordNotification2;
 	public GameObject invalidPasswordNotification;
 	public GameObject passwordChangedNotification;
+	public InputField editPasswordCurrent;
 	public InputField editPassword;
 	public InputField editPassword2;
 

@@ -119,7 +119,7 @@ public class VideoSearchManager : MonoBehaviour {
              //loading panel is turned off at the end of this thread after DeleteThumbnails()
             newThumbnail.GetComponent<Button>().onClick.AddListener(delegate {localScriptHolder.GetComponent<ArPairDisplayManager>().setYoutubeThumbnailArPair(newThumbnail);});
             
-            newThumbnail.GetComponent<Button>().onClick.AddListener(delegate {this.GetComponent<YoutubeAPIManager>().SetVideoInfo(TempIterator + 1);});
+            newThumbnail.GetComponent<Button>().onClick.AddListener(delegate {this.GetComponent<YoutubeAPIManager>().SetVideoInfo(TempIterator);});
             newThumbnail.GetComponent<Button>().onClick.AddListener(delegate {mainCanvas.GetComponent<PanelController>().OpenPanel(viewLibraryContentPanel);});
             newThumbnail.GetComponent<Button>().onClick.AddListener(delegate {localScriptHolder.GetComponent<UiManager>().SetLoadingPanelActive(true);});
        
@@ -209,7 +209,7 @@ public void Search2()
             newThumbnail.GetComponent<YoutubeVideoUi>().LoadThumbnail();
             newThumbnail.GetComponent<Button>().onClick.AddListener(delegate {newThumbnail.GetComponent<YoutubeVideoUi>().PlayYoutubeVideo();});
             newThumbnail.GetComponent<Button>().onClick.AddListener(delegate {localScriptHolder.GetComponent<ArPairDisplayManager>().setYoutubeThumbnailArPair(newThumbnail);});
-            newThumbnail.GetComponent<Button>().onClick.AddListener(delegate {this.GetComponent<YoutubeAPIManager>().SetVideoInfo(TempIterator + 1);});
+            newThumbnail.GetComponent<Button>().onClick.AddListener(delegate {this.GetComponent<YoutubeAPIManager>().SetVideoInfo(TempIterator);});
             newThumbnail.GetComponent<Button>().onClick.AddListener(delegate {mainCanvas.GetComponent<PanelController>().OpenPanel(viewLibraryContentPanel);});
         } 
     }

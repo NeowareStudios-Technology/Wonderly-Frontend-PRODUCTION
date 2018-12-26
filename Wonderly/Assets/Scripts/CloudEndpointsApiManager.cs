@@ -70,6 +70,12 @@ public class CloudEndpointsApiManager : MonoBehaviour {
 
 	public GameObject iconPanel;
 
+	public GameObject editPasswordLengthError;
+	public GameObject editPasswordMatcherror;
+	public GameObject editPasswordValidError;
+
+	public GameObject deleteJourneyPrefab;
+
 	public string code;
 
 	public string deleteCode;
@@ -91,6 +97,8 @@ public class CloudEndpointsApiManager : MonoBehaviour {
 	public Image testImage;
 
   public GameObject noJourneyPanel;
+
+	private int deleteJourneyIndex;
 
 	public void startProfileCreate()
 	{
@@ -127,6 +135,7 @@ public class CloudEndpointsApiManager : MonoBehaviour {
 
 	public void startProfileEdit()
 	{
+
 		StartCoroutine("profileEdit");
 	}
 
@@ -143,24 +152,60 @@ public class CloudEndpointsApiManager : MonoBehaviour {
 		//convert profile clas instance into json string
 		string editProfJson = JsonUtility.ToJson(editProfile);
 
-		using (UnityWebRequest editProfileRequest = UnityWebRequest.Put(editProfileUrl,editProfJson))
+		//if any inputs in password edit
+		if (fbm.editPassword.text != "" || fbm.editPassword2.text != "" || fbm.editPasswordCurrent.text != "")
 		{
-			//set content type
-			editProfileRequest.SetRequestHeader("Content-Type", "application/json");
-			//set auth header
-			editProfileRequest.SetRequestHeader("Authorization", "Bearer " + fbm.token);
+				//if current password incorrect
+				if (fbm.editPasswordCurrent.text != PlayerPrefs.GetString("password"))
+				{
+					//activate need correct password error message
+					editPasswordValidError.SetActive(true);
+				}
 
-			yield return editProfileRequest.SendWebRequest();
-			Debug.Log(editProfileRequest.responseCode);
+				//if passwords dont match
+				else if (fbm.editPassword2.text != fbm.editPassword.text)
+				{
+					//activate need matching passwords error message
+					editPasswordMatcherror.SetActive(true);
+				}
 
-			if ((fbm.editPassword.text != "") && (fbm.editPassword2.text != ""))
+				//if current password incorrect
+				else if (fbm.editPassword2.text.Length < 6)
+				{
+					//activate need correct password length error message
+					editPasswordLengthError.SetActive(true);
+				}
+
+				//if new passwords blank
+				else if (fbm.editPassword.text =="" || fbm.editPassword2.text =="")
+				{
+					//activate need correct password error message
+					editPasswordLengthError.SetActive(true);
+				}
+
+				else
+				{
+						fbm.changeUserPassword();
+				}
+
+		}
+
+		if (editProfile.firstName != "" || editProfile.lastName != "")
+		{
+			using (UnityWebRequest editProfileRequest = UnityWebRequest.Put(editProfileUrl,editProfJson))
 			{
-				fbm.changeUserPassword();
-			}
+				//set content type
+				editProfileRequest.SetRequestHeader("Content-Type", "application/json");
+				//set auth header
+				editProfileRequest.SetRequestHeader("Authorization", "Bearer " + fbm.token);
 
-			//call this to fill the profile page with the changed content (lets user know edit worked)
-			//getProfileInfo will disable loading screen on completion
-			StartCoroutine("getProfileInfo");
+				yield return editProfileRequest.SendWebRequest();
+				Debug.Log(editProfileRequest.responseCode);
+
+				//call this to fill the profile page with the changed content (lets user know edit worked)
+				//getProfileInfo will disable loading screen on completion
+				StartCoroutine("getProfileInfo");
+			}
 		}
 	}
 
@@ -208,7 +253,7 @@ public class CloudEndpointsApiManager : MonoBehaviour {
 	//called by ui button to delete experience (journey)
 	public void startExperienceDelete(int index)
 	{
-		deleteCode = libraryCodes[index-1];
+		deleteCode = libraryCodes[index];
 		//delete experience from google datastore noSQL database
 		StartCoroutine("deleteExperienceFromDataStore");
 
@@ -216,7 +261,7 @@ public class CloudEndpointsApiManager : MonoBehaviour {
 		fsm.DeleteExperience(deleteCode);
 
 		//get rid of the library stub that was holding the journey info
-		Destroy(libraryStubs[index-1]);
+		Destroy(libraryStubs[index]);
 	}
 
 	public IEnumerator deleteExperienceFromDataStore() 
@@ -502,25 +547,40 @@ public void startGetProfileInfo()
 		frontCanvas.SetActive(true);
 		libraryPopupMenuInstantiated = Instantiate(libraryPopupMenuPrefab, inFrontOfBottomPanel.transform);
 		//delete button
-		libraryPopupMenuInstantiated.transform.GetChild(2).GetChild(3).gameObject.GetComponent<Button>().onClick.AddListener(delegate {startExperienceDelete(index+1); });
-		libraryPopupMenuInstantiated.transform.GetChild(2).GetChild(3).gameObject.GetComponent<Button>().onClick.AddListener(delegate {frontCanvas.SetActive(false); });
-		libraryPopupMenuInstantiated.transform.GetChild(2).GetChild(3).gameObject.GetComponent<Button>().onClick.AddListener(delegate {Destroy(libraryPopupMenuInstantiated); });
+		libraryPopupMenuInstantiated.transform.GetChild(2).GetChild(2).gameObject.GetComponent<Button>().onClick.AddListener(delegate {createDeletePopup(index); });
 		//edit button
-		libraryPopupMenuInstantiated.transform.GetChild(2).GetChild(1).gameObject.GetComponent<Button>().onClick.AddListener(delegate {um.InstantResetSummaryScreen(); });
-		libraryPopupMenuInstantiated.transform.GetChild(2).GetChild(1).gameObject.GetComponent<Button>().onClick.AddListener(delegate {startExperienceEdit(index+1); });
-		libraryPopupMenuInstantiated.transform.GetChild(2).GetChild(1).gameObject.GetComponent<Button>().onClick.AddListener(delegate {lsh.GetComponent<UiManager>().SetLoadingPanelActive(true); });
-		libraryPopupMenuInstantiated.transform.GetChild(2).GetChild(1).gameObject.GetComponent<Button>().onClick.AddListener(delegate {mainCanvasPanelController.OpenPanel(journeySummaryAnimator); });
-		libraryPopupMenuInstantiated.transform.GetChild(2).GetChild(1).gameObject.GetComponent<Button>().onClick.AddListener(delegate {iconPanel.SetActive(false); });
-		libraryPopupMenuInstantiated.transform.GetChild(2).GetChild(1).gameObject.GetComponent<Button>().onClick.AddListener(delegate {coec.setCreateOrEdit("edit"); });
+		libraryPopupMenuInstantiated.transform.GetChild(2).GetChild(0).gameObject.GetComponent<Button>().onClick.AddListener(delegate {um.InstantResetSummaryScreen(); });
+		libraryPopupMenuInstantiated.transform.GetChild(2).GetChild(0).gameObject.GetComponent<Button>().onClick.AddListener(delegate {startExperienceEdit(index+1); });
+		libraryPopupMenuInstantiated.transform.GetChild(2).GetChild(0).gameObject.GetComponent<Button>().onClick.AddListener(delegate {lsh.GetComponent<UiManager>().SetLoadingPanelActive(true); });
+		libraryPopupMenuInstantiated.transform.GetChild(2).GetChild(0).gameObject.GetComponent<Button>().onClick.AddListener(delegate {mainCanvasPanelController.OpenPanel(journeySummaryAnimator); });
+		libraryPopupMenuInstantiated.transform.GetChild(2).GetChild(0).gameObject.GetComponent<Button>().onClick.AddListener(delegate {iconPanel.SetActive(false); });
+		libraryPopupMenuInstantiated.transform.GetChild(2).GetChild(0).gameObject.GetComponent<Button>().onClick.AddListener(delegate {coec.setCreateOrEdit("edit"); });
 		//libraryPopupMenuInstantiated.transform.GetChild(2).GetChild(1).gameObject.GetComponent<Button>().onClick.AddListener(delegate {frontCanvas.SetActive(false); });
-		libraryPopupMenuInstantiated.transform.GetChild(2).GetChild(1).gameObject.GetComponent<Button>().onClick.AddListener(delegate {Destroy(libraryPopupMenuInstantiated); });
+		libraryPopupMenuInstantiated.transform.GetChild(2).GetChild(0).gameObject.GetComponent<Button>().onClick.AddListener(delegate {Destroy(libraryPopupMenuInstantiated); });
 		//cancel button
 		libraryPopupMenuInstantiated.transform.GetChild(4).GetChild(0).gameObject.GetComponent<Button>().onClick.AddListener(delegate {frontCanvas.SetActive(false); });
 		libraryPopupMenuInstantiated.transform.GetChild(4).GetChild(0).gameObject.GetComponent<Button>().onClick.AddListener(delegate {Destroy(libraryPopupMenuInstantiated); });
 		//share
-		libraryPopupMenuInstantiated.transform.GetChild(2).GetChild(2).gameObject.GetComponent<Button>().onClick.AddListener(delegate {lsh.GetComponent<Sharing>().SharingCodeJourneyContextMenu(index); });
-		libraryPopupMenuInstantiated.transform.GetChild(2).GetChild(2).gameObject.GetComponent<Button>().onClick.AddListener(delegate {Destroy(libraryPopupMenuInstantiated); });
-		libraryPopupMenuInstantiated.transform.GetChild(2).GetChild(2).gameObject.GetComponent<Button>().onClick.AddListener(delegate {frontCanvas.SetActive(false); });
+		libraryPopupMenuInstantiated.transform.GetChild(2).GetChild(1).gameObject.GetComponent<Button>().onClick.AddListener(delegate {lsh.GetComponent<Sharing>().SharingCodeJourneyContextMenu(index); });
+		libraryPopupMenuInstantiated.transform.GetChild(2).GetChild(1).gameObject.GetComponent<Button>().onClick.AddListener(delegate {Destroy(libraryPopupMenuInstantiated); });
+		libraryPopupMenuInstantiated.transform.GetChild(2).GetChild(1).gameObject.GetComponent<Button>().onClick.AddListener(delegate {frontCanvas.SetActive(false); });
+	}
+
+
+	//creates library menu UI
+	void createDeletePopup(int index)
+	{
+		Debug.Log("in create delete popup");
+		frontCanvas.SetActive(true);
+		deleteJourneyIndex = index;
+		GameObject deleteJourneyInstantiated = Instantiate(deleteJourneyPrefab, inFrontOfBottomPanel.transform);
+		//delete button
+		deleteJourneyInstantiated.transform.GetChild(0).GetChild(1).gameObject.GetComponent<Button>().onClick.AddListener(delegate {startExperienceDelete(deleteJourneyIndex); });
+		deleteJourneyInstantiated.transform.GetChild(0).GetChild(1).gameObject.GetComponent<Button>().onClick.AddListener(delegate {frontCanvas.SetActive(false); });
+		deleteJourneyInstantiated.transform.GetChild(0).GetChild(1).gameObject.GetComponent<Button>().onClick.AddListener(delegate {Destroy(libraryPopupMenuInstantiated); });
+		deleteJourneyInstantiated.transform.GetChild(0).GetChild(1).gameObject.GetComponent<Button>().onClick.AddListener(delegate {Destroy(deleteJourneyInstantiated); });
+		//cancel button
+		deleteJourneyInstantiated.transform.GetChild(0).GetChild(0).gameObject.GetComponent<Button>().onClick.AddListener(delegate {Destroy(deleteJourneyInstantiated); });
 	}
 	
 
