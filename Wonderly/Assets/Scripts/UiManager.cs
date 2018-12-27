@@ -117,7 +117,19 @@ public class UiManager : MonoBehaviour {
 	public InputField newPassword;
 	public InputField newMatchingPassword;
 
-	
+	//for dynamically sized/created screen shot view
+	public RectTransform screenCapBorder;
+
+
+
+
+	//determine screenshot size by size of screen
+	void Awake() 
+	{
+		screenCapBorder.sizeDelta = new Vector2 (Screen.width/2+255, Screen.height/2+380);
+		//screenCapBorder.anchoredPosition = new Vector2(Screen.width / 4, Screen.height / 3);
+
+	}
 	
 	// handles what UI will be displayed based on the 1 model/video/pic per target rule
 	void Update () {
