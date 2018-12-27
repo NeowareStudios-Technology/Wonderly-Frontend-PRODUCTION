@@ -42,7 +42,7 @@ MonoBehaviour:
   basePbrBlendDoubleSidedMaterial: {fileID: 2100000, guid: b2b07ce943390e34993803beeb1e8548,
     type: 2}
   authConfig:
-    apiKey: AIzaSyCfDvywYv5hI109dr7YF8OPHXc5fOIa0UM
+    apiKey: AIzaSyBKiL9CO5W9WwsDNEXZfFcy7163yxTDHC8
     clientId: 
     clientSecret: 
     additionalScopes: []

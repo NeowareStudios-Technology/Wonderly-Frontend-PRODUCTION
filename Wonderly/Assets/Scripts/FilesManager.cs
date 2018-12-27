@@ -285,6 +285,7 @@ namespace Sample
             vsm.DeleteThumbnails2();
 
             Resources.UnloadUnusedAssets();
+            Debug.Log("unused assets unloaded");
         }
     }
 }

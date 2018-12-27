@@ -22,16 +22,13 @@ namespace Sample
         public targetObjectManager tom;
         public ImageTargetSetter its;
         public FilesManager fm;
+        public ArPairDisplayManager apdm;
+        public LoadManager lm;
         public GameObject target1;
         public GameObject target2;
         public GameObject target3;
         public GameObject target4;
         public GameObject target5;
-        public UnityEngine.UI.Image viewPreview1;
-        public UnityEngine.UI.Image viewPreview2;
-        public UnityEngine.UI.Image viewPreview3;
-        public UnityEngine.UI.Image viewPreview4;
-        public UnityEngine.UI.Image viewPreview5;
         public UnityEngine.UI.Image blankImage;
         public ImageTrackerBehaviour tracker1;
         public ImageTrackerBehaviour tracker2;
@@ -149,19 +146,24 @@ namespace Sample
                 File.Delete(target5Path);
             }
 
-            /// viewPreview1.sprite = blankImage.sprite;
-            /// viewPreview2.sprite = blankImage.sprite;
-            /// viewPreview3.sprite = blankImage.sprite;
-            /// viewPreview4.sprite = blankImage.sprite;
-            /// viewPreview5.sprite = blankImage.sprite;
+            //clear ui textures
+            for (int j = 0; j<3; j++)
+            {
+                //remove from summary screen: linked images and target images
+                apdm.targetThumbs[j].sprite = blankImage.sprite;
+                apdm.targetObjectThumbs[j].sprite = blankImage.sprite;
+                //remove from preview screen: target images
+                lm.viewFlowTargetPreviews[j].sprite = blankImage.sprite;
+            }
+            //remove preview cover image
+            lm.previewCoverImage.sprite = blankImage.sprite;
+            //remove sumary cover image
+            lm.coverImage.sprite = blankImage.sprite;
+        
+
 
             pathManager.currentTarget = 0;
             its.imageTargetDic= new Dictionary<string, DynamicImageTagetBehaviour>();
-
-            /// title.text = "";
-            /// editTitle.text = "";
-            /// description.text = "";
-            /// titleInput.text = "";
 
             pathManager.targetCount = 0;
 
@@ -176,7 +178,7 @@ namespace Sample
                 }
             }
 
-            Resources.UnloadUnusedAssets();
+            fm.unloadUnused();
         }
         
         //gets called by UI to delete currently indexed target

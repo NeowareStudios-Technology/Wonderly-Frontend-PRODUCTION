@@ -74,8 +74,10 @@ public class FirebaseManager : MonoBehaviour {
 			return;
 		}
 
+			string lowerCaseEmail = newEmail.text.ToLower();
+
 		//create new firebase user
-		auth.CreateUserWithEmailAndPasswordAsync(newEmail.text, newPassword.text).ContinueWith(task => {
+		auth.CreateUserWithEmailAndPasswordAsync(lowerCaseEmail, newPassword.text).ContinueWith(task => {
 			if (task.IsCanceled) {
 				Debug.LogError("CreateUserWithEmailAndPasswordAsync was canceled.");
 				return;
@@ -420,10 +422,12 @@ public class FirebaseManager : MonoBehaviour {
 		if (user != null) {
 			user.UpdatePasswordAsync(newPassword).ContinueWith(task => {
 				if (task.IsCanceled) {
+					lsh.GetComponent<UiManager>().SetLoadingPanelActive(false);
 					Debug.LogError("UpdatePasswordAsync was canceled.");
 					return;
 				}
 				if (task.IsFaulted) {
+					lsh.GetComponent<UiManager>().SetLoadingPanelActive(false);
 					Debug.LogError("UpdatePasswordAsync encountered an error: " + task.Exception);
 					return;
 				}
@@ -431,6 +435,7 @@ public class FirebaseManager : MonoBehaviour {
 				//activate notifaction 
 				//passwordChangedNotification.SetActive(true);
 				//set new password in player prefs for auto log in
+				lsh.GetComponent<UiManager>().SetLoadingPanelActive(false);
 				PlayerPrefs.SetString("password", newPassword);
 				Debug.Log("Password updated successfully.");
 				//reset password input text
@@ -441,6 +446,7 @@ public class FirebaseManager : MonoBehaviour {
 		else
 		{
 			Debug.Log("firebase user is null");
+			lsh.GetComponent<UiManager>().SetLoadingPanelActive(false);
 		}
 	}
 

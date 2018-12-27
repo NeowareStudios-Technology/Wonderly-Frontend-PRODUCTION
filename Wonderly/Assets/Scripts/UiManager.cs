@@ -6,6 +6,7 @@ using PolyToolkit;
 using Sample;
 
 public class UiManager : MonoBehaviour {
+	//other script references
 	public FilesManager fm;
 	public FirebaseManager fbm;
 	public SaveManager sm;
@@ -13,20 +14,14 @@ public class UiManager : MonoBehaviour {
 	public ModelInitializer mi;
 	public PanelController pc;
 
-	public int currentTargetNum;
-
-	public Text ArLabel1;
-	public Text ArLabel2;
-	public Text ArLabel3;
-	public Text ArLabel4;
-	public Text ArLabel5;
-
+	//for display on CompleteJourneyCopy screen
 	public GameObject arPair1;
 	public GameObject arPair2;
 	public GameObject arPair3;
 	public GameObject arPair4;
 	public GameObject arPair5;
 
+	//for display on CompleteJourneyCopy screen
 	public GameObject modelIcon1;
 	public GameObject imageIcon1;
 	public GameObject videoIcon1;
@@ -111,9 +106,16 @@ public class UiManager : MonoBehaviour {
 	public GameObject wonderInputError2;
 	//uses summaryAnimator
 
-
+	//for setting either a blank sprite or a Wonderly icon sprite
 	public Image blankImage;
 	public Image iconImage;
+
+	//for clearing input fields on UserSettings screen
+	public InputField firstName;
+	public InputField lastName;
+	public InputField currentPassword;
+	public InputField newPassword;
+	public InputField newMatchingPassword;
 
 	
 	
@@ -129,18 +131,6 @@ public class UiManager : MonoBehaviour {
 		{
 			addWonderButton.SetActive(true);
 		}
-
-
-        // //Sets Content Rect Transform based on target count
-        // if(fm.targetCount == 0)
-        //     wonderPanelRectTrans.sizeDelta = noWondersHeight;        
-        // else if(fm.targetCount ==1)        
-        //     wonderPanelRectTrans.sizeDelta = oneWondersHeight;
-        // else if(fm.targetCount ==2)        
-        //     wonderPanelRectTrans.sizeDelta = twoWondersHeight;       
-        // else if(fm.targetCount ==3)     
-        //     wonderPanelRectTrans.sizeDelta = fullWondersHeight;
-
 			
 		//display correct repo logo depending on which repo is being searched
 		if (fm.currentTarget > 0)
@@ -181,37 +171,27 @@ public class UiManager : MonoBehaviour {
 		{
 			case "none":
 				arPair1.SetActive(false);
-				//arPairCover1.SetActive(true);
-				//deletePair1.SetActive(false);
 				break;
 			case "created":
 				arPair1.SetActive(true);
-				//arPairCover1.SetActive(false);
-				//deletePair1.SetActive(true);
 				modelIcon1.SetActive(false);
 				imageIcon1.SetActive(false);
 				videoIcon1.SetActive(false);
 				break;
 			case "model":
 				arPair1.SetActive(true);
-				//arPairCover1.SetActive(false);
-				//deletePair1.SetActive(true);
 				modelIcon1.SetActive(true);
 				imageIcon1.SetActive(false);
 				videoIcon1.SetActive(false);
 				break;
 			case "image":
 				arPair1.SetActive(true);
-				//arPairCover1.SetActive(false);
-				//deletePair1.SetActive(true);
 				modelIcon1.SetActive(false);
 				imageIcon1.SetActive(true);
 				videoIcon1.SetActive(false);
 				break;
 			case "video":
 				arPair1.SetActive(true);
-				//arPairCover1.SetActive(false);
-				//deletePair1.SetActive(true);
 				modelIcon1.SetActive(false);
 				imageIcon1.SetActive(false);
 				videoIcon1.SetActive(true);
@@ -222,37 +202,27 @@ public class UiManager : MonoBehaviour {
 		{
 			case "none":
 				arPair2.SetActive(false);
-				//arPairCover2.SetActive(true);
-				//deletePair2.SetActive(false);
 				break;
 			case "created":
 				arPair2.SetActive(true);
-				//arPairCover2.SetActive(false);
-				//deletePair2.SetActive(true);
 				modelIcon2.SetActive(false);
 				imageIcon2.SetActive(false);
 				videoIcon2.SetActive(false);
 				break;
 			case "model":
 				arPair2.SetActive(true);
-				//arPairCover2.SetActive(false);
-				//deletePair2.SetActive(true);
 				modelIcon2.SetActive(true);
 				imageIcon2.SetActive(false);
 				videoIcon2.SetActive(false);
 				break;
 			case "image":
 				arPair2.SetActive(true);
-				//arPairCover2.SetActive(false);
-				//deletePair2.SetActive(true);
 				modelIcon2.SetActive(false);
 				imageIcon2.SetActive(true);
 				videoIcon2.SetActive(false);
 				break;
 			case "video":
 				arPair2.SetActive(true);
-				//arPairCover2.SetActive(false);
-				//deletePair2.SetActive(true);
 				modelIcon2.SetActive(false);
 				imageIcon2.SetActive(false);
 				videoIcon2.SetActive(true);
@@ -263,37 +233,27 @@ public class UiManager : MonoBehaviour {
 		{
 			case "none":
 				arPair3.SetActive(false);
-				//arPairCover3.SetActive(true);
-				//deletePair3.SetActive(false);
 				break;
 			case "created":
 				arPair3.SetActive(true);
-				//arPairCover3.SetActive(false);
-				//deletePair3.SetActive(true);
 				modelIcon3.SetActive(false);
 				imageIcon3.SetActive(false);
 				videoIcon3.SetActive(false);
 				break;
 			case "model":
 				arPair3.SetActive(true);
-				//arPairCover3.SetActive(false);
-				//deletePair3.SetActive(true);
 				modelIcon3.SetActive(true);
 				imageIcon3.SetActive(false);
 				videoIcon3.SetActive(false);
 				break;
 			case "image":
 				arPair3.SetActive(true);
-				//arPairCover3.SetActive(false);
-				//deletePair3.SetActive(true);
 				modelIcon3.SetActive(false);
 				imageIcon3.SetActive(true);
 				videoIcon3.SetActive(false);
 				break;
 			case "video":
 				arPair3.SetActive(true);
-				//arPairCover3.SetActive(false);
-				//deletePair3.SetActive(true);
 				modelIcon3.SetActive(false);
 				imageIcon3.SetActive(false);
 				videoIcon3.SetActive(true);
@@ -304,37 +264,27 @@ public class UiManager : MonoBehaviour {
 		{
 			case "none":
 				arPair4.SetActive(false);
-				//arPairCover4.SetActive(true);
-				//deletePair4.SetActive(false);
 				break;
 			case "created":
 				arPair4.SetActive(true);
-				//arPairCover4.SetActive(false);
-				//deletePair4.SetActive(true);
 				modelIcon4.SetActive(false);
 				imageIcon4.SetActive(false);
 				videoIcon4.SetActive(false);
 				break;
 			case "model":
 				arPair4.SetActive(true);
-				//arPairCover4.SetActive(false);
-				//deletePair4.SetActive(true);
 				modelIcon4.SetActive(true);
 				imageIcon4.SetActive(false);
 				videoIcon4.SetActive(false);
 				break;
 			case "image":
 				arPair4.SetActive(true);
-				//arPairCover4.SetActive(false);
-				///deletePair4.SetActive(true);
 				modelIcon4.SetActive(false);
 				imageIcon4.SetActive(true);
 				videoIcon4.SetActive(false);
 				break;
 			case "video":
 				arPair4.SetActive(true);
-				//arPairCover4.SetActive(false);
-				//deletePair4.SetActive(true);
 				modelIcon4.SetActive(false);
 				imageIcon4.SetActive(false);
 				videoIcon4.SetActive(true);
@@ -345,37 +295,27 @@ public class UiManager : MonoBehaviour {
 		{
 			case "none":
 				arPair5.SetActive(false);
-				//arPairCover5.SetActive(true);
-				//deletePair5.SetActive(false);
 				break;
 			case "created":
 				arPair5.SetActive(true);
-				//arPairCover5.SetActive(false);
-				//deletePair5.SetActive(true);
 				modelIcon5.SetActive(false);
 				imageIcon5.SetActive(false);
 				videoIcon5.SetActive(false);
 				break;
 			case "model":
 				arPair5.SetActive(true);
-				//arPairCover5.SetActive(false);
-				//deletePair5.SetActive(true);
 				modelIcon5.SetActive(true);
 				imageIcon5.SetActive(false);
 				videoIcon5.SetActive(false);
 				break;
 			case "image":
 				arPair5.SetActive(true);
-				//arPairCover5.SetActive(false);
-				//deletePair5.SetActive(true);
 				modelIcon5.SetActive(false);
 				imageIcon5.SetActive(true);
 				videoIcon5.SetActive(false);
 				break;
 			case "video":
 				arPair5.SetActive(true);
-				//arPairCover5.SetActive(false);
-				//deletePair5.SetActive(true);
 				modelIcon5.SetActive(false);
 				imageIcon5.SetActive(false);
 				videoIcon5.SetActive(true);
@@ -550,6 +490,15 @@ public class UiManager : MonoBehaviour {
 		{
 			pc.OpenPanel(summaryAnimator);
 		}
+	}
+
+	public void clearUserSettingsInputFields()
+	{
+		firstName.text = "";
+		lastName.text = "";
+		currentPassword.text = "";
+		newPassword.text = "";
+		newMatchingPassword.text = "";
 	}
 }
 

@@ -728,7 +728,7 @@ public class pixabayManager : MonoBehaviour {
 			}
 		}
 
-				public IEnumerator SetArPairThumbnail2(GameObject newThumbnail)
+		public IEnumerator SetArPairThumbnail2(GameObject newThumbnail)
 		{
 
 			apdm.targetObjectThumbs[fm.currentTarget-1].sprite = newThumbnail.GetComponent<Image>().sprite;
@@ -738,6 +738,8 @@ public class pixabayManager : MonoBehaviour {
 				yield return null;
 				//clear the url array
 		}
+
+
 		public void DestroyChildrenOfImageContent2(){
 			foreach (Transform child in thumbNailParentContent2.transform) {
 				GameObject.Destroy(child.gameObject);

@@ -34,8 +34,9 @@ public class YoutubeAPIManager : MonoBehaviour {
      * Any question? mail me: kelvinparkour@gmail.com
      * 
      * */
+    private const string APIKey = "AIzaSyBKiL9CO5W9WwsDNEXZfFcy7163yxTDHC8";
 
-    private const string APIKey = "AIzaSyCfDvywYv5hI109dr7YF8OPHXc5fOIa0UM";
+    //"AIzaSyCfDvywYv5hI109dr7YF8OPHXc5fOIa0UM"
 
     public void SetVideoInfo(int whichVideo)
     {

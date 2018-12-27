@@ -76,11 +76,7 @@ public class LoadManager : MonoBehaviour {
 	public UnityEngine.UI.Image previewCoverImage;
 	public Text previewTitleDisplay;
 	public Text previewDescriptionDisplay;
-	public UnityEngine.UI.Image viewFlowTargetPreview1;
-	public UnityEngine.UI.Image viewFlowTargetPreview2;
-	public UnityEngine.UI.Image viewFlowTargetPreview3;
-	public UnityEngine.UI.Image viewFlowTargetPreview4;
-	public UnityEngine.UI.Image viewFlowTargetPreview5;
+	public UnityEngine.UI.Image[] viewFlowTargetPreviews = new UnityEngine.UI.Image[5];
 
 	//keeps track of first available index for a model
 	public int[] modelIndices = new int[5];
@@ -368,28 +364,30 @@ public class LoadManager : MonoBehaviour {
 		if (File.Exists(workingPath1))
 		{
 			targetPreview1.sprite = IMG2Sprite.LoadNewSprite(workingPath1);
-			viewFlowTargetPreview1.sprite = IMG2Sprite.LoadNewSprite(workingPath1);
+			viewFlowTargetPreviews[0].sprite = IMG2Sprite.LoadNewSprite(workingPath1);
 		}
 		if (File.Exists(workingPath2))
 		{
 			targetPreview2.sprite = IMG2Sprite.LoadNewSprite(workingPath2);
-			viewFlowTargetPreview2.sprite = IMG2Sprite.LoadNewSprite(workingPath2);
+			viewFlowTargetPreviews[1].sprite = IMG2Sprite.LoadNewSprite(workingPath2);
 		}
 		if (File.Exists(workingPath3))
 		{
 			targetPreview3.sprite = IMG2Sprite.LoadNewSprite(workingPath3);
-			viewFlowTargetPreview3.sprite = IMG2Sprite.LoadNewSprite(workingPath3);
+			viewFlowTargetPreviews[2].sprite = IMG2Sprite.LoadNewSprite(workingPath3);
 		}
 		if (File.Exists(workingPath4))
 		{
 			targetPreview4.sprite = IMG2Sprite.LoadNewSprite(workingPath4);
-			viewFlowTargetPreview4.sprite = IMG2Sprite.LoadNewSprite(workingPath4);
+			viewFlowTargetPreviews[3].sprite = IMG2Sprite.LoadNewSprite(workingPath4);
 		}
 		if (File.Exists(workingPath5))
 	 	{
 			targetPreview5.sprite = IMG2Sprite.LoadNewSprite(workingPath5);
-			viewFlowTargetPreview5.sprite = IMG2Sprite.LoadNewSprite(workingPath5);
+			viewFlowTargetPreviews[4].sprite = IMG2Sprite.LoadNewSprite(workingPath5);
 		 }
+
+		 Resources.UnloadUnusedAssets();
 		//call function to imported all loaded AR objects (pics/videos/models)
 		StartCoroutine("ImportLoadedItems");
 		targetSetter.SetActive(true);

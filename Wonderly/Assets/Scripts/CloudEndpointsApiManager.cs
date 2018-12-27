@@ -135,7 +135,7 @@ public class CloudEndpointsApiManager : MonoBehaviour {
 
 	public void startProfileEdit()
 	{
-
+		lsh.GetComponent<UiManager>().SetLoadingPanelActive(true);
 		StartCoroutine("profileEdit");
 	}
 
@@ -159,28 +159,36 @@ public class CloudEndpointsApiManager : MonoBehaviour {
 				if (fbm.editPasswordCurrent.text != PlayerPrefs.GetString("password"))
 				{
 					//activate need correct password error message
+					lsh.GetComponent<UiManager>().SetLoadingPanelActive(false);
 					editPasswordValidError.SetActive(true);
+					yield break;
 				}
 
 				//if passwords dont match
 				else if (fbm.editPassword2.text != fbm.editPassword.text)
 				{
 					//activate need matching passwords error message
+					lsh.GetComponent<UiManager>().SetLoadingPanelActive(false);
 					editPasswordMatcherror.SetActive(true);
+					yield break;
 				}
 
 				//if current password incorrect
 				else if (fbm.editPassword2.text.Length < 6)
 				{
 					//activate need correct password length error message
+					lsh.GetComponent<UiManager>().SetLoadingPanelActive(false);
 					editPasswordLengthError.SetActive(true);
+					yield break;
 				}
 
 				//if new passwords blank
 				else if (fbm.editPassword.text =="" || fbm.editPassword2.text =="")
 				{
 					//activate need correct password error message
+					lsh.GetComponent<UiManager>().SetLoadingPanelActive(false);
 					editPasswordLengthError.SetActive(true);
+					yield break;
 				}
 
 				else
@@ -207,6 +215,8 @@ public class CloudEndpointsApiManager : MonoBehaviour {
 				StartCoroutine("getProfileInfo");
 			}
 		}
+
+		um.clearUserSettingsInputFields();
 	}
 
 
@@ -378,7 +388,8 @@ public void startGetProfileInfo()
 
 	public IEnumerator getProfileInfo() 
 	{
-        //lsh.GetComponent<UiManager>().SetLoadingPanelActive(true);
+				um.clearUserSettingsInputFields();
+
         using (UnityWebRequest newProfileInfoRequest = UnityWebRequest.Get(getProfileUrl))
         {
             //set content type
@@ -407,7 +418,8 @@ public void startGetProfileInfo()
             firstNamePlaceHolder.text = pic.firstName;
             lastNamePlaceHolder.text = pic.lastName;
             emailPlaceHolder.text = pic.email;
-			
+
+						lsh.GetComponent<UiManager>().SetLoadingPanelActive(false);
         }	
 	}
 
@@ -523,23 +535,6 @@ public void startGetProfileInfo()
 	lsh.GetComponent<UiManager>().SetLoadingPanelActive(false);
 	}
 		
-/* 
-	private IEnumerator loadJourneyCoverImage(GameObject libStub, string coverImageUrl) {
-		using (WWW imageRequest = new WWW(coverImageUrl))
-		{
-			yield return imageRequest;
-			//catch errors
-			if (imageRequest.error != null)
-    	{
-				Debug.Log("Error getting image");
-			}
-
-			else
-			{	
-				libStub.transform.GetChild(5).gameObject.GetComponent<Image>().sprite = Sprite.Create(imageRequest.texture, new Rect(0, 0, imageRequest.texture.width, imageRequest.texture.height), new Vector2(0, 0));
-			}
-		}
-	}*/
 
 	//creates library menu UI
 	void createLibraryPopup(int index)
