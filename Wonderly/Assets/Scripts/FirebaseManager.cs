@@ -114,12 +114,12 @@ public class FirebaseManager : MonoBehaviour {
 	private IEnumerator InternalLoginProcess()
 	{
 			//login credentials
-			string e = newEmail.text;
+			string lowerCaseEmail = newEmail.text.ToLower();
 			string p = newPassword.text;
 			
 			//firebase signin
 			FirebaseAuth auth = Firebase.Auth.FirebaseAuth.DefaultInstance;
-			auth.SignInWithEmailAndPasswordAsync(e, p).ContinueWith(task =>
+			auth.SignInWithEmailAndPasswordAsync(lowerCaseEmail, p).ContinueWith(task =>
 			{
 					if (task.IsCanceled)
 					{
@@ -137,8 +137,8 @@ public class FirebaseManager : MonoBehaviour {
 							newUser.DisplayName, newUser.UserId);
 					GetTokenAfterNewUserCreation(auth);
 
-					Debug.Log("Logging in: " + e + " " + p);
-					PlayerPrefs.SetString("email", e);
+					Debug.Log("Logging in: " + lowerCaseEmail + " " + p);
+					PlayerPrefs.SetString("email", lowerCaseEmail);
 					PlayerPrefs.SetString("password", p);
 					PlayerPrefs.SetInt("isLoggedIn", 1);
 					PlayerPrefs.SetString("fName", firstName.text);
@@ -186,14 +186,14 @@ public class FirebaseManager : MonoBehaviour {
 			lsh.GetComponent<UiManager>().SetLoadingPanelActive(true);
 
 			//login credentials
-			string e = email.text;
+			string lowerCaseEmail = email.text.ToLower();
 			string p = Password.text;
 
 			//firebase signin
 			FirebaseAuth auth = Firebase.Auth.FirebaseAuth.DefaultInstance;
-			auth.SignInWithEmailAndPasswordAsync(e, p).ContinueWith(task =>
+			auth.SignInWithEmailAndPasswordAsync(lowerCaseEmail, p).ContinueWith(task =>
 			{
-					Debug.Log("Attempted logging in: " + e + " " + p);
+					Debug.Log("Attempted logging in: " + lowerCaseEmail + " " + p);
 					if (task.IsCanceled)
 					{
 							Debug.LogError("SignInWithEmailAndPasswordAsync was canceled.");
@@ -223,8 +223,8 @@ public class FirebaseManager : MonoBehaviour {
 							newUser.DisplayName, newUser.UserId);
 					GetToken(auth);
 					
-					Debug.Log("Logging in: " + e + " " + p);
-					PlayerPrefs.SetString("email", e);
+					Debug.Log("Logging in: " + lowerCaseEmail + " " + p);
+					PlayerPrefs.SetString("email", lowerCaseEmail);
 					PlayerPrefs.SetString("password", p);
 					PlayerPrefs.SetInt("isLoggedIn", 1);
 					

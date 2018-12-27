@@ -456,19 +456,20 @@ public class FirebaseStorageManager : MonoBehaviour {
 		string linkedPath4 = Path.Combine(fm.SaveDirectory, "linkedImage4.jpg");
 		string linkedPath5 = Path.Combine(fm.SaveDirectory, "linkedImage5.jpg");
 
+		string lowerCaseCode = ceam.UiCode.text.ToLower();
 		//references to cloud filstore paths
-		Firebase.Storage.StorageReference saveFileRef = fbm.fbStorage.GetReference(ceam.UiCode.text + "/" + "aoSave.json");
-		Firebase.Storage.StorageReference targetRef1 = fbm.fbStorage.GetReference(ceam.UiCode.text + "/" + "targetPhoto1.jpg");
-		Firebase.Storage.StorageReference targetRef2 = fbm.fbStorage.GetReference(ceam.UiCode.text + "/" + "targetPhoto2.jpg");
-		Firebase.Storage.StorageReference targetRef3 = fbm.fbStorage.GetReference(ceam.UiCode.text + "/" + "targetPhoto3.jpg");
-		Firebase.Storage.StorageReference targetRef4 = fbm.fbStorage.GetReference(ceam.UiCode.text + "/" + "targetPhoto4.jpg");
-		Firebase.Storage.StorageReference targetRef5 = fbm.fbStorage.GetReference(ceam.UiCode.text + "/" + "targetPhoto5.jpg");
-		Firebase.Storage.StorageReference coverRef = fbm.fbStorage.GetReference(ceam.UiCode.text + "/" + "coverImage.jpg");
-		Firebase.Storage.StorageReference linkedRef1 = fbm.fbStorage.GetReference(ceam.UiCode.text + "/" + "linkedImage1.jpg");
-		Firebase.Storage.StorageReference linkedRef2 = fbm.fbStorage.GetReference(ceam.UiCode.text + "/" + "linkedImage2.jpg");
-		Firebase.Storage.StorageReference linkedRef3 = fbm.fbStorage.GetReference(ceam.UiCode.text + "/" + "linkedImage3.jpg");
-		Firebase.Storage.StorageReference linkedRef4 = fbm.fbStorage.GetReference(ceam.UiCode.text + "/" + "linkedImage4.jpg");
-		Firebase.Storage.StorageReference linkedRef5 = fbm.fbStorage.GetReference(ceam.UiCode.text + "/" + "linkedImage5.jpg");
+		Firebase.Storage.StorageReference saveFileRef = fbm.fbStorage.GetReference(lowerCaseCode + "/" + "aoSave.json");
+		Firebase.Storage.StorageReference targetRef1 = fbm.fbStorage.GetReference(lowerCaseCode + "/" + "targetPhoto1.jpg");
+		Firebase.Storage.StorageReference targetRef2 = fbm.fbStorage.GetReference(lowerCaseCode + "/" + "targetPhoto2.jpg");
+		Firebase.Storage.StorageReference targetRef3 = fbm.fbStorage.GetReference(lowerCaseCode + "/" + "targetPhoto3.jpg");
+		Firebase.Storage.StorageReference targetRef4 = fbm.fbStorage.GetReference(lowerCaseCode + "/" + "targetPhoto4.jpg");
+		Firebase.Storage.StorageReference targetRef5 = fbm.fbStorage.GetReference(lowerCaseCode + "/" + "targetPhoto5.jpg");
+		Firebase.Storage.StorageReference coverRef = fbm.fbStorage.GetReference(lowerCaseCode + "/" + "coverImage.jpg");
+		Firebase.Storage.StorageReference linkedRef1 = fbm.fbStorage.GetReference(lowerCaseCode + "/" + "linkedImage1.jpg");
+		Firebase.Storage.StorageReference linkedRef2 = fbm.fbStorage.GetReference(lowerCaseCode + "/" + "linkedImage2.jpg");
+		Firebase.Storage.StorageReference linkedRef3 = fbm.fbStorage.GetReference(lowerCaseCode + "/" + "linkedImage3.jpg");
+		Firebase.Storage.StorageReference linkedRef4 = fbm.fbStorage.GetReference(lowerCaseCode + "/" + "linkedImage4.jpg");
+		Firebase.Storage.StorageReference linkedRef5 = fbm.fbStorage.GetReference(lowerCaseCode + "/" + "linkedImage5.jpg");
 
 		int maxAllowedSize = 2000*2000;
 
@@ -495,7 +496,7 @@ targetRef2.GetBytesAsync(maxAllowedSize).ContinueWith((Task<byte[]> task1) => {
 
 			}
 });
-
+/* 
 targetRef3.GetBytesAsync(maxAllowedSize).ContinueWith((Task<byte[]> task1) => {
 			if (task1.IsFaulted || task1.IsCanceled) {
 				Debug.Log(task1.Exception.ToString());
@@ -531,7 +532,7 @@ targetRef5.GetBytesAsync(maxAllowedSize).ContinueWith((Task<byte[]> task1) => {
 
 			}
 });
-
+*/
 coverRef.GetBytesAsync(maxAllowedSize).ContinueWith((Task<byte[]> task1) => {
 			if (task1.IsFaulted || task1.IsCanceled) {
 				Debug.Log(task1.Exception.ToString());
@@ -568,6 +569,7 @@ linkedRef2.GetBytesAsync(maxAllowedSize).ContinueWith((Task<byte[]> task1) => {
 			}
 });
 
+/* 
 linkedRef3.GetBytesAsync(maxAllowedSize).ContinueWith((Task<byte[]> task1) => {
 			if (task1.IsFaulted || task1.IsCanceled) {
 				Debug.Log(task1.Exception.ToString());
@@ -603,6 +605,7 @@ linkedRef5.GetBytesAsync(maxAllowedSize).ContinueWith((Task<byte[]> task1) => {
 
 			}
 });
+*/
 
 yield return new WaitForSeconds(5);
 
@@ -698,7 +701,7 @@ targetRef2.GetBytesAsync(maxAllowedSize).ContinueWith((Task<byte[]> task1) => {
 
 			}
 });
-
+/*
 targetRef3.GetBytesAsync(maxAllowedSize).ContinueWith((Task<byte[]> task1) => {
 			if (task1.IsFaulted || task1.IsCanceled) {
 				Debug.Log(task1.Exception.ToString());
@@ -734,7 +737,7 @@ targetRef5.GetBytesAsync(maxAllowedSize).ContinueWith((Task<byte[]> task1) => {
 
 			}
 });
-
+*/
 coverRef.GetBytesAsync(maxAllowedSize).ContinueWith((Task<byte[]> task1) => {
 			if (task1.IsFaulted || task1.IsCanceled) {
 				Debug.Log(task1.Exception.ToString());
@@ -770,7 +773,7 @@ linkedRef2.GetBytesAsync(maxAllowedSize).ContinueWith((Task<byte[]> task1) => {
 
 			}
 });
-
+/* 
 linkedRef3.GetBytesAsync(maxAllowedSize).ContinueWith((Task<byte[]> task1) => {
 			if (task1.IsFaulted || task1.IsCanceled) {
 				Debug.Log(task1.Exception.ToString());
@@ -806,7 +809,7 @@ linkedRef5.GetBytesAsync(maxAllowedSize).ContinueWith((Task<byte[]> task1) => {
 
 			}
 });
-
+*/
 yield return new WaitForSeconds(5);
 
 saveFileRef.GetBytesAsync(maxAllowedSize).ContinueWith((Task<byte[]> task1) => {
@@ -938,7 +941,7 @@ targetRef2.GetBytesAsync(maxAllowedSize).ContinueWith((Task<byte[]> task1) => {
 
 			}
 });
-
+/* 
 targetRef3.GetBytesAsync(maxAllowedSize).ContinueWith((Task<byte[]> task1) => {
 			if (task1.IsFaulted || task1.IsCanceled) {
 				Debug.Log(task1.Exception.ToString());
@@ -974,6 +977,7 @@ targetRef5.GetBytesAsync(maxAllowedSize).ContinueWith((Task<byte[]> task1) => {
 
 			}
 });
+*/
 
 coverRef.GetBytesAsync(maxAllowedSize).ContinueWith((Task<byte[]> task1) => {
 			if (task1.IsFaulted || task1.IsCanceled) {
@@ -1010,7 +1014,7 @@ linkedRef2.GetBytesAsync(maxAllowedSize).ContinueWith((Task<byte[]> task1) => {
 
 			}
 });
-
+/* 
 linkedRef3.GetBytesAsync(maxAllowedSize).ContinueWith((Task<byte[]> task1) => {
 			if (task1.IsFaulted || task1.IsCanceled) {
 				Debug.Log(task1.Exception.ToString());
@@ -1046,7 +1050,7 @@ linkedRef5.GetBytesAsync(maxAllowedSize).ContinueWith((Task<byte[]> task1) => {
 
 			}
 });
-
+*/
 yield return new WaitForSeconds(5);
 
 saveFileRef.GetBytesAsync(maxAllowedSize).ContinueWith((Task<byte[]> task1) => {
@@ -1102,6 +1106,7 @@ saveFileRef.GetBytesAsync(maxAllowedSize).ContinueWith((Task<byte[]> task1) => {
         // Uh-oh, an error occurred!
     }
 		});	
+		/* 
 		// Delete the file
 		photoRef3.DeleteAsync().ContinueWith(task => {
     if (task.IsCompleted) {
@@ -1126,5 +1131,6 @@ saveFileRef.GetBytesAsync(maxAllowedSize).ContinueWith((Task<byte[]> task1) => {
         // Uh-oh, an error occurred!
     }
 		});	
+		 */
 	}
 }
