@@ -1,4 +1,13 @@
-﻿using UnityEngine;
+﻿/******************************************************
+*Project: Wonderly
+*Created by: David Lee Ramirez
+*Date: 12/28/18
+*Description: Used for detecting any target image files
+*             and making them AR targets.
+*Copyright 2018 LeapWithAlice,LLC. All rights reserved
+ ******************************************************/
+
+using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,11 +20,6 @@ public class ImageTargetSetter : MonoBehaviour {
 	public FilesManager pathManager;
 	public Dictionary<string, DynamicImageTagetBehaviour> imageTargetDic = new Dictionary<string, DynamicImageTagetBehaviour>();
 	public ImageTargetManager itm;
-
-	// Use this for initialization
-	void Start () {
-		
-	}
 	
 	 void Update()
         {

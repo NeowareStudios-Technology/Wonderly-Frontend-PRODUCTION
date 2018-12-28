@@ -1,4 +1,11 @@
-﻿using System.Collections;
+﻿/******************************************************
+*Project: Wonderly
+*Created by: Michael Keller
+*Date: 12/28/18
+*Copyright 2018 LeapWithAlice,LLC. All rights reserved
+ ******************************************************/
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
