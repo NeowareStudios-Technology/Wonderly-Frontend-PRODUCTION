@@ -242,7 +242,7 @@ public class pixabayManager : MonoBehaviour {
 				{
 					coverImage.sprite = Sprite.Create(imageRequest.texture, new Rect(0, 0, imageRequest.texture.width, imageRequest.texture.height), new Vector2(0, 0));
 					string coverImagePath = Path.Combine(fm.SaveDirectory, "coverImage.jpg");
-					byte[] coverJpg = ImageConversion.EncodeToJPG(imageRequest.texture, 100); 
+					byte[] coverJpg = ImageConversion.EncodeToJPG(imageRequest.texture, 60); 
 					File.WriteAllBytes(coverImagePath, coverJpg);
 					
 				}
@@ -415,7 +415,7 @@ public class pixabayManager : MonoBehaviour {
 							image1.GetComponent<Renderer>().material.mainTexture = imageRequest.texture;
 							StartCoroutine(SetArPairThumbnail(newThumbnail));
 							string linkedImage1Path = Path.Combine(fm.SaveDirectory, "linkedImage1.jpg");
-							byte[] linkedJpg1 = ImageConversion.EncodeToJPG(imageRequest.texture, 100); 
+							byte[] linkedJpg1 = ImageConversion.EncodeToJPG(imageRequest.texture, 60); 
 							File.WriteAllBytes(linkedImage1Path, linkedJpg1);
 							fm.targetStatus[0] = "image";
 							break;
@@ -423,7 +423,7 @@ public class pixabayManager : MonoBehaviour {
 							image2.GetComponent<Renderer>().material.mainTexture = imageRequest.texture;
 							StartCoroutine(SetArPairThumbnail(newThumbnail));
 							string linkedImage2Path = Path.Combine(fm.SaveDirectory, "linkedImage2.jpg");
-							byte[] linkedJpg2 = ImageConversion.EncodeToJPG(imageRequest.texture, 100); 
+							byte[] linkedJpg2 = ImageConversion.EncodeToJPG(imageRequest.texture, 60); 
 							File.WriteAllBytes(linkedImage2Path, linkedJpg2);
 							fm.targetStatus[1] = "image";
 							break;
@@ -431,7 +431,7 @@ public class pixabayManager : MonoBehaviour {
 							image3.GetComponent<Renderer>().material.mainTexture = imageRequest.texture;
 							StartCoroutine(SetArPairThumbnail(newThumbnail));
 							string linkedImage3Path = Path.Combine(fm.SaveDirectory, "linkedImage3.jpg");
-							byte[] linkedJpg3 = ImageConversion.EncodeToJPG(imageRequest.texture, 100); 
+							byte[] linkedJpg3 = ImageConversion.EncodeToJPG(imageRequest.texture, 60); 
 							File.WriteAllBytes(linkedImage3Path, linkedJpg3);
 							fm.targetStatus[2] = "image";
 							break;
@@ -439,7 +439,7 @@ public class pixabayManager : MonoBehaviour {
 							image4.GetComponent<Renderer>().material.mainTexture = imageRequest.texture;
 							StartCoroutine(SetArPairThumbnail(newThumbnail));
 							string linkedImage4Path = Path.Combine(fm.SaveDirectory, "linkedImage4.jpg");
-							byte[] linkedJpg4 = ImageConversion.EncodeToJPG(imageRequest.texture, 100); 
+							byte[] linkedJpg4 = ImageConversion.EncodeToJPG(imageRequest.texture, 60); 
 							File.WriteAllBytes(linkedImage4Path, linkedJpg4);
 							fm.targetStatus[3] = "image";
 							break;
@@ -447,7 +447,7 @@ public class pixabayManager : MonoBehaviour {
 							image5.GetComponent<Renderer>().material.mainTexture = imageRequest.texture;
 							StartCoroutine(SetArPairThumbnail(newThumbnail));
 							string linkedImage5Path = Path.Combine(fm.SaveDirectory, "linkedImage5.jpg");
-							byte[] linkedJpg5 = ImageConversion.EncodeToJPG(imageRequest.texture, 100); 
+							byte[] linkedJpg5 = ImageConversion.EncodeToJPG(imageRequest.texture, 60); 
 							File.WriteAllBytes(linkedImage5Path, linkedJpg5);
 							fm.targetStatus[4] = "image";
 							break;
@@ -683,7 +683,7 @@ public class pixabayManager : MonoBehaviour {
 							image1.GetComponent<Renderer>().material.mainTexture = imageRequest.texture;
 							StartCoroutine(SetArPairThumbnail2(newThumbnail));
 							string linkedImage1Path = Path.Combine(fm.SaveDirectory, "linkedImage1.jpg");
-							byte[] linkedJpg1 = ImageConversion.EncodeToJPG(imageRequest.texture, 100); 
+							byte[] linkedJpg1 = ImageConversion.EncodeToJPG(imageRequest.texture, 60); 
 							File.WriteAllBytes(linkedImage1Path, linkedJpg1);
 							fm.targetStatus[0] = "image";
 							break;
@@ -691,7 +691,7 @@ public class pixabayManager : MonoBehaviour {
 							image2.GetComponent<Renderer>().material.mainTexture = imageRequest.texture;
 							StartCoroutine(SetArPairThumbnail2(newThumbnail));
 							string linkedImage2Path = Path.Combine(fm.SaveDirectory, "linkedImage2.jpg");
-							byte[] linkedJpg2 = ImageConversion.EncodeToJPG(imageRequest.texture, 100); 
+							byte[] linkedJpg2 = ImageConversion.EncodeToJPG(imageRequest.texture, 60); 
 							File.WriteAllBytes(linkedImage2Path, linkedJpg2);
 							fm.targetStatus[1] = "image";
 							break;
@@ -699,7 +699,7 @@ public class pixabayManager : MonoBehaviour {
 							image3.GetComponent<Renderer>().material.mainTexture = imageRequest.texture;
 							StartCoroutine(SetArPairThumbnail2(newThumbnail));
 							string linkedImage3Path = Path.Combine(fm.SaveDirectory, "linkedImage3.jpg");
-							byte[] linkedJpg3 = ImageConversion.EncodeToJPG(imageRequest.texture, 100); 
+							byte[] linkedJpg3 = ImageConversion.EncodeToJPG(imageRequest.texture, 60); 
 							File.WriteAllBytes(linkedImage3Path, linkedJpg3);
 							fm.targetStatus[2] = "image";
 							break;
@@ -707,7 +707,7 @@ public class pixabayManager : MonoBehaviour {
 							image4.GetComponent<Renderer>().material.mainTexture = imageRequest.texture;
 							StartCoroutine(SetArPairThumbnail2(newThumbnail));
 							string linkedImage4Path = Path.Combine(fm.SaveDirectory, "linkedImage4.jpg");
-							byte[] linkedJpg4 = ImageConversion.EncodeToJPG(imageRequest.texture, 100); 
+							byte[] linkedJpg4 = ImageConversion.EncodeToJPG(imageRequest.texture, 60); 
 							File.WriteAllBytes(linkedImage4Path, linkedJpg4);
 							fm.targetStatus[3] = "image";
 							break;
@@ -715,7 +715,7 @@ public class pixabayManager : MonoBehaviour {
 							image5.GetComponent<Renderer>().material.mainTexture = imageRequest.texture;
 							StartCoroutine(SetArPairThumbnail2(newThumbnail));
 							string linkedImage5Path = Path.Combine(fm.SaveDirectory, "linkedImage5.jpg");
-							byte[] linkedJpg5 = ImageConversion.EncodeToJPG(imageRequest.texture, 100); 
+							byte[] linkedJpg5 = ImageConversion.EncodeToJPG(imageRequest.texture, 60); 
 							File.WriteAllBytes(linkedImage5Path, linkedJpg5);
 							fm.targetStatus[4] = "image";
 							break;

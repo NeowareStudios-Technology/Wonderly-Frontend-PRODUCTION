@@ -580,7 +580,7 @@ public class LoadManager : MonoBehaviour {
 		// We want to rescale the imported meshes to a specific size.
 		options.rescalingMode = PolyImportOptions.RescalingMode.FIT;
 		// The specific size we want assets rescaled to (fit in a 1x1x1 box):
-		options.desiredSize = 1.0f;
+		options.desiredSize = 2.0f;
 		// We want the imported assets to be recentered such that their centroid coincides with the origin:
 		options.recenter = true;
 		PolyApi.Import(result.Value, options, GetModelCallback);
@@ -600,7 +600,7 @@ public class LoadManager : MonoBehaviour {
 				case 0:
 					GameObject thisModel1 = result.Value.gameObject;
 					Transform transform1 = result.Value.gameObject.GetComponent(typeof(Transform)) as Transform;
-					transform1.position = new Vector3(0.0f, 0.75f, 0f);
+					transform1.position = new Vector3(0.0f, 0.65f, 0f);
 					transform1.tag = "model1";
 					transform1.parent = itm.target1.transform;
 					fm.targetStatus[0] = "model";
@@ -610,7 +610,7 @@ public class LoadManager : MonoBehaviour {
 				case 1:
 					GameObject thisModel2 = result.Value.gameObject;
 					Transform transform2 = result.Value.gameObject.GetComponent(typeof(Transform)) as Transform;
-					transform2.position = new Vector3(0.0f, 0.75f, 0f);
+					transform2.position = new Vector3(0.0f, 0.65f, 0f);
 					transform2.tag = "model2";
 					transform2.parent = itm.target2.transform;
 					fm.targetStatus[1] = "model";
@@ -620,7 +620,7 @@ public class LoadManager : MonoBehaviour {
 				case 2:
 					GameObject thisModel3 = result.Value.gameObject;
 					Transform transform3 = result.Value.gameObject.GetComponent(typeof(Transform)) as Transform;
-					transform3.position = new Vector3(0.0f, 0.75f, 0f);
+					transform3.position = new Vector3(0.0f, 0.65f, 0f);
 					transform3.tag = "model3";
 					transform3.parent = itm.target3.transform;
 					fm.targetStatus[2] = "model";
@@ -630,7 +630,7 @@ public class LoadManager : MonoBehaviour {
 				case 3:
 					GameObject thisModel4 = result.Value.gameObject;
 					Transform transform4 = result.Value.gameObject.GetComponent(typeof(Transform)) as Transform;
-					transform4.position = new Vector3(0.0f, 0.75f, 0f);
+					transform4.position = new Vector3(0.0f, 0.65f, 0f);
 					transform4.tag = "model4";
 					transform4.parent = itm.target4.transform;
 					fm.targetStatus[3] = "model";
@@ -640,7 +640,7 @@ public class LoadManager : MonoBehaviour {
 				case 4:
 					GameObject thisModel5 = result.Value.gameObject;
 					Transform transform5 = result.Value.gameObject.GetComponent(typeof(Transform)) as Transform;
-					transform5.position = new Vector3(0.0f, 0.75f, 0f);
+					transform5.position = new Vector3(0.0f, 0.65f, 0f);
 					transform5.tag = "model5";
 					transform5.parent = itm.target5.transform;
 					fm.targetStatus[4] = "model";

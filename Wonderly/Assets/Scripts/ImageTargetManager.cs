@@ -30,6 +30,7 @@ namespace Sample
         public GameObject target4;
         public GameObject target5;
         public UnityEngine.UI.Image blankImage;
+        public UnityEngine.UI.Image iconImage;
         public ImageTrackerBehaviour tracker1;
         public ImageTrackerBehaviour tracker2;
         public ImageTrackerBehaviour tracker3;
@@ -156,9 +157,9 @@ namespace Sample
                 lm.viewFlowTargetPreviews[j].sprite = blankImage.sprite;
             }
             //remove preview cover image
-            lm.previewCoverImage.sprite = blankImage.sprite;
+            lm.previewCoverImage.sprite = iconImage.sprite;
             //remove sumary cover image
-            lm.coverImage.sprite = blankImage.sprite;
+            lm.coverImage.sprite = iconImage.sprite;
         
 
 

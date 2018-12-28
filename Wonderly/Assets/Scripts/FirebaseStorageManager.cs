@@ -60,6 +60,8 @@ public class FirebaseStorageManager : MonoBehaviour {
 
 	private string saveApiUrl = "https://wonderly-225214.appspot.com/_ah/api/wonderly/v1/exp";
 
+	private int experienceUploadCallCount = 0;
+
 
 	// Use this for initialization
 	void Start () {
@@ -181,34 +183,53 @@ public class FirebaseStorageManager : MonoBehaviour {
 
 		Debug.Log("2. Experience info being saved to Goodle Datastore: " + uploadJson);
 
-		//create web request
-		using (UnityWebRequest experienceUploadRequest = UnityWebRequest.Put(saveApiUrl,uploadJson))
+		while (experienceUploadCallCount < 3)
 		{
-			//set content type
-			experienceUploadRequest.SetRequestHeader("Content-Type", "application/json");
-			//set auth header
-			experienceUploadRequest.SetRequestHeader("Authorization", "Bearer " + fbm.token);
-			
-			yield return experienceUploadRequest.SendWebRequest();
-
-			byte[] results = experienceUploadRequest.downloadHandler.data;
-      string jsonResponse = Encoding.UTF8.GetString(results);
-			Debug.Log(jsonResponse);
-			Debug.Log("3. Response from cloud endpoints after creating experience data entry: " +jsonResponse);
-			ecc = JsonUtility.FromJson<ExperienceCodeClass>(jsonResponse);
-
-			if (File.Exists(saveFilePath))
-				Debug.Log("**4** fsm 189, Save file exists: "+saveFilePath);
-			else	
-				Debug.Log("**4** fsm 191, Save file missing: "+saveFilePath);
-
-			if (ecc.code != "")
+		//create web request
+			using (UnityWebRequest experienceUploadRequest = UnityWebRequest.Put(saveApiUrl,uploadJson))
 			{
-				//display code
-				codeDisplay.text = ecc.code;
-				uploadExperienceFiles();
+				//set content type
+				experienceUploadRequest.SetRequestHeader("Content-Type", "application/json");
+				//set auth header
+				experienceUploadRequest.SetRequestHeader("Authorization", "Bearer " + fbm.token);
+				
+				yield return experienceUploadRequest.SendWebRequest();
+
+				//retry call up to 3 times if error
+				if (experienceUploadRequest.responseCode != 200 && experienceUploadCallCount < 3)
+				{
+					experienceUploadCallCount++;
+				}
+				else if (experienceUploadRequest.responseCode != 200 && experienceUploadCallCount >= 3)
+				{
+					Debug.Log("call to backend for profileCreate retries failed");
+					experienceUploadCallCount = 3;
+				}
+				else
+				{
+					experienceUploadCallCount = 3;
+					//load in profile info to ui (called here because need to wait for cookie and profile creation)
+					byte[] results = experienceUploadRequest.downloadHandler.data;
+					string jsonResponse = Encoding.UTF8.GetString(results);
+					Debug.Log(jsonResponse);
+					Debug.Log("3. Response from cloud endpoints after creating experience data entry: " +jsonResponse);
+					ecc = JsonUtility.FromJson<ExperienceCodeClass>(jsonResponse);
+
+					if (File.Exists(saveFilePath))
+						Debug.Log("**4** fsm 189, Save file exists: "+saveFilePath);
+					else	
+						Debug.Log("**4** fsm 191, Save file missing: "+saveFilePath);
+
+					if (ecc.code != "")
+					{
+						//display code
+						codeDisplay.text = ecc.code;
+						uploadExperienceFiles();
+					}
+				}
 			}
 		}
+		experienceUploadCallCount = 0;
 	}
 
 	//uploads experience files (target jpg files and save json) to firebase storage (filestore)
@@ -429,6 +450,7 @@ public class FirebaseStorageManager : MonoBehaviour {
 
 	public void startDownloadExperienceFiles()
 	{
+		fm.arCamera.SetActive(true);
 		StartCoroutine("downloadExperienceFiles");
 	}
 
@@ -632,6 +654,7 @@ saveFileRef.GetBytesAsync(maxAllowedSize).ContinueWith((Task<byte[]> task1) => {
 	public void startDownloadExperienceFilesForEdit(string codeToEdit)
 	{
 		editCode = codeToEdit;
+		fm.arCamera.SetActive(true);
 		StartCoroutine("downloadExperienceFilesForEdit");
 	}
 
@@ -840,6 +863,7 @@ saveFileRef.GetBytesAsync(maxAllowedSize).ContinueWith((Task<byte[]> task1) => {
 	public void startDownloadExperienceFilesDirect(int index)
 	{
 		whichIndex = index;
+		fm.arCamera.SetActive(true);
 		Debug.Log("this is the library index:"+whichIndex);
 		StartCoroutine("downloadExperienceFilesDirect");
 	}

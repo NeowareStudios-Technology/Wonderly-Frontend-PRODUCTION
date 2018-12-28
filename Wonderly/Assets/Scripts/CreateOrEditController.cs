@@ -29,6 +29,7 @@ public GameObject backgroundImage;
 			saveJourneyButton.onClick.AddListener(delegate {sm.CreateSaveFile(); });
 			saveJourneyButton.onClick.AddListener(delegate {pc.OpenPanel(shareScreenAnimator); });
 			saveJourneyButton.onClick.AddListener(delegate {backgroundImage.SetActive(true); });
+			saveJourneyButton.onClick.AddListener(delegate {fm.arCamera.SetActive(false); });
 		}
 		else if (createOrEdit == "edit")
 		{
@@ -38,6 +39,7 @@ public GameObject backgroundImage;
 			saveJourneyButton.onClick.AddListener(delegate {sm.CreateSaveFileForEdit(); });
 			saveJourneyButton.onClick.AddListener(delegate {pc.OpenPanel(shareScreenAnimator); });
 			saveJourneyButton.onClick.AddListener(delegate {backgroundImage.SetActive(true); });
+			saveJourneyButton.onClick.AddListener(delegate {fm.arCamera.SetActive(false); });
 		}
   }
 

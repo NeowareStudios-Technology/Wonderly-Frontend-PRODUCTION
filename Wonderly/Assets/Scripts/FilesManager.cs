@@ -47,6 +47,9 @@ namespace Sample
         public Animator firstPanelIfLoggedIn;
         public Animator welcomePanel;
 
+        //for deactivating AR camera to save cpu
+        public GameObject arCamera;
+
         public void setCurrentTarget(int current)
         {
             currentTarget = current;
@@ -105,6 +108,8 @@ namespace Sample
 
             StartCoroutine("delayedReset");
 
+            StartCoroutine("delayedDeactivateArAfterInit");
+
         }
 
         ///need to fix this coroutine for new UI
@@ -119,6 +124,13 @@ namespace Sample
             itm.target3.SetActive(true);
             itm.target4.SetActive(true);
             itm.target5.SetActive(true);
+        }
+
+        //used to deactivate ar camera to save cpu ONLY AFTER camera is initialized
+        public IEnumerator delayedDeactivateArAfterInit()
+        {
+            yield return new WaitForSeconds(3);
+            arCamera.SetActive(false);
         }
 
         public void ModifyTargetStatusArray(string status)

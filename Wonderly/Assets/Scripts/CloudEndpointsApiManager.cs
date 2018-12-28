@@ -100,6 +100,14 @@ public class CloudEndpointsApiManager : MonoBehaviour {
 
 	private int deleteJourneyIndex;
 
+	private int profileCreateCallCount = 0;
+	private int profileEditCallCount = 0;
+	private int emailCheckCallCount = 0;
+	private int deleteExpCallCount = 0;
+	private int editExpCallCount = 0;
+	private int profileInfoCallCount = 0;
+	private int ownedCodesCallCount = 0;
+
 	public void startProfileCreate()
 	{
 		StartCoroutine("profileCreate");
@@ -122,13 +130,27 @@ public class CloudEndpointsApiManager : MonoBehaviour {
 			newProfileRequest.SetRequestHeader("Authorization", "Bearer " + fbm.token);
 
 			yield return newProfileRequest.SendWebRequest();
-
-			loadingPanel.SetActive(false);
-
 			Debug.Log(newProfileRequest.responseCode);
 
-			//load in profile info to ui (called here because need to wait for cookie and profile creation)
-			StartCoroutine("getProfileInfo");
+			//retry call up to 3 times if error
+			if (newProfileRequest.responseCode != 200 && profileCreateCallCount < 3)
+			{
+				profileCreateCallCount++;
+				StartCoroutine("profileCreate");
+			}
+			else if (newProfileRequest.responseCode != 200 && profileCreateCallCount >= 3)
+			{
+				loadingPanel.SetActive(false);
+				Debug.Log("call to backend for profileCreate retries failed");
+				profileCreateCallCount = 0;
+			}
+			else
+			{
+				loadingPanel.SetActive(false);
+				profileCreateCallCount = 0;
+				//load in profile info to ui (called here because need to wait for cookie and profile creation)
+				StartCoroutine("getProfileInfo");
+			}
 		}
 
 	}
@@ -136,6 +158,59 @@ public class CloudEndpointsApiManager : MonoBehaviour {
 	public void startProfileEdit()
 	{
 		lsh.GetComponent<UiManager>().SetLoadingPanelActive(true);
+		Debug.Log("0");
+
+		//if any inputs in password edit
+		if (fbm.editPassword.text != "" || fbm.editPassword2.text != "" || fbm.editPasswordCurrent.text != "")
+		{
+				//if current password incorrect
+				if (fbm.editPasswordCurrent.text != PlayerPrefs.GetString("password"))
+				{
+					Debug.Log("1");
+					//activate need correct password error message
+					lsh.GetComponent<UiManager>().SetLoadingPanelActive(false);
+					editPasswordValidError.SetActive(true);
+					return;
+				}
+
+				//if passwords dont match
+				else if (fbm.editPassword2.text != fbm.editPassword.text)
+				{
+					Debug.Log("2");
+					//activate need matching passwords error message
+					lsh.GetComponent<UiManager>().SetLoadingPanelActive(false);
+					editPasswordMatcherror.SetActive(true);
+					return;
+				}
+
+				//if current password incorrect
+				else if (fbm.editPassword2.text.Length < 6)
+				{
+					Debug.Log("3");
+					//activate need correct password length error message
+					lsh.GetComponent<UiManager>().SetLoadingPanelActive(false);
+					editPasswordLengthError.SetActive(true);
+					return;
+				}
+
+				//if new passwords blank
+				else if (fbm.editPassword.text =="" || fbm.editPassword2.text =="")
+				{
+					Debug.Log("4");
+					//activate need correct password error message
+					lsh.GetComponent<UiManager>().SetLoadingPanelActive(false);
+					editPasswordLengthError.SetActive(true);
+					return;
+				}
+
+				else
+				{
+						Debug.Log("5");
+						Debug.Log("changing password and starting profile edit");
+						fbm.changeUserPassword();
+				}
+		}
+
 		StartCoroutine("profileEdit");
 	}
 
@@ -152,70 +227,44 @@ public class CloudEndpointsApiManager : MonoBehaviour {
 		//convert profile clas instance into json string
 		string editProfJson = JsonUtility.ToJson(editProfile);
 
-		//if any inputs in password edit
-		if (fbm.editPassword.text != "" || fbm.editPassword2.text != "" || fbm.editPasswordCurrent.text != "")
-		{
-				//if current password incorrect
-				if (fbm.editPasswordCurrent.text != PlayerPrefs.GetString("password"))
-				{
-					//activate need correct password error message
-					lsh.GetComponent<UiManager>().SetLoadingPanelActive(false);
-					editPasswordValidError.SetActive(true);
-					yield break;
-				}
-
-				//if passwords dont match
-				else if (fbm.editPassword2.text != fbm.editPassword.text)
-				{
-					//activate need matching passwords error message
-					lsh.GetComponent<UiManager>().SetLoadingPanelActive(false);
-					editPasswordMatcherror.SetActive(true);
-					yield break;
-				}
-
-				//if current password incorrect
-				else if (fbm.editPassword2.text.Length < 6)
-				{
-					//activate need correct password length error message
-					lsh.GetComponent<UiManager>().SetLoadingPanelActive(false);
-					editPasswordLengthError.SetActive(true);
-					yield break;
-				}
-
-				//if new passwords blank
-				else if (fbm.editPassword.text =="" || fbm.editPassword2.text =="")
-				{
-					//activate need correct password error message
-					lsh.GetComponent<UiManager>().SetLoadingPanelActive(false);
-					editPasswordLengthError.SetActive(true);
-					yield break;
-				}
-
-				else
-				{
-						fbm.changeUserPassword();
-				}
-
-		}
-
-		if (editProfile.firstName != "" || editProfile.lastName != "")
-		{
-			using (UnityWebRequest editProfileRequest = UnityWebRequest.Put(editProfileUrl,editProfJson))
+			if (editProfile.firstName != "" || editProfile.lastName != "")
 			{
-				//set content type
-				editProfileRequest.SetRequestHeader("Content-Type", "application/json");
-				//set auth header
-				editProfileRequest.SetRequestHeader("Authorization", "Bearer " + fbm.token);
+				//retry call up to 3 times (if succsessful gets set to 3)
+				while (profileEditCallCount < 3)
+				{
+					using (UnityWebRequest editProfileRequest = UnityWebRequest.Put(editProfileUrl,editProfJson))
+					{
+						//set content type
+						editProfileRequest.SetRequestHeader("Content-Type", "application/json");
+						//set auth header
+						editProfileRequest.SetRequestHeader("Authorization", "Bearer " + fbm.token);
 
-				yield return editProfileRequest.SendWebRequest();
-				Debug.Log(editProfileRequest.responseCode);
+						yield return editProfileRequest.SendWebRequest();
+						Debug.Log(editProfileRequest.responseCode);
 
-				//call this to fill the profile page with the changed content (lets user know edit worked)
-				//getProfileInfo will disable loading screen on completion
-				StartCoroutine("getProfileInfo");
+						//retry call up to 3 times if error
+						if (editProfileRequest.responseCode != 200 && profileEditCallCount < 3)
+						{
+							profileEditCallCount++;
+						}
+						else if (editProfileRequest.responseCode != 200 && profileEditCallCount >= 3)
+						{
+							profileEditCallCount = 3;
+							loadingPanel.SetActive(false);
+							Debug.Log("call to backend for profileEdit retries failed");
+						}
+						else
+						{
+							profileEditCallCount = 3;
+							//call this to fill the profile page with the changed content (lets user know edit worked)
+							//getProfileInfo will disable loading screen on completion
+							StartCoroutine("getProfileInfo");
+						}
+					}
+				}
 			}
-		}
 
+		profileEditCallCount = 0;
 		um.clearUserSettingsInputFields();
 	}
 
@@ -241,21 +290,37 @@ public class CloudEndpointsApiManager : MonoBehaviour {
 			yield return emailCheckRequest.SendWebRequest();
 
 			Debug.Log(emailCheckRequest.responseCode);
-
-			byte[] results = emailCheckRequest.downloadHandler.data;
-			string jsonString = Encoding.UTF8.GetString(results);
-			cerc = JsonUtility.FromJson<checkEmailResponseClass>(jsonString);
-			Debug.Log(cerc.exists);
-			if (cerc.exists == "n")
+			//retry call up to 3 times if error
+			if (emailCheckRequest.responseCode != 200 && emailCheckCallCount < 3)
 			{
-				Debug.Log("The email is free to use");
-				emfm.activateSignUpPanel2();
-				emfm.signUpIndex++;
+				emailCheckCallCount++;
+				StartCoroutine("emailCheck");
 			}
-			else if (cerc.exists == "y")
+			else if (emailCheckRequest.responseCode != 200 && emailCheckCallCount >= 3)
 			{
-				Debug.Log("The email is already in use");
-				emfm.displayEmailError();
+				loadingPanel.SetActive(false);
+				Debug.Log("call to backend for emailCheck retries failed");
+				emailCheckCallCount = 0;
+			}
+			else
+			{
+				emailCheckCallCount = 0;
+
+				byte[] results = emailCheckRequest.downloadHandler.data;
+				string jsonString = Encoding.UTF8.GetString(results);
+				cerc = JsonUtility.FromJson<checkEmailResponseClass>(jsonString);
+				Debug.Log(cerc.exists);
+				if (cerc.exists == "n")
+				{
+					Debug.Log("The email is free to use");
+					emfm.activateSignUpPanel2();
+					emfm.signUpIndex++;
+				}
+				else if (cerc.exists == "y")
+				{
+					Debug.Log("The email is already in use");
+					emfm.displayEmailError();
+				}
 			}
 		}
 	}
@@ -263,20 +328,15 @@ public class CloudEndpointsApiManager : MonoBehaviour {
 	//called by ui button to delete experience (journey)
 	public void startExperienceDelete(int index)
 	{
-		deleteCode = libraryCodes[index];
+		lsh.GetComponent<UiManager>().SetLoadingPanelActive(true);
 		//delete experience from google datastore noSQL database
-		StartCoroutine("deleteExperienceFromDataStore");
-
-		//delete experience from Firebase storage file store
-		fsm.DeleteExperience(deleteCode);
-
-		//get rid of the library stub that was holding the journey info
-		Destroy(libraryStubs[index]);
+		StartCoroutine(deleteExperienceFromDataStore(index));
 	}
 
-	public IEnumerator deleteExperienceFromDataStore() 
+	public IEnumerator deleteExperienceFromDataStore(int index) 
 	{
 		ExperienceCodeClass expCode = new ExperienceCodeClass();
+		deleteCode = libraryCodes[index];
 		expCode.code = deleteCode;
 
 		//convert profile clas instance into json string
@@ -290,9 +350,32 @@ public class CloudEndpointsApiManager : MonoBehaviour {
 			deleteExperienceRequest.SetRequestHeader("Authorization", "Bearer " + fbm.token);
 
 			yield return deleteExperienceRequest.SendWebRequest();
-			byte[] results = deleteExperienceRequest.downloadHandler.data;
-			string jsonString = Encoding.UTF8.GetString(results);
-			Debug.Log(jsonString);
+			//retry call up to 3 times if error
+			if (deleteExperienceRequest.responseCode != 200 && deleteExpCallCount < 3)
+			{
+				deleteExpCallCount++;
+				StartCoroutine(deleteExperienceFromDataStore(index));
+			}
+			else if (deleteExperienceRequest.responseCode != 200 && deleteExpCallCount >= 3)
+			{
+				lsh.GetComponent<UiManager>().SetLoadingPanelActive(false);
+				Debug.Log("call to backend for deleteExperience retries failed");
+				deleteExpCallCount = 0;
+			}
+			else
+			{
+				lsh.GetComponent<UiManager>().SetLoadingPanelActive(false);
+				deleteExpCallCount = 0;
+				byte[] results = deleteExperienceRequest.downloadHandler.data;
+				string jsonString = Encoding.UTF8.GetString(results);
+				Debug.Log(jsonString);
+
+				//delete experience from Firebase storage file store
+				fsm.DeleteExperience(deleteCode);
+
+				//get rid of the library stub that was holding the journey info
+				Destroy(libraryStubs[index]);
+			}
 		}
 	}
 
@@ -363,19 +446,36 @@ public class CloudEndpointsApiManager : MonoBehaviour {
 		//convert editExperience clas instance into json string
 		string editExperienceJson = JsonUtility.ToJson(editExperience);
 
-
-
-		using (UnityWebRequest editExperienceRequest = UnityWebRequest.Put(editExpUrl,editExperienceJson))
+		//retry call up to 3 times if error
+		while (editExpCallCount < 3)
 		{
-			//set content type
-			editExperienceRequest.SetRequestHeader("Content-Type", "application/json");
-			//set auth header
-			editExperienceRequest.SetRequestHeader("Authorization", "Bearer " + fbm.token);
+			using (UnityWebRequest editExperienceRequest = UnityWebRequest.Put(editExpUrl,editExperienceJson))
+			{
+				//set content type
+				editExperienceRequest.SetRequestHeader("Content-Type", "application/json");
+				//set auth header
+				editExperienceRequest.SetRequestHeader("Authorization", "Bearer " + fbm.token);
 
-			yield return editExperienceRequest.SendWebRequest();
-
-			Debug.Log(editExperienceRequest.responseCode);
+				yield return editExperienceRequest.SendWebRequest();
+				//retry call up to 3 times if error
+				if (editExperienceRequest.responseCode != 200 && editExpCallCount < 3)
+				{
+					Debug.Log(editExperienceRequest.responseCode);
+					editExpCallCount++;
+				}
+				else if (editExperienceRequest.responseCode != 200 && editExpCallCount >= 3)
+				{
+					editExpCallCount = 3;
+					Debug.Log("call to backend for editExp retries failed");
+				}
+				else
+				{
+					editExpCallCount = 3;
+				}
+				Debug.Log(editExperienceRequest.responseCode);
+			}
 		}
+		editExpCallCount = 0;
 	}
 
 
@@ -399,27 +499,45 @@ public void startGetProfileInfo()
 
             yield return newProfileInfoRequest.SendWebRequest();
 
-            Debug.Log(newProfileInfoRequest.responseCode);
-            byte[] results = newProfileInfoRequest.downloadHandler.data;
-            string jsonString = Encoding.UTF8.GetString(results);
-            Debug.Log(jsonString);
-            pic = JsonUtility.FromJson<ProfileInfoClass>(jsonString);
+						//retry call up to 3 times if error
+						if (newProfileInfoRequest.responseCode != 200 && profileInfoCallCount < 3)
+						{
+							profileInfoCallCount++;
+							StartCoroutine("getProfileInfo");
+						}
+						else if (newProfileInfoRequest.responseCode != 200 && profileInfoCallCount >= 3)
+						{
+							loadingPanel.SetActive(false);
+							Debug.Log("call to backend for getProfileInfo retries failed");
+							profileInfoCallCount = 0;
+						}
+						else
+						{
+							loadingPanel.SetActive(false);
+							profileInfoCallCount = 0;
+					
+							Debug.Log(newProfileInfoRequest.responseCode);
+							byte[] results = newProfileInfoRequest.downloadHandler.data;
+							string jsonString = Encoding.UTF8.GetString(results);
+							Debug.Log(jsonString);
+							pic = JsonUtility.FromJson<ProfileInfoClass>(jsonString);
 
-            //for home screen
-            displayFirstNameHome.text = "Hi," + " " + pic.firstName + "!";
+							//for home screen
+							displayFirstNameHome.text = "Hi," + " " + pic.firstName + "!";
 
-            //for profile info screen
-            string fullName = pic.firstName + " " + pic.lastName;
-            displayName.text = fullName;
-            //add "" to make the int into a string without c# complaining
-            displayExpNum.text = pic.createdExp + "";
+							//for profile info screen
+							string fullName = pic.firstName + " " + pic.lastName;
+							displayName.text = fullName;
+							//add "" to make the int into a string without c# complaining
+							displayExpNum.text = pic.createdExp + "";
 
-            //for profile edit screen
-            firstNamePlaceHolder.text = pic.firstName;
-            lastNamePlaceHolder.text = pic.lastName;
-            emailPlaceHolder.text = pic.email;
+							//for profile edit screen
+							firstNamePlaceHolder.text = pic.firstName;
+							lastNamePlaceHolder.text = pic.lastName;
+							emailPlaceHolder.text = pic.email;
 
-						lsh.GetComponent<UiManager>().SetLoadingPanelActive(false);
+							lsh.GetComponent<UiManager>().SetLoadingPanelActive(false);
+						}
         }	
 	}
 
@@ -445,6 +563,21 @@ public void startGetProfileInfo()
 			getOwnedCodesRequest.SetRequestHeader("Authorization", "Bearer " + fbm.token);
 
 			yield return getOwnedCodesRequest.SendWebRequest();
+
+			//retry call up to 3 times if error
+			if (getOwnedCodesRequest.responseCode != 200 && ownedCodesCallCount < 3)
+			{
+				ownedCodesCallCount++;
+				StartCoroutine("getOwnedCodes");
+			}
+			else if (getOwnedCodesRequest.responseCode != 200 && ownedCodesCallCount >= 3)
+			{
+				loadingPanel.SetActive(false);
+				Debug.Log("call to backend for profileCreate retries failed");
+			}
+			else
+			{
+				ownedCodesCallCount = 0;
 
 			Debug.Log(getOwnedCodesRequest.responseCode);
 
@@ -472,8 +605,8 @@ public void startGetProfileInfo()
 			}
 
 			Debug.Log("Number of codes: "+numExperiences);
-		}
-		foreach (GameObject x in libraryStubs){
+
+			foreach (GameObject x in libraryStubs){
 			Destroy(x);
 		}
 		//this for loop creates the library stub GameObjects from a prefab (up to 50)
@@ -533,6 +666,9 @@ public void startGetProfileInfo()
 
 	}
 	lsh.GetComponent<UiManager>().SetLoadingPanelActive(false);
+			}
+		}
+	
 	}
 		
 
@@ -571,7 +707,6 @@ public void startGetProfileInfo()
 		GameObject deleteJourneyInstantiated = Instantiate(deleteJourneyPrefab, inFrontOfBottomPanel.transform);
 		//delete button
 		deleteJourneyInstantiated.transform.GetChild(0).GetChild(1).gameObject.GetComponent<Button>().onClick.AddListener(delegate {startExperienceDelete(deleteJourneyIndex); });
-		deleteJourneyInstantiated.transform.GetChild(0).GetChild(1).gameObject.GetComponent<Button>().onClick.AddListener(delegate {frontCanvas.SetActive(false); });
 		deleteJourneyInstantiated.transform.GetChild(0).GetChild(1).gameObject.GetComponent<Button>().onClick.AddListener(delegate {Destroy(libraryPopupMenuInstantiated); });
 		deleteJourneyInstantiated.transform.GetChild(0).GetChild(1).gameObject.GetComponent<Button>().onClick.AddListener(delegate {Destroy(deleteJourneyInstantiated); });
 		//cancel button
