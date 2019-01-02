@@ -3,6 +3,7 @@
 *Created by: David Lee Ramirez
 *Date: 12/28/18
 *Description: handles nearly all calls to Google Cloud Endpoints Backend
+							and initializes/destroys library stubs
 *Copyright 2018 LeapWithAlice,LLC. All rights reserved
  ******************************************************/
 
@@ -14,12 +15,12 @@ using System.Text;
 using UnityEngine.Networking;
 using System.IO;
 using UnityEngine.SceneManagement;
-using Sample;
 using System.Threading.Tasks;
 
 
 public class CloudEndpointsApiManager : MonoBehaviour {
 
+	//script references
 	public GameObject lsh;
 	public FirebaseManager fbm;
 	public FirebaseStorageManager fsm;
@@ -27,12 +28,12 @@ public class CloudEndpointsApiManager : MonoBehaviour {
 	public FilesManager fm;
 	public ErrorMessageFlowManager emfm;
 	public OwnedExperiencesClass oec;
-	public TargetIndicesClass tic;
 	public ProfileInfoClass pic;
 	public checkEmailClass cec;
 	public checkEmailResponseClass cerc;
 	public CreateOrEditController coec;
 	public UiManager um;
+	//UI elements for getting values to send to backend via JSON web calls
 	public Text editFirstName;
 	public Text editLastName;
 	public InputField editFirstNameInput;
@@ -50,44 +51,33 @@ public class CloudEndpointsApiManager : MonoBehaviour {
 	public Text email;
 	public Text UiCode;
 	public Text displayCode;
-
+	//for switching screens
+	public PanelController mainCanvasPanelController;
 	public Animator journeySummaryAnimator;
 	public Animator ViewScreenAnimator;
 	public Animator PreviewScreenAnimator;
 
-	public PanelController mainCanvasPanelController;
-
 	public GameObject loadingPanel;
-
 	public GameObject libraryPanel;
-
 	public GameObject inFrontOfBottomPanel;
 	public GameObject frontCanvas;
 
 	public string[] libraryCodes = new string[50];
-
 	public GameObject[] libraryStubs = new GameObject[50];
-
 	public GameObject libraryStubPrefab;
-
 	public GameObject libraryScrollContent;
-
 	public GameObject libraryPopupMenuPrefab;
-
 	public GameObject libraryPopupMenuInstantiated;
-
 	public GameObject iconPanel;
-
 	public GameObject editPasswordLengthError;
 	public GameObject editPasswordMatcherror;
 	public GameObject editPasswordValidError;
-
 	public GameObject deleteJourneyPrefab;
-
 	public string code;
-
 	public string deleteCode;
 	public string editCode;
+
+	//urls for backend calls
 	private string getProfileUrl = "https://wonderly-225214.appspot.com/_ah/api/wonderly/v1/profile";
 	private string createProfileUrl = "https://wonderly-225214.appspot.com/_ah/api/wonderly/v1/profile";
 	private string getOwnedCodesUrl = "https://wonderly-225214.appspot.com/_ah/api/wonderly/v1/profile/codes";
@@ -97,17 +87,13 @@ public class CloudEndpointsApiManager : MonoBehaviour {
 	private string editProfileUrl = "https://wonderly-225214.appspot.com/_ah/api/wonderly/v1/profile/edit";
 
 	public bool checkEmail;
-
 	int maxAllowedSize = 2000*2000;
-
 	public byte[] fileContents;
-
 	public Image testImage;
-
   public GameObject noJourneyPanel;
-
 	private int deleteJourneyIndex;
 
+	//for counting number of web call retries (max = 3)
 	private int profileCreateCallCount = 0;
 	private int profileEditCallCount = 0;
 	private int emailCheckCallCount = 0;
@@ -115,6 +101,7 @@ public class CloudEndpointsApiManager : MonoBehaviour {
 	private int editExpCallCount = 0;
 	private int profileInfoCallCount = 0;
 	private int ownedCodesCallCount = 0;
+	private int MAX_RETRY = 3;
 
 	public void startProfileCreate()
 	{
@@ -140,13 +127,13 @@ public class CloudEndpointsApiManager : MonoBehaviour {
 			yield return newProfileRequest.SendWebRequest();
 			Debug.Log(newProfileRequest.responseCode);
 
-			//retry call up to 3 times if error
-			if (newProfileRequest.responseCode != 200 && profileCreateCallCount < 3)
+			//retry call up to MAX_RETRY times if error
+			if (newProfileRequest.responseCode != 200 && profileCreateCallCount < MAX_RETRY)
 			{
 				profileCreateCallCount++;
 				StartCoroutine("profileCreate");
 			}
-			else if (newProfileRequest.responseCode != 200 && profileCreateCallCount >= 3)
+			else if (newProfileRequest.responseCode != 200 && profileCreateCallCount >= MAX_RETRY)
 			{
 				loadingPanel.SetActive(false);
 				Debug.Log("call to backend for profileCreate retries failed");
@@ -194,7 +181,7 @@ public class CloudEndpointsApiManager : MonoBehaviour {
 				//if current password incorrect
 				else if (fbm.editPassword2.text.Length < 6)
 				{
-					Debug.Log("3");
+					Debug.Log("MAX_RETRY");
 					//activate need correct password length error message
 					lsh.GetComponent<UiManager>().SetLoadingPanelActive(false);
 					editPasswordLengthError.SetActive(true);
@@ -237,8 +224,8 @@ public class CloudEndpointsApiManager : MonoBehaviour {
 
 			if (editProfile.firstName != "" || editProfile.lastName != "")
 			{
-				//retry call up to 3 times (if succsessful gets set to 3)
-				while (profileEditCallCount < 3)
+				//retry call up to MAX_RETRY times (if succsessful gets set to MAX_RETRY)
+				while (profileEditCallCount < MAX_RETRY)
 				{
 					using (UnityWebRequest editProfileRequest = UnityWebRequest.Put(editProfileUrl,editProfJson))
 					{
@@ -250,20 +237,20 @@ public class CloudEndpointsApiManager : MonoBehaviour {
 						yield return editProfileRequest.SendWebRequest();
 						Debug.Log(editProfileRequest.responseCode);
 
-						//retry call up to 3 times if error
-						if (editProfileRequest.responseCode != 200 && profileEditCallCount < 3)
+						//retry call up to MAX_RETRY times if error
+						if (editProfileRequest.responseCode != 200 && profileEditCallCount < MAX_RETRY)
 						{
 							profileEditCallCount++;
 						}
-						else if (editProfileRequest.responseCode != 200 && profileEditCallCount >= 3)
+						else if (editProfileRequest.responseCode != 200 && profileEditCallCount >= MAX_RETRY)
 						{
-							profileEditCallCount = 3;
+							profileEditCallCount = MAX_RETRY;
 							loadingPanel.SetActive(false);
 							Debug.Log("call to backend for profileEdit retries failed");
 						}
 						else
 						{
-							profileEditCallCount = 3;
+							profileEditCallCount = MAX_RETRY;
 							//call this to fill the profile page with the changed content (lets user know edit worked)
 							//getProfileInfo will disable loading screen on completion
 							StartCoroutine("getProfileInfo");
@@ -277,6 +264,7 @@ public class CloudEndpointsApiManager : MonoBehaviour {
 	}
 
 
+	//checks if proposed user email is already in use
 	public void startCheckEmail()
 	{
 		StartCoroutine("emailCheck");
@@ -298,13 +286,13 @@ public class CloudEndpointsApiManager : MonoBehaviour {
 			yield return emailCheckRequest.SendWebRequest();
 
 			Debug.Log(emailCheckRequest.responseCode);
-			//retry call up to 3 times if error
-			if (emailCheckRequest.responseCode != 200 && emailCheckCallCount < 3)
+			//retry call up to MAX_RETRY times if error
+			if (emailCheckRequest.responseCode != 200 && emailCheckCallCount < MAX_RETRY)
 			{
 				emailCheckCallCount++;
 				StartCoroutine("emailCheck");
 			}
-			else if (emailCheckRequest.responseCode != 200 && emailCheckCallCount >= 3)
+			else if (emailCheckRequest.responseCode != 200 && emailCheckCallCount >= MAX_RETRY)
 			{
 				loadingPanel.SetActive(false);
 				Debug.Log("call to backend for emailCheck retries failed");
@@ -358,13 +346,13 @@ public class CloudEndpointsApiManager : MonoBehaviour {
 			deleteExperienceRequest.SetRequestHeader("Authorization", "Bearer " + fbm.token);
 
 			yield return deleteExperienceRequest.SendWebRequest();
-			//retry call up to 3 times if error
-			if (deleteExperienceRequest.responseCode != 200 && deleteExpCallCount < 3)
+			//retry call up to MAX_RETRY times if error
+			if (deleteExperienceRequest.responseCode != 200 && deleteExpCallCount < MAX_RETRY)
 			{
 				deleteExpCallCount++;
 				StartCoroutine(deleteExperienceFromDataStore(index));
 			}
-			else if (deleteExperienceRequest.responseCode != 200 && deleteExpCallCount >= 3)
+			else if (deleteExperienceRequest.responseCode != 200 && deleteExpCallCount >= MAX_RETRY)
 			{
 				lsh.GetComponent<UiManager>().SetLoadingPanelActive(false);
 				Debug.Log("call to backend for deleteExperience retries failed");
@@ -454,8 +442,8 @@ public class CloudEndpointsApiManager : MonoBehaviour {
 		//convert editExperience clas instance into json string
 		string editExperienceJson = JsonUtility.ToJson(editExperience);
 
-		//retry call up to 3 times if error
-		while (editExpCallCount < 3)
+		//retry call up to MAX_RETRY times if error
+		while (editExpCallCount < MAX_RETRY)
 		{
 			using (UnityWebRequest editExperienceRequest = UnityWebRequest.Put(editExpUrl,editExperienceJson))
 			{
@@ -465,20 +453,20 @@ public class CloudEndpointsApiManager : MonoBehaviour {
 				editExperienceRequest.SetRequestHeader("Authorization", "Bearer " + fbm.token);
 
 				yield return editExperienceRequest.SendWebRequest();
-				//retry call up to 3 times if error
-				if (editExperienceRequest.responseCode != 200 && editExpCallCount < 3)
+				//retry call up to MAX_RETRY times if error
+				if (editExperienceRequest.responseCode != 200 && editExpCallCount < MAX_RETRY)
 				{
 					Debug.Log(editExperienceRequest.responseCode);
 					editExpCallCount++;
 				}
-				else if (editExperienceRequest.responseCode != 200 && editExpCallCount >= 3)
+				else if (editExperienceRequest.responseCode != 200 && editExpCallCount >= MAX_RETRY)
 				{
-					editExpCallCount = 3;
+					editExpCallCount = MAX_RETRY;
 					Debug.Log("call to backend for editExp retries failed");
 				}
 				else
 				{
-					editExpCallCount = 3;
+					editExpCallCount = MAX_RETRY;
 				}
 				Debug.Log(editExperienceRequest.responseCode);
 			}
@@ -507,13 +495,13 @@ public void startGetProfileInfo()
 
             yield return newProfileInfoRequest.SendWebRequest();
 
-						//retry call up to 3 times if error
-						if (newProfileInfoRequest.responseCode != 200 && profileInfoCallCount < 3)
+						//retry call up to MAX_RETRY times if error
+						if (newProfileInfoRequest.responseCode != 200 && profileInfoCallCount < MAX_RETRY)
 						{
 							profileInfoCallCount++;
 							StartCoroutine("getProfileInfo");
 						}
-						else if (newProfileInfoRequest.responseCode != 200 && profileInfoCallCount >= 3)
+						else if (newProfileInfoRequest.responseCode != 200 && profileInfoCallCount >= MAX_RETRY)
 						{
 							loadingPanel.SetActive(false);
 							Debug.Log("call to backend for getProfileInfo retries failed");
@@ -572,13 +560,13 @@ public void startGetProfileInfo()
 
 			yield return getOwnedCodesRequest.SendWebRequest();
 
-			//retry call up to 3 times if error
-			if (getOwnedCodesRequest.responseCode != 200 && ownedCodesCallCount < 3)
+			//retry call up to MAX_RETRY times if error
+			if (getOwnedCodesRequest.responseCode != 200 && ownedCodesCallCount < MAX_RETRY)
 			{
 				ownedCodesCallCount++;
 				StartCoroutine("getOwnedCodes");
 			}
-			else if (getOwnedCodesRequest.responseCode != 200 && ownedCodesCallCount >= 3)
+			else if (getOwnedCodesRequest.responseCode != 200 && ownedCodesCallCount >= MAX_RETRY)
 			{
 				loadingPanel.SetActive(false);
 				Debug.Log("call to backend for profileCreate retries failed");
@@ -729,6 +717,7 @@ public void startGetProfileInfo()
 		{
 			Destroy(libStub);
 		}
+		Resources.UnloadUnusedAssets();
 	}
 }
 

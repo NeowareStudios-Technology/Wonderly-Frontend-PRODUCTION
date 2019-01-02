@@ -13,9 +13,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-//using Vuforia;
 using PolyToolkit;
-using Sample;
 
 public class ModelRenderer : MonoBehaviour {
 

@@ -12,17 +12,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using Sample;
 
 public class CreateOrEditController : MonoBehaviour {
 
-public Button saveJourneyButton;
 public FilesManager fm;
 public SaveManager sm;
-
 public PanelController pc;
 public Animator shareScreenAnimator;
 public GameObject backgroundImage;
+public Button saveJourneyButton;
 
 	//make sure entry into create flow sets createOrEdit to "create"
 	//make sure entry into edit flow sets createOrEdit to "edit"

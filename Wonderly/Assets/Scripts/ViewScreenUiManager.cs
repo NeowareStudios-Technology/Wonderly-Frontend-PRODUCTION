@@ -1,8 +1,19 @@
-﻿using System.Collections;
+﻿/******************************************************
+*Project: Wonderly
+*Created by: David Lee Ramirez
+*Date: 12/28/18
+*Description: Handles displaying of wonder (AR target + 
+							linked object) title and description when 
+							wonder is being viewed. 
+*Copyright 2018 LeapWithAlice,LLC. All rights reserved
+ ******************************************************/
+
+
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using Sample;
 
 public class ViewScreenUiManager : MonoBehaviour {
 

@@ -14,8 +14,6 @@ using System.IO;
 using System.Collections.Generic;
 using System;
 using EasyAR;
-using Sample;
-
 using UnityEngine.UI;
 
 
@@ -31,21 +29,21 @@ public class FilesManager : MonoBehaviour
     public string MarksDirectory;
     public string SaveDirectory;
     private bool isWriting;
-    //private takeTargetPicture ui;
     public int TARGET_LIMIT = 2;
     public int targetCount = 0;
     public int currentTarget =0;
     //will hold whether each target has image, video, model, is "created" , or "none"
     public string[] targetStatus = {"none","none","none","none","none"};
-    //will hold whether each target has text ("none" or "text")
-    //public string[] targetText = {"none", "none", "none", "none", "none"};
-    //will hold whether each target has been set with an object ("none" or "set")
-    //public string[] targetSet = {"none", "none", "none", "none", "none"};
+    //paths for target images
+    public string targetPath1;
+    public string targetPath2;
+    public string targetPath3;
+    public string targetPath4;
+    public string targetPath5;
 
     public GameObject mainCanvas;
     public Animator firstPanelIfLoggedIn;
     public Animator welcomePanel;
-
     //for deactivating AR camera to save cpu
     public GameObject arCamera;
 
@@ -62,12 +60,9 @@ public class FilesManager : MonoBehaviour
         
             Debug.Log("logged in auto");
     }
+
     void Awake()
     {   
-        //PlayerPrefs.SetInt("isLoggedIn", 1);
-        //Debugging ^
-
-        
         if (PlayerPrefs.GetInt("isLoggedIn")==1){
             //coroutine OpenHome esures homeScreen is opened whether or not mainCanvas already opened InitialPanel
             StartCoroutine(openHome());
@@ -108,10 +103,16 @@ public class FilesManager : MonoBehaviour
         StartCoroutine("delayedReset");
 
         StartCoroutine("delayedDeactivateArAfterInit");
+        
+        //set all paths of possible target images
+        targetPath1 = Path.Combine(MarksDirectory, "targetPhoto1.jpg");
+        targetPath2 = Path.Combine(MarksDirectory, "targetPhoto2.jpg");
+        targetPath3 = Path.Combine(MarksDirectory, "targetPhoto3.jpg");
+        targetPath4 = Path.Combine(MarksDirectory, "targetPhoto4.jpg");
+        targetPath5 = Path.Combine(MarksDirectory, "targetPhoto5.jpg");
 
     }
 
-    ///need to fix this coroutine for new UI
     public IEnumerator delayedReset()
     {
         yield return new WaitForSeconds(1);
@@ -140,6 +141,7 @@ public class FilesManager : MonoBehaviour
         targetStatus[currentTarget - 1] = status;
     }
 
+    //takes the picture that will be the image target
     public void StartTakePhoto()
     {
         //if target limit is reached, do not take another picture

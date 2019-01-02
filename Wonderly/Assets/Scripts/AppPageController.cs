@@ -24,13 +24,5 @@ public class AppPageController : MonoBehaviour {
     public GameObject AddContent;
     public GameObject LessonEditor;
     public GameObject ViewContent;
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+
 }

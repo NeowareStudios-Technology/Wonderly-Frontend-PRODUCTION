@@ -1,8 +1,18 @@
-﻿using System.Collections;
+﻿/******************************************************
+*Project: Wonderly
+*Modified by: David Lee Ramirez
+*Date: 12/28/18
+*Description: Handles starting Youtube video search 
+            (YoutubeAPIManager handles rest of search)
+            and instantiation of video thumbnails. Modified
+            script from Lightshaft Youtube plugin.
+ ******************************************************/
+
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using Sample;
 
 public class VideoSearchManager : MonoBehaviour {
     public YoutubeAPIManager youtubeapi;
@@ -50,29 +60,7 @@ public class VideoSearchManager : MonoBehaviour {
     {
         fm.unloadUnused();
         thumbUrls.Clear();
-        //turn on target's video player
-        //need to implement this in V2 when assets ready
-        /*/// switch(fm.currentTarget)
-        {
-            case 0:
-                return;
-            case 1:
-                vidReference1.SetActive(true);
-                break;
-            case 2:
-                vidReference2.SetActive(true);
-                break;
-            case 3:
-                vidReference3.SetActive(true);
-                break;
-            case 4:
-                vidReference4.SetActive(true);
-                break;
-            case 5:
-                vidReference5.SetActive(true);
-                break;
-        }
-        ///*/
+     
         //do nothing if no targets created yet or if indexed target not created yet
         if (fm.targetStatus[fm.currentTarget-1] == "none")
             return;
@@ -153,29 +141,6 @@ public void Search2()
     {
         fm.unloadUnused();
         thumbUrls.Clear();
-        //turn on target's video player
-        //need to implement this in V2 when assets ready
-        /*/// switch(fm.currentTarget)
-        {
-            case 0:
-                return;
-            case 1:
-                vidReference1.SetActive(true);
-                break;
-            case 2:
-                vidReference2.SetActive(true);
-                break;
-            case 3:
-                vidReference3.SetActive(true);
-                break;
-            case 4:
-                vidReference4.SetActive(true);
-                break;
-            case 5:
-                vidReference5.SetActive(true);
-                break;
-        }
-        ///*/
         //do nothing if no targets created yet or if indexed target not created yet
         if (fm.targetStatus[fm.currentTarget-1] == "none")
             return;

@@ -1,11 +1,21 @@
-﻿using System.Collections;
+﻿/******************************************************
+*Project: Wonderly
+*Created by: David Lee Ramirez
+*Date: 12/28/18
+*Description: Used for all web calls to Pixabay api. Calls to 
+							Pixabay are made in order to retrieve images for 
+							AR linked objects or cover images.
+*Copyright 2018 LeapWithAlice,LLC. All rights reserved
+ ******************************************************/
+
+
+using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using System.IO;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Networking;
-using Sample;
 
 public class pixabayManager : MonoBehaviour {
 	public string searchUrl = "https://pixabay.com/api/?key=10416046-da227ed77f5d1960a9126dc7c&";

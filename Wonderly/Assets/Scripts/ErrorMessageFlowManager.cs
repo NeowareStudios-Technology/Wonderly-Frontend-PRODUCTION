@@ -3,6 +3,7 @@
 *Created by: David Lee Ramirez
 *Date: 12/28/18
 *Description: Handles logic that results in error message OR action
+							(Signup flow)
 *Copyright 2018 LeapWithAlice,LLC. All rights reserved
  ******************************************************/
 
@@ -13,11 +14,15 @@ using UnityEngine.UI;
 
 public class ErrorMessageFlowManager : MonoBehaviour {
 
-	public int signUpIndex;
-
 	//local script holder reference
 	public GameObject lsh;
+	//script reference
+	public CloudEndpointsApiManager ceam;
+	public FirebaseManager fbm;
 
+	public int signUpIndex = 0;
+
+	//error notifications
 	public GameObject badEmailNotification;
 	public GameObject badPasswordNotification;
 	public GameObject badPasswordNotification2;
@@ -27,25 +32,14 @@ public class ErrorMessageFlowManager : MonoBehaviour {
 
 	public GameObject acceptTermsMenu;
 
-
 	public InputField email;
 	public InputField firstName;
 	public InputField lastName;
 	public InputField password;
 	public InputField password2;
 
-	public CloudEndpointsApiManager ceam;
-
-	public FirebaseManager fbm;
-
 	public PanelController canvasPanelController;
-
 	public Animator[] signUpScreensAnimators = new Animator[6]; 
-
-	// Use this for initialization
-	void Start () {
-		signUpIndex=0;
-	}
 
 	//call this when moving backward through user sign up flow
 	public void prevSignUpPanel()

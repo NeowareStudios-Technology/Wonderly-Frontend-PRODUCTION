@@ -1,25 +1,29 @@
-﻿using System.Collections;
+﻿/******************************************************
+*Project: Wonderly
+*Modified by: David Lee Ramirez
+*Date: 12/28/18
+*Description: Handles finishing Youtube video search 
+            (VideoSearchManager starts search)
+            and storing of video attributes. Modified
+            script from Lightshaft Youtube plugin.
+ ******************************************************/
+
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using SimpleJSON;
 using System;
-using Sample;
 
 public class YoutubeAPIManager : MonoBehaviour {
 
-    public FilesManager fm;
     private YoutubeData data;
     private YoutubeData[] searchResults;
     private YoutubeComments[] comments;
     private YoutubePlaylistItems[] playslistItems;
     private YoutubeChannel[] channels;
     public List<string> YoutubeTitles = new List<string>();
-    public GameObject chosenDisplay1;
-    public GameObject chosenDisplay2;
-    public GameObject chosenDisplay3;
-    public GameObject chosenDisplay4;
-    public GameObject chosenDisplay5;
 
     public Text videoAttribute;
 

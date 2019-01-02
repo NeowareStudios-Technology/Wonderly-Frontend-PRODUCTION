@@ -18,7 +18,6 @@ using Firebase.Auth;
 using Firebase.Unity.Editor;
 using Firebase.Storage;
 using UnityEngine.SceneManagement;
-using Sample;
 using System.Threading.Tasks;
 
 public class FirebaseStorageManager : MonoBehaviour {

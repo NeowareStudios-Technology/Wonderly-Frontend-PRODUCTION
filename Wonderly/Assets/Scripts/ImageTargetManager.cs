@@ -13,7 +13,6 @@ using System.Linq;
 using EasyAR;
 using System.Collections;
 using System.IO;
-using Sample;
 
 
 public class ImageTargetManager : MonoBehaviour

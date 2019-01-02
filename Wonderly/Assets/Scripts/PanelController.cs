@@ -1,4 +1,14 @@
-﻿using UnityEngine;
+﻿/******************************************************
+*Project: Wonderly
+*Created by: 
+*Date: 12/28/18
+*Description: 
+*Copyright 2018 LeapWithAlice,LLC. All rights reserved
+ ******************************************************/
+
+
+
+using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using System.Collections;

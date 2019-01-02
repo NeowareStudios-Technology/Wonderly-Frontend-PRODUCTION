@@ -1,10 +1,19 @@
-﻿using System.Collections;
+﻿/******************************************************
+*Project: Wonderly
+*Created by: David Lee Ramirez
+*Date: 12/28/18
+*Description: Handles creation of save files of journeys
+							for eventual saving in Firebase Storage.
+*Copyright 2018 LeapWithAlice,LLC. All rights reserved
+ ******************************************************/
+
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System;
 using System.IO;
-using Sample;
 
 public class SaveManager : MonoBehaviour {
 

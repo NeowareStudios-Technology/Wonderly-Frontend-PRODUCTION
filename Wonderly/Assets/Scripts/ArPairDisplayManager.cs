@@ -10,27 +10,22 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using Sample;
 using System.IO;
 
 public class ArPairDisplayManager : MonoBehaviour {
+	public FilesManager fm;
+	public VideoSearchManager vsm;
+	public ModelInitializer mi;
 	public UiManager um;
+	public YoutubeVideoUi[] yvuArray = new YoutubeVideoUi[18];
 
 	public Image chosenThumb;
 	public Image chosenThumb2;
-
 	public Image[] targetThumbs = new Image[5];
-
 	public Image[] targetObjectThumbs = new Image[5];
-
 	public Image blankImage;
-
 	public Image[] videoThumbs = new Image[18];
-
 	public Image[] modelThumbs = new Image[18];
-
-	public YoutubeVideoUi[] yvuArray = new YoutubeVideoUi[18];
-
 	public int[] targetThumbCheck = {0,0,0,0,0};
 
 	//for summary screen
@@ -41,14 +36,10 @@ public class ArPairDisplayManager : MonoBehaviour {
 	public Text[] previewWonderDescriptions = new Text[5];
 	public Text[] previewWonderTitles = new Text[5];
 
-	public FilesManager fm;
-	public VideoSearchManager vsm;
-	public ModelInitializer mi;
-
 
 
 	// IMAGE THUMBNAIL HANDLING FOR AR PAIRS HANDLED IN IMAGE SCRIPTS
-
+/* 
 	// Update is called once per frame
 	void Update () {
 
@@ -128,7 +119,7 @@ public class ArPairDisplayManager : MonoBehaviour {
 			}
 		}
 	}
-
+*/
 
 	public void blankTargetObjectThumb()
 	{

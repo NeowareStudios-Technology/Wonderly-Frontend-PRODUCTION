@@ -1,9 +1,18 @@
-﻿using System.Collections;
+﻿/******************************************************
+*Project: Wonderly
+*Created by: David Lee Ramirez
+*Date: 12/28/18
+*Description: Handles the displaying and removal of AR 
+							linked objects on each target. 
+*Copyright 2018 LeapWithAlice,LLC. All rights reserved
+ ******************************************************/
+
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Video;
-using Sample;
 
 public class targetObjectManager : MonoBehaviour {
 
@@ -21,15 +30,8 @@ public class targetObjectManager : MonoBehaviour {
 	public FilesManager fm;
 	public ImageTargetManager itm;
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// THIS NEEDS TO BE FIXED, AS IT IS NOW THERE IS NO SOUND
-	// WHEN THE UPDATE() FUNCTION IS REMOVED, SOUND COMES BACK ON BUT THE VIDEO PLAYS WITHOUT THE ACTIVE TARGET UPON SELECTION
-	//decides whether to display a targets video player depending on if a video was assigned or not
-	//video player will also appear as placeholder for target on a "created" target 
+
+
 	void Update () {
 
 		
@@ -366,86 +368,7 @@ public class targetObjectManager : MonoBehaviour {
 		}
 	}
 
-	public void rotateTargetObject()
-	{
-		//do nothing if there is no target object 
-		if(fm.targetStatus[fm.currentTarget-1] == "none" || fm.targetStatus[fm.currentTarget-1] == "created")
-			return;
 
-		switch(fm.currentTarget)
-		{
-			case 1:
-				if (fm.targetStatus[fm.currentTarget-1] == "video")
-				{
-					videoPlayers[0].transform.Rotate(0,0,30);
-				}
-				if (fm.targetStatus[fm.currentTarget-1] == "model")
-				{
-					models[0].transform.Rotate(30,0,0);
-				}
-				if (fm.targetStatus[fm.currentTarget-1] == "image")
-				{
-					images[0].transform.Rotate(0,0,30);
-				}
-				break;
-			case 2:
-				if (fm.targetStatus[fm.currentTarget-1] == "video")
-				{
-					videoPlayers[1].transform.Rotate(0,0,30);
-				}
-				if (fm.targetStatus[fm.currentTarget-1] == "model")
-				{
-					models[1].transform.Rotate(30,0,0);
-				}
-				if (fm.targetStatus[fm.currentTarget-1] == "image")
-				{
-					images[1].transform.Rotate(0,0,30);
-				}
-				break;
-			case 3:
-				if (fm.targetStatus[fm.currentTarget-1] == "video")
-				{
-					videoPlayers[2].transform.Rotate(0,0,30);
-				}
-				if (fm.targetStatus[fm.currentTarget-1] == "model")
-				{
-					models[2].transform.Rotate(30,0,0);
-				}
-				if (fm.targetStatus[fm.currentTarget-1] == "image")
-				{
-					images[2].transform.Rotate(0,0,30);
-				}
-				break;
-			case 4:
-				if (fm.targetStatus[fm.currentTarget-1] == "video")
-				{
-					videoPlayers[3].transform.Rotate(0,0,30);
-				}
-				if (fm.targetStatus[fm.currentTarget-1] == "model")
-				{
-					models[3].transform.Rotate(30,0,0);
-				}
-				if (fm.targetStatus[fm.currentTarget-1] == "image")
-				{
-					images[3].transform.Rotate(0,0,30);
-				}
-				break;
-			case 5:
-				if (fm.targetStatus[fm.currentTarget-1] == "video")
-				{
-					videoPlayers[4].transform.Rotate(0,0,30);
-				}
-				if (fm.targetStatus[fm.currentTarget-1] == "model")
-				{
-					models[4].transform.Rotate(30,0,0);
-				}
-				if (fm.targetStatus[fm.currentTarget-1] == "image")
-				{
-					images[4].transform.Rotate(0,0,30);
-				}
-				break;
-		}
-	}
 
 	public void clearScene() {
 		if(itm.target1.transform.childCount == 4)
@@ -478,12 +401,6 @@ public class targetObjectManager : MonoBehaviour {
 		modelIds[2] = "";
 		modelIds[3] = "";
 		modelIds[4] = "";
-
-	///	targetObjectThumbnails[0].sprite = blankSprite.sprite;
-	///	targetObjectThumbnails[1].sprite = blankSprite.sprite;
-	///	targetObjectThumbnails[2].sprite = blankSprite.sprite;
-	///	targetObjectThumbnails[3].sprite = blankSprite.sprite;
-	///	targetObjectThumbnails[4].sprite = blankSprite.sprite;
 
 		removeTargetObject(1);
 		removeTargetObject(2);

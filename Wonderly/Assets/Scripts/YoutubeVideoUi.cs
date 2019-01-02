@@ -1,10 +1,18 @@
-﻿using System.Collections;
+﻿/******************************************************
+*Project: Wonderly
+*Modified by: David Lee Ramirez
+*Date: 12/28/18
+*Description: Handles playing of Youtube video from thumbnail.
+              Handles playing video on correct AR target/wonder.
+ ******************************************************/
+
+
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Video;
-using Sample;
-//using Vuforia;
 
 public class YoutubeVideoUi : MonoBehaviour {
 
@@ -29,6 +37,7 @@ public class YoutubeVideoUi : MonoBehaviour {
         vsm = youtubeScriptHolder.GetComponent<VideoSearchManager>();
     }
 
+    //play youtube video on correct video player (one player for each AR target/wonder)
     public void PlayYoutubeVideo()
     {
 
@@ -128,12 +137,7 @@ public class YoutubeVideoUi : MonoBehaviour {
                     tom.videoPlayers[4].GetComponent<SimplePlayback>().unityVideoPlayer.loopPointReached += VideoFinished;
                     tom.videoPlayers[4].transform.position = new Vector3(0f, 0f, 0f);
                     break;
-
-
             }
-            //GameObject.FindObjectOfType<VideoSearchDemo2>().vidReference1.GetComponent<HighQualityPlayback>().PlayYoutubeVideo(videoId);
-            //GameObject.FindObjectOfType<VideoSearchDemo2>().vidReference1.GetComponent<HighQualityPlayback>().unityVideoPlayer.loopPointReached += VideoFinished;
-
     }
 
     private void VideoFinished(VideoPlayer vPlayer)

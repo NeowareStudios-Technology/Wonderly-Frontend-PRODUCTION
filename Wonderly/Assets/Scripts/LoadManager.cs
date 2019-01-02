@@ -14,7 +14,6 @@ using System.Linq;
 using System.IO;
 using UnityEngine;
 using UnityEngine.UI;
-using Sample;
 using PolyToolkit;
 using EasyAR;
 

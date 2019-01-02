@@ -13,7 +13,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using PolyToolkit;
-using Sample;
 
 public class ModelInitializer : MonoBehaviour {
     public InputField keyword;
