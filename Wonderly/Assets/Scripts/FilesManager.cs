@@ -47,6 +47,7 @@ public class FilesManager : MonoBehaviour
     //for deactivating AR camera to save cpu
     public GameObject arCamera;
 
+    //sets the current target (wonder)
     public void setCurrentTarget(int current)
     {
         currentTarget = current;
@@ -113,10 +114,11 @@ public class FilesManager : MonoBehaviour
 
     }
 
+    //resets working directory after the scripts recognize targets (if does before then they dont get reset)
     public IEnumerator delayedReset()
     {
         yield return new WaitForSeconds(1);
-        ClearTexture();
+        ClearTextures();
         tom.clearScene();
         itm.DeleteAllTargetsAndText();
         itm.target1.SetActive(true);
@@ -133,6 +135,7 @@ public class FilesManager : MonoBehaviour
         arCamera.SetActive(false);
     }
 
+    //sets current target to a specified status
     public void ModifyTargetStatusArray(string status)
     {
         if (currentTarget == 0)
@@ -156,6 +159,7 @@ public class FilesManager : MonoBehaviour
             StartCoroutine(ImageCreate());
     }
 
+    //created image
     IEnumerator ImageCreate()
     {
         //count the target (there can only be 5 targets)
@@ -223,6 +227,7 @@ public class FilesManager : MonoBehaviour
         targetCount++;
     }
 
+    //returns dict of fileNames:fileContents in working directory
     public Dictionary<string, string> GetDirectoryName_FileDic()
     {
         if (!Directory.Exists(MarksDirectory))
@@ -230,6 +235,7 @@ public class FilesManager : MonoBehaviour
         return GetAllImagesFiles(MarksDirectory);
     }
 
+    //gets all image files in working directory
     private Dictionary<string, string> GetAllImagesFiles(string path)
     {
         Dictionary<string, string> imgefilesDic = new Dictionary<string, string>();
@@ -244,43 +250,16 @@ public class FilesManager : MonoBehaviour
         return imgefilesDic;
     }
 
-    public void ClearTexture()
+    //deletes all image files in working directory
+    public void ClearTextures()
     {
         Dictionary<string, string> imageFileDic = GetAllImagesFiles(MarksDirectory);
         foreach (var path in imageFileDic)
             File.Delete(path.Value);
     }
 
-    public void ClearOneTexture()
-    {
-        Dictionary<string, string> imageFileDic = GetAllImagesFiles(MarksDirectory);
-        int count =1;
-        foreach (var path in imageFileDic)
-        {
-            if (currentTarget == count)
-            {
-                File.Delete(path.Value);
-            }
-            count++;
-        }
-    }
 
-    public void nextTarget()
-    {
-        if (currentTarget < 5)
-        {
-            currentTarget++;
-        }
-    }
-
-    public void prevTarget()
-    {
-        if (currentTarget > 1)
-        {
-            currentTarget--;
-        }
-    }
-
+    //destroys all temporary (unneeded) instantiated prefabs and unloads texture memory
     public void unloadUnused()
     {
         //clear pixabay thumbnails

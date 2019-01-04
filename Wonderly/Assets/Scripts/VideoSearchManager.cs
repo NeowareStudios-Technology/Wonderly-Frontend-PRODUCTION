@@ -50,6 +50,7 @@ public class VideoSearchManager : MonoBehaviour {
 
     public GameObject mainCanvas;
     public Animator viewLibraryContentPanel;
+    public Animator viewLibraryContentPanel2;
     public GameObject localScriptHolder;
     public GameObject[] videoThumbList;
 	
@@ -175,7 +176,7 @@ public void Search2()
             newThumbnail.GetComponent<Button>().onClick.AddListener(delegate {newThumbnail.GetComponent<YoutubeVideoUi>().PlayYoutubeVideo();});
             newThumbnail.GetComponent<Button>().onClick.AddListener(delegate {localScriptHolder.GetComponent<ArPairDisplayManager>().setYoutubeThumbnailArPair(newThumbnail);});
             newThumbnail.GetComponent<Button>().onClick.AddListener(delegate {this.GetComponent<YoutubeAPIManager>().SetVideoInfo(TempIterator);});
-            newThumbnail.GetComponent<Button>().onClick.AddListener(delegate {mainCanvas.GetComponent<PanelController>().OpenPanel(viewLibraryContentPanel);});
+            newThumbnail.GetComponent<Button>().onClick.AddListener(delegate {mainCanvas.GetComponent<PanelController>().OpenPanel(viewLibraryContentPanel2);});
         } 
     }
 

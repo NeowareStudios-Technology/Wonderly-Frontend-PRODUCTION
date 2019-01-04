@@ -13,29 +13,19 @@ using UnityEngine;
 
 public class LibraryStubController : MonoBehaviour {
 
+	//script references
 	public CloudEndpointsApiManager ceam;
 	public FirebaseManager fm;
-
+	//keeps track of whether a token has been received from Firebase or not for user auth
 	public bool getNewToken = false;
 
-	void Awake()
-	{
-		//StartCoroutine("delayedFillLibrary");
-	}
-
-	private IEnumerator delayedFillLibrary()
-	{
-		yield return new WaitForSeconds(2);
-		if (fm.token != null)
-			ceam.deactivateLibraryStubs();
-			ceam.startGetOwnedCodes();
-	}
 
 	//makes sure that library is clear whenever library exited
 	void OnDisable() 
 	{
 		ceam.deactivateLibraryStubs();
 	}
+
 
 	//makes sure that library is populated when active
   void OnEnable() 

@@ -26,6 +26,7 @@ public class YoutubeAPIManager : MonoBehaviour {
     public List<string> YoutubeTitles = new List<string>();
 
     public Text videoAttribute;
+    public Text videoAttribute2;
 
     //REMEMBER TO CHANGE HERE IF YOU NEED TO POINT TO YOUR GOOGLE APP. 
     /* 
@@ -45,6 +46,7 @@ public class YoutubeAPIManager : MonoBehaviour {
     public void SetVideoInfo(int whichVideo)
     {
         videoAttribute.text = YoutubeTitles[whichVideo];
+        videoAttribute2.text = YoutubeTitles[whichVideo];
     }
 
     public void GetVideoData(string videoId, Action<YoutubeData> callback)

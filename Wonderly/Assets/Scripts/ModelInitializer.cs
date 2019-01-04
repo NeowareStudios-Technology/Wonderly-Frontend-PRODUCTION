@@ -7,7 +7,6 @@
 *Copyright 2018 LeapWithAlice,LLC. All rights reserved
  ******************************************************/
 
-
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -15,73 +14,36 @@ using UnityEngine.UI;
 using PolyToolkit;
 
 public class ModelInitializer : MonoBehaviour {
+    //script references
+    public ModelRenderer mr;
+    public FilesManager fm;
+    //keyword for Poly model search
     public InputField keyword;
-    //public RawImage thumbPrefab;
-    //public GameObject content;
-    public Image thumbImage1;
-    public Image thumbImage2;
-    public Image thumbImage3;
-    public Image thumbImage4;
-    public Image thumbImage5;
-    public Image thumbImage6;
-    public Image thumbImage7;
-    public Image thumbImage8;
-    public Image thumbImage9;
-    public Image thumbImage10;
-    public Image thumbImage11;
-    public Image thumbImage12;
-    public Image thumbImage13;
-    public Image thumbImage14;
-    public Image thumbImage15;
-    public Image thumbImage16;
-    public Image thumbImage17;
-    public Image thumbImage18;
-
-    public PolyAssetHolderClass thumbAsset1;
-    public PolyAssetHolderClass thumbAsset2;
-    public PolyAssetHolderClass thumbAsset3;
-    public PolyAssetHolderClass thumbAsset4;
-    public PolyAssetHolderClass thumbAsset5;
-    public PolyAssetHolderClass thumbAsset6;
-    public PolyAssetHolderClass thumbAsset7;
-    public PolyAssetHolderClass thumbAsset8;
-    public PolyAssetHolderClass thumbAsset9;
-    public PolyAssetHolderClass thumbAsset10;
-    public PolyAssetHolderClass thumbAsset11;
-    public PolyAssetHolderClass thumbAsset12;
-    public PolyAssetHolderClass thumbAsset13;
-    public PolyAssetHolderClass thumbAsset14;
-    public PolyAssetHolderClass thumbAsset15;
-    public PolyAssetHolderClass thumbAsset16;
-    public PolyAssetHolderClass thumbAsset17;
-    public PolyAssetHolderClass thumbAsset18;
-
+    //max number of thumbnail objects to spawn 
     public int maxThumbResults = 50;
+    //model thumbnail prefab
     public GameObject modelThumbPrefab;
+    //model thumbnail parent GameObject
     public GameObject thumbNailParentContent;
-    //used by second edit AR object screen marked SINGLE
+    //variables marked "2" used by second edit AR object screen marked SINGLE
     public GameObject thumbNailParentContent2;
     public InputField keyword2;
     public Animator viewLibraryContentPanel2;
-
+    //used to get "panel controller" object (for changing screens)
     public GameObject mainCanvas;
+    //used to switch screens to MyJourneys screen
     public Animator viewLibraryContentPanel;
     public GameObject localScriptHolder;
     public GameObject[] thumbnailResults;
-
-
-    //need to implement attributes
-    //public Text modelAttributes;
-    //public int assetIndex = 0;
-    //public List<PolyAsset> assetsInUse;
-    public ModelRenderer mr;
-    public FilesManager fm;
     public int thumbnailCount = 0;
     private RawImage thumb;
 
+
+    //initialization of thumbnail list (empty)
     void Awake(){
         thumbnailResults = new GameObject[maxThumbResults];
     }
+
 
     //Flow for get thumbnails: GetThumbnails -> ListAssetsCallback -> myThumbnailCallback (this one makes the thumbnails)
     public void GetThumbnails()
@@ -95,6 +57,7 @@ public class ModelInitializer : MonoBehaviour {
         thumbnailCount = 0;
     }
 
+
     // Callback invoked when the featured assets results are returned.
     private void ListAssetsCallback(PolyStatusOr<PolyListAssetsResult> result) {
         
@@ -103,9 +66,7 @@ public class ModelInitializer : MonoBehaviour {
             return;
         }
  
-
-
-
+        //unload unused memoyry
         fm.unloadUnused();
         ClearSearchText();
 
@@ -114,23 +75,15 @@ public class ModelInitializer : MonoBehaviour {
             PolyApi.FetchThumbnail(result.Value.assets[i], MyThumbnailCallback);
         }
     }
-    public void DeleteThumbnails(){
-       
-			foreach (Transform child in thumbNailParentContent.transform) {
-				GameObject.Destroy(child.gameObject);
-			}
-            Debug.Log("done destroying");
-            TurnOffLoadingPanel();
-            Resources.UnloadUnusedAssets();
-	
+
+    //clear search field for create flow (called by outside script)
+    public void ClearSearchText()
+    {
+        keyword.text = "";
     }
-    public void TurnOffLoadingPanel(){
-        
-		localScriptHolder.GetComponent<UiManager>().SetLoadingPanelActive(false);
-    }
-    public void ClearSearchText(){
-			keyword.text = "";
-		}
+
+
+    //create thumbnail for each found poly model under proper parent for create flow
     void MyThumbnailCallback(PolyAsset asset, PolyStatus status)
     {
         Debug.Log("in callback");
@@ -161,18 +114,30 @@ public class ModelInitializer : MonoBehaviour {
 
         //loading panel is turned off at the end of this thread after DeleteThumbnails()
         newThumbnail.GetComponent<Button>().onClick.AddListener(delegate {localScriptHolder.GetComponent<ArPairDisplayManager>().setModelThumbnailArPair(newThumbnail);});
-        
-       
         newThumbnail.GetComponent<PolyAssetHolderClass>().heldAsset = asset;
-    
+        //keeps track of which model gets put on which thumbnail
         thumbnailCount++;
+    }
 
+
+    //Destroys all model thumbnails (and releases memory) for create flow
+    public void DeleteThumbnails(){
+       
+			foreach (Transform child in thumbNailParentContent.transform) {
+				GameObject.Destroy(child.gameObject);
+			}
+            Debug.Log("done destroying");
+            //deactivate loading panel
+            localScriptHolder.GetComponent<UiManager>().SetLoadingPanelActive(false);
+            Resources.UnloadUnusedAssets();
+	
     }
 
 
 //Above: called by initial set AR object screen
 /***************************************************************************************************************************************************************/
 //Below: called by second set AR screen activated when editing AR object from summary screen
+
 
     //Flow for get thumbnails: GetThumbnails2 -> ListAssetsCallback2-> myThumbnailCallback2 (this one makes the thumbnails)
     public void GetThumbnails2()
@@ -186,6 +151,7 @@ public class ModelInitializer : MonoBehaviour {
         thumbnailCount = 0;
     }
 
+
     // Callback invoked when the featured assets results are returned.
     private void ListAssetsCallback2(PolyStatusOr<PolyListAssetsResult> result) {
         
@@ -194,9 +160,6 @@ public class ModelInitializer : MonoBehaviour {
             return;
         }
  
-
-
-
         fm.unloadUnused();
         ClearSearchText2();
 
@@ -205,16 +168,15 @@ public class ModelInitializer : MonoBehaviour {
             PolyApi.FetchThumbnail(result.Value.assets[i], MyThumbnailCallback2);
         }
     }
-    public void DeleteThumbnails2(){
-       
-			foreach (Transform child in thumbNailParentContent2.transform) {
-				GameObject.Destroy(child.gameObject);
-			}
-            Resources.UnloadUnusedAssets();
+
+    //clear search field for edit flow (called by outside script)
+    public void ClearSearchText2()
+    {
+        keyword2.text = "";
     }
-    public void ClearSearchText2(){
-			keyword2.text = "";
-		}
+
+
+    //create thumbnail for each found poly model under proper parent for edit flow
     void MyThumbnailCallback2(PolyAsset asset, PolyStatus status)
     {
         Debug.Log("in callback");
@@ -243,8 +205,19 @@ public class ModelInitializer : MonoBehaviour {
         newThumbnail.GetComponent<Button>().onClick.AddListener(delegate {mr.renderModel(newThumbnail);});
         newThumbnail.GetComponent<Button>().onClick.AddListener(delegate {localScriptHolder.GetComponent<ArPairDisplayManager>().setModelThumbnailArPair(newThumbnail);});
         newThumbnail.GetComponent<PolyAssetHolderClass>().heldAsset = asset;
-    
-        thumbnailCount++;
 
+        //keeps track of which model gets put on which thumbnail
+        thumbnailCount++;
+    }
+
+
+    //Destroys all model thumbnails (and releases memory) for edit flow (marked SINGLE)
+    public void DeleteThumbnails2()
+    {
+       
+        foreach (Transform child in thumbNailParentContent2.transform) {
+            GameObject.Destroy(child.gameObject);
+        }
+        Resources.UnloadUnusedAssets();
     }
 }

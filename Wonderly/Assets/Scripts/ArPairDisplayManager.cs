@@ -134,6 +134,7 @@ public class ArPairDisplayManager : MonoBehaviour {
 			return;
 
 		chosenThumb.sprite = thumbNail.GetComponent<Image>().sprite;
+		chosenThumb2.sprite = thumbNail.GetComponent<Image>().sprite;
 		targetObjectThumbs[fm.currentTarget-1].sprite = thumbNail.GetComponent<Image>().sprite;
 
 		vsm.ClearSearchField();

@@ -47,6 +47,10 @@ public class UiManager : MonoBehaviour {
 	public Text contentAttribs;
 	public Image contentImage;
 
+	//for clearing ViewLibraryContent screen (Edit Flow)
+	public Text contentAttribs2;
+	public Image contentImage2;
+
 	//for clearing preview screen
 	public Text previewTitle;
 	public Text previewDescription;
@@ -143,6 +147,20 @@ public class UiManager : MonoBehaviour {
 	}
 
 
+	//EDIT FLOW: delayed reset so that UI doesnt look bad with instant reset
+	//called by ViewLibraryContent back button
+	public void startResetViewLibraryContent2()
+	{
+		StartCoroutine("ResetViewLibraryContent2");
+	}
+
+
+	public IEnumerator ResetViewLibraryContent2()
+	{
+		yield return new WaitForSeconds(2);
+		contentAttribs2.text = "  ";
+		contentImage2.sprite = blankImage.sprite;
+	}
 
 
 	//delayed reset so that UI doesnt look bad with instant reset

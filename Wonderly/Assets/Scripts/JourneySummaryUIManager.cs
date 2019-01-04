@@ -41,6 +41,7 @@ public class JourneySummaryUIManager : MonoBehaviour {
 	public GameObject videoIcon5;
 
 
+	//THIS SCRIPT IS LOCATED ON THE CompleteJourneyCopy GameObject
 
 	// handles what UI will be displayed based on the 1 model/video/pic per target rule
 	void Update () {

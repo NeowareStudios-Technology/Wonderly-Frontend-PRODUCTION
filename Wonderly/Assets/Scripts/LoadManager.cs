@@ -18,6 +18,7 @@ using PolyToolkit;
 using EasyAR;
 
 public class LoadManager : MonoBehaviour {
+	//script references
 	public FilesManager fm;
 	public SaveClassDeclaration scd;
 	public targetObjectManager tom; 
@@ -25,44 +26,31 @@ public class LoadManager : MonoBehaviour {
 	public pixabayManager pm;
 	public ArPairDisplayManager apdm;
 	public SaveManager sm;
+	//UI for target image on preview screen (NewAddViewContent), used to show from load file
 	public UnityEngine.UI.Image targetPreview1;
 	public UnityEngine.UI.Image targetPreview2;
 	public UnityEngine.UI.Image targetPreview3;
 	public UnityEngine.UI.Image targetPreview4;
 	public UnityEngine.UI.Image targetPreview5;
-
-	public GameObject filledIn1;
-	public GameObject filledIn2;
-	public GameObject filledIn3;
-	public GameObject filledIn4;
-	public GameObject filledIn5;
-
-	public GameObject unfilled1;
-	public GameObject unfilled2;
-	public GameObject unfilled3;
-	public GameObject unfilled4;
-	public GameObject unfilled5;
-
+	//UI for linked image thumb on review screen (CompleteCopyJourney), used to show from load file
 	public UnityEngine.UI.Image linkedThumb1;
 	public UnityEngine.UI.Image linkedThumb2;
 	public UnityEngine.UI.Image linkedThumb3;
 	public UnityEngine.UI.Image linkedThumb4;
 	public UnityEngine.UI.Image linkedThumb5;
-
 	public GameObject loadingPanel;
-
 	public UnityEngine.UI.Image coverImage;
+	//UI for title and description of journey, used to show from load file
 	public InputField titleDisplay;
 	public Text summaryTitleDisplay;
 	public InputField descriptionDisplay;
 	public Text summaryDescriptionDisplay;
-
+	//Gameobject for targetSetter script, used to turn off targetSetter script only dureing load time
 	public GameObject targetSetter;
-
 	public int previewIndex;
-
+	//holds all possible Google Poly Assets
 	public PolyAsset[] allAssets = new PolyAsset[5];
-
+	//paths for image files
 	private string coverPath;
 	private string linkedPath1;
 	private string linkedPath2;
@@ -79,19 +67,16 @@ public class LoadManager : MonoBehaviour {
 	private string targetPath3;
 	private string targetPath4;
 	private string targetPath5;
-
 	//for previewing journey before viewing
 	public UnityEngine.UI.Image previewCoverImage;
 	public Text previewTitleDisplay;
 	public Text previewDescriptionDisplay;
 	public UnityEngine.UI.Image[] viewFlowTargetPreviews = new UnityEngine.UI.Image[5];
-
 	//keeps track of first available index for a model
 	public int[] modelIndices = new int[5];
-
 	//keeps track of first available index for a model
 	public int[] videoIndices = new int[5];
-
+	//used for callback functions with limited amount of params
 	public int globalModelArrayIndex;
 	public int globalModelIndexTracker;
 
@@ -268,7 +253,7 @@ public class LoadManager : MonoBehaviour {
 						GameObject imageTarget1 = itm.target1;
 						imageTarget1.SetActive(true);
 						imageTarget1.tag = "target1";
-						var behaviour1 = imageTarget1.AddComponent<DynamicImageTagetBehaviour>();
+						var behaviour1 = imageTarget1.AddComponent<DynamicImageTargetBehaviour>();
 						behaviour1.whichTargetAmI = 1;
 						behaviour1.Name = "target1";
 						behaviour1.Path = workingPath1;
@@ -290,7 +275,7 @@ public class LoadManager : MonoBehaviour {
 						GameObject imageTarget2 = itm.target2;
 						imageTarget2.SetActive(true);
 						imageTarget2.tag = "target2";
-						var behaviour2 = imageTarget2.AddComponent<DynamicImageTagetBehaviour>();
+						var behaviour2 = imageTarget2.AddComponent<DynamicImageTargetBehaviour>();
 						behaviour2.whichTargetAmI = 2;
 						behaviour2.Name = "target1";
 						behaviour2.Path = workingPath2;
@@ -312,7 +297,7 @@ public class LoadManager : MonoBehaviour {
 						GameObject imageTarget3 = itm.target3;
 						imageTarget3.SetActive(true);
 						imageTarget3.tag = "target3";
-						var behaviour3 = imageTarget3.AddComponent<DynamicImageTagetBehaviour>();
+						var behaviour3 = imageTarget3.AddComponent<DynamicImageTargetBehaviour>();
 						behaviour3.whichTargetAmI = 3;
 						behaviour3.Name = "target3";
 						behaviour3.Path = workingPath3;
@@ -333,7 +318,7 @@ public class LoadManager : MonoBehaviour {
 						GameObject imageTarget4 = itm.target4;
 						imageTarget4.SetActive(true);
 						imageTarget4.tag = "target4";
-						var behaviour4 = imageTarget4.AddComponent<DynamicImageTagetBehaviour>();
+						var behaviour4 = imageTarget4.AddComponent<DynamicImageTargetBehaviour>();
 						behaviour4.whichTargetAmI = 4;
 						behaviour4.Name = "target4";
 						behaviour4.Path = workingPath4;
@@ -354,7 +339,7 @@ public class LoadManager : MonoBehaviour {
 						GameObject imageTarget5 = itm.target5;
 						imageTarget5.SetActive(true);
 						imageTarget5.tag = "target5";
-						var behaviour5 = imageTarget5.AddComponent<DynamicImageTagetBehaviour>();
+						var behaviour5 = imageTarget5.AddComponent<DynamicImageTargetBehaviour>();
 						behaviour5.whichTargetAmI = 5;
 						behaviour5.Name = "target5";
 						behaviour5.Path = workingPath5;
@@ -401,6 +386,8 @@ public class LoadManager : MonoBehaviour {
 		targetSetter.SetActive(true);
 	}
 
+
+	//called by LoadFile to get cover image from FIrebase Storage
 	private IEnumerator loadJourneyCoverImage() {
 		Debug.Log("loadJourneyCoverImage starting");
 		Debug.Log(coverPath);
@@ -792,6 +779,4 @@ public class LoadManager : MonoBehaviour {
 				break;
 		}
 	}
-
-
 }

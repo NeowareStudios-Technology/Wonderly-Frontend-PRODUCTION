@@ -21,6 +21,7 @@ using UnityEngine.SceneManagement;
 using System.Threading.Tasks;
 
 public class FirebaseStorageManager : MonoBehaviour {
+	//script references
 	public FirebaseManager fbm;
 	public FilesManager fm;
 	public SaveManager sm;
@@ -28,49 +29,42 @@ public class FirebaseStorageManager : MonoBehaviour {
 	public CloudEndpointsApiManager ceam;
 	public LoadManager lm;
 	public ExperienceCodeClass ecc;
-
+	//for accessing local script holder GameObject
 	public GameObject lsh;
-
+	//UI element
 	public Text codeDisplay;
-
+	//stores code of journey that user decides to edit
 	public string editCode;
-
+	//save directory/ save file paths
 	public string saveFolderPath;
 	public string saveFilePath;
+	//all possible target paths 
 	private string targetPath1;
 	private string targetPath2;
 	private string targetPath3;
 	private string targetPath4;
 	private string targetPath5;
-
+	//path for cover Image
 	private string coverImage;
+	//paths for any linked AR images (from pixabay)
 	private string linkedImage1;
 	private string linkedImage2;
 	private string linkedImage3;
 	private string linkedImage4;
 	private string linkedImage5;
-
+	//notification if code search invalid
 	public GameObject wrongCodeNotification;
-
-	public GameObject viewScreenButton1;
-	public GameObject viewScreenButton2;
-	public GameObject viewScreenButton3;
-	public GameObject viewScreenCoachmark;
-
-	public GameObject libraryPanel;
-
+	//UI elements for view screen buttons and coachmarks
 	public GameObject loadPanel;
-
 	private int whichIndex;
-
 	public string expCode;
-
+	//url for saving journey in google datastore db
 	private string saveApiUrl = "https://wonderly-225214.appspot.com/_ah/api/wonderly/v1/exp";
-
+	//keeps track of web call retries
 	private int experienceUploadCallCount = 0;
 
 
-	// Use this for initialization
+	//initializationof path strings
 	void Start () {
 		saveFolderPath = Path.Combine(fm.MarksDirectory, "SaveFolder");
 		
@@ -90,6 +84,7 @@ public class FirebaseStorageManager : MonoBehaviour {
 		linkedImage5 = Path.Combine(fm.SaveDirectory, "linkedImage5.jpg");
 	}
 
+	//starts experience upload to Google Cloud Datastore via IEnumerator (startExperienceUpload->experienceUpload->UploadExperienceFiles)
 	public void startExperienceUpload()
 	{
 		if (File.Exists(saveFilePath))
@@ -455,6 +450,9 @@ public class FirebaseStorageManager : MonoBehaviour {
 		
 	}
 
+	//starts downloading experience files (used for "open experience by code")
+	//-called by Search button on Code Search screen
+	//(startDownloadExperienceFiles->downloadExperienceFiles->lm.LoadFile)
 	public void startDownloadExperienceFiles()
 	{
 		fm.arCamera.SetActive(true);
@@ -657,7 +655,9 @@ saveFileRef.GetBytesAsync(maxAllowedSize).ContinueWith((Task<byte[]> task1) => {
 
 
 
-
+	//starts downloading experience files (used when user eecides to edit experience)
+	//-called by clicking Edit Journey button on journey more info popup menu
+	//(startDownloadExperienceFilesForEdit->downloadExperienceFilesForEdit->lm.LoadFile)
 	public void startDownloadExperienceFilesForEdit(string codeToEdit)
 	{
 		editCode = codeToEdit;
@@ -857,16 +857,10 @@ saveFileRef.GetBytesAsync(maxAllowedSize).ContinueWith((Task<byte[]> task1) => {
 	itm.gameObject.GetComponent<UiManager>().SetLoadingPanelActive(false);
 	}
 
-
-
-
-
-
-
-
-
-
-
+	
+	//starts downloading experience files (used when user opens an owned experience from library)
+	//-called by clicking Edit Journey button on journey more info popup menu
+	//(startDownloadExperienceFilesDirect->downloadExperienceFilesDirect->lm.LoadFile)
 	public void startDownloadExperienceFilesDirect(int index)
 	{
 		whichIndex = index;
@@ -1103,6 +1097,7 @@ saveFileRef.GetBytesAsync(maxAllowedSize).ContinueWith((Task<byte[]> task1) => {
 		itm.gameObject.GetComponent<UiManager>().SetLoadingPanelActive(false);
 	}
 
+	//deletes experience from UI, Google Cloud Datastore, and Firebase Storage
 	public void DeleteExperience(string code)
 	{
 		Firebase.Storage.StorageReference saveRef = fbm.fbStorageRef.Child(code + "/" + "aoSave.json");

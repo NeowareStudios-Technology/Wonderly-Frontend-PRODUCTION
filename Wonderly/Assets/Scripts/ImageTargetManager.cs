@@ -17,37 +17,42 @@ using System.IO;
 
 public class ImageTargetManager : MonoBehaviour
 {
+    //script references
     public FilesManager pathManager;
     public targetObjectManager tom;
     public ImageTargetSetter its;
     public FilesManager fm;
     public ArPairDisplayManager apdm;
     public LoadManager lm;
+    //references to target GameObjects
     public GameObject target1;
     public GameObject target2;
     public GameObject target3;
     public GameObject target4;
     public GameObject target5;
+    //used for default images (blank and icon)
     public UnityEngine.UI.Image blankImage;
     public UnityEngine.UI.Image iconImage;
+    //references to AR tracker scripts
     public ImageTrackerBehaviour tracker1;
     public ImageTrackerBehaviour tracker2;
     public ImageTrackerBehaviour tracker3;
     public ImageTrackerBehaviour tracker4;
     public ImageTrackerBehaviour tracker5;
     public int count = 0;
+    //bools that keep track of currently active targets
     public bool activeTarget1;
     public bool activeTarget2;
     public bool activeTarget3;
     public bool activeTarget4;
     public bool activeTarget5;
+    //UI references
     public Text title;
     public Text editTitle;
     public Text description;
-
     public InputField titleInput;
-    private Dictionary<string, DynamicImageTagetBehaviour> imageTargetDic = new Dictionary<string, DynamicImageTagetBehaviour>();
-    //public List<GameObject> targetList = new List<GameObject>();
+    //Dictionary for file:script
+    private Dictionary<string, DynamicImageTargetBehaviour> imageTargetDic = new Dictionary<string, DynamicImageTargetBehaviour>();
 
 
     //deletes all targets
@@ -55,14 +60,14 @@ public class ImageTargetManager : MonoBehaviour
     {
         foreach (var obj in imageTargetDic)
         {
-            Destroy(obj.Value.gameObject.GetComponent<DynamicImageTagetBehaviour>());
+            Destroy(obj.Value.gameObject.GetComponent<DynamicImageTargetBehaviour>());
             //if a model has been added to the target, delete it
             if(obj.Value.gameObject.transform.childCount == 4)
                 Destroy(obj.Value.gameObject.transform.GetChild(3).gameObject);
             obj.Value.gameObject.SetActive(false);
         }
 
-        its.imageTargetDic = new Dictionary<string, DynamicImageTagetBehaviour>();
+        its.imageTargetDic = new Dictionary<string, DynamicImageTargetBehaviour>();
 
         for(int index =0; index < 5; index++)
         {
@@ -82,14 +87,14 @@ public class ImageTargetManager : MonoBehaviour
         Debug.Log("1. starting itm.DeleteAllTargetsAndText...");
         foreach (var obj in imageTargetDic)
         {
-            Destroy(obj.Value.gameObject.GetComponent<DynamicImageTagetBehaviour>());
+            Destroy(obj.Value.gameObject.GetComponent<DynamicImageTargetBehaviour>());
         }
 
-        Destroy(target1.GetComponent<DynamicImageTagetBehaviour>());
-        Destroy(target2.GetComponent<DynamicImageTagetBehaviour>());
-        Destroy(target3.GetComponent<DynamicImageTagetBehaviour>());
-        Destroy(target4.GetComponent<DynamicImageTagetBehaviour>());
-        Destroy(target5.GetComponent<DynamicImageTagetBehaviour>());
+        Destroy(target1.GetComponent<DynamicImageTargetBehaviour>());
+        Destroy(target2.GetComponent<DynamicImageTargetBehaviour>());
+        Destroy(target3.GetComponent<DynamicImageTargetBehaviour>());
+        Destroy(target4.GetComponent<DynamicImageTargetBehaviour>());
+        Destroy(target5.GetComponent<DynamicImageTargetBehaviour>());
 
         MeshRenderer m1 = target1.GetComponent<MeshRenderer>();
         MeshRenderer m2 = target2.GetComponent<MeshRenderer>();
@@ -157,7 +162,7 @@ public class ImageTargetManager : MonoBehaviour
 
 
         pathManager.currentTarget = 0;
-        its.imageTargetDic= new Dictionary<string, DynamicImageTagetBehaviour>();
+        its.imageTargetDic= new Dictionary<string, DynamicImageTargetBehaviour>();
 
         pathManager.targetCount = 0;
 
@@ -192,7 +197,7 @@ public class ImageTargetManager : MonoBehaviour
                 Debug.Log("2. Deleting targetPhoto1.jpg");
                 thisPath = Path.Combine(pathManager.MarksDirectory, "targetPhoto1.jpg");
                 File.Delete(thisPath);
-                Destroy(target1.GetComponent<DynamicImageTagetBehaviour>());
+                Destroy(target1.GetComponent<DynamicImageTargetBehaviour>());
                 its.imageTargetDic.Remove("targetPhoto1");
                 tom.removeTargetObject(1);
                 fm.targetStatus[0] = "none";
@@ -200,7 +205,7 @@ public class ImageTargetManager : MonoBehaviour
             case 2:
                 thisPath = Path.Combine(pathManager.MarksDirectory, "targetPhoto2.jpg");
                 File.Delete(thisPath);
-                Destroy(target2.GetComponent<DynamicImageTagetBehaviour>());
+                Destroy(target2.GetComponent<DynamicImageTargetBehaviour>());
                 its.imageTargetDic.Remove("targetPhoto2");
                 tom.removeTargetObject(2);
                 fm.targetStatus[1] = "none";
@@ -208,7 +213,7 @@ public class ImageTargetManager : MonoBehaviour
             case 3:
                 thisPath = Path.Combine(pathManager.MarksDirectory, "targetPhoto3.jpg");
                 File.Delete(thisPath);
-                Destroy(target3.GetComponent<DynamicImageTagetBehaviour>());
+                Destroy(target3.GetComponent<DynamicImageTargetBehaviour>());
                 its.imageTargetDic.Remove("targetPhoto3");
                 tom.removeTargetObject(3);
                 fm.targetStatus[2] = "none";
@@ -216,7 +221,7 @@ public class ImageTargetManager : MonoBehaviour
             case 4:
                 thisPath = Path.Combine(pathManager.MarksDirectory, "targetPhoto4.jpg");
                 File.Delete(thisPath);
-                Destroy(target4.GetComponent<DynamicImageTagetBehaviour>());
+                Destroy(target4.GetComponent<DynamicImageTargetBehaviour>());
                 its.imageTargetDic.Remove("targetPhoto4");
                 tom.removeTargetObject(4);
                 fm.targetStatus[3] = "none";
@@ -224,7 +229,7 @@ public class ImageTargetManager : MonoBehaviour
             case 5:
                 thisPath = Path.Combine(pathManager.MarksDirectory, "targetPhoto5.jpg");
                 File.Delete(thisPath);
-                Destroy(target5.GetComponent<DynamicImageTagetBehaviour>());
+                Destroy(target5.GetComponent<DynamicImageTargetBehaviour>());
                 its.imageTargetDic.Remove("targetPhoto5");
                 tom.removeTargetObject(5);
                 fm.targetStatus[4] = "none";
@@ -253,7 +258,7 @@ public class ImageTargetManager : MonoBehaviour
                 Debug.Log("2. Deleting targetPhoto1.jpg");
                 thisPath = Path.Combine(pathManager.MarksDirectory, "targetPhoto1.jpg");
                 File.Delete(thisPath);
-                Destroy(target1.GetComponent<DynamicImageTagetBehaviour>());
+                Destroy(target1.GetComponent<DynamicImageTargetBehaviour>());
                 its.imageTargetDic.Remove("targetPhoto1");
                 tom.removeTargetObject(1);
                 fm.targetStatus[0] = "none";
@@ -261,7 +266,7 @@ public class ImageTargetManager : MonoBehaviour
             case 2:
                 thisPath = Path.Combine(pathManager.MarksDirectory, "targetPhoto2.jpg");
                 File.Delete(thisPath);
-                Destroy(target2.GetComponent<DynamicImageTagetBehaviour>());
+                Destroy(target2.GetComponent<DynamicImageTargetBehaviour>());
                 its.imageTargetDic.Remove("targetPhoto2");
                 tom.removeTargetObject(2);
                 fm.targetStatus[1] = "none";
@@ -269,7 +274,7 @@ public class ImageTargetManager : MonoBehaviour
             case 3:
                 thisPath = Path.Combine(pathManager.MarksDirectory, "targetPhoto3.jpg");
                 File.Delete(thisPath);
-                Destroy(target3.GetComponent<DynamicImageTagetBehaviour>());
+                Destroy(target3.GetComponent<DynamicImageTargetBehaviour>());
                 its.imageTargetDic.Remove("targetPhoto3");
                 tom.removeTargetObject(3);
                 fm.targetStatus[2] = "none";
@@ -277,7 +282,7 @@ public class ImageTargetManager : MonoBehaviour
             case 4:
                 thisPath = Path.Combine(pathManager.MarksDirectory, "targetPhoto4.jpg");
                 File.Delete(thisPath);
-                Destroy(target4.GetComponent<DynamicImageTagetBehaviour>());
+                Destroy(target4.GetComponent<DynamicImageTargetBehaviour>());
                 its.imageTargetDic.Remove("targetPhoto4");
                 tom.removeTargetObject(4);
                 fm.targetStatus[3] = "none";
@@ -285,7 +290,7 @@ public class ImageTargetManager : MonoBehaviour
             case 5:
                 thisPath = Path.Combine(pathManager.MarksDirectory, "targetPhoto5.jpg");
                 File.Delete(thisPath);
-                Destroy(target5.GetComponent<DynamicImageTagetBehaviour>());
+                Destroy(target5.GetComponent<DynamicImageTargetBehaviour>());
                 its.imageTargetDic.Remove("targetPhoto5");
                 tom.removeTargetObject(5);
                 fm.targetStatus[4] = "none";

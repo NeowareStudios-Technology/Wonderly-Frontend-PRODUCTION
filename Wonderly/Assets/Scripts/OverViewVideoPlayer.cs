@@ -5,7 +5,6 @@ using UnityEngine.Video;
 
 public class OverViewVideoPlayer : MonoBehaviour {
 
-	
 	public VideoPlayer videoPlayer;
     private GameObject maincam;
     private AudioSource audioSource;

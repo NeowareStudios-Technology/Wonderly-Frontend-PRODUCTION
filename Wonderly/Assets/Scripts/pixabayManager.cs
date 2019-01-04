@@ -18,20 +18,32 @@ using UnityEngine.UI;
 using UnityEngine.Networking;
 
 public class pixabayManager : MonoBehaviour {
-	public string searchUrl = "https://pixabay.com/api/?key=10416046-da227ed77f5d1960a9126dc7c&";
-	public InputField searchTerm;
 
+	//script references
+	public pixabayClass pxc;
+	public FilesManager fm;
+	public ArPairDisplayManager apdm;
+	public LoadManager lm;
+	//url for Pixabay image search
+	public string searchUrl = "https://pixabay.com/api/?key=10416046-da227ed77f5d1960a9126dc7c&";
+	//reference to UI: term to search pixabay for (linked image, create flow)
+	public InputField searchTerm;
+	//reference to UI: term to search pixabay for (cover image, create flow)
+	public InputField coverImageSearchTerm;
+	//reference to UI: term to search pixabay for (cover image, edit flow)
+	public InputField coverImageSearchTerm2;
 	//below is used for path FLOW2
 	public InputField searchTerm2;
 	public Text imageTitle2;
 	public GameObject thumbNailParentContent2;
 	public Animator viewLibraryContentPanel2;
-
-	public InputField coverImageSearchTerm;
-	public InputField coverImageSearchTerm2;
+	//array of image thumbnails (linked image)
 	public Image[] searchedThumbnails = new Image[50];
+	//array of image thumbnails (cover image)
 	public Image[] searchedThumbnailsCoverImage = new Image[50];
+	//used for blank sprite
 	public Image blankImage;
+	//references to AR targets
 	public GameObject image1;
 	public GameObject image2;
 	public GameObject image3;
@@ -41,19 +53,16 @@ public class pixabayManager : MonoBehaviour {
 	public Image coverImage;
 	//for displaying after choosing thumbnail from search
 	public Text imageTitle;
+	//array of all chosen image URLs for AR linked images 
 	public string[] chosenUrls = new string[5];
 	public string chosenCoverImageUrl;
-  	public string[] imagePreviewUrl = new string[50];
+	//for holding preview Image Urls (lower quality) and image urls (higher quality) for each thumbnail
+  public string[] imagePreviewUrl = new string[50];
 	public string[] imageUrl = new string[50];
 	public string[] coverImagePreviewUrl = new string[50];
 	public string[] coverImageUrl = new string[50];
-	public pixabayClass pxc;
-	public FilesManager fm;
-	public ArPairDisplayManager apdm;
-	public LoadManager lm;
-
+	//for activating/deactivating loading panel
 	public GameObject LoadingPanel;
-	
 	public int maxThumbResults = 50;
 
 	public GameObject imgThumbPrefab;
@@ -62,13 +71,16 @@ public class pixabayManager : MonoBehaviour {
 	public GameObject thumbNailParentContentCoverImage2;
 	public GameObject chooseCoverImagePanel;
 	public GameObject chooseCoverImagePanel2;
-    public GameObject mainCanvas;
-    public Animator viewLibraryContentPanel;
-    public GameObject localScriptHolder;
-    public GameObject[] thumbnailResults;
-    void Awake(){
-        thumbnailResults = new GameObject[maxThumbResults];
-    }
+	public GameObject mainCanvas;
+	public Animator viewLibraryContentPanel;
+	public GameObject localScriptHolder;
+	public GameObject[] thumbnailResults;
+
+
+	void Awake()
+	{
+			thumbnailResults = new GameObject[maxThumbResults];
+	}
 
 	public void DestroyChildrenOfCoverImageContent(){
 		foreach (Transform child in thumbNailParentContentCoverImage.transform) {
@@ -645,7 +657,7 @@ public class pixabayManager : MonoBehaviour {
 			newThumbnail.GetComponent<Button>().onClick.AddListener(delegate {mainCanvas.GetComponent<PanelController>().OpenPanel(viewLibraryContentPanel2);});
 			newThumbnail.GetComponent<Button>().onClick.AddListener(delegate {chooseImageStarter2(index, newThumbnail);});
 			newThumbnail.GetComponent<Button>().onClick.AddListener(delegate {fm.ModifyTargetStatusArray("image");});
-			
+			newThumbnail.GetComponent<Button>().onClick.AddListener(delegate {localScriptHolder.GetComponent<UiManager>().SetLoadingPanelActive(true);});
 			
 
 
@@ -685,7 +697,7 @@ public class pixabayManager : MonoBehaviour {
 				{   
 					Rect rec = new Rect(0, 0, imageRequest.texture.width, imageRequest.texture.height);
 					newThumbnail.GetComponent<Image>().sprite = Sprite.Create(imageRequest.texture, rec, new Vector2(0.5f, 0.5f), 100);
-					StartCoroutine(SetArPairThumbnail(newThumbnail));
+					StartCoroutine(SetArPairThumbnail2(newThumbnail));
 					
 					switch(fm.currentTarget)
 					{

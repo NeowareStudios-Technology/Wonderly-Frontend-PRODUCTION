@@ -6,14 +6,11 @@
 *Copyright 2018 LeapWithAlice,LLC. All rights reserved
  ******************************************************/
 
-
-
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using System.Collections;
 using System.Collections.Generic;
-
 
 public class PanelController : MonoBehaviour {
 
@@ -23,17 +20,15 @@ public class PanelController : MonoBehaviour {
     public GameObject bottomPanel;
     //Currently Open Screen
     private Animator m_Open;
-
     //Hash of the parameter we use to control the transitions.
     private int m_OpenParameterId;
-
     //The GameObject Selected before we opened the current Screen.
     //Used when closing a Screen, so we can go back to the button that opened it.
     private GameObject m_PreviouslySelected;
-
     //Animator State and Transition names we need to check against.
     const string k_OpenTransitionName = "Open";
     const string k_ClosedStateName = "Closed";
+
 
     public void OnEnable()
     {
@@ -45,6 +40,8 @@ public class PanelController : MonoBehaviour {
             return;
         OpenPanel(initiallyOpen);
     }
+
+
     public void SetBottomPanelActive(bool setPanelActive){
         if(setPanelActive){
             bottomPanel.SetActive(true);
@@ -53,6 +50,8 @@ public class PanelController : MonoBehaviour {
             bottomPanel.SetActive(false);
         }
     }
+
+
     //Closes the currently open panel and opens the provided one.
     //It also takes care of handling the navigation, setting the new Selected element.
     public void OpenPanel (Animator anim)
@@ -84,13 +83,7 @@ public class PanelController : MonoBehaviour {
         }
         anim.transform.SetAsLastSibling();
         bottomPanel.transform.SetAsLastSibling();
-        
-        
-        
-
         CloseCurrent();
-        
-
         m_PreviouslySelected = newPreviouslySelected;
 
         //Set the new Screen as then open one.
@@ -102,6 +95,7 @@ public class PanelController : MonoBehaviour {
         GameObject go = FindFirstEnabledSelectable(anim.gameObject);
         SetSelected(go);
     }
+
 
     //Finds the first Selectable element in the providade hierarchy.
     static GameObject FindFirstEnabledSelectable (GameObject gameObject)
@@ -116,6 +110,7 @@ public class PanelController : MonoBehaviour {
         }
         return go;
     }
+
 
     //Closes the currently open Screen
     //It also takes care of navigation.
@@ -136,6 +131,7 @@ public class PanelController : MonoBehaviour {
         m_Open = null;
     }
 
+
     //Coroutine that will detect when the Closing animation is finished and it will deactivate the
     //hierarchy.
     IEnumerator DisablePanelDeleyed(Animator anim)
@@ -155,6 +151,7 @@ public class PanelController : MonoBehaviour {
         if (wantToClose)
             anim.gameObject.SetActive(false);
     }
+
 
     //Make the provided GameObject selected
     //When using the mouse/touch we actually want to set it as the previously selected and 
