@@ -523,7 +523,7 @@ targetRef2.GetBytesAsync(maxAllowedSize).ContinueWith((Task<byte[]> task1) => {
 
 			}
 });
-/* 
+
 targetRef3.GetBytesAsync(maxAllowedSize).ContinueWith((Task<byte[]> task1) => {
 			if (task1.IsFaulted || task1.IsCanceled) {
 				Debug.Log(task1.Exception.ToString());
@@ -535,7 +535,7 @@ targetRef3.GetBytesAsync(maxAllowedSize).ContinueWith((Task<byte[]> task1) => {
 
 			}
 });
-
+/* 
 targetRef4.GetBytesAsync(maxAllowedSize).ContinueWith((Task<byte[]> task1) => {
 			if (task1.IsFaulted || task1.IsCanceled) {
 				Debug.Log(task1.Exception.ToString());
@@ -596,7 +596,7 @@ linkedRef2.GetBytesAsync(maxAllowedSize).ContinueWith((Task<byte[]> task1) => {
 			}
 });
 
-/* 
+
 linkedRef3.GetBytesAsync(maxAllowedSize).ContinueWith((Task<byte[]> task1) => {
 			if (task1.IsFaulted || task1.IsCanceled) {
 				Debug.Log(task1.Exception.ToString());
@@ -608,7 +608,7 @@ linkedRef3.GetBytesAsync(maxAllowedSize).ContinueWith((Task<byte[]> task1) => {
 
 			}
 });
-
+/* 
 linkedRef4.GetBytesAsync(maxAllowedSize).ContinueWith((Task<byte[]> task1) => {
 			if (task1.IsFaulted || task1.IsCanceled) {
 				Debug.Log(task1.Exception.ToString());
@@ -731,7 +731,7 @@ targetRef2.GetBytesAsync(maxAllowedSize).ContinueWith((Task<byte[]> task1) => {
 
 			}
 });
-/*
+
 targetRef3.GetBytesAsync(maxAllowedSize).ContinueWith((Task<byte[]> task1) => {
 			if (task1.IsFaulted || task1.IsCanceled) {
 				Debug.Log(task1.Exception.ToString());
@@ -743,7 +743,7 @@ targetRef3.GetBytesAsync(maxAllowedSize).ContinueWith((Task<byte[]> task1) => {
 
 			}
 });
-
+/* 
 targetRef4.GetBytesAsync(maxAllowedSize).ContinueWith((Task<byte[]> task1) => {
 			if (task1.IsFaulted || task1.IsCanceled) {
 				Debug.Log(task1.Exception.ToString());
@@ -803,7 +803,7 @@ linkedRef2.GetBytesAsync(maxAllowedSize).ContinueWith((Task<byte[]> task1) => {
 
 			}
 });
-/* 
+
 linkedRef3.GetBytesAsync(maxAllowedSize).ContinueWith((Task<byte[]> task1) => {
 			if (task1.IsFaulted || task1.IsCanceled) {
 				Debug.Log(task1.Exception.ToString());
@@ -815,7 +815,7 @@ linkedRef3.GetBytesAsync(maxAllowedSize).ContinueWith((Task<byte[]> task1) => {
 
 			}
 });
-
+/* 
 linkedRef4.GetBytesAsync(maxAllowedSize).ContinueWith((Task<byte[]> task1) => {
 			if (task1.IsFaulted || task1.IsCanceled) {
 				Debug.Log(task1.Exception.ToString());
@@ -966,7 +966,7 @@ targetRef2.GetBytesAsync(maxAllowedSize).ContinueWith((Task<byte[]> task1) => {
 
 			}
 });
-/* 
+
 targetRef3.GetBytesAsync(maxAllowedSize).ContinueWith((Task<byte[]> task1) => {
 			if (task1.IsFaulted || task1.IsCanceled) {
 				Debug.Log(task1.Exception.ToString());
@@ -978,7 +978,7 @@ targetRef3.GetBytesAsync(maxAllowedSize).ContinueWith((Task<byte[]> task1) => {
 
 			}
 });
-
+/* 
 targetRef4.GetBytesAsync(maxAllowedSize).ContinueWith((Task<byte[]> task1) => {
 			if (task1.IsFaulted || task1.IsCanceled) {
 				Debug.Log(task1.Exception.ToString());
@@ -1039,7 +1039,7 @@ linkedRef2.GetBytesAsync(maxAllowedSize).ContinueWith((Task<byte[]> task1) => {
 
 			}
 });
-/* 
+
 linkedRef3.GetBytesAsync(maxAllowedSize).ContinueWith((Task<byte[]> task1) => {
 			if (task1.IsFaulted || task1.IsCanceled) {
 				Debug.Log(task1.Exception.ToString());
@@ -1052,6 +1052,7 @@ linkedRef3.GetBytesAsync(maxAllowedSize).ContinueWith((Task<byte[]> task1) => {
 			}
 });
 
+/* 
 linkedRef4.GetBytesAsync(maxAllowedSize).ContinueWith((Task<byte[]> task1) => {
 			if (task1.IsFaulted || task1.IsCanceled) {
 				Debug.Log(task1.Exception.ToString());
@@ -1132,7 +1133,7 @@ saveFileRef.GetBytesAsync(maxAllowedSize).ContinueWith((Task<byte[]> task1) => {
         // Uh-oh, an error occurred!
     }
 		});	
-		/* 
+		
 		// Delete the file
 		photoRef3.DeleteAsync().ContinueWith(task => {
     if (task.IsCompleted) {
@@ -1141,6 +1142,7 @@ saveFileRef.GetBytesAsync(maxAllowedSize).ContinueWith((Task<byte[]> task1) => {
         // Uh-oh, an error occurred!
     }
 		});	
+		/* 
 		// Delete the file
 		photoRef4.DeleteAsync().ContinueWith(task => {
     if (task.IsCompleted) {

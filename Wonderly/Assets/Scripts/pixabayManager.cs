@@ -259,6 +259,8 @@ public class pixabayManager : MonoBehaviour {
 			StartCoroutine(ChooseCoverImage(index, newThumbnail));
 		}
 
+
+	//makes web call to pixaby for selected image
 	public IEnumerator ChooseCoverImage(int index, GameObject newThumbnail) {
 		using (WWW imageRequest = new WWW(coverImageUrl[index]))
 		{
@@ -507,7 +509,6 @@ public class pixabayManager : MonoBehaviour {
 		private void ClearSearchTextImage(){
 			searchTerm.text = "";
 		}
-
 
 
 /************************************************************************************************************************************************************* */

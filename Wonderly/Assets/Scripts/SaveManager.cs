@@ -16,7 +16,7 @@ using System;
 using System.IO;
 
 public class SaveManager : MonoBehaviour {
-
+	//script references 
 	public FilesManager fm;
 	public targetObjectManager tom;
 	public pixabayManager pm;
@@ -24,18 +24,18 @@ public class SaveManager : MonoBehaviour {
 	public CloudEndpointsApiManager ceam;
 	public LoadManager lm;
 	public ArPairDisplayManager apdm;
-
+	//reference to localScriptHolder gameObject
 	public GameObject lsh;
-
+	//template class for save file (gets converted to JSON)
 	public SaveClassDeclaration save;
-
+	//UI refrences to journey titles and description 
 	public InputField title;
 	public Text editTitle;
 	public InputField description;
 	//the below 2 are for the edit title/description screen marked SINGLE
 	public InputField editTitle2;
 	public InputField editDescription2;
-
+	//display for journey title and description 
 	public Text titleDisplay;
 	public Text descriptionDisplay;
 	public InputField wonderTitle;
@@ -43,11 +43,10 @@ public class SaveManager : MonoBehaviour {
 	//the below 2 are for the edit title/description screen marked SINGLE
 	public InputField wonderTitle2;
 	public InputField wonderDescription2;
-
+	//holds all wonder titles and descriptions to be saved
 	public string[] wonderTitles = new string[5];
 	public string[] wonderDescriptions = new string[5];
 
-	//public string coverImageUrl;
 
 	//add this function to button that saves/sets wonders
 	public void LocalSaveWonderTitleDesc()
@@ -69,9 +68,8 @@ public class SaveManager : MonoBehaviour {
 
 			wonderTitle.text = "";
 			wonderDescription.text = "";
-
-
 	}
+
 
 	//add this function to button that saves/sets wonders
 	public void LocalSaveWonderTitleDescManualIndex(int whichTarget)
@@ -89,11 +87,13 @@ public class SaveManager : MonoBehaviour {
 			wonderDescription2.text = "";
 	}
 
+
 	public void SetJourneyTitleDescription()
 	{
 		titleDisplay.text = title.text;
 		descriptionDisplay.text = description.text;
 	}
+
 
 	public void SetEditedJourneyTitleDescription()
 	{
@@ -102,7 +102,7 @@ public class SaveManager : MonoBehaviour {
 	}
 
 
-
+	//creates save file JSON from save file class
 	public void CreateSaveFile()
 	{
 		lsh.GetComponent<UiManager>().SetLoadingPanelActive(true);
@@ -165,7 +165,6 @@ public class SaveManager : MonoBehaviour {
 		//make sure to iterate over all 5 possible targets to make sure we get all targets if one has been deleted
 		for (int i = 0; i < 5; i++)
 		{
-
 			//only save this target if the it has objects save to it
 			if (fm.targetStatus[i] != "none" || fm.targetStatus[i] != "created")
 			{
@@ -433,8 +432,6 @@ public class SaveManager : MonoBehaviour {
 	{
 		lsh.GetComponent<UiManager>().SetLoadingPanelActive(true);
 		Debug.Log("creating save file for edit");
-		//delete the previous save
-		//deleteOldSave();
 
 		//create a new save class instance
 		save = new SaveClassDeclaration();
@@ -731,10 +728,11 @@ public class SaveManager : MonoBehaviour {
 			wonderTitles[m] = "";
 			wonderDescriptions[m] = "";
 		}
-
 		pm.coverImage.sprite = pm.blankImage.sprite;
 	}
 
+
+	//deletes old save file
 	public void deleteOldSave() 
 	{
 		if (Directory.Exists(fm.SaveDirectory))

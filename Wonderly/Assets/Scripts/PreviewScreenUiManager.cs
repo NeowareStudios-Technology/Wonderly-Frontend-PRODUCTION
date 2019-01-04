@@ -11,8 +11,10 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PreviewScreenUiManager : MonoBehaviour {
-	public GameObject[] previewStubs = new GameObject[5];
+	//script references
 	public FilesManager fm;
+	//stubs of preview target images and AR targets
+	public GameObject[] previewStubs = new GameObject[5];
 	
 	// Update is called once per frame
 	void Update () {

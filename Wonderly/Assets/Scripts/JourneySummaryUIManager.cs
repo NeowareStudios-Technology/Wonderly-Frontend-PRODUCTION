@@ -49,11 +49,11 @@ public class JourneySummaryUIManager : MonoBehaviour {
 		Debug.Log("update is running");
 
 		//controls whether the addWonder button appears based on number of targets
-		if (fm.targetCount == 2)
+		if (fm.targetCount == 3)
 		{
 			addWonderButton.SetActive(false);
 		}
-		else if (fm.targetCount < 2)
+		else if (fm.targetCount < 3)
 		{
 			addWonderButton.SetActive(true);
 		}

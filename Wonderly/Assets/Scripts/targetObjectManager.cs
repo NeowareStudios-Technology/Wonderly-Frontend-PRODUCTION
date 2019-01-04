@@ -15,202 +15,28 @@ using UnityEngine.UI;
 using UnityEngine.Video;
 
 public class targetObjectManager : MonoBehaviour {
-
-	public GameObject[] videoPlayers = new GameObject[5];
-	public GameObject[] targetMarkers = new GameObject[5];
-	public GameObject[] models = new GameObject[5];
-	public GameObject[] images = new GameObject[5];
-	public string[] modelIds = new string[5];
-	public Image[] targetObjectThumbnails = new Image[5];
-
-	public Image blankSprite;
-
-	public List<string> attribs = new List<string>();
-
+	//script reference
 	public FilesManager fm;
 	public ImageTargetManager itm;
+	//holds all video players for targets
+	public GameObject[] videoPlayers = new GameObject[5];
+	//holds all markers (white ball) for targets
+	public GameObject[] targetMarkers = new GameObject[5];
+	//holds all possible models for targets
+	public GameObject[] models = new GameObject[5];
+	//holds all images for AR targets
+	public GameObject[] images = new GameObject[5];
+	//holds all IDs for imported Poly models
+	public string[] modelIds = new string[5];
+	//reference to linked AR object thumbnails
+	public Image[] targetObjectThumbnails = new Image[5];
+	//used to blank out sprites
+	public Image blankSprite;
+	
+	public List<string> attribs = new List<string>();
 
 
-
-	void Update () {
-
-		
-		GameObject videoPlayer = videoPlayers[0];
-		GameObject targetMarker = targetMarkers[0];
-		GameObject image = images[0];
-		for (int i = 0; i < 5; i++)
-		{
-			switch(i)
-			{
-				case 0:
-					videoPlayer = videoPlayers[0];
-					targetMarker = targetMarkers[0];
-					image = images[0];
-					break;
-				case 1:
-					videoPlayer = videoPlayers[1];
-					targetMarker = targetMarkers[1];
-					image = images[1];
-					break;
-				case 2:
-					videoPlayer = videoPlayers[2];
-					targetMarker = targetMarkers[2];
-					image = images[2];
-					break;
-				case 3:
-					videoPlayer = videoPlayers[3];
-					targetMarker = targetMarkers[3];
-					image = images[3];
-					break;
-				case 4:
-					videoPlayer = videoPlayers[4];
-					targetMarker = targetMarkers[4];
-					image = images[4];
-					break;
-			}
-			//manages objects for each target
-			if (fm.targetStatus[i] == "none")
-			{
-				//videoPlayer.SetActive(false);
-				targetMarker.SetActive(false);
-				image.SetActive(false);
-				switch(i)
-				{
-					case 0:
-						resetTargetModel(1);
-						videoPlayers[0].gameObject.transform.position = new Vector3(90f, 0f, 0f);
-						break;
-					case 1:
-						resetTargetModel(2);
-						videoPlayers[1].gameObject.transform.position = new Vector3(90f, 0f, 0f);
-						break;
-					case 2:
-						resetTargetModel(3);
-						videoPlayers[2].gameObject.transform.position = new Vector3(90f, 0f, 0f);
-						break;
-					case 3:
-						resetTargetModel(4);
-						videoPlayers[3].gameObject.transform.position = new Vector3(90f, 0f, 0f);
-						break;
-					case 4:
-						resetTargetModel(5);
-						videoPlayers[4].gameObject.transform.position = new Vector3(90f, 0f, 0f);
-						break;
-				}
-			}
-			else if (fm.targetStatus[i] == "image")
-			{
-				switch(i)
-				{
-					case 0:
-						resetTargetModel(1);
-						break;
-					case 1:
-						resetTargetModel(2);
-						break;
-					case 2:
-						resetTargetModel(3);
-						break;
-					case 3:
-						resetTargetModel(4);
-						break;
-					case 4:
-						resetTargetModel(5);
-						break;
-				}
-				videoPlayer.SetActive(false);
-				targetMarker.SetActive(false);
-				image.SetActive(true);
-			}
-			else if (fm.targetStatus[i] == "created")
-			{
-				//videoPlayer.SetActive(false);
-				targetMarker.SetActive(true);
-				image.SetActive(false);
-				switch(i)
-				{
-					case 0:
-						resetTargetModel(1);
-						videoPlayers[0].gameObject.transform.position = new Vector3(90f, 0f, 0f);
-						break;
-					case 1:
-						resetTargetModel(2);
-						videoPlayers[1].gameObject.transform.position = new Vector3(90f, 0f, 0f);
-						break;
-					case 2:
-						resetTargetModel(3);
-						videoPlayers[2].gameObject.transform.position = new Vector3(90f, 0f, 0f);
-						break;
-					case 3:
-						resetTargetModel(4);
-						videoPlayers[3].gameObject.transform.position = new Vector3(90f, 0f, 0f);
-						break;
-					case 4:
-						resetTargetModel(5);
-						videoPlayers[4].gameObject.transform.position = new Vector3(90f, 0f, 0f);
-						break;
-				}
-			}
-			else if (fm.targetStatus[i] == "model")
-			{
-				videoPlayer.SetActive(false);
-				targetMarker.SetActive(false);
-				image.SetActive(false);
-			}
-			
-			else if (fm.targetStatus[i] == "video")
-			{
-				switch(i)
-				{
-					case 0:	
-						resetTargetModel(1);
-						if (itm.activeTarget1 == false && itm.target1.activeSelf == true)
-						{
-							videoPlayers[0].GetComponent<SimplePlayback>().unityVideoPlayer.Pause();
-							videoPlayers[0].gameObject.transform.position = new Vector3(90f, 0f, 0f);
-						}
-						break;
-					case 1:
-						resetTargetModel(2);
-						if (itm.activeTarget2 == false && itm.target2.activeSelf == true)
-						{
-							videoPlayers[1].GetComponent<SimplePlayback>().unityVideoPlayer.Pause();
-							videoPlayers[1].gameObject.transform.position = new Vector3(90f, 0f, 0f);
-						}
-						break;
-					case 2:
-						resetTargetModel(3);
-						if (itm.activeTarget3 == false && itm.target3.activeSelf == true)
-						{
-							videoPlayers[2].GetComponent<SimplePlayback>().unityVideoPlayer.Pause();
-							videoPlayers[2].gameObject.transform.position = new Vector3(90f, 0f, 0f);
-						}
-						break;
-					case 3:
-						resetTargetModel(4);
-						if (itm.activeTarget4 == false && itm.target4.activeSelf == true)
-						{
-							videoPlayers[3].GetComponent<SimplePlayback>().unityVideoPlayer.Pause();
-							videoPlayers[3].gameObject.transform.position = new Vector3(90f, 0f, 0f);
-						}
-						break;
-					case 4:
-						resetTargetModel(5);
-						if (itm.activeTarget5 == false && itm.target5.activeSelf == true)
-						{
-							videoPlayers[4].GetComponent<SimplePlayback>().unityVideoPlayer.Pause();
-							videoPlayers[4].gameObject.transform.position = new Vector3(90f, 0f, 0f);
-						}
-						break;
-				}
-				videoPlayer.SetActive(true);
-				targetMarker.SetActive(false);
-				image.SetActive(false);
-				
-			}
-		}
-	}
-
+	//resets model: destroys gameObject and sets id to ""
 	public void resetTargetModel(int whichModel)
 	{
 		switch(whichModel)
@@ -236,8 +62,8 @@ public class targetObjectManager : MonoBehaviour {
 				modelIds[4] = "";
 				break;
 		}
-			
 	}
+
 
 	public void removeTargetObject(int whichTarget)
 	{
@@ -369,7 +195,7 @@ public class targetObjectManager : MonoBehaviour {
 	}
 
 
-
+	//clear all gameobjects from scene
 	public void clearScene() {
 		if(itm.target1.transform.childCount == 4)
       Destroy(itm.target1.transform.GetChild(3).gameObject);

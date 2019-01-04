@@ -241,8 +241,6 @@ public class LoadManager : MonoBehaviour {
 			System.IO.File.Copy(targetPath5, workingPath5, true);
 			fm.targetCount++;
 		}
-
-				
 					if(File.Exists(workingPath1))
 					{
 						//for debugging iOS
@@ -285,7 +283,6 @@ public class LoadManager : MonoBehaviour {
 						//keeps track of name of target and behavior
 						//imageTargetDic.Add(obj.Key, behaviour1);
 						//set the target status array to reflect that this target has been created
-
 					}
 					if(File.Exists(workingPath3))
 					{
@@ -349,10 +346,8 @@ public class LoadManager : MonoBehaviour {
 						//keeps track of name of target and behavior
 						//imageTargetDic.Add(obj.Key, behaviour5);
 						//set the target status array to reflect that this target has been created
-	
 					}
 					
-
 		//set preivew images
 		if (File.Exists(workingPath1))
 		{
@@ -404,6 +399,7 @@ public class LoadManager : MonoBehaviour {
 		}
 		yield return null;
 	}
+
 
 	//imports all AR objects from save directory
 	private IEnumerator ImportLoadedItems() {
@@ -486,7 +482,6 @@ public class LoadManager : MonoBehaviour {
 						StartCoroutine(setLoadedVideoThumb(i, scd.vId[i]));
 						break;
 				}
-				
 			}
 				else if (scd.targetStatus[i] == "image")
 			{
@@ -496,9 +491,6 @@ public class LoadManager : MonoBehaviour {
 		}
 		loadingPanel.SetActive(false);
 	}
-
-
-
 
 
 	//helper function to set image to AR target
@@ -552,6 +544,7 @@ public class LoadManager : MonoBehaviour {
 				}
 				yield return null;
 	}
+
 
 	//set of 3 helper functions to import model
 	private void ImportModel(string modelId, int whichIndex) {
@@ -649,56 +642,7 @@ public class LoadManager : MonoBehaviour {
 		}
 	}
 	}
-
-	//this function has been incorporated into SetImage
-/* 
-	//helper function to load image to corrent thumbnail (called by loadFile)
-	private IEnumerator setLoadedImageThumb(int whichIndex)
-	{
-		switch (whichIndex)
-		{
-			case 0:
-				byte[] coverImageBytes = File.ReadAllBytes(coverPath);
-				Texture2D tex = new Texture2D(2000,2000);
-				tex.LoadImage(coverImageBytes);
-				coverImage.sprite = Sprite.Create(tex, new Rect(0, 0, tex.width, tex.height), new Vector2(0, 0));
-				using (WWW imageThumbRequest1 = new WWW(scd.imageUrl[0]))
-				{
-					yield return imageThumbRequest1;
-					linkedThumb1.sprite = Sprite.Create(imageThumbRequest1.texture, new Rect(0, 0, imageThumbRequest1.texture.width, imageThumbRequest1.texture.height), new Vector2(0, 0));
-				}
-				break;
-			case 1:
-				using (WWW imageThumbRequest2 = new WWW(scd.imageUrl[1]))
-				{
-					yield return imageThumbRequest2;
-					linkedThumb2.sprite = Sprite.Create(imageThumbRequest2.texture, new Rect(0, 0, imageThumbRequest2.texture.width, imageThumbRequest2.texture.height), new Vector2(0, 0));
-				}
-				break;
-			case 2:
-				using (WWW imageThumbRequest3 = new WWW(scd.imageUrl[2]))
-				{
-					yield return imageThumbRequest3;
-					linkedThumb3.sprite = Sprite.Create(imageThumbRequest3.texture, new Rect(0, 0, imageThumbRequest3.texture.width, imageThumbRequest3.texture.height), new Vector2(0, 0));
-				}
-				break;
-			case 3:
-				using (WWW imageThumbRequest4 = new WWW(scd.imageUrl[3]))
-				{
-					yield return imageThumbRequest4;
-					linkedThumb4.sprite = Sprite.Create(imageThumbRequest4.texture, new Rect(0, 0, imageThumbRequest4.texture.width, imageThumbRequest4.texture.height), new Vector2(0, 0));
-				}
-				break;
-			case 4:
-				using (WWW imageThumbRequest5 = new WWW(scd.imageUrl[4]))
-				{
-					yield return imageThumbRequest5;
-					linkedThumb5.sprite = Sprite.Create(imageThumbRequest5.texture, new Rect(0, 0, imageThumbRequest5.texture.width, imageThumbRequest5.texture.height), new Vector2(0, 0));
-				}
-				break;
-		}
-	}
-	*/
+	
 
 	private void setLoadedModelThumb(int whichIndex)
 	{
