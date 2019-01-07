@@ -119,7 +119,6 @@ public class FilesManager : MonoBehaviour
     {
         yield return new WaitForSeconds(1);
         ClearTextures();
-        tom.clearScene();
         itm.DeleteAllTargetsAndText();
         itm.target1.SetActive(true);
         itm.target2.SetActive(true);

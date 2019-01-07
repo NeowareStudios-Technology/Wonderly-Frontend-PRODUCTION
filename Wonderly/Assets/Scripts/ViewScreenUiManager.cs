@@ -8,25 +8,22 @@
 *Copyright 2018 LeapWithAlice,LLC. All rights reserved
  ******************************************************/
 
-
-
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+
 public class ViewScreenUiManager : MonoBehaviour {
-
-	//used get what target is currently being viewed
+	//script references
 	public ImageTargetManager itm;
-	//used to get each wonder's title and description
 	public LoadManager lm;
-
+	//holds viewed wonder title and description
 	public Text wonderTitleDisplay;
 	public Text wonderDescriptionDisplay;
+	//used for controlling activation of viewed wonder title/description (only active when viewed)
 	public GameObject wonderTitle;
 	public GameObject wonderDescription;
-
 	bool isCurrentTargetStillActive = false;
 	int currentViewedTarget = 0;
 	

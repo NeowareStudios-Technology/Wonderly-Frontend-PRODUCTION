@@ -14,6 +14,7 @@ using UnityEngine.UI;
 
 public class TitleDescriptionClearer : MonoBehaviour {
 
+	//script references
 	public InputField title;
 	public InputField description;
 

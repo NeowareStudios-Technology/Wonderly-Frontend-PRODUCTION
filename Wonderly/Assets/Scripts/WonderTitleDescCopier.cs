@@ -15,12 +15,15 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class WonderTitleDescCopier : MonoBehaviour {
+	//input fields for wonder title and description 
 	public InputField newWonderTitle;
 	public InputField newWonderDesc;
-
+	//arrays that hold current wonder titles and descriptions
 	public Text[] currentWonderTitles = new Text[5];
 	public Text[] currentWonderDescs = new Text[5];
 	
+
+	//ensures wonder edit screen is prefilled with current title/description
 	public void copyWonderTitleDesc(int index)
 	{
 		newWonderTitle.text = currentWonderTitles[index-1].text;

@@ -15,8 +15,10 @@ using UnityEngine.UI;
 
 public class TitleDescriptionCopier : MonoBehaviour {
 
+	//references to current title and description of journey
 	public Text currentTitle;
 	public Text currentDescription;
+	//input fields for editing title and description of journey
 	public InputField newTitle;
 	public InputField newDescription;
 

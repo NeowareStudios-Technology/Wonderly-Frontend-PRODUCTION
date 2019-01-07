@@ -15,16 +15,16 @@ using UnityEngine.UI;
 using UnityEngine.Video;
 
 public class YoutubeVideoUi : MonoBehaviour {
-
+    //script references
+    public VideoSearchManager vsm;
+    public FilesManager fm;
+    public targetObjectManager tom;
+    public ImageTargetManager itm;
     public Text videoName;
     public string videoId,thumbUrl;
     public UnityEngine.UI.Image videoThumb;
     private GameObject mainUI;
-    public FilesManager fm;
-    public targetObjectManager tom;
-    public ImageTargetManager itm;
     public GameObject lsh;
-    public VideoSearchManager vsm;
 
     //set all needed script variables here (cant do this in GUI because this is a spawned script)
     void Awake()

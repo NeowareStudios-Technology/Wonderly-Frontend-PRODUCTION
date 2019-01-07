@@ -58,7 +58,7 @@ public class JourneySummaryUIManager : MonoBehaviour {
 			addWonderButton.SetActive(true);
 		}
         
-		//controls ar pair display
+		//activate correct ar pair display and correct model/video/image icon
     switch (fm.targetStatus[0])
 		{
 			case "none":

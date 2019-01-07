@@ -55,33 +55,7 @@ public class ImageTargetManager : MonoBehaviour
     private Dictionary<string, DynamicImageTargetBehaviour> imageTargetDic = new Dictionary<string, DynamicImageTargetBehaviour>();
 
 
-    //deletes all targets
-    public void ClearAllTarget()
-    {
-        foreach (var obj in imageTargetDic)
-        {
-            Destroy(obj.Value.gameObject.GetComponent<DynamicImageTargetBehaviour>());
-            //if a model has been added to the target, delete it
-            if(obj.Value.gameObject.transform.childCount == 4)
-                Destroy(obj.Value.gameObject.transform.GetChild(3).gameObject);
-            obj.Value.gameObject.SetActive(false);
-        }
-
-        its.imageTargetDic = new Dictionary<string, DynamicImageTargetBehaviour>();
-
-        for(int index =0; index < 5; index++)
-        {
-            pathManager.targetStatus[index] = "none";
-        }
-
-        //set target to represent to targets saved
-        pathManager.targetCount = 0;
-        pathManager.currentTarget = 0;
-        count = 0;
-    }
-
-
-    //deletes all targets (current version)
+    //deletes all targets and set text
     public void DeleteAllTargetsAndText()
     {
         Debug.Log("1. starting itm.DeleteAllTargetsAndText...");
@@ -89,6 +63,8 @@ public class ImageTargetManager : MonoBehaviour
         {
             Destroy(obj.Value.gameObject.GetComponent<DynamicImageTargetBehaviour>());
         }
+
+        tom.clearScene();
 
         Destroy(target1.GetComponent<DynamicImageTargetBehaviour>());
         Destroy(target2.GetComponent<DynamicImageTargetBehaviour>());
@@ -112,7 +88,7 @@ public class ImageTargetManager : MonoBehaviour
         //reset all objects for targets
         for (int i = 0; i<5; i++)
         {
-            tom.manualRemoveTargetObject(i+1);
+            tom.removeTargetObject(i+1);
             pathManager.targetStatus[i] = "none";
         }
 

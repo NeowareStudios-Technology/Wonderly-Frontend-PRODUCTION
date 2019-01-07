@@ -92,6 +92,7 @@ public class CloudEndpointsApiManager : MonoBehaviour {
 	public Image testImage;
   public GameObject noJourneyPanel;
 	private int deleteJourneyIndex;
+	
 
 	//for counting number of web call retries (max = 3)
 	private int profileCreateCallCount = 0;
@@ -647,14 +648,18 @@ public void startGetProfileInfo()
 
 			//spawn and fill out library stub
 			
+			//title
 			libraryStubs[i].transform.GetChild(1).gameObject.GetComponent<Text>().text = oec.titles[i];
+			//code
 			libraryStubs[i].transform.GetChild(2).gameObject.GetComponent<Text>().text = oec.codes[i];
-			// Get Child 5 = JourneyCoverPhoto
+			//JourneyCoverPhoto
 			libraryStubs[i].transform.GetChild(5).gameObject.GetComponent<Button>().onClick.AddListener(delegate {fsm.startDownloadExperienceFilesDirect(index+1); });
 			libraryStubs[i].transform.GetChild(5).gameObject.GetComponent<Button>().onClick.AddListener(delegate {mainCanvasPanelController.OpenPanel(PreviewScreenAnimator); });
 			libraryStubs[i].transform.GetChild(5).gameObject.GetComponent<Button>().onClick.AddListener(delegate {iconPanel.SetActive(false); });
 			libraryStubs[i].transform.GetChild(5).gameObject.GetComponent<Button>().onClick.AddListener(delegate {lsh.GetComponent<UiManager>().SetLoadingPanelActive(true); });
+			//more info
 			libraryStubs[i].transform.GetChild(7).gameObject.GetComponent<Button>().onClick.AddListener(delegate {createLibraryPopup(index); });
+			//date
 			libraryStubs[i].transform.GetChild(8).gameObject.GetComponent<Text>().text = oec.dates[i];
 			libraryCodes[i] = oec.codes[i];
 

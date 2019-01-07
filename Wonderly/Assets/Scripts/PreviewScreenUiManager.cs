@@ -16,7 +16,7 @@ public class PreviewScreenUiManager : MonoBehaviour {
 	//stubs of preview target images and AR targets
 	public GameObject[] previewStubs = new GameObject[5];
 	
-	// Update is called once per frame
+	//displays preview stubs based on number of targets that exist
 	void Update () {
 		int i;
 		switch (fm.targetCount)

@@ -2,7 +2,7 @@
 *Project: Wonderly
 *Created by: David Lee Ramirez
 *Date: 12/28/18
-*Description: Handles the displaying and removal of AR 
+*Description: Handles removal of AR 
 							linked objects on each target. 
 *Copyright 2018 LeapWithAlice,LLC. All rights reserved
  ******************************************************/
@@ -65,6 +65,7 @@ public class targetObjectManager : MonoBehaviour {
 	}
 
 
+	//removes AR linked object from target by index
 	public void removeTargetObject(int whichTarget)
 	{
 		//do nothing if there is no target object 
@@ -128,68 +129,6 @@ public class targetObjectManager : MonoBehaviour {
 				}
 				videoPlayers[0].SetActive(false);
 				targetObjectThumbnails[4].sprite = blankSprite.sprite;
-				break;
-		}
-	}
-
-	public void manualRemoveTargetObject(int whichTarget)
-	{
-		//do nothing if there is no target object 
-		if(fm.targetStatus[whichTarget-1] == "none" || fm.targetStatus[whichTarget-1] == "created")
-			return;
-
-		switch(whichTarget)
-		{
-			case 1:
-				fm.targetStatus[0] = "created";
-				if (models[0] != null)
-				{
-					Destroy(models[0]);
-					modelIds[0] = null;
-					models[0] = null;
-				}
-				videoPlayers[0].SetActive(false);
-				
-				break;
-			case 2:
-				fm.targetStatus[1] = "created";
-				if (models[1] != null)
-				{
-					Destroy(models[1]);
-					modelIds[1] = null;
-					models[1] = null;
-				}
-				videoPlayers[1].SetActive(false);
-				break;
-			case 3:
-				fm.targetStatus[2] = "created";
-				if (models[2] != null)
-				{
-					Destroy(models[2]);
-					modelIds[2] = null;
-					models[2] = null;
-				}
-				videoPlayers[2].SetActive(false);
-				break;
-			case 4:
-				fm.targetStatus[3] = "created";
-				if (models[3] != null)
-				{
-					Destroy(models[3]);
-					modelIds[3] = null;
-					models[3] = null;
-				}
-				videoPlayers[3].SetActive(false);
-				break;
-			case 5:
-				fm.targetStatus[4] = "created";
-				if (models[4] != null)
-				{
-					Destroy(models[4]);
-					modelIds[4] = null;
-					models[4] = null;
-				}
-				videoPlayers[0].SetActive(false);
 				break;
 		}
 	}

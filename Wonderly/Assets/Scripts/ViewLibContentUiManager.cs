@@ -13,9 +13,9 @@ public class ViewLibContentUiManager : MonoBehaviour {
 	public GameObject pixabayLogoEditFlow;
 	public GameObject polyLogoEditFlow;
 	
-	// Update is called once per frame
+	
+	//display correct repo logo depending on which repo is being searched
 	void Update () {
-				//display correct repo logo depending on which repo is being searched
 		if (fm.currentTarget > 0)
 		{
 			switch (fm.targetStatus[fm.currentTarget-1])
@@ -62,6 +62,5 @@ public class ViewLibContentUiManager : MonoBehaviour {
 					break;
 			}
 		}
-		
 	}
 }
