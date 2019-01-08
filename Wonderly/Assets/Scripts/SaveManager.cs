@@ -736,7 +736,14 @@ public class SaveManager : MonoBehaviour {
 	public void deleteOldSave() 
 	{
 		if (Directory.Exists(fm.SaveDirectory))
-			Directory.Delete(fm.SaveDirectory, true);
+        {
+            DirectoryInfo di = new DirectoryInfo(fm.SaveDirectory);
+
+            foreach (FileInfo file in di.GetFiles())
+            {
+                file.Delete(); 
+            }
+        }
 	}
 
 }

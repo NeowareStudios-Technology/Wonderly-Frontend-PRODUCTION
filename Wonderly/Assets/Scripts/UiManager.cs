@@ -83,7 +83,7 @@ public class UiManager : MonoBehaviour {
 	//determine screenshot size by size of screen
 	void Awake() 
 	{
-		screenCapBorder.sizeDelta = new Vector2 (Screen.width/2+255, Screen.height/2+380);
+		screenCapBorder.sizeDelta = new Vector2 (Screen.width/2, Screen.height/2);
 		//screenCapBorder.anchoredPosition = new Vector2(Screen.width / 4, Screen.height / 3);
 
 	}

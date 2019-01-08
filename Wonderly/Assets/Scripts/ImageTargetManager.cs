@@ -152,6 +152,10 @@ public class ImageTargetManager : MonoBehaviour
                 file.Delete(); 
             }
         }
+        else
+        {
+            Directory.CreateDirectory(fm.SaveDirectory);
+        }
 
         fm.unloadUnused();
     }
