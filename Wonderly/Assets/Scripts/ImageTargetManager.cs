@@ -171,44 +171,97 @@ public class ImageTargetManager : MonoBehaviour
         Debug.Log("1. Starting DeleteTarget()");
 
         string thisPath = "";
+        string savePath = "";
+        string linkedPath = "";
+        string linkedSavePath = "";
         switch(whichTarget)
         {
             case 1:
                 Debug.Log("2. Deleting targetPhoto1.jpg");
+                //delete target image from working directory
                 thisPath = Path.Combine(pathManager.MarksDirectory, "targetPhoto1.jpg");
-                File.Delete(thisPath);
+                SafeDeleteFile(thisPath);
+                //delete target imagefrom save directory (if present)
+                savePath = Path.Combine(pathManager.SaveDirectory, "targetPhoto1.jpg");
+                SafeDeleteFile(savePath);
+                //delete linked image from working directory
+                linkedPath = Path.Combine(pathManager.MarksDirectory, "linkedImage1.jpg");
+                SafeDeleteFile(linkedPath);
+                //delete linked image from save directory
+                linkedSavePath = Path.Combine(pathManager.SaveDirectory, "linkedImage1.jpg");
+                SafeDeleteFile(linkedSavePath);
                 Destroy(target1.GetComponent<DynamicImageTargetBehaviour>());
                 its.imageTargetDic.Remove("targetPhoto1");
                 tom.removeTargetObject(1);
                 fm.targetStatus[0] = "none";
                 break;
             case 2:
+                //delete target image from working directory
                 thisPath = Path.Combine(pathManager.MarksDirectory, "targetPhoto2.jpg");
-                File.Delete(thisPath);
+                SafeDeleteFile(thisPath);
+                //delete target imagefrom save directory (if present)
+                savePath = Path.Combine(pathManager.SaveDirectory, "targetPhoto2.jpg");
+                SafeDeleteFile(savePath);
+                //delete linked image from working directory
+                linkedPath = Path.Combine(pathManager.MarksDirectory, "linkedImage2.jpg");
+                SafeDeleteFile(linkedPath);
+                //delete linked image from save directory
+                linkedSavePath = Path.Combine(pathManager.SaveDirectory, "linkedImage2.jpg");
+                SafeDeleteFile(linkedSavePath);
                 Destroy(target2.GetComponent<DynamicImageTargetBehaviour>());
                 its.imageTargetDic.Remove("targetPhoto2");
                 tom.removeTargetObject(2);
                 fm.targetStatus[1] = "none";
                 break;
             case 3:
+                //delete target image from working directory
                 thisPath = Path.Combine(pathManager.MarksDirectory, "targetPhoto3.jpg");
-                File.Delete(thisPath);
+                SafeDeleteFile(thisPath);
+                //delete target imagefrom save directory (if present)
+                savePath = Path.Combine(pathManager.SaveDirectory, "targetPhoto3.jpg");
+                SafeDeleteFile(savePath);
+                //delete linked image from working directory
+                linkedPath = Path.Combine(pathManager.MarksDirectory, "linkedImage3.jpg");
+                SafeDeleteFile(linkedPath);
+                //delete linked image from save directory
+                linkedSavePath = Path.Combine(pathManager.SaveDirectory, "linkedImage3.jpg");
+                SafeDeleteFile(linkedSavePath);
                 Destroy(target3.GetComponent<DynamicImageTargetBehaviour>());
                 its.imageTargetDic.Remove("targetPhoto3");
                 tom.removeTargetObject(3);
                 fm.targetStatus[2] = "none";
                 break;
             case 4:
+                //delete target image from working directory
                 thisPath = Path.Combine(pathManager.MarksDirectory, "targetPhoto4.jpg");
-                File.Delete(thisPath);
+                SafeDeleteFile(thisPath);
+                //delete target imagefrom save directory (if present)
+                savePath = Path.Combine(pathManager.SaveDirectory, "targetPhoto4.jpg");
+                SafeDeleteFile(savePath);
+                //delete linked image from working directory
+                linkedPath = Path.Combine(pathManager.MarksDirectory, "linkedImage4.jpg");
+                SafeDeleteFile(linkedPath);
+                //delete linked image from save directory
+                linkedSavePath = Path.Combine(pathManager.SaveDirectory, "linkedImage4.jpg");
+                SafeDeleteFile(linkedSavePath);
                 Destroy(target4.GetComponent<DynamicImageTargetBehaviour>());
                 its.imageTargetDic.Remove("targetPhoto4");
                 tom.removeTargetObject(4);
                 fm.targetStatus[3] = "none";
                 break;
             case 5:
+                //delete target image from working directory
                 thisPath = Path.Combine(pathManager.MarksDirectory, "targetPhoto5.jpg");
-                File.Delete(thisPath);
+                SafeDeleteFile(thisPath);
+                //delete target imagefrom save directory (if present)
+                savePath = Path.Combine(pathManager.SaveDirectory, "targetPhoto5.jpg");
+                SafeDeleteFile(savePath);
+                //delete linked image from working directory
+                linkedPath = Path.Combine(pathManager.MarksDirectory, "linkedImage5.jpg");
+                SafeDeleteFile(linkedPath);
+                //delete linked image from save directory
+                linkedSavePath = Path.Combine(pathManager.SaveDirectory, "linkedImage5.jpg");
+                SafeDeleteFile(linkedSavePath);
                 Destroy(target5.GetComponent<DynamicImageTargetBehaviour>());
                 its.imageTargetDic.Remove("targetPhoto5");
                 tom.removeTargetObject(5);
@@ -219,6 +272,15 @@ public class ImageTargetManager : MonoBehaviour
         pathManager.targetCount --;
 
         Resources.UnloadUnusedAssets();
+    }
+
+    public void SafeDeleteFile(string path)
+    {
+        if (File.Exists(path))
+        {
+            File.Delete(path);
+            Debug.Log("file deleted: "+path);
+        }
     }
 
     //gets called by UI to delete currently indexed target

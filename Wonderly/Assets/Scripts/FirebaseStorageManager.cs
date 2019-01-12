@@ -1106,6 +1106,9 @@ saveFileRef.GetBytesAsync(maxAllowedSize).ContinueWith((Task<byte[]> task1) => {
 		Firebase.Storage.StorageReference saveRef = fbm.fbStorageRef.Child(code + "/" + "aoSave.json");
 		Firebase.Storage.StorageReference photoRef1 = fbm.fbStorageRef.Child(code + "/" + "targetPhoto1.jpg");
 		Firebase.Storage.StorageReference photoRef2 = fbm.fbStorageRef.Child(code + "/" + "targetPhoto2.jpg");
+		Firebase.Storage.StorageReference linkedRef1 = fbm.fbStorageRef.Child(code + "/" + "linkedImage1.jpg");
+		Firebase.Storage.StorageReference linkedRef2 = fbm.fbStorageRef.Child(code + "/" + "linkedImage2.jpg");
+		Firebase.Storage.StorageReference coverRef = fbm.fbStorageRef.Child(code + "/" + "coverImage.jpg");
 		//Firebase.Storage.StorageReference photoRef3 = fbm.fbStorageRef.Child(code + "/" + "targetPhoto3.jpg");
 		//Firebase.Storage.StorageReference photoRef4 = fbm.fbStorageRef.Child(code + "/" + "targetPhoto4.jpg");
 		//Firebase.Storage.StorageReference photoRef5 = fbm.fbStorageRef.Child(code + "/" + "targetPhoto5.jpg");
@@ -1114,7 +1117,7 @@ saveFileRef.GetBytesAsync(maxAllowedSize).ContinueWith((Task<byte[]> task1) => {
 		// Delete the file
 		saveRef.DeleteAsync().ContinueWith(task => {
     if (task.IsCompleted) {
-        Debug.Log("File deleted successfully.");
+        Debug.Log("Edit Flow: Save file deleted successfully.");
     } else {
         // Uh-oh, an error occurred!
     }
@@ -1122,7 +1125,7 @@ saveFileRef.GetBytesAsync(maxAllowedSize).ContinueWith((Task<byte[]> task1) => {
 		// Delete the file
 		photoRef1.DeleteAsync().ContinueWith(task => {
     if (task.IsCompleted) {
-        Debug.Log("File deleted successfully.");
+        Debug.Log("Edit Flow: Target 1 image File deleted successfully.");
     } else {
         // Uh-oh, an error occurred!
     }
@@ -1130,7 +1133,28 @@ saveFileRef.GetBytesAsync(maxAllowedSize).ContinueWith((Task<byte[]> task1) => {
 		// Delete the file
 		photoRef2.DeleteAsync().ContinueWith(task => {
     if (task.IsCompleted) {
-        Debug.Log("File deleted successfully.");
+        Debug.Log("Edit Flow: Target 2 image File deleted successfully.");
+    } else {
+        // Uh-oh, an error occurred!
+    }
+		});	
+		linkedRef1.DeleteAsync().ContinueWith(task => {
+    if (task.IsCompleted) {
+        Debug.Log("Edit Flow: linked 1 image File deleted successfully.");
+    } else {
+        // Uh-oh, an error occurred!
+    }
+		});	
+		linkedRef2.DeleteAsync().ContinueWith(task => {
+    if (task.IsCompleted) {
+        Debug.Log("Edit Flow: linked 2 image File deleted successfully.");
+    } else {
+        // Uh-oh, an error occurred!
+    }
+		});	
+		coverRef.DeleteAsync().ContinueWith(task => {
+    if (task.IsCompleted) {
+        Debug.Log("Edit Flow: cover image File deleted successfully.");
     } else {
         // Uh-oh, an error occurred!
     }

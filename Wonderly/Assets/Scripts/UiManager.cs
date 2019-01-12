@@ -72,6 +72,8 @@ public class UiManager : MonoBehaviour {
 	public InputField newMatchingPassword;
 	//for dynamically sized/created screen shot view
 	public RectTransform screenCapBorder;
+	//for clearing share screen code text
+	public Text codeDisplay;
 
 
 	//determine screenshot size by size of screen
@@ -252,6 +254,12 @@ public class UiManager : MonoBehaviour {
 		currentPassword.text = "";
 		newPassword.text = "";
 		newMatchingPassword.text = "";
+	}
+
+	//clears the share screen of the code text
+	public void ClearShareScreen()
+	{
+		codeDisplay.text = "";
 	}
 }
 

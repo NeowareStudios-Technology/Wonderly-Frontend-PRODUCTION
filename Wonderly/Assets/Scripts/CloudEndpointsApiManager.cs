@@ -575,6 +575,11 @@ public void startGetProfileInfo()
 	{
 		lsh.GetComponent<UiManager>().SetLoadingPanelActive(true);
 		int numExperiences = 0;
+
+		//clear share screen code text
+		um.ClearShareScreen();
+
+		//get the codes of journeys owned by this user
 		using (UnityWebRequest getOwnedCodesRequest = UnityWebRequest.Get(getOwnedCodesUrl))
 		{
 			//set content type
