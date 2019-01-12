@@ -52,8 +52,6 @@ public class YoutubeVideoUi : MonoBehaviour {
             return;
         }
 
-        //loading Panel deactivated in RequestResolver.DownloadUrl()
-        lsh.GetComponent<UiManager>().SetLoadingPanelActive(true);
 
         Debug.Log("Now starting YoutubeVideoUi.PlayYoutubeVideo()");
         Debug.Log("video id: "+videoId);

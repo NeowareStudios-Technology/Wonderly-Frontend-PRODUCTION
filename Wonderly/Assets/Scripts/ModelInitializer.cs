@@ -52,7 +52,7 @@ public class ModelInitializer : MonoBehaviour {
         req.keywords = keyword.text;
         req.curated = true;
         req.orderBy = PolyOrderBy.BEST;
-        req.maxComplexity = PolyMaxComplexityFilter.UNSPECIFIED;
+        req.maxComplexity = PolyMaxComplexityFilter.MEDIUM;
         PolyApi.ListAssets(req, ListAssetsCallback);
         thumbnailCount = 0;
     }
@@ -128,7 +128,7 @@ public class ModelInitializer : MonoBehaviour {
 			}
             Debug.Log("done destroying");
             //deactivate loading panel
-            localScriptHolder.GetComponent<UiManager>().SetLoadingPanelActive(false);
+            //localScriptHolder.GetComponent<UiManager>().SetLoadingPanelActive(false);
             Resources.UnloadUnusedAssets();
 	
     }

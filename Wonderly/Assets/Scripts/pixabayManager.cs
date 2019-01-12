@@ -75,6 +75,7 @@ public class pixabayManager : MonoBehaviour {
 	//for accessing Panel Controller
 	public GameObject mainCanvas;
 	public Animator viewLibraryContentPanel;
+	public Animator CompleteJourneyCopyPanel;
 	public GameObject localScriptHolder;
 	//Keeps track of instantiated thumbnails
 	public GameObject[] thumbnailResults;
@@ -215,6 +216,7 @@ public class pixabayManager : MonoBehaviour {
 				newThumbnail.GetComponent<RectTransform>().localScale = new Vector3(1.0f,1.0f,1.0f);
 				newThumbnail.GetComponent<Image>().sprite = Sprite.Create(previewRequest.texture, new Rect(0, 0, previewRequest.texture.width, previewRequest.texture.height), new Vector2(0, 0));
 				newThumbnail.GetComponent<Button>().onClick.AddListener(delegate {chooseCoverImageStarter(index, newThumbnail);});
+				newThumbnail.GetComponent<Button>().onClick.AddListener(delegate {thumbNailParentContentCoverImage.SetActive(false);});
 				newThumbnail.GetComponent<Button>().onClick.AddListener(delegate {chooseCoverImagePanel.SetActive(false);});
 				//searchedThumbnailsCoverImage[index].sprite = Sprite.Create(previewRequest.texture, new Rect(0, 0, previewRequest.texture.width, previewRequest.texture.height), new Vector2(0, 0));
 			}
@@ -243,11 +245,12 @@ public class pixabayManager : MonoBehaviour {
 				newThumbnail.GetComponent<RectTransform>().localScale = new Vector3(1.0f,1.0f,1.0f);
 				newThumbnail.GetComponent<Image>().sprite = Sprite.Create(previewRequest.texture, new Rect(0, 0, previewRequest.texture.width, previewRequest.texture.height), new Vector2(0, 0));
 				newThumbnail.GetComponent<Button>().onClick.AddListener(delegate {chooseCoverImageStarter(index, newThumbnail);});
-				newThumbnail.GetComponent<Button>().onClick.AddListener(delegate {chooseCoverImagePanel2.SetActive(false);});
+				newThumbnail.GetComponent<Button>().onClick.AddListener(delegate {mainCanvas.GetComponent<PanelController>().OpenPanel(CompleteJourneyCopyPanel);});
 				//searchedThumbnailsCoverImage[index].sprite = Sprite.Create(previewRequest.texture, new Rect(0, 0, previewRequest.texture.width, previewRequest.texture.height), new Vector2(0, 0));
 			}
 		}
 	}
+
 
 
 	//chooses cover image from thumbnail

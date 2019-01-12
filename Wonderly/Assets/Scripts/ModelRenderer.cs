@@ -33,6 +33,8 @@ public class ModelRenderer : MonoBehaviour {
     public Text modelAttrib;
     //UI for displaying model attributes (Edit flow)
     public Text modelAttrib2;
+    //for activating/deactivating loading panel
+    public GameObject localScriptHolder;
 
  
     //Destroys children of target passed to it
@@ -50,6 +52,7 @@ public class ModelRenderer : MonoBehaviour {
         if (fm.targetStatus[fm.currentTarget-1] == "none")
             return;
 
+        fm.targetStatus[fm.currentTarget-1] = "model";
         List<PolyAsset> renderList = new List<PolyAsset>();
         renderList.Add(whichModel.GetComponent<PolyAssetHolderClass>().heldAsset);
         attributeString = PolyApi.GenerateAttributions(includeStatic: true, runtimeAssets: renderList);
@@ -148,7 +151,6 @@ public class ModelRenderer : MonoBehaviour {
             GameObject myModelObject = result.Value.gameObject;
             myModel = result.Value.gameObject.GetComponent(typeof(Transform)) as Transform;
             myModel.transform.position = new Vector3(0.0f, 0.65f, 0f);
-            fm.targetStatus[fm.currentTarget-1] = "model";
 
              //to decide which target to render the model to
             switch(fm.currentTarget)
@@ -188,6 +190,7 @@ public class ModelRenderer : MonoBehaviour {
                     break;
             }
         }
+        localScriptHolder.GetComponent<UiManager>().SetLoadingPanelActive(false);
     }
 
 

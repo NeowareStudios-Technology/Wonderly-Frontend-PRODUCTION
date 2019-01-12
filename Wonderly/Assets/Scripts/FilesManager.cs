@@ -29,9 +29,10 @@ public class FilesManager : MonoBehaviour
     public string MarksDirectory;
     public string SaveDirectory;
     private bool isWriting;
-    public int TARGET_LIMIT = 3;
+    public int TARGET_LIMIT = 2;
     public int targetCount = 0;
     public int currentTarget =0;
+    public int journeyCount = 0;
     //will hold whether each target has image, video, model, is "created" , or "none"
     public string[] targetStatus = {"none","none","none","none","none"};
     //paths for target images
@@ -46,6 +47,7 @@ public class FilesManager : MonoBehaviour
     public Animator welcomePanel;
     //for deactivating AR camera to save cpu
     public GameObject arCamera;
+    public PhotoCaptureArea pca;
 
     //sets the current target (wonder)
     public void setCurrentTarget(int current)
@@ -168,7 +170,7 @@ public class FilesManager : MonoBehaviour
         yield return new WaitForEndOfFrame();
 
         Texture2D photo = new Texture2D(Screen.width / 2, Screen.height / 2, TextureFormat.RGB24, false);
-        photo.ReadPixels(new Rect(Screen.width / 4, Screen.height / 3, Screen.width / 2, Screen.height / 2), 0, 0, false);
+        photo.ReadPixels(new Rect(Screen.width / 4, Screen.height / 4, Screen.width / 2, Screen.height / 2), 0, 0, false);
         photo.Apply();
 
         byte[] data = photo.EncodeToJPG(80);
@@ -179,7 +181,7 @@ public class FilesManager : MonoBehaviour
         //create image for earliest possible image "slot"
         string testPath1 = Path.Combine(MarksDirectory, "targetPhoto1.jpg");
         string testPath2 = Path.Combine(MarksDirectory, "targetPhoto2.jpg");
-        string testPath3 = Path.Combine(MarksDirectory, "targetPhoto3.jpg");
+        //string testPath3 = Path.Combine(MarksDirectory, "targetPhoto3.jpg");
         //string testPath4 = Path.Combine(MarksDirectory, "targetPhoto4.jpg");
         //string testPath5 = Path.Combine(MarksDirectory, "targetPhoto5.jpg");
         if (!File.Exists(testPath1))
@@ -192,12 +194,13 @@ public class FilesManager : MonoBehaviour
             pathString = "targetPhoto2.jpg";
             currentTarget = 2;
         }
+        /* 
         else if (!File.Exists(testPath3))
         {
             pathString = "targetPhoto3.jpg";
             currentTarget = 3;
         }
-        /* 
+        
         else if (!File.Exists(testPath4))
         {
             pathString = "targetPhoto4.jpg";

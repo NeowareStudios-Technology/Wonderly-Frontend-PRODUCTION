@@ -104,6 +104,12 @@ public class CloudEndpointsApiManager : MonoBehaviour {
 	private int ownedCodesCallCount = 0;
 	private int MAX_RETRY = 3;
 
+	//for changing functionality of add journey button based on journey count
+	public Button addJourneyButton;
+	public GameObject maxJourneysPopup;
+	public Animator createJourneyAnimator;
+
+
 	public void startProfileCreate()
 	{
 		StartCoroutine("profileCreate");
@@ -372,6 +378,23 @@ public class CloudEndpointsApiManager : MonoBehaviour {
 
 				//get rid of the library stub that was holding the journey info
 				Destroy(libraryStubs[index]);
+
+				fm.journeyCount --;
+				if (fm.journeyCount < 5)
+				{
+					//set add button to add
+					addJourneyButton.onClick.RemoveAllListeners();
+					addJourneyButton.onClick.AddListener(delegate {mainCanvasPanelController.OpenPanel(createJourneyAnimator); });
+					addJourneyButton.onClick.AddListener(delegate {mainCanvasPanelController.SetBottomPanelActive(false);});
+					addJourneyButton.onClick.AddListener(delegate {coec.setCreateOrEdit("create"); });
+					addJourneyButton.onClick.AddListener(delegate {um.InstantResetSummaryScreen(); });
+				}
+				if (fm.journeyCount >= 5)
+				{
+					//set add button to make popup
+					addJourneyButton.onClick.RemoveAllListeners();
+					addJourneyButton.onClick.AddListener(delegate {maxJourneysPopup.SetActive(true); });
+				}
 			}
 		}
 	}
@@ -601,6 +624,23 @@ public void startGetProfileInfo()
 					noJourneyPanel.SetActive(false);
 			}
 
+			fm.journeyCount = numExperiences;
+
+			if (fm.journeyCount < 5)
+		{
+			//set add button to add
+			addJourneyButton.onClick.RemoveAllListeners();
+			addJourneyButton.onClick.AddListener(delegate {mainCanvasPanelController.OpenPanel(createJourneyAnimator); });
+			addJourneyButton.onClick.AddListener(delegate {mainCanvasPanelController.SetBottomPanelActive(false);});
+			addJourneyButton.onClick.AddListener(delegate {coec.setCreateOrEdit("create"); });
+			addJourneyButton.onClick.AddListener(delegate {um.InstantResetSummaryScreen(); });
+		}
+		if (fm.journeyCount >= 5)
+		{
+			//set add button to make popup
+			addJourneyButton.onClick.RemoveAllListeners();
+			addJourneyButton.onClick.AddListener(delegate {maxJourneysPopup.SetActive(true); });
+		}
 			Debug.Log("Number of codes: "+numExperiences);
 
 			foreach (GameObject x in libraryStubs){
@@ -662,14 +702,10 @@ public void startGetProfileInfo()
 			//date
 			libraryStubs[i].transform.GetChild(8).gameObject.GetComponent<Text>().text = oec.dates[i];
 			libraryCodes[i] = oec.codes[i];
-
-		//	StartCoroutine(loadJourneyCoverImage(libraryStubs[i], oec.coverImages[i]));
-
 	}
 	lsh.GetComponent<UiManager>().SetLoadingPanelActive(false);
 			}
 		}
-	
 	}
 		
 

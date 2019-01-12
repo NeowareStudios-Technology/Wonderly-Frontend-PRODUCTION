@@ -26,12 +26,6 @@ public class UiManager : MonoBehaviour {
 	public PanelController pc;
 	//for activating/deactivating loading screen
 	public GameObject loadingPanel;
-	//for sizing Summary screen depending on target number
-	public RectTransform wonderPanelRectTrans;
-	public Vector2 noWondersHeight = new Vector2(0,1600);
-	public Vector2 oneWondersHeight= new Vector2(0,1850);
-	public Vector2 twoWondersHeight =  new Vector2(0,2550);
-	public Vector2 fullWondersHeight = new Vector2(0,3200);
 	//for clearing ViewLibraryContent screen
 	public Text contentAttribs;
 	public Image contentImage;
@@ -83,15 +77,13 @@ public class UiManager : MonoBehaviour {
 	//determine screenshot size by size of screen
 	void Awake() 
 	{
-		screenCapBorder.sizeDelta = new Vector2 (Screen.width/2, Screen.height/2);
-		//screenCapBorder.anchoredPosition = new Vector2(Screen.width / 4, Screen.height / 3);
-
 	}
 
 
 	//turns on loading screen
 	public void SetLoadingPanelActive(bool settingActive){
 		if (settingActive){
+			Debug.Log("starting loading panel");
 			loadingPanel.SetActive(true);
 			loadingPanel.transform.parent.gameObject.SetActive(true);
 		}

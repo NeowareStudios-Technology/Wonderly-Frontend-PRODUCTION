@@ -18,9 +18,21 @@ public class TitleDescriptionClearer : MonoBehaviour {
 	public InputField title;
 	public InputField description;
 
+    public bool clearOnExit = true;
+
 	//clears both input and description input fields to ensure blank upon each opening of this screen
-	void OnEnable () {
+	void OnEnable ()
+    {
+        if (clearOnExit)
+        {
 		title.text = "";
 		description.text = "";
+
+        }
 	}
+
+    public void SetClearText(bool _value)
+    {
+        clearOnExit = _value;
+    }
 }

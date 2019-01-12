@@ -72,16 +72,16 @@ public class FirebaseStorageManager : MonoBehaviour {
 
 		targetPath1 = Path.Combine(saveFolderPath, "targetPhoto1.jpg");
 		targetPath2 = Path.Combine(saveFolderPath, "targetPhoto2.jpg");
-		targetPath3 = Path.Combine(saveFolderPath, "targetPhoto3.jpg");
-		targetPath4 = Path.Combine(saveFolderPath, "targetPhoto4.jpg");
-		targetPath5 = Path.Combine(saveFolderPath, "targetPhoto5.jpg");
+		//targetPath3 = Path.Combine(saveFolderPath, "targetPhoto3.jpg");
+		//targetPath4 = Path.Combine(saveFolderPath, "targetPhoto4.jpg");
+		//targetPath5 = Path.Combine(saveFolderPath, "targetPhoto5.jpg");
 
 		coverImage = Path.Combine(fm.SaveDirectory, "coverImage.jpg");
 		linkedImage1 = Path.Combine(fm.SaveDirectory, "linkedImage1.jpg");
 		linkedImage2 = Path.Combine(fm.SaveDirectory, "linkedImage2.jpg");
-		linkedImage3 = Path.Combine(fm.SaveDirectory, "linkedImage3.jpg");
-		linkedImage4 = Path.Combine(fm.SaveDirectory, "linkedImage4.jpg");
-		linkedImage5 = Path.Combine(fm.SaveDirectory, "linkedImage5.jpg");
+		//linkedImage3 = Path.Combine(fm.SaveDirectory, "linkedImage3.jpg");
+		//linkedImage4 = Path.Combine(fm.SaveDirectory, "linkedImage4.jpg");
+		//linkedImage5 = Path.Combine(fm.SaveDirectory, "linkedImage5.jpg");
 	}
 
 	//starts experience upload to Google Cloud Datastore via IEnumerator (startExperienceUpload->experienceUpload->UploadExperienceFiles)
@@ -113,7 +113,7 @@ public class FirebaseStorageManager : MonoBehaviour {
 		int modelCount = 0;
 		int videoCount = 0;
 		int imageCount = 0;
-		for(int i= 0; i < 5; i++)
+		for(int i= 0; i < 2; i++)
 		{
 			switch(fm.targetStatus[i])
 			{
@@ -305,6 +305,7 @@ public class FirebaseStorageManager : MonoBehaviour {
     		}		
 			});
 		}
+		/* 
 		if (File.Exists(targetPath3))
 		{
 			target3 = System.IO.File.ReadAllBytes(targetPath3);
@@ -350,7 +351,7 @@ public class FirebaseStorageManager : MonoBehaviour {
     		}		
 			});
 		}
-		
+		*/
 		if (File.Exists(coverImage))
 		{
 			cover = System.IO.File.ReadAllBytes(coverImage);
@@ -397,6 +398,7 @@ public class FirebaseStorageManager : MonoBehaviour {
     		}		
 			});
 		}
+		/*
 		if (File.Exists(linkedImage3))
 		{
 			linked3 = System.IO.File.ReadAllBytes(linkedImage3);
@@ -442,7 +444,7 @@ public class FirebaseStorageManager : MonoBehaviour {
     		}		
 			});
 		}
-		
+		*/
 		lsh.GetComponent<UiManager>().SetLoadingPanelActive(false);
 
 		itm.DeleteAllTargetsAndText();
@@ -473,30 +475,30 @@ public class FirebaseStorageManager : MonoBehaviour {
 		string saveFilePath = Path.Combine(fm.SaveDirectory, "aoSave.json");
 		string targetPath1 = Path.Combine(fm.SaveDirectory, "targetPhoto1.jpg");
 		string targetPath2 = Path.Combine(fm.SaveDirectory, "targetPhoto2.jpg");
-		string targetPath3 = Path.Combine(fm.SaveDirectory, "targetPhoto3.jpg");
-		string targetPath4 = Path.Combine(fm.SaveDirectory, "targetPhoto4.jpg");
-		string targetPath5 = Path.Combine(fm.SaveDirectory, "targetPhoto5.jpg");
+		//string targetPath3 = Path.Combine(fm.SaveDirectory, "targetPhoto3.jpg");
+		//string targetPath4 = Path.Combine(fm.SaveDirectory, "targetPhoto4.jpg");
+		//string targetPath5 = Path.Combine(fm.SaveDirectory, "targetPhoto5.jpg");
 		string coverPath = Path.Combine(fm.SaveDirectory, "coverImage.jpg");
 		string linkedPath1 = Path.Combine(fm.SaveDirectory, "linkedImage1.jpg");
 		string linkedPath2 = Path.Combine(fm.SaveDirectory, "linkedImage2.jpg");
-		string linkedPath3 = Path.Combine(fm.SaveDirectory, "linkedImage3.jpg");
-		string linkedPath4 = Path.Combine(fm.SaveDirectory, "linkedImage4.jpg");
-		string linkedPath5 = Path.Combine(fm.SaveDirectory, "linkedImage5.jpg");
+		//string linkedPath3 = Path.Combine(fm.SaveDirectory, "linkedImage3.jpg");
+		//string linkedPath4 = Path.Combine(fm.SaveDirectory, "linkedImage4.jpg");
+		//string linkedPath5 = Path.Combine(fm.SaveDirectory, "linkedImage5.jpg");
 
 		string lowerCaseCode = ceam.UiCode.text.ToLower();
 		//references to cloud filstore paths
 		Firebase.Storage.StorageReference saveFileRef = fbm.fbStorage.GetReference(lowerCaseCode + "/" + "aoSave.json");
 		Firebase.Storage.StorageReference targetRef1 = fbm.fbStorage.GetReference(lowerCaseCode + "/" + "targetPhoto1.jpg");
 		Firebase.Storage.StorageReference targetRef2 = fbm.fbStorage.GetReference(lowerCaseCode + "/" + "targetPhoto2.jpg");
-		Firebase.Storage.StorageReference targetRef3 = fbm.fbStorage.GetReference(lowerCaseCode + "/" + "targetPhoto3.jpg");
-		Firebase.Storage.StorageReference targetRef4 = fbm.fbStorage.GetReference(lowerCaseCode + "/" + "targetPhoto4.jpg");
-		Firebase.Storage.StorageReference targetRef5 = fbm.fbStorage.GetReference(lowerCaseCode + "/" + "targetPhoto5.jpg");
+		//Firebase.Storage.StorageReference targetRef3 = fbm.fbStorage.GetReference(lowerCaseCode + "/" + "targetPhoto3.jpg");
+		//Firebase.Storage.StorageReference targetRef4 = fbm.fbStorage.GetReference(lowerCaseCode + "/" + "targetPhoto4.jpg");
+		//Firebase.Storage.StorageReference targetRef5 = fbm.fbStorage.GetReference(lowerCaseCode + "/" + "targetPhoto5.jpg");
 		Firebase.Storage.StorageReference coverRef = fbm.fbStorage.GetReference(lowerCaseCode + "/" + "coverImage.jpg");
 		Firebase.Storage.StorageReference linkedRef1 = fbm.fbStorage.GetReference(lowerCaseCode + "/" + "linkedImage1.jpg");
 		Firebase.Storage.StorageReference linkedRef2 = fbm.fbStorage.GetReference(lowerCaseCode + "/" + "linkedImage2.jpg");
-		Firebase.Storage.StorageReference linkedRef3 = fbm.fbStorage.GetReference(lowerCaseCode + "/" + "linkedImage3.jpg");
-		Firebase.Storage.StorageReference linkedRef4 = fbm.fbStorage.GetReference(lowerCaseCode + "/" + "linkedImage4.jpg");
-		Firebase.Storage.StorageReference linkedRef5 = fbm.fbStorage.GetReference(lowerCaseCode + "/" + "linkedImage5.jpg");
+		//Firebase.Storage.StorageReference linkedRef3 = fbm.fbStorage.GetReference(lowerCaseCode + "/" + "linkedImage3.jpg");
+		//Firebase.Storage.StorageReference linkedRef4 = fbm.fbStorage.GetReference(lowerCaseCode + "/" + "linkedImage4.jpg");
+		//Firebase.Storage.StorageReference linkedRef5 = fbm.fbStorage.GetReference(lowerCaseCode + "/" + "linkedImage5.jpg");
 
 		int maxAllowedSize = 2000*2000;
 
@@ -523,7 +525,7 @@ targetRef2.GetBytesAsync(maxAllowedSize).ContinueWith((Task<byte[]> task1) => {
 
 			}
 });
-
+/* 
 targetRef3.GetBytesAsync(maxAllowedSize).ContinueWith((Task<byte[]> task1) => {
 			if (task1.IsFaulted || task1.IsCanceled) {
 				Debug.Log(task1.Exception.ToString());
@@ -535,7 +537,7 @@ targetRef3.GetBytesAsync(maxAllowedSize).ContinueWith((Task<byte[]> task1) => {
 
 			}
 });
-/* 
+
 targetRef4.GetBytesAsync(maxAllowedSize).ContinueWith((Task<byte[]> task1) => {
 			if (task1.IsFaulted || task1.IsCanceled) {
 				Debug.Log(task1.Exception.ToString());
@@ -596,7 +598,7 @@ linkedRef2.GetBytesAsync(maxAllowedSize).ContinueWith((Task<byte[]> task1) => {
 			}
 });
 
-
+/*
 linkedRef3.GetBytesAsync(maxAllowedSize).ContinueWith((Task<byte[]> task1) => {
 			if (task1.IsFaulted || task1.IsCanceled) {
 				Debug.Log(task1.Exception.ToString());
@@ -608,7 +610,7 @@ linkedRef3.GetBytesAsync(maxAllowedSize).ContinueWith((Task<byte[]> task1) => {
 
 			}
 });
-/* 
+
 linkedRef4.GetBytesAsync(maxAllowedSize).ContinueWith((Task<byte[]> task1) => {
 			if (task1.IsFaulted || task1.IsCanceled) {
 				Debug.Log(task1.Exception.ToString());
@@ -679,29 +681,29 @@ saveFileRef.GetBytesAsync(maxAllowedSize).ContinueWith((Task<byte[]> task1) => {
 		string saveFilePath = Path.Combine(fm.SaveDirectory, "aoSave.json");
 		string targetPath1 = Path.Combine(fm.SaveDirectory, "targetPhoto1.jpg");
 		string targetPath2 = Path.Combine(fm.SaveDirectory, "targetPhoto2.jpg");
-		string targetPath3 = Path.Combine(fm.SaveDirectory, "targetPhoto3.jpg");
-		string targetPath4 = Path.Combine(fm.SaveDirectory, "targetPhoto4.jpg");
-		string targetPath5 = Path.Combine(fm.SaveDirectory, "targetPhoto5.jpg");
+		//string targetPath3 = Path.Combine(fm.SaveDirectory, "targetPhoto3.jpg");
+		//string targetPath4 = Path.Combine(fm.SaveDirectory, "targetPhoto4.jpg");
+		//string targetPath5 = Path.Combine(fm.SaveDirectory, "targetPhoto5.jpg");
 		string coverPath = Path.Combine(fm.SaveDirectory, "coverImage.jpg");
 		string linkedPath1 = Path.Combine(fm.SaveDirectory, "linkedImage1.jpg");
 		string linkedPath2 = Path.Combine(fm.SaveDirectory, "linkedImage2.jpg");
-		string linkedPath3 = Path.Combine(fm.SaveDirectory, "linkedImage3.jpg");
-		string linkedPath4 = Path.Combine(fm.SaveDirectory, "linkedImage4.jpg");
-		string linkedPath5 = Path.Combine(fm.SaveDirectory, "linkedImage5.jpg");
+		//string linkedPath3 = Path.Combine(fm.SaveDirectory, "linkedImage3.jpg");
+		//string linkedPath4 = Path.Combine(fm.SaveDirectory, "linkedImage4.jpg");
+		//string linkedPath5 = Path.Combine(fm.SaveDirectory, "linkedImage5.jpg");
 
 		//references to cloud filstore paths
 		Firebase.Storage.StorageReference saveFileRef = fbm.fbStorage.GetReference(editCode + "/" + "aoSave.json");
 		Firebase.Storage.StorageReference targetRef1 = fbm.fbStorage.GetReference(editCode + "/" + "targetPhoto1.jpg");
 		Firebase.Storage.StorageReference targetRef2 = fbm.fbStorage.GetReference(editCode + "/" + "targetPhoto2.jpg");
-		Firebase.Storage.StorageReference targetRef3 = fbm.fbStorage.GetReference(editCode + "/" + "targetPhoto3.jpg");
-		Firebase.Storage.StorageReference targetRef4 = fbm.fbStorage.GetReference(editCode + "/" + "targetPhoto4.jpg");
-		Firebase.Storage.StorageReference targetRef5 = fbm.fbStorage.GetReference(editCode + "/" + "targetPhoto5.jpg");
+		//Firebase.Storage.StorageReference targetRef3 = fbm.fbStorage.GetReference(editCode + "/" + "targetPhoto3.jpg");
+		//Firebase.Storage.StorageReference targetRef4 = fbm.fbStorage.GetReference(editCode + "/" + "targetPhoto4.jpg");
+		//Firebase.Storage.StorageReference targetRef5 = fbm.fbStorage.GetReference(editCode + "/" + "targetPhoto5.jpg");
 		Firebase.Storage.StorageReference coverRef = fbm.fbStorage.GetReference(editCode + "/" + "coverImage.jpg");
 		Firebase.Storage.StorageReference linkedRef1 = fbm.fbStorage.GetReference(editCode + "/" + "linkedImage1.jpg");
 		Firebase.Storage.StorageReference linkedRef2 = fbm.fbStorage.GetReference(editCode + "/" + "linkedImage2.jpg");
-		Firebase.Storage.StorageReference linkedRef3 = fbm.fbStorage.GetReference(editCode + "/" + "linkedImage3.jpg");
-		Firebase.Storage.StorageReference linkedRef4 = fbm.fbStorage.GetReference(editCode + "/" + "linkedImage4.jpg");
-		Firebase.Storage.StorageReference linkedRef5 = fbm.fbStorage.GetReference(editCode + "/" + "linkedImage5.jpg");
+		//Firebase.Storage.StorageReference linkedRef3 = fbm.fbStorage.GetReference(editCode + "/" + "linkedImage3.jpg");
+		//Firebase.Storage.StorageReference linkedRef4 = fbm.fbStorage.GetReference(editCode + "/" + "linkedImage4.jpg");
+		//Firebase.Storage.StorageReference linkedRef5 = fbm.fbStorage.GetReference(editCode + "/" + "linkedImage5.jpg");
 
 		Debug.Log(editCode);
 		//codeDisplay.text = editCode;
@@ -731,7 +733,7 @@ targetRef2.GetBytesAsync(maxAllowedSize).ContinueWith((Task<byte[]> task1) => {
 
 			}
 });
-
+/*
 targetRef3.GetBytesAsync(maxAllowedSize).ContinueWith((Task<byte[]> task1) => {
 			if (task1.IsFaulted || task1.IsCanceled) {
 				Debug.Log(task1.Exception.ToString());
@@ -743,7 +745,7 @@ targetRef3.GetBytesAsync(maxAllowedSize).ContinueWith((Task<byte[]> task1) => {
 
 			}
 });
-/* 
+
 targetRef4.GetBytesAsync(maxAllowedSize).ContinueWith((Task<byte[]> task1) => {
 			if (task1.IsFaulted || task1.IsCanceled) {
 				Debug.Log(task1.Exception.ToString());
@@ -803,7 +805,7 @@ linkedRef2.GetBytesAsync(maxAllowedSize).ContinueWith((Task<byte[]> task1) => {
 
 			}
 });
-
+/*
 linkedRef3.GetBytesAsync(maxAllowedSize).ContinueWith((Task<byte[]> task1) => {
 			if (task1.IsFaulted || task1.IsCanceled) {
 				Debug.Log(task1.Exception.ToString());
@@ -815,7 +817,7 @@ linkedRef3.GetBytesAsync(maxAllowedSize).ContinueWith((Task<byte[]> task1) => {
 
 			}
 });
-/* 
+
 linkedRef4.GetBytesAsync(maxAllowedSize).ContinueWith((Task<byte[]> task1) => {
 			if (task1.IsFaulted || task1.IsCanceled) {
 				Debug.Log(task1.Exception.ToString());
@@ -883,15 +885,15 @@ saveFileRef.GetBytesAsync(maxAllowedSize).ContinueWith((Task<byte[]> task1) => {
 		string saveFilePath = Path.Combine(fm.SaveDirectory, "aoSave.json");
 		string targetPath1 = Path.Combine(fm.SaveDirectory, "targetPhoto1.jpg");
 		string targetPath2 = Path.Combine(fm.SaveDirectory, "targetPhoto2.jpg");
-		string targetPath3 = Path.Combine(fm.SaveDirectory, "targetPhoto3.jpg");
-		string targetPath4 = Path.Combine(fm.SaveDirectory, "targetPhoto4.jpg");
-		string targetPath5 = Path.Combine(fm.SaveDirectory, "targetPhoto5.jpg");
+		//string targetPath3 = Path.Combine(fm.SaveDirectory, "targetPhoto3.jpg");
+		//string targetPath4 = Path.Combine(fm.SaveDirectory, "targetPhoto4.jpg");
+		//string targetPath5 = Path.Combine(fm.SaveDirectory, "targetPhoto5.jpg");
 		string coverPath = Path.Combine(fm.SaveDirectory, "coverImage.jpg");
 		string linkedPath1 = Path.Combine(fm.SaveDirectory, "linkedImage1.jpg");
 		string linkedPath2 = Path.Combine(fm.SaveDirectory, "linkedImage2.jpg");
-		string linkedPath3 = Path.Combine(fm.SaveDirectory, "linkedImage3.jpg");
-		string linkedPath4 = Path.Combine(fm.SaveDirectory, "linkedImage4.jpg");
-		string linkedPath5 = Path.Combine(fm.SaveDirectory, "linkedImage5.jpg");
+		//string linkedPath3 = Path.Combine(fm.SaveDirectory, "linkedImage3.jpg");
+		//string linkedPath4 = Path.Combine(fm.SaveDirectory, "linkedImage4.jpg");
+		//string linkedPath5 = Path.Combine(fm.SaveDirectory, "linkedImage5.jpg");
 
 		//for debugging iOS download problem
 		Debug.Log("2a. fsm500, Save file path = "+saveFilePath);
@@ -917,15 +919,15 @@ saveFileRef.GetBytesAsync(maxAllowedSize).ContinueWith((Task<byte[]> task1) => {
 		Firebase.Storage.StorageReference saveFileRef = fbm.fbStorage.GetReference(expCode + "/" + "aoSave.json");
 		Firebase.Storage.StorageReference targetRef1 = fbm.fbStorage.GetReference(expCode + "/" + "targetPhoto1.jpg");
 		Firebase.Storage.StorageReference targetRef2 = fbm.fbStorage.GetReference(expCode + "/" + "targetPhoto2.jpg");
-		Firebase.Storage.StorageReference targetRef3 = fbm.fbStorage.GetReference(expCode + "/" + "targetPhoto3.jpg");
-		Firebase.Storage.StorageReference targetRef4 = fbm.fbStorage.GetReference(expCode + "/" + "targetPhoto4.jpg");
-		Firebase.Storage.StorageReference targetRef5 = fbm.fbStorage.GetReference(expCode + "/" + "targetPhoto5.jpg");
+		//Firebase.Storage.StorageReference targetRef3 = fbm.fbStorage.GetReference(expCode + "/" + "targetPhoto3.jpg");
+		//Firebase.Storage.StorageReference targetRef4 = fbm.fbStorage.GetReference(expCode + "/" + "targetPhoto4.jpg");
+		//Firebase.Storage.StorageReference targetRef5 = fbm.fbStorage.GetReference(expCode + "/" + "targetPhoto5.jpg");
 		Firebase.Storage.StorageReference coverRef = fbm.fbStorage.GetReference(expCode + "/" + "coverImage.jpg");
 		Firebase.Storage.StorageReference linkedRef1 = fbm.fbStorage.GetReference(expCode + "/" + "linkedImage1.jpg");
 		Firebase.Storage.StorageReference linkedRef2 = fbm.fbStorage.GetReference(expCode + "/" + "linkedImage2.jpg");
-		Firebase.Storage.StorageReference linkedRef3 = fbm.fbStorage.GetReference(expCode + "/" + "linkedImage3.jpg");
-		Firebase.Storage.StorageReference linkedRef4 = fbm.fbStorage.GetReference(expCode + "/" + "linkedImage4.jpg");
-		Firebase.Storage.StorageReference linkedRef5 = fbm.fbStorage.GetReference(expCode + "/" + "linkedImage5.jpg");
+		//Firebase.Storage.StorageReference linkedRef3 = fbm.fbStorage.GetReference(expCode + "/" + "linkedImage3.jpg");
+		//Firebase.Storage.StorageReference linkedRef4 = fbm.fbStorage.GetReference(expCode + "/" + "linkedImage4.jpg");
+		//Firebase.Storage.StorageReference linkedRef5 = fbm.fbStorage.GetReference(expCode + "/" + "linkedImage5.jpg");
 
 		//for debugging iOS download problem
 		Debug.Log("4a. fsm682, Save file download path = "+expCode + "/" + "aoSave.json");
@@ -966,7 +968,7 @@ targetRef2.GetBytesAsync(maxAllowedSize).ContinueWith((Task<byte[]> task1) => {
 
 			}
 });
-
+/* 
 targetRef3.GetBytesAsync(maxAllowedSize).ContinueWith((Task<byte[]> task1) => {
 			if (task1.IsFaulted || task1.IsCanceled) {
 				Debug.Log(task1.Exception.ToString());
@@ -978,7 +980,7 @@ targetRef3.GetBytesAsync(maxAllowedSize).ContinueWith((Task<byte[]> task1) => {
 
 			}
 });
-/* 
+
 targetRef4.GetBytesAsync(maxAllowedSize).ContinueWith((Task<byte[]> task1) => {
 			if (task1.IsFaulted || task1.IsCanceled) {
 				Debug.Log(task1.Exception.ToString());
@@ -1039,7 +1041,7 @@ linkedRef2.GetBytesAsync(maxAllowedSize).ContinueWith((Task<byte[]> task1) => {
 
 			}
 });
-
+/* 
 linkedRef3.GetBytesAsync(maxAllowedSize).ContinueWith((Task<byte[]> task1) => {
 			if (task1.IsFaulted || task1.IsCanceled) {
 				Debug.Log(task1.Exception.ToString());
@@ -1052,7 +1054,7 @@ linkedRef3.GetBytesAsync(maxAllowedSize).ContinueWith((Task<byte[]> task1) => {
 			}
 });
 
-/* 
+
 linkedRef4.GetBytesAsync(maxAllowedSize).ContinueWith((Task<byte[]> task1) => {
 			if (task1.IsFaulted || task1.IsCanceled) {
 				Debug.Log(task1.Exception.ToString());
@@ -1104,9 +1106,9 @@ saveFileRef.GetBytesAsync(maxAllowedSize).ContinueWith((Task<byte[]> task1) => {
 		Firebase.Storage.StorageReference saveRef = fbm.fbStorageRef.Child(code + "/" + "aoSave.json");
 		Firebase.Storage.StorageReference photoRef1 = fbm.fbStorageRef.Child(code + "/" + "targetPhoto1.jpg");
 		Firebase.Storage.StorageReference photoRef2 = fbm.fbStorageRef.Child(code + "/" + "targetPhoto2.jpg");
-		Firebase.Storage.StorageReference photoRef3 = fbm.fbStorageRef.Child(code + "/" + "targetPhoto3.jpg");
-		Firebase.Storage.StorageReference photoRef4 = fbm.fbStorageRef.Child(code + "/" + "targetPhoto4.jpg");
-		Firebase.Storage.StorageReference photoRef5 = fbm.fbStorageRef.Child(code + "/" + "targetPhoto5.jpg");
+		//Firebase.Storage.StorageReference photoRef3 = fbm.fbStorageRef.Child(code + "/" + "targetPhoto3.jpg");
+		//Firebase.Storage.StorageReference photoRef4 = fbm.fbStorageRef.Child(code + "/" + "targetPhoto4.jpg");
+		//Firebase.Storage.StorageReference photoRef5 = fbm.fbStorageRef.Child(code + "/" + "targetPhoto5.jpg");
 
 
 		// Delete the file
@@ -1133,7 +1135,7 @@ saveFileRef.GetBytesAsync(maxAllowedSize).ContinueWith((Task<byte[]> task1) => {
         // Uh-oh, an error occurred!
     }
 		});	
-		
+		/* 
 		// Delete the file
 		photoRef3.DeleteAsync().ContinueWith(task => {
     if (task.IsCompleted) {
@@ -1142,7 +1144,7 @@ saveFileRef.GetBytesAsync(maxAllowedSize).ContinueWith((Task<byte[]> task1) => {
         // Uh-oh, an error occurred!
     }
 		});	
-		/* 
+		
 		// Delete the file
 		photoRef4.DeleteAsync().ContinueWith(task => {
     if (task.IsCompleted) {
