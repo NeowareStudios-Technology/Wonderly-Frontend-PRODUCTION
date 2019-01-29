@@ -10,6 +10,7 @@ public class OnDisableEndAnimation : MonoBehaviour {
 
 	void OnDisable(){
 		foreach(GameObject cm in coachmarks){
+			cm.SetActive(true);
 			Color alphaColorZero = Color.white;
 			alphaColorZero.a = 0.0f;
 			cm.GetComponent<Image>().color = alphaColorZero;
