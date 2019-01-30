@@ -4,7 +4,10 @@ using UnityEngine;
 using GoogleMobileAds.Api;
 
 public class Admob : MonoBehaviour 
-
+    
+//Wonderly AdunitIds
+//adunit ID for Android ca-app-pub-2464139485429051~2048748928
+//adunit ID for IOS ca-app-pub-2464139485429051~1094759903
 	{
     #region variable declariations
     private BannerView bannerView;
