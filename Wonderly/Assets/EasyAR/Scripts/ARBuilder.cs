@@ -74,7 +74,7 @@ namespace EasyAR
             var arcamerabehaviour = GameObject.FindObjectOfType<ARCameraBaseBehaviour>();
             if (arcamerabehaviour == null)
             {
-                Debug.LogError("ARBuilder: fail to build AR");
+                //Debug.LogError("ARBuilder: fail to build AR");
                 return false;
             }
             ARCameraBehaviours.Add(arcamerabehaviour);
@@ -82,7 +82,7 @@ namespace EasyAR
             var cambehaviour = GameObject.FindObjectOfType<CameraDeviceBaseBehaviour>();
             if (cambehaviour == null)
             {
-                Debug.LogError("ARBuilder: fail to build AR");
+                //Debug.LogError("ARBuilder: fail to build AR");
                 return false;
             }
             CameraDeviceBehaviours.Add(cambehaviour);
@@ -90,7 +90,7 @@ namespace EasyAR
             foreach (var behaviour in GameObject.FindObjectsOfType<DeviceUserAbstractBehaviour>())
             {
                 behaviour.Bind(cambehaviour);
-                Debug.Log("ARBuilder: " + behaviour + " bind " + cambehaviour);
+                //Debug.Log("ARBuilder: " + behaviour + " bind " + cambehaviour);
             }
             foreach (var behaviour in ARCameraBehaviours)
             {

@@ -83,7 +83,7 @@ public class ErrorMessageFlowManager : MonoBehaviour {
 				else
 				{
 					emptyfirstNameNotification.SetActive(true);
-					Debug.Log("blank input");
+					//Debug.Log("blank input");
 				}
 				break;
 			//for first name input validation
@@ -97,7 +97,7 @@ public class ErrorMessageFlowManager : MonoBehaviour {
 				else
 				{
 					emptylastNameNotification.SetActive(true);
-					Debug.Log("blank input");
+					//Debug.Log("blank input");
 				}
 				break;
 			//for last name input validation
@@ -125,7 +125,7 @@ public class ErrorMessageFlowManager : MonoBehaviour {
 				}
 				else
 				{
-						Debug.Log("invalid email");
+						//Debug.Log("invalid email");
 						badEmailNotification.SetActive(true);
 				}
 				break;
@@ -154,7 +154,7 @@ public class ErrorMessageFlowManager : MonoBehaviour {
 		}
 		else
 		{
-			Debug.Log("password does not match");
+			//Debug.Log("password does not match");
 			badPasswordNotification2.SetActive(true);
 		}
 	}

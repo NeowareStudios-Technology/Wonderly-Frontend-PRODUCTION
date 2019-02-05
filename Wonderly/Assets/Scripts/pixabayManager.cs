@@ -129,16 +129,16 @@ public class pixabayManager : MonoBehaviour {
 			searchString = coverImageSearchTerm.text;
 		else 
 			searchString = coverImageSearchTerm2.text;
-		Debug.Log(searchString);
+		//Debug.Log(searchString);
 		//makes search term url safe
 		string urlSafeSearchTerm = searchString.Replace(" ", "+");
 		//add delineator to search term for url
 		string finalizedSearchTerm = "q=" + urlSafeSearchTerm;
-		Debug.Log(finalizedSearchTerm);
+		//Debug.Log(finalizedSearchTerm);
 		//create full search url
 		string per_page = "per_page=" + 50;
 		string thisSearchUrl = searchUrl + finalizedSearchTerm + "&" + per_page;
-		Debug.Log(thisSearchUrl);
+		//Debug.Log(thisSearchUrl);
 
 		//create web request
 		using (UnityWebRequest imageSearchRequest = UnityWebRequest.Get(thisSearchUrl))
@@ -151,16 +151,16 @@ public class pixabayManager : MonoBehaviour {
 			//catch errors
 			if (imageSearchRequest.isNetworkError || imageSearchRequest.isHttpError)
     	{
-			Debug.Log("Error getting image");
+			//Debug.Log("Error getting image");
 			}
 
 			//show previews of each image
 			else 
 			{
-				Debug.Log(imageSearchRequest.responseCode);
+				//Debug.Log(imageSearchRequest.responseCode);
 				byte[] results = imageSearchRequest.downloadHandler.data;
         string jsonString = Encoding.UTF8.GetString(results);
-				Debug.Log(jsonString);
+				//Debug.Log(jsonString);
 				pxc = JsonUtility.FromJson<pixabayClass>(jsonString);
 				
 				//get the url for each image returned in the image search request
@@ -171,9 +171,9 @@ public class pixabayManager : MonoBehaviour {
 					{
 						break;
 					}
-					Debug.Log("didNotBreakYet");
+					//Debug.Log("didNotBreakYet");
 					coverImagePreviewUrl[count] = phc.previewURL;
-					Debug.Log("didNotBreakYet2");
+					//Debug.Log("didNotBreakYet2");
 					coverImageUrl[count] = phc.largeImageURL;
 					count ++;
 					
@@ -182,7 +182,7 @@ public class pixabayManager : MonoBehaviour {
 				//load the image previews to their UI
 				for (int j = 0; j < count; j++)
 				{
-					Debug.Log("download started");
+					//Debug.Log("download started");
 					//depending on where the function is being called from, place thumbnails under different gameobjects
 					if (whichParent == 1)
 						StartCoroutine(loadPreviewImageCoverImage(j));
@@ -191,7 +191,7 @@ public class pixabayManager : MonoBehaviour {
 				}
 			}
 		}
-		Debug.Log("finishedSearch WOOO");
+		//Debug.Log("finishedSearch WOOO");
 	}
 
 
@@ -203,7 +203,7 @@ public class pixabayManager : MonoBehaviour {
 			//catch errors
 			if (previewRequest.error != null)
     	{
-				Debug.Log("Error getting image");
+				//Debug.Log("Error getting image");
 			}
 
 			else
@@ -232,7 +232,7 @@ public class pixabayManager : MonoBehaviour {
 			//catch errors
 			if (previewRequest.error != null)
     	{
-				Debug.Log("Error getting image");
+				//Debug.Log("Error getting image");
 			}
 
 			else
@@ -257,7 +257,7 @@ public class pixabayManager : MonoBehaviour {
 	public void chooseCoverImageStarter(int index, GameObject newThumbnail) {
 			chosenCoverImageUrl = coverImageUrl[index];
 
-			Debug.Log(coverImageUrl[index]);
+			//Debug.Log(coverImageUrl[index]);
 
 			StartCoroutine(ChooseCoverImage(index, newThumbnail));
 		}
@@ -268,13 +268,13 @@ public class pixabayManager : MonoBehaviour {
 		using (WWW imageRequest = new WWW(coverImageUrl[index]))
 		{
 			yield return imageRequest;
-			Debug.Log("request worked");
+			//Debug.Log("request worked");
 			//catch errors
 			fm.unloadUnused();
 			ClearSearchTextCoverImage();
 			if (imageRequest.error != null)
 			{
-				Debug.Log("Error getting image:" + imageRequest.error);
+				//Debug.Log("Error getting image:" + imageRequest.error);
 				LoadingPanel.SetActive(false);
 			}
 			else
@@ -309,18 +309,18 @@ public class pixabayManager : MonoBehaviour {
 		fm.unloadUnused();
 		string searchString = searchTerm.text;
 		imageTitle.text = searchString;
-		Debug.Log("search string = " + searchString);
+		//Debug.Log("search string = " + searchString);
 		//makes search term url safe
 		string urlSafeSearchTerm = searchString.Replace(" ", "+");
 		//add delineator to search term for url
 		string finalizedSearchTerm = "q=" + urlSafeSearchTerm;
 
 		string per_page = "per_page=" + 50;
-		Debug.Log(finalizedSearchTerm);
+		//Debug.Log(finalizedSearchTerm);
 		//create full search url
 		string thisSearchUrl = searchUrl + finalizedSearchTerm + "&" + per_page;
 
-		Debug.Log(thisSearchUrl);
+		//Debug.Log(thisSearchUrl);
 
 		//create web request
 		using (UnityWebRequest imageSearchRequest = UnityWebRequest.Get(thisSearchUrl))
@@ -333,16 +333,16 @@ public class pixabayManager : MonoBehaviour {
 			//catch errors
 			if (imageSearchRequest.isNetworkError || imageSearchRequest.isHttpError)
     	{
-			Debug.Log("Error getting image");
+			//Debug.Log("Error getting image");
 			}
 
 			//show previews of each image
 			else 
 			{
-				Debug.Log(imageSearchRequest.responseCode);
+				//Debug.Log(imageSearchRequest.responseCode);
 				byte[] results = imageSearchRequest.downloadHandler.data;
         		string jsonString = Encoding.UTF8.GetString(results);
-				Debug.Log(jsonString);
+				//Debug.Log(jsonString);
 				pxc = JsonUtility.FromJson<pixabayClass>(jsonString);
 
 				//get the url for each image returned in the image search request
@@ -362,7 +362,7 @@ public class pixabayManager : MonoBehaviour {
 				//load the image previews to their UI
 				for (int j = 0; j < count; j++)
 				{
-					Debug.Log("download started");
+					//Debug.Log("download started");
 					StartCoroutine(loadPreviewImage(j));
 				}
 			}
@@ -378,7 +378,7 @@ public class pixabayManager : MonoBehaviour {
 			//catch errors
 			if (previewRequest.error != null)
     	{
-				Debug.Log("Error getting image");
+				//Debug.Log("Error getting image");
 			}
 
 			else
@@ -422,14 +422,14 @@ public class pixabayManager : MonoBehaviour {
 			using (WWW imageRequest = new WWW(imageUrl[index]))
 			{
 				yield return imageRequest;
-				Debug.Log("request worked");
+				//Debug.Log("request worked");
 				fm.unloadUnused();
 				ClearSearchTextImage();
 				//catch errors
 				
 				if (imageRequest.error != null)
 				{
-					Debug.Log("Error getting image:" + imageRequest.error);
+					//Debug.Log("Error getting image:" + imageRequest.error);
 					//LoadingPanel.SetActive(false);
 				}
 				else
@@ -530,18 +530,18 @@ public class pixabayManager : MonoBehaviour {
 		fm.unloadUnused();
 		string searchString = searchTerm2.text;
 		imageTitle2.text = searchString;
-		Debug.Log("search string = " + searchString);
+		//Debug.Log("search string = " + searchString);
 		//makes search term url safe
 		string urlSafeSearchTerm = searchString.Replace(" ", "+");
 		//add delineator to search term for url
 		string finalizedSearchTerm = "q=" + urlSafeSearchTerm;
 
 		string per_page = "per_page=" + 50;
-		Debug.Log(finalizedSearchTerm);
+		//Debug.Log(finalizedSearchTerm);
 		//create full search url
 		string thisSearchUrl = searchUrl + finalizedSearchTerm + "&" + per_page;
 
-		Debug.Log(thisSearchUrl);
+		//Debug.Log(thisSearchUrl);
 
 		//create web request
 		using (UnityWebRequest imageSearchRequest = UnityWebRequest.Get(thisSearchUrl))
@@ -554,16 +554,16 @@ public class pixabayManager : MonoBehaviour {
 			//catch errors
 			if (imageSearchRequest.isNetworkError || imageSearchRequest.isHttpError)
     	{
-			Debug.Log("Error getting image");
+			//Debug.Log("Error getting image");
 			}
 
 			//show previews of each image
 			else 
 			{
-				Debug.Log(imageSearchRequest.responseCode);
+				//Debug.Log(imageSearchRequest.responseCode);
 				byte[] results = imageSearchRequest.downloadHandler.data;
         		string jsonString = Encoding.UTF8.GetString(results);
-				Debug.Log(jsonString);
+				//Debug.Log(jsonString);
 				pxc = JsonUtility.FromJson<pixabayClass>(jsonString);
 
 				//get the url for each image returned in the image search request
@@ -583,7 +583,7 @@ public class pixabayManager : MonoBehaviour {
 				//load the image previews to their UI
 				for (int j = 0; j < count; j++)
 				{
-					Debug.Log("download started");
+					//Debug.Log("download started");
 					StartCoroutine(loadPreviewImage2(j));
 				}
 			}
@@ -599,7 +599,7 @@ public class pixabayManager : MonoBehaviour {
 			//catch errors
 			if (previewRequest.error != null)
     	{
-				Debug.Log("Error getting image");
+				//Debug.Log("Error getting image");
 			}
 			else
 			{
@@ -642,14 +642,14 @@ public class pixabayManager : MonoBehaviour {
 			using (WWW imageRequest = new WWW(imageUrl[index]))
 			{
 				yield return imageRequest;
-				Debug.Log("request worked");
+				//Debug.Log("request worked");
 				fm.unloadUnused();
 				ClearSearchTextImage2();
 				//catch errors
 				
 				if (imageRequest.error != null)
 				{
-					Debug.Log("Error getting image:" + imageRequest.error);
+					//Debug.Log("Error getting image:" + imageRequest.error);
 					LoadingPanel.SetActive(false);
 				}
 				else
