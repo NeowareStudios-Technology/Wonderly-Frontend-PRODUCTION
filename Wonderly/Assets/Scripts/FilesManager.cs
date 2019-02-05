@@ -14,7 +14,6 @@ using System.IO;
 using System.Collections.Generic;
 using System;
 using EasyAR;
-using UnityEngine.UI;
 
 
 public class FilesManager : MonoBehaviour

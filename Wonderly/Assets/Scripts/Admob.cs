@@ -13,12 +13,7 @@ public class Admob : MonoBehaviour
     private BannerView bannerView;
     private InterstitialAd interstitial;
     private RewardBasedVideoAd rewardBasedVideo;
-    private float deltaTime = 0.0f;
-    private static string outputMessage = string.Empty;
-    public static string OutputMessage
-    {
-        set { outputMessage = value; }
-    }
+
     #endregion
 
     public void Start()
@@ -50,14 +45,7 @@ public class Admob : MonoBehaviour
 		ShowInterstitial();
 	}
 
-    public void Update()
-    {
-        // Calculate simple moving average for time to render screen. 0.1 factor used as smoothing
-        // value.
-        this.deltaTime += (Time.deltaTime - this.deltaTime) * 0.1f;
-    }
-
-
+ 
     // Returns an ad request with custom ad targeting.
     private AdRequest CreateAdRequest()
     {

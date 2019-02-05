@@ -18,7 +18,6 @@ public class PreviewScreenUiManager : MonoBehaviour {
 	
 	//displays preview stubs based on number of targets that exist
 	void Update () {
-		int i;
 		switch (fm.targetCount)
 		{
 			case 0:

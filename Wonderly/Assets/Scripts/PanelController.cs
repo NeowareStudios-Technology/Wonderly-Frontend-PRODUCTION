@@ -48,8 +48,8 @@ public class PanelController : MonoBehaviour
     //if Escape key press, go back one panel
     void Update()
     {
-        //if (Application.platform == RuntimePlatform.Android)
-        //{
+        if (Application.platform == RuntimePlatform.Android)
+        {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             for (int i = 0; i < panels.Count; i++)
@@ -61,7 +61,7 @@ public class PanelController : MonoBehaviour
             }
             return;
         }
-        //}
+        }
     }
     //goes back 1 panel if loading screen is not active
     private void GoBackOnePanel(GameObject activePanel)

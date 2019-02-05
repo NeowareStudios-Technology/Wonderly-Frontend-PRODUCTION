@@ -19,11 +19,6 @@ public class AccordionPanel : MonoBehaviour {
 	void Start () {
 		
 	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
 
 	public void AccordionOpen(Animator anim){
 		if(anim.GetBool("Open")){

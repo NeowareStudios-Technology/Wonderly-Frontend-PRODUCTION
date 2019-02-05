@@ -108,8 +108,11 @@ public class CloudEndpointsApiManager : MonoBehaviour {
 	public Button addJourneyButton;
 	public GameObject maxJourneysPopup;
 	public Animator createJourneyAnimator;
+	private Texture2D tex;
 
-
+	void Start(){
+		tex = new Texture2D(200, 200);
+	}
 	public void startProfileCreate()
 	{
 		StartCoroutine("profileCreate");
@@ -655,7 +658,7 @@ public void startGetProfileInfo()
 		//for dynamic spawning way
 		for (int i = 0; i < numExperiences; i++)
 		{
-			Texture2D tex = new Texture2D(2000, 2000);
+			//Texture2D tex = new Texture2D(2000, 2000);
 			//make sure there arent more than 50 experiences (journeys)
 			if (i == 49)
 				break;
@@ -682,6 +685,7 @@ public void startGetProfileInfo()
 			//if a cover image was selected by a user create a new sprite! 
 			libraryStubs[i] = Instantiate(libraryStubPrefab,libraryScrollContent.transform);
 			libraryStubs[i].transform.GetChild(5).GetComponent<Image>().sprite = Sprite.Create(tex, new Rect(0, 0, tex.width, tex.height), new Vector2(0, 0));
+			
 		}
 		else{
 			//if a cover image was NOT selected by a user do not create a new sprite! 
@@ -707,7 +711,7 @@ public void startGetProfileInfo()
 			//date
 			libraryStubs[i].transform.GetChild(8).gameObject.GetComponent<Text>().text = oec.dates[i];
 			libraryCodes[i] = oec.codes[i];
-	}
+			}
 	lsh.GetComponent<UiManager>().SetLoadingPanelActive(false);
 			}
 		}
