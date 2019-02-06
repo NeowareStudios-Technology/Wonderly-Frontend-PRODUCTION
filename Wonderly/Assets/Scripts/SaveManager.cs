@@ -54,7 +54,7 @@ public class SaveManager : MonoBehaviour {
 
 			if (fm.currentTarget < 0)
 			{
-				Debug.Log("current target index out of range");
+				//Debug.Log("current target index out of range");
 				return;
 			}
 		
@@ -106,9 +106,9 @@ public class SaveManager : MonoBehaviour {
 	public void CreateSaveFile()
 	{
 		lsh.GetComponent<UiManager>().SetLoadingPanelActive(true);
-		Debug.Log("creating normal save file");
+		//Debug.Log("creating normal save file");
 
-		Debug.Log("1. Starting SaveManager.CreateSaveFile()...");
+		//Debug.Log("1. Starting SaveManager.CreateSaveFile()...");
 		//delete the previous save
 		//deleteOldSave();
 
@@ -116,7 +116,7 @@ public class SaveManager : MonoBehaviour {
 		save = new SaveClassDeclaration();
 		save.targetNum = fm.targetCount;
 		save.targetStatus = fm.targetStatus;
-		Debug.Log("2. number of targets being saved (first element to be saved): " +save.targetNum);
+		//Debug.Log("2. number of targets being saved (first element to be saved): " +save.targetNum);
 
 		//save the title and description of the experience
 		save.title = title.text;
@@ -136,7 +136,7 @@ public class SaveManager : MonoBehaviour {
 
 		//create save directory
 		Directory.CreateDirectory(fm.SaveDirectory);
-		Debug.Log("3. Save directory being created: " + fm.SaveDirectory);
+		//Debug.Log("3. Save directory being created: " + fm.SaveDirectory);
 
 		//copy working directory target photos to save directory
 		string targetPath1 = Path.Combine(fm.MarksDirectory, "targetPhoto1.jpg");
@@ -398,20 +398,24 @@ public class SaveManager : MonoBehaviour {
 		string thisSave = JsonUtility.ToJson(save);
 		File.WriteAllText(saveFilePath, thisSave);
 
-		Debug.Log("4. AR Experience Being Saved...");
+		//Debug.Log("4. AR Experience Being Saved...");
 		if (File.Exists(saveFilePath))
 		{
-			Debug.Log("5. Save file created!");
+			//Debug.Log("5. Save file created!");
 		}
 		else
 		{
-			Debug.Log("5. Save file could not be created.");
+			//Debug.Log("5. Save file could not be created.");
 		}
 
-		if (File.Exists(saveFilePath))
-			Debug.Log("**0** sm 266, Save file exists: "+saveFilePath);
-		else	
-			Debug.Log("**0** sm 266, Save file missing: "+saveFilePath);
+		if (File.Exists(saveFilePath)){
+			//Debug.Log("**0** sm 266, Save file exists: "+saveFilePath);
+		}
+			
+		else	{
+			//Debug.Log("**0** sm 266, Save file missing: "+saveFilePath);
+		}
+			
 
 		fsm.startExperienceUpload();
 
@@ -431,7 +435,7 @@ public class SaveManager : MonoBehaviour {
 	public void CreateSaveFileForEdit()
 	{
 		lsh.GetComponent<UiManager>().SetLoadingPanelActive(true);
-		Debug.Log("creating save file for edit");
+		//Debug.Log("creating save file for edit");
 
 		//create a new save class instance
 		save = new SaveClassDeclaration();
@@ -718,7 +722,7 @@ public class SaveManager : MonoBehaviour {
 		string thisSave = JsonUtility.ToJson(save);
 		File.WriteAllText(saveFilePath, thisSave);
 
-		Debug.Log("AR Experience Saved");
+		//Debug.Log("AR Experience Saved");
 
 		ceam.startExperienceEdit2();
 

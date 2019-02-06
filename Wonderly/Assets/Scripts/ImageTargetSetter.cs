@@ -38,13 +38,13 @@ public class ImageTargetSetter : MonoBehaviour {
         //go through each file in the directory, see if it is targetPhoto1-targetPhoto5, set the image as an AR target and set thumbails
         foreach (var obj in imageTargetName_FileDic.Where(obj => !imageTargetDic.ContainsKey(obj.Key)))
         {
-            //Debug.Log("this is obj.Key: "+obj.Key);
+            ////Debug.Log("this is obj.Key: "+obj.Key);
             if (obj.Key == "targetPhoto1")
             {
-                //Debug.Log("case recognized: targetPhoto1");
+                ////Debug.Log("case recognized: targetPhoto1");
                 if (itm.target1.GetComponent<DynamicImageTargetBehaviour>() == null)
                 {
-                    //Debug.Log("attempting to add DynamicImageTargetBehaviour script 1");
+                    ////Debug.Log("attempting to add DynamicImageTargetBehaviour script 1");
                     itm.target1.SetActive(true);
                     itm.target1.tag = "target1";
                     var behaviour1 = itm.target1.AddComponent<DynamicImageTargetBehaviour>();
@@ -78,10 +78,10 @@ public class ImageTargetSetter : MonoBehaviour {
 
             else if (obj.Key == "targetPhoto2")
             {
-                //Debug.Log("case recognized: targetPhoto2");
+                ////Debug.Log("case recognized: targetPhoto2");
                 if (itm.target2.GetComponent<DynamicImageTargetBehaviour>() == null)
                 {
-                //Debug.Log("attempting to add DynamicImageTargetBehaviour script 2");
+                ////Debug.Log("attempting to add DynamicImageTargetBehaviour script 2");
                 itm.target2.SetActive(true);
                 itm.target2.tag = "target2";
                 var behaviour2 = itm.target2.AddComponent<DynamicImageTargetBehaviour>();
@@ -113,10 +113,10 @@ public class ImageTargetSetter : MonoBehaviour {
       /* 
             else if (obj.Key == "targetPhoto3")
             {
-                //Debug.Log("case recognized: targetPhoto3");
+                ////Debug.Log("case recognized: targetPhoto3");
                 if (itm.target3.GetComponent<DynamicImageTargetBehaviour>() == null)
                 {
-                //Debug.Log("attempting to add DynamicImageTargetBehaviour script 3");
+                ////Debug.Log("attempting to add DynamicImageTargetBehaviour script 3");
                 itm.target3.SetActive(true);
                 itm.target3.tag = "target3";
                 var behaviour3 = itm.target3.AddComponent<DynamicImageTargetBehaviour>();
@@ -149,10 +149,10 @@ public class ImageTargetSetter : MonoBehaviour {
 
             else if (obj.Key == "targetPhoto4")
             {
-                //Debug.Log("case recognized: targetPhoto4");
+                ////Debug.Log("case recognized: targetPhoto4");
                 if (itm.target4.GetComponent<DynamicImageTargetBehaviour>() == null)
                 {
-                //Debug.Log("attempting to add DynamicImageTargetBehaviour script 4");
+                ////Debug.Log("attempting to add DynamicImageTargetBehaviour script 4");
                 itm.target4.SetActive(true);
                 itm.target4.tag = "target4";
                 var behaviour4 = itm.target4.AddComponent<DynamicImageTargetBehaviour>();
@@ -184,10 +184,10 @@ public class ImageTargetSetter : MonoBehaviour {
 
             else if (obj.Key == "targetPhoto5")
             {
-                //Debug.Log("case recognized: targetPhoto5");
+                ////Debug.Log("case recognized: targetPhoto5");
                 if (itm.target5.GetComponent<DynamicImageTargetBehaviour>() == null)
                 {
-                //Debug.Log("attempting to add DynamicImageTargetBehaviour script 5");
+                ////Debug.Log("attempting to add DynamicImageTargetBehaviour script 5");
                 itm.target5.SetActive(true);
                 itm.target5.tag = "target5";
                 var behaviour5 = itm.target5.AddComponent<DynamicImageTargetBehaviour>();

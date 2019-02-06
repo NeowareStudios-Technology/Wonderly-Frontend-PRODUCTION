@@ -24,7 +24,7 @@ public class Sharing : MonoBehaviour
 
 
     public void SharingCodeJourneyContextMenu(int index){
-        Debug.Log("CloudEndpointsMAanage success call to Sharing. The sharing index is " + index);
+        //Debug.Log("CloudEndpointsMAanage success call to Sharing. The sharing index is " + index);
         StartCoroutine(ShareFromJourneyContextMenu(index));
     }
     public IEnumerator ShareFromJourneyContextMenu(int index){
@@ -36,10 +36,10 @@ public class Sharing : MonoBehaviour
 			//set auth header
 			newProfileInfoRequest.SetRequestHeader("Authorization", "Bearer " + fbm.token);
 			yield return newProfileInfoRequest.SendWebRequest();
-			Debug.Log(newProfileInfoRequest.responseCode);
+			//Debug.Log(newProfileInfoRequest.responseCode);
 			byte[] results = newProfileInfoRequest.downloadHandler.data;
 			string jsonString = Encoding.UTF8.GetString(results);
-			Debug.Log(jsonString);
+			//Debug.Log(jsonString);
 
 			pic = ceam.pic;
             experienceCode = ceam.libraryCodes[index];
@@ -67,10 +67,10 @@ public class Sharing : MonoBehaviour
 			//set auth header
 			newProfileInfoRequest.SetRequestHeader("Authorization", "Bearer " + fbm.token);
 			yield return newProfileInfoRequest.SendWebRequest();
-			Debug.Log(newProfileInfoRequest.responseCode);
+			//Debug.Log(newProfileInfoRequest.responseCode);
 			byte[] results = newProfileInfoRequest.downloadHandler.data;
 			string jsonString = Encoding.UTF8.GetString(results);
-			Debug.Log(jsonString);
+			//Debug.Log(jsonString);
 			pic = ceam.pic;
 
             fullName = pic.firstName + " " + pic.lastName;
