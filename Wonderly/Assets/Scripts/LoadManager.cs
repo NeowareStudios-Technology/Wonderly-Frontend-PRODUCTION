@@ -89,7 +89,7 @@ public class LoadManager : MonoBehaviour {
 		targetSetter.SetActive(false);
 
 		//for debugging iOS load issue
-		//Debug.Log("1. lm70, Starting LoadFile()");
+		Debug.Log("1. lm70, Starting LoadFile()");
 
 		//clear the scene
 		tom.clearScene();
@@ -101,12 +101,12 @@ public class LoadManager : MonoBehaviour {
 		{
 			string jsonString = File.ReadAllText(savePath);
 			//for debugging iOS load issue
-			//Debug.Log("2. lm82, Contents of save file = "+jsonString);
+			Debug.Log("2. lm82, Contents of save file = "+jsonString);
 			scd = SaveClassDeclaration.CreateFromJSON(jsonString);
 		}
 		else 
 		{
-			//Debug.Log("no save file");
+			Debug.Log("no save file");
 			return;
 		}
 
@@ -131,9 +131,9 @@ public class LoadManager : MonoBehaviour {
 		//load journey cover image
 		StartCoroutine("loadJourneyCoverImage");
 
-		//Debug.Log("3. lm91, Title saved to save class = "+scd.title);
+		Debug.Log("3. lm91, Title saved to save class = "+scd.title);
 		//set the experience title
-		//Debug.Log(scd.title);
+		Debug.Log(scd.title);
 		if (scd.title == "")
 		{
 			titleDisplay.text= "  ";
@@ -160,23 +160,23 @@ public class LoadManager : MonoBehaviour {
 			summaryDescriptionDisplay.text = scd.description;
 			previewDescriptionDisplay.text = scd.description;
 		}
-		//Debug.Log("1");
+		Debug.Log("1");
 
 		//set cover image url
 		//sm.coverImageUrl = scd.coverImageUrl;
 		pm.chosenCoverImageUrl = scd.coverImageUrl;
-		//Debug.Log("2");
+		Debug.Log("2");
 
 		//set each wonder title
 		for (int g = 0; g < 3; g++)
 		{
-			//Debug.Log("in wonder title set");
+			Debug.Log("in wonder title set");
 			apdm.wonderTitles[g].text = scd.wonderTitle[g];
 			apdm.previewWonderTitles[g].text = scd.wonderTitle[g];
 			sm.wonderTitles[g] = scd.wonderTitle[g];
 
 		}
-		//Debug.Log("2");
+		Debug.Log("2");
 
 		//set each wonder description (CHANGE THIS TO % IF NEED TO INCREASE TARGETS TO 5)
 		for (int h = 0; h < 3; h++)
@@ -185,66 +185,66 @@ public class LoadManager : MonoBehaviour {
 			apdm.previewWonderDescriptions[h].text = scd.wonderDescription[h];
 			sm.wonderDescriptions[h] = scd.wonderDescription[h];
 		}
-		//Debug.Log("3");
+		Debug.Log("3");
 
 		for (int i =0; i <5; i++)
 		{
-			//Debug.Log("4~. lm105, targetStatus["+i+"] from save class = "+scd.targetStatus[i]);
+			Debug.Log("4~. lm105, targetStatus["+i+"] from save class = "+scd.targetStatus[i]);
 			fm.targetStatus[i] = scd.targetStatus[i];
 		}
 
 		//for debugging iOS
-		//Debug.Log("5a. lm122, target1 working path = "+workingPath1);
-		//Debug.Log("5b. lm123, target2 working path = "+workingPath2);
-		//Debug.Log("5c. lm124, target3 working path = "+workingPath3);
-		//Debug.Log("5d. lm125, target4 working path = "+workingPath4);
-		//Debug.Log("5e. lm126, target5 working path = "+workingPath5);
-		//Debug.Log("6a. lm127, target1 save file path = "+targetPath1);
-		//Debug.Log("6b. lm128, target2 save file path = "+targetPath2);
-		//Debug.Log("6c. lm129, target3 save file path = "+targetPath3);
-		//Debug.Log("6d. lm130, target4 save file path = "+targetPath4);
-		//Debug.Log("6e. lm131, target5 save file path = "+targetPath5);
+		Debug.Log("5a. lm122, target1 working path = "+workingPath1);
+		Debug.Log("5b. lm123, target2 working path = "+workingPath2);
+		Debug.Log("5c. lm124, target3 working path = "+workingPath3);
+		Debug.Log("5d. lm125, target4 working path = "+workingPath4);
+		Debug.Log("5e. lm126, target5 working path = "+workingPath5);
+		Debug.Log("6a. lm127, target1 save file path = "+targetPath1);
+		Debug.Log("6b. lm128, target2 save file path = "+targetPath2);
+		Debug.Log("6c. lm129, target3 save file path = "+targetPath3);
+		Debug.Log("6d. lm130, target4 save file path = "+targetPath4);
+		Debug.Log("6e. lm131, target5 save file path = "+targetPath5);
 
 		//copy the target images from the save directory to the working directory
 		if (File.Exists(targetPath1))
 		{
 			//for debugging iOS
-			//Debug.Log("7. lm137, target1 save file exists");
+			Debug.Log("7. lm137, target1 save file exists");
 			System.IO.File.Copy(targetPath1, workingPath1, true);
 			fm.targetCount++;
 		}
 		if (File.Exists(targetPath2))
 		{
 			//for debugging iOS
-			//Debug.Log("8. lm144, target2 save file exists");
+			Debug.Log("8. lm144, target2 save file exists");
 			System.IO.File.Copy(targetPath2, workingPath2, true);
 			fm.targetCount++;
 		}
 		if (File.Exists(targetPath3))
 		{
 			//for debugging iOS
-			//Debug.Log("9. lm151, target3 save file exists");
+			Debug.Log("9. lm151, target3 save file exists");
 			System.IO.File.Copy(targetPath3, workingPath3, true);
 			fm.targetCount++;
 		}
 		if (File.Exists(targetPath4))
 		{
 			//for debugging iOS
-			//Debug.Log("10. lm158, target4 save file exists");
+			Debug.Log("10. lm158, target4 save file exists");
 			System.IO.File.Copy(targetPath4, workingPath4, true);
 			fm.targetCount++;
 		}
 		if (File.Exists(targetPath5))
 		{
 			//for debugging iOS
-			//Debug.Log("11. lm165, target5 save file exists");
+			Debug.Log("11. lm165, target5 save file exists");
 			System.IO.File.Copy(targetPath5, workingPath5, true);
 			fm.targetCount++;
 		}
 					if(File.Exists(workingPath1))
 					{
 						//for debugging iOS
-						//Debug.Log("12. lm174, target1 working file exists");
+						Debug.Log("12. lm174, target1 working file exists");
 						//creates new target game object
 						//GameObject imageTarget1 = new GameObject(obj.Key);
 						//target1 = imageTarget1;
@@ -266,7 +266,7 @@ public class LoadManager : MonoBehaviour {
 					if(File.Exists(workingPath2))
 					{
 						//for debugging iOS
-						//Debug.Log("13. lm196, target2 working file exists");
+						Debug.Log("13. lm196, target2 working file exists");
 						//creates new target game object
 						//GameObject imageTarget1 = new GameObject(obj.Key);
 						//target1 = imageTarget1;
@@ -287,7 +287,7 @@ public class LoadManager : MonoBehaviour {
 					if(File.Exists(workingPath3))
 					{
 						//for debugging iOS
-						//Debug.Log("14. lm218, target3 working file exists");
+						Debug.Log("14. lm218, target3 working file exists");
 						//creates new target game object
 						//GameObject imageTarget3 = new GameObject(obj.Key);
 						//target3 = imageTarget3;
@@ -308,7 +308,7 @@ public class LoadManager : MonoBehaviour {
 					if(File.Exists(workingPath4))
 					{
 						//for debugging iOS
-						//Debug.Log("15. lm239, target4 working file exists");
+						Debug.Log("15. lm239, target4 working file exists");
 						//creates new target game object
 						//GameObject imageTarget4 = new GameObject(obj.Key);
 						//target4 = imageTarget4;
@@ -329,7 +329,7 @@ public class LoadManager : MonoBehaviour {
 					if(File.Exists(workingPath5))
 					{
 						//for debugging iOS
-						//Debug.Log("16. lm260, target5 working file exists");
+						Debug.Log("16. lm260, target5 working file exists");
 						//creates new target game object
 						//GameObject imageTarget5 = new GameObject(obj.Key);
 						//target5 = imageTarget5;
@@ -384,18 +384,18 @@ public class LoadManager : MonoBehaviour {
 
 	//called by LoadFile to get cover image from FIrebase Storage
 	private IEnumerator loadJourneyCoverImage() {
-		//Debug.Log("loadJourneyCoverImage starting");
-		//Debug.Log(coverPath);
-		//Debug.Log(File.Exists(coverPath));
+		Debug.Log("loadJourneyCoverImage starting");
+		Debug.Log(coverPath);
+		Debug.Log(File.Exists(coverPath));
 		if (File.Exists(coverPath))
 		{
-			//Debug.Log("inside if");
+			Debug.Log("inside if");
 			byte[] coverImageBytes = File.ReadAllBytes(coverPath);
 			Texture2D tex = new Texture2D(2000,2000);
 			tex.LoadImage(coverImageBytes);
 			coverImage.sprite = Sprite.Create(tex, new Rect(0, 0, tex.width, tex.height), new Vector2(0, 0));
 			previewCoverImage.sprite = Sprite.Create(tex, new Rect(0, 0, tex.width, tex.height), new Vector2(0, 0));
-			//Debug.Log("cover image displayed on UI");
+			Debug.Log("cover image displayed on UI");
 		}
 		yield return null;
 	}
@@ -403,7 +403,7 @@ public class LoadManager : MonoBehaviour {
 
 	//imports all AR objects from save directory
 	private IEnumerator ImportLoadedItems() {
-		//Debug.Log("importLoadedItems started");
+		Debug.Log("importLoadedItems started");
 		yield return new WaitForSeconds(1);
 		for (int i = 0; i < 5; i ++)
 		{
@@ -556,7 +556,7 @@ public class LoadManager : MonoBehaviour {
 	void GetAssetCallback(PolyStatusOr<PolyAsset> result) {
   	if (!result.Ok) 
 		{
-			//Debug.Log("There was an error importing the loaded asset");
+			Debug.Log("There was an error importing the loaded asset");
 			return;
   	}
 		List<PolyAsset> assets = new List<PolyAsset>();
@@ -575,7 +575,7 @@ public class LoadManager : MonoBehaviour {
 	}
 	void GetModelCallback(PolyAsset asset, PolyStatusOr<PolyImportResult> result) {
   if (!result.Ok) {
-    //Debug.Log("There was an error importing the loaded model");
+    Debug.Log("There was an error importing the loaded model");
     return;
   }
 	for (int j = 0; j < 5 ;j++)
@@ -646,10 +646,10 @@ public class LoadManager : MonoBehaviour {
 
 	private void setLoadedModelThumb(int whichIndex)
 	{
-		//Debug.Log("1. Starting loading model thumbnails...");
-		//Debug.Log("2. allAsset array: "+allAssets);
-		//Debug.Log("3. index of asset to get: " +whichIndex);
-		////Debug.Log("4. asset at index in allAsset array: "+allAssets[whichIndex]);
+		Debug.Log("1. Starting loading model thumbnails...");
+		Debug.Log("2. allAsset array: "+allAssets);
+		Debug.Log("3. index of asset to get: " +whichIndex);
+		//Debug.Log("4. asset at index in allAsset array: "+allAssets[whichIndex]);
 		
 		globalModelIndexTracker = whichIndex;
 		PolyApi.FetchThumbnail(allAssets[whichIndex], MyCallback);
@@ -682,7 +682,7 @@ public class LoadManager : MonoBehaviour {
 
 	private IEnumerator setLoadedVideoThumb(int whichIndex, string videoId)
 	{
-		//Debug.Log("in the video thumbnail loader");
+		Debug.Log("in the video thumbnail loader");
 		string thumbnailUrl = "https://img.youtube.com/vi/"+videoId+"/default.jpg";
 		switch (whichIndex)
 		{

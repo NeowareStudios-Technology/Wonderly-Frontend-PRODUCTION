@@ -73,7 +73,7 @@ public class PanelController : MonoBehaviour
         switch (activePanel.name)
         {
             case ("Welcome-panel"):
-                //Debug.Log("yoyoyo");
+                Debug.Log("yoyoyo");
                 Application.Quit();
                 break;
             case ("Audience-panel"):

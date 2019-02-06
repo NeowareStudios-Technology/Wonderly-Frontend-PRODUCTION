@@ -25,7 +25,7 @@ namespace GoogleMobileAds.Common
     {
         public DummyClient()
         {
-            //debug.Log("Dummy " + MethodBase.GetCurrentMethod().Name);
+            Debug.Log("Dummy " + MethodBase.GetCurrentMethod().Name);
         }
 
         // Disable warnings for unused dummy ad events.
@@ -55,152 +55,152 @@ namespace GoogleMobileAds.Common
         {
             get
             {
-                //debug.Log("Dummy " + MethodBase.GetCurrentMethod().Name);
+                Debug.Log("Dummy " + MethodBase.GetCurrentMethod().Name);
                 return "UserId";
             }
 
             set
             {
-                //debug.Log("Dummy " + MethodBase.GetCurrentMethod().Name);
+                Debug.Log("Dummy " + MethodBase.GetCurrentMethod().Name);
             }
         }
 
         public void Initialize(string appId)
         {
-            //debug.Log("Dummy " + MethodBase.GetCurrentMethod().Name);
+            Debug.Log("Dummy " + MethodBase.GetCurrentMethod().Name);
         }
 
         public void SetApplicationMuted(bool muted)
         {
-            //debug.Log("Dummy " + MethodBase.GetCurrentMethod().Name);
+            Debug.Log("Dummy " + MethodBase.GetCurrentMethod().Name);
         }
 
         public void SetApplicationVolume(float volume)
         {
-            //debug.Log("Dummy " + MethodBase.GetCurrentMethod().Name);
+            Debug.Log("Dummy " + MethodBase.GetCurrentMethod().Name);
         }
 
         public void SetiOSAppPauseOnBackground(bool pause)
         {
-            //debug.Log("Dummy " + MethodBase.GetCurrentMethod().Name);
+            Debug.Log("Dummy " + MethodBase.GetCurrentMethod().Name);
         }
 
         public void CreateBannerView(string adUnitId, AdSize adSize, AdPosition position)
         {
-            //debug.Log("Dummy " + MethodBase.GetCurrentMethod().Name);
+            Debug.Log("Dummy " + MethodBase.GetCurrentMethod().Name);
         }
 
         public void CreateBannerView(string adUnitId, AdSize adSize, int positionX, int positionY)
         {
-            //debug.Log("Dummy " + MethodBase.GetCurrentMethod().Name);
+            Debug.Log("Dummy " + MethodBase.GetCurrentMethod().Name);
         }
 
         public void LoadAd(AdRequest request)
         {
-            //debug.Log("Dummy " + MethodBase.GetCurrentMethod().Name);
+            Debug.Log("Dummy " + MethodBase.GetCurrentMethod().Name);
         }
 
         public void ShowBannerView()
         {
-            //debug.Log("Dummy " + MethodBase.GetCurrentMethod().Name);
+            Debug.Log("Dummy " + MethodBase.GetCurrentMethod().Name);
         }
 
         public void HideBannerView()
         {
-            //debug.Log("Dummy " + MethodBase.GetCurrentMethod().Name);
+            Debug.Log("Dummy " + MethodBase.GetCurrentMethod().Name);
         }
 
         public void DestroyBannerView()
         {
-            //debug.Log("Dummy " + MethodBase.GetCurrentMethod().Name);
+            Debug.Log("Dummy " + MethodBase.GetCurrentMethod().Name);
         }
 
         public float GetHeightInPixels()
         {
-            //debug.Log("Dummy " + MethodBase.GetCurrentMethod().Name);
+            Debug.Log("Dummy " + MethodBase.GetCurrentMethod().Name);
             return 0;
         }
 
         public float GetWidthInPixels()
         {
-            //debug.Log("Dummy " + MethodBase.GetCurrentMethod().Name);
+            Debug.Log("Dummy " + MethodBase.GetCurrentMethod().Name);
             return 0;
         }
 
         public void SetPosition(AdPosition adPosition)
         {
-            //debug.Log("Dummy " + MethodBase.GetCurrentMethod().Name);
+            Debug.Log("Dummy " + MethodBase.GetCurrentMethod().Name);
         }
 
         public void SetPosition(int x, int y)
         {
-            //debug.Log("Dummy " + MethodBase.GetCurrentMethod().Name);
+            Debug.Log("Dummy " + MethodBase.GetCurrentMethod().Name);
         }
 
         public void CreateInterstitialAd(string adUnitId)
         {
-            //debug.Log("Dummy " + MethodBase.GetCurrentMethod().Name);
+            Debug.Log("Dummy " + MethodBase.GetCurrentMethod().Name);
         }
 
         public bool IsLoaded()
         {
-            //debug.Log("Dummy " + MethodBase.GetCurrentMethod().Name);
+            Debug.Log("Dummy " + MethodBase.GetCurrentMethod().Name);
             return true;
         }
 
         public void ShowInterstitial()
         {
-            //debug.Log("Dummy " + MethodBase.GetCurrentMethod().Name);
+            Debug.Log("Dummy " + MethodBase.GetCurrentMethod().Name);
         }
 
         public void DestroyInterstitial()
         {
-            //debug.Log("Dummy " + MethodBase.GetCurrentMethod().Name);
+            Debug.Log("Dummy " + MethodBase.GetCurrentMethod().Name);
         }
 
         public void CreateRewardBasedVideoAd()
         {
-            //debug.Log("Dummy " + MethodBase.GetCurrentMethod().Name);
+            Debug.Log("Dummy " + MethodBase.GetCurrentMethod().Name);
         }
 
         public void SetUserId(string userId)
         {
-            //debug.Log("Dummy " + MethodBase.GetCurrentMethod().Name);
+            Debug.Log("Dummy " + MethodBase.GetCurrentMethod().Name);
         }
 
         public void LoadAd(AdRequest request, string adUnitId)
         {
-            //debug.Log("Dummy " + MethodBase.GetCurrentMethod().Name);
+            Debug.Log("Dummy " + MethodBase.GetCurrentMethod().Name);
         }
 
         public void DestroyRewardBasedVideoAd()
         {
-            //debug.Log("Dummy " + MethodBase.GetCurrentMethod().Name);
+            Debug.Log("Dummy " + MethodBase.GetCurrentMethod().Name);
         }
 
         public void ShowRewardBasedVideoAd()
         {
-            //debug.Log("Dummy " + MethodBase.GetCurrentMethod().Name);
+            Debug.Log("Dummy " + MethodBase.GetCurrentMethod().Name);
         }
 
         public void CreateAdLoader(AdLoader.Builder builder)
         {
-            //debug.Log("Dummy " + MethodBase.GetCurrentMethod().Name);
+            Debug.Log("Dummy " + MethodBase.GetCurrentMethod().Name);
         }
 
         public void Load(AdRequest request)
         {
-            //debug.Log("Dummy " + MethodBase.GetCurrentMethod().Name);
+            Debug.Log("Dummy " + MethodBase.GetCurrentMethod().Name);
         }
 
         public void SetAdSize(AdSize adSize)
         {
-            //debug.Log("Dummy " + MethodBase.GetCurrentMethod().Name);
+            Debug.Log("Dummy " + MethodBase.GetCurrentMethod().Name);
         }
 
         public string MediationAdapterClassName()
         {
-            //debug.Log("Dummy " + MethodBase.GetCurrentMethod().Name);
+            Debug.Log("Dummy " + MethodBase.GetCurrentMethod().Name);
             return null;
         }
 

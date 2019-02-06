@@ -31,7 +31,7 @@ public class DynamicImageTargetBehaviour : ImageTargetBehaviour
 
     void OnTargetFound(TargetAbstractBehaviour behaviour)
     {
-        //Debug.Log("Found: " + Target.Id);
+        Debug.Log("Found: " + Target.Id);
         //accesses fm to see if a video is assigned to this target and displays or does not display the video accordingly
         switch(whichTargetAmI)
         {
@@ -65,12 +65,12 @@ public class DynamicImageTargetBehaviour : ImageTargetBehaviour
 
     void OnTargetLost(TargetAbstractBehaviour behaviour)
     {
-        //Debug.Log("Lost: " + Target.Id);
+        Debug.Log("Lost: " + Target.Id);
         
         switch(whichTargetAmI)
         {
             case 1:
-                //Debug.Log("new position");
+                Debug.Log("new position");
                 itm.activeTarget1 = false;
                 itm.target1.transform.position = new Vector3(0f,0f,0f);
                 tom.videoPlayers[0].gameObject.transform.position = new Vector3(2000f,0f,0f);
@@ -100,11 +100,11 @@ public class DynamicImageTargetBehaviour : ImageTargetBehaviour
 
     void OnTargetLoad(ImageTargetBaseBehaviour behaviour, ImageTrackerBaseBehaviour tracker, bool status)
     {
-        //Debug.Log("Load target (" + status + "): " + Target.Id + " (" + Target.Name + ") " + " -> " + tracker);
+        Debug.Log("Load target (" + status + "): " + Target.Id + " (" + Target.Name + ") " + " -> " + tracker);
     }
 
     void OnTargetUnload(ImageTargetBaseBehaviour behaviour, ImageTrackerBaseBehaviour tracker, bool status)
     {
-        //Debug.Log("Unload target (" + status + "): " + Target.Id + " (" + Target.Name + ") " + " -> " + tracker);
+        Debug.Log("Unload target (" + status + "): " + Target.Id + " (" + Target.Name + ") " + " -> " + tracker);
     }
 }

@@ -58,7 +58,7 @@ public class ImageTargetManager : MonoBehaviour
     //deletes all targets and set text
     public void DeleteAllTargetsAndText()
     {
-        //Debug.Log("1. starting itm.DeleteAllTargetsAndText...");
+        Debug.Log("1. starting itm.DeleteAllTargetsAndText...");
         foreach (var obj in imageTargetDic)
         {
             Destroy(obj.Value.gameObject.GetComponent<DynamicImageTargetBehaviour>());
@@ -168,7 +168,7 @@ public class ImageTargetManager : MonoBehaviour
             return;
         int localCount = 1;
 
-        //Debug.Log("1. Starting DeleteTarget()");
+        Debug.Log("1. Starting DeleteTarget()");
 
         string thisPath = "";
         string savePath = "";
@@ -177,7 +177,7 @@ public class ImageTargetManager : MonoBehaviour
         switch(whichTarget)
         {
             case 1:
-                //Debug.Log("2. Deleting targetPhoto1.jpg");
+                Debug.Log("2. Deleting targetPhoto1.jpg");
                 //delete target image from working directory
                 thisPath = Path.Combine(pathManager.MarksDirectory, "targetPhoto1.jpg");
                 SafeDeleteFile(thisPath);
@@ -279,7 +279,7 @@ public class ImageTargetManager : MonoBehaviour
         if (File.Exists(path))
         {
             File.Delete(path);
-            //Debug.Log("file deleted: "+path);
+            Debug.Log("file deleted: "+path);
         }
     }
 
@@ -291,13 +291,13 @@ public class ImageTargetManager : MonoBehaviour
             return;
         int localCount = 1;
 
-        //Debug.Log("1. Starting DeleteTarget()");
+        Debug.Log("1. Starting DeleteTarget()");
 
         string thisPath = "";
         switch(pathManager.currentTarget)
         {
             case 1:
-                //Debug.Log("2. Deleting targetPhoto1.jpg");
+                Debug.Log("2. Deleting targetPhoto1.jpg");
                 thisPath = Path.Combine(pathManager.MarksDirectory, "targetPhoto1.jpg");
                 File.Delete(thisPath);
                 Destroy(target1.GetComponent<DynamicImageTargetBehaviour>());

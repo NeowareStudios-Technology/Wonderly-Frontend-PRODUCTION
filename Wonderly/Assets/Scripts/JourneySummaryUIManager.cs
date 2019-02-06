@@ -46,7 +46,7 @@ public class JourneySummaryUIManager : MonoBehaviour {
 	// handles what UI will be displayed based on the 1 model/video/pic per target rule
 	void Update () {
 
-		//Debug.Log("update is running");
+		Debug.Log("update is running");
 
 		//controls whether the addWonder button appears based on number of targets
 		if (fm.targetCount == 2)

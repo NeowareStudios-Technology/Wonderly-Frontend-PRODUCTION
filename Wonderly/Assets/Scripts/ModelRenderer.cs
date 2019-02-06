@@ -125,7 +125,7 @@ public class ModelRenderer : MonoBehaviour {
     {
         if (!result.Ok) 
             {
-                //Debug.Log("There was an error importing the loaded asset");
+                Debug.Log("There was an error importing the loaded asset");
                 return;
                 //LoadingPanel.SetActive(false);
             }

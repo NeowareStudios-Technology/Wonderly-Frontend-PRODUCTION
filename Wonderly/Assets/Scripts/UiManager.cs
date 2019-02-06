@@ -85,7 +85,7 @@ public class UiManager : MonoBehaviour {
 	//turns on loading screen
 	public void SetLoadingPanelActive(bool settingActive){
 		if (settingActive){
-			//Debug.Log("starting loading panel");
+			Debug.Log("starting loading panel");
 			loadingPanel.SetActive(true);
 			loadingPanel.transform.parent.gameObject.SetActive(true);
 		}

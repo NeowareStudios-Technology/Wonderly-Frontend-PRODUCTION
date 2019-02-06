@@ -62,7 +62,7 @@ public class ModelInitializer : MonoBehaviour {
     private void ListAssetsCallback(PolyStatusOr<PolyListAssetsResult> result) {
         
         if (!result.Ok) {
-            //Debug.LogError("Failed to get featured assets. :( Reason: " + result.Status);
+            Debug.LogError("Failed to get featured assets. :( Reason: " + result.Status);
             return;
         }
  
@@ -71,7 +71,7 @@ public class ModelInitializer : MonoBehaviour {
         ClearSearchText();
 
         for (int i = 0; i < Mathf.Min(maxThumbResults, result.Value.assets.Count); i++) { 
-            //Debug.Log(i+" "+ result.Value.assets[i]);
+            Debug.Log(i+" "+ result.Value.assets[i]);
             PolyApi.FetchThumbnail(result.Value.assets[i], MyThumbnailCallback);
         }
     }
@@ -86,15 +86,15 @@ public class ModelInitializer : MonoBehaviour {
     //create thumbnail for each found poly model under proper parent for create flow
     void MyThumbnailCallback(PolyAsset asset, PolyStatus status)
     {
-        //Debug.Log("in callback");
+        Debug.Log("in callback");
         if (!status.ok)
         {
-            //Debug.Log("Loading thumbnails fail");
+            Debug.Log("Loading thumbnails fail");
             // Handle error;
             return;
         }
         // Display the asset.thumbnailTexture.
-        //Debug.Log("Loading thumbnails");
+        Debug.Log("Loading thumbnails");
         //thumb = Instantiate(thumbPrefab,content.transform);
         Rect rec = new Rect(0, 0, asset.thumbnailTexture.width, asset.thumbnailTexture.height);
 
@@ -126,7 +126,7 @@ public class ModelInitializer : MonoBehaviour {
 			foreach (Transform child in thumbNailParentContent.transform) {
 				GameObject.Destroy(child.gameObject);
 			}
-            //Debug.Log("done destroying");
+            Debug.Log("done destroying");
             //deactivate loading panel
             //localScriptHolder.GetComponent<UiManager>().SetLoadingPanelActive(false);
             Resources.UnloadUnusedAssets();
@@ -156,7 +156,7 @@ public class ModelInitializer : MonoBehaviour {
     private void ListAssetsCallback2(PolyStatusOr<PolyListAssetsResult> result) {
         
         if (!result.Ok) {
-            //Debug.LogError("Failed to get featured assets. :( Reason: " + result.Status);
+            Debug.LogError("Failed to get featured assets. :( Reason: " + result.Status);
             return;
         }
  
@@ -164,7 +164,7 @@ public class ModelInitializer : MonoBehaviour {
         ClearSearchText2();
 
         for (int i = 0; i < Mathf.Min(maxThumbResults, result.Value.assets.Count); i++) { 
-            //Debug.Log(i+" "+ result.Value.assets[i]);
+            Debug.Log(i+" "+ result.Value.assets[i]);
             PolyApi.FetchThumbnail(result.Value.assets[i], MyThumbnailCallback2);
         }
     }
@@ -179,15 +179,15 @@ public class ModelInitializer : MonoBehaviour {
     //create thumbnail for each found poly model under proper parent for edit flow
     void MyThumbnailCallback2(PolyAsset asset, PolyStatus status)
     {
-        //Debug.Log("in callback");
+        Debug.Log("in callback");
         if (!status.ok)
         {
-            //Debug.Log("Loading thumbnails fail");
+            Debug.Log("Loading thumbnails fail");
             // Handle error;
             return;
         }
         // Display the asset.thumbnailTexture.
-        //Debug.Log("Loading thumbnails");
+        Debug.Log("Loading thumbnails");
         //thumb = Instantiate(thumbPrefab,content.transform);
         Rect rec = new Rect(0, 0, asset.thumbnailTexture.width, asset.thumbnailTexture.height);
 

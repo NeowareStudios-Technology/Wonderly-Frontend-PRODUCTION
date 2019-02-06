@@ -60,7 +60,7 @@ public class FilesManager : MonoBehaviour
         yield return new WaitForSeconds(1.0f);
         mainCanvas.GetComponent<PanelController>().OpenPanel(firstPanelIfLoggedIn);
         
-            //Debug.Log("logged in auto");
+            Debug.Log("logged in auto");
     }
 
     void Awake()
@@ -97,10 +97,10 @@ public class FilesManager : MonoBehaviour
         }
 
         //Directory.CreateDirectory(MarksDirectory);
-        //Debug.Log("MarkPath:" + Application.persistentDataPath);
-        //Debug.Log("Save Folder Path: " + SaveDirectory);
+        Debug.Log("MarkPath:" + Application.persistentDataPath);
+        Debug.Log("Save Folder Path: " + SaveDirectory);
 
-        //Debug.Log("calling get profile info");
+        Debug.Log("calling get profile info");
 
         StartCoroutine("delayedReset");
 
@@ -150,7 +150,7 @@ public class FilesManager : MonoBehaviour
         //if target limit is reached, do not take another picture
         if (targetCount >= TARGET_LIMIT)
         {
-            //Debug.Log("Target limit of 2 reached");
+            Debug.Log("Target limit of 2 reached");
             return;
         }
         if (!Directory.Exists(MarksDirectory))
@@ -279,7 +279,7 @@ public class FilesManager : MonoBehaviour
         vsm.DeleteThumbnails2();
 
         Resources.UnloadUnusedAssets();
-        //Debug.Log("unused assets unloaded");
+        Debug.Log("unused assets unloaded");
     }
 }
 

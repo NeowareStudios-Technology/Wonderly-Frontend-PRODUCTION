@@ -53,10 +53,10 @@ public class YoutubeVideoUi : MonoBehaviour {
         }
 
 
-        //Debug.Log("Now starting YoutubeVideoUi.PlayYoutubeVideo()");
-        //Debug.Log("video id: "+videoId);
-        //Debug.Log("current target: "+fm.currentTarget);
-        //Debug.Log("CORRECT CURRENT TARGET = 1");
+        Debug.Log("Now starting YoutubeVideoUi.PlayYoutubeVideo()");
+        Debug.Log("video id: "+videoId);
+        Debug.Log("current target: "+fm.currentTarget);
+        Debug.Log("CORRECT CURRENT TARGET = 1");
 
             string videoPlayerString = "";
             switch(fm.currentTarget)
@@ -71,14 +71,14 @@ public class YoutubeVideoUi : MonoBehaviour {
                     }
 
 
-                    ////Debug
-                    //Debug.Log("video player null? :" + tom.videoPlayers[0]);
+                    //debug
+                    Debug.Log("video player null? :" + tom.videoPlayers[0]);
 
 
                     fm.targetStatus[0] = "video";
                     itm.target1.SetActive(true);
                     tom.videoPlayers[0].SetActive(true);
-                    //Debug.Log(videoId);
+                    Debug.Log(videoId);
                     tom.videoPlayers[0].GetComponent<SimplePlayback>().PlayYoutubeVideo(videoId);
                     tom.videoPlayers[0].GetComponent<SimplePlayback>().unityVideoPlayer.loopPointReached += VideoFinished;
                     tom.videoPlayers[0].transform.position = new Vector3(0f, 0f, 0f);
@@ -91,7 +91,7 @@ public class YoutubeVideoUi : MonoBehaviour {
                     fm.targetStatus[1] = "video";
                     itm.target2.SetActive(true);
                     tom.videoPlayers[1].SetActive(true);
-                    //Debug.Log(videoId);
+                    Debug.Log(videoId);
                     tom.videoPlayers[1].GetComponent<SimplePlayback>().PlayYoutubeVideo(videoId);
                     tom.videoPlayers[1].GetComponent<SimplePlayback>().unityVideoPlayer.loopPointReached += VideoFinished;
                     tom.videoPlayers[1].transform.position = new Vector3(0f, 0f, 0f);
@@ -104,7 +104,7 @@ public class YoutubeVideoUi : MonoBehaviour {
                     fm.targetStatus[2] = "video";
                     itm.target3.SetActive(true);
                     tom.videoPlayers[2].SetActive(true);
-                    //Debug.Log(videoId);
+                    Debug.Log(videoId);
                     tom.videoPlayers[2].GetComponent<SimplePlayback>().PlayYoutubeVideo(videoId);
                     tom.videoPlayers[2].GetComponent<SimplePlayback>().unityVideoPlayer.loopPointReached += VideoFinished;
                     tom.videoPlayers[2].transform.position = new Vector3(0f, 0f, 0f);
@@ -117,7 +117,7 @@ public class YoutubeVideoUi : MonoBehaviour {
                     fm.targetStatus[3] = "video";
                     itm.target4.SetActive(true);
                     tom.videoPlayers[3].SetActive(true);
-                    //Debug.Log(videoId);
+                    Debug.Log(videoId);
                     tom.videoPlayers[3].GetComponent<SimplePlayback>().PlayYoutubeVideo(videoId);
                     tom.videoPlayers[3].GetComponent<SimplePlayback>().unityVideoPlayer.loopPointReached += VideoFinished;
                     tom.videoPlayers[3].transform.position = new Vector3(0f, 0f, 0f);
@@ -130,7 +130,7 @@ public class YoutubeVideoUi : MonoBehaviour {
                     fm.targetStatus[4] = "video";
                     itm.target5.SetActive(true);
                     tom.videoPlayers[4].SetActive(true);
-                    //Debug.Log(videoId);
+                    Debug.Log(videoId);
                     tom.videoPlayers[4].GetComponent<SimplePlayback>().PlayYoutubeVideo(videoId);
                     tom.videoPlayers[4].GetComponent<SimplePlayback>().unityVideoPlayer.loopPointReached += VideoFinished;
                     tom.videoPlayers[4].transform.position = new Vector3(0f, 0f, 0f);
@@ -149,7 +149,7 @@ public class YoutubeVideoUi : MonoBehaviour {
             GameObject.FindObjectOfType<HighQualityPlayback>().unityVideoPlayer.loopPointReached -= VideoFinished;
         }
         
-        //Debug.Log("Video Finished");
+        Debug.Log("Video Finished");
         mainUI.SetActive(true);
     }
 
@@ -160,7 +160,7 @@ public class YoutubeVideoUi : MonoBehaviour {
 #else
         yield return true;
 #endif
-        //Debug.Log("below this line will run when the video is finished");
+        Debug.Log("below this line will run when the video is finished");
         VideoFinished();
     }
 
@@ -180,6 +180,6 @@ public class YoutubeVideoUi : MonoBehaviour {
 
     public void VideoFinished()
     {
-        //Debug.Log("Finished!");
+        Debug.Log("Finished!");
     }
 }
