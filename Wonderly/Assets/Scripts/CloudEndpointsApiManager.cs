@@ -111,7 +111,7 @@ public class CloudEndpointsApiManager : MonoBehaviour {
 	private Texture2D tex;
 
 	void Start(){
-		tex = new Texture2D(200, 200);
+		//tex = new Texture2D(200, 200);
 	}
 	public void startProfileCreate()
 	{
@@ -546,7 +546,7 @@ public void startGetProfileInfo()
 							pic = JsonUtility.FromJson<ProfileInfoClass>(jsonString);
 
 							//for home screen
-							displayFirstNameHome.text = "Hi," + " " + pic.firstName + "!";
+							//displayFirstNameHome.text = "Hi," + " " + pic.firstName + "!";
 
 							//for profile info screen
 							string fullName = pic.firstName + " " + pic.lastName;
@@ -658,7 +658,7 @@ public void startGetProfileInfo()
 		//for dynamic spawning way
 		for (int i = 0; i < numExperiences; i++)
 		{
-			//Texture2D tex = new Texture2D(2000, 2000);
+			Texture2D tex = new Texture2D(2000, 2000);
 			//make sure there arent more than 50 experiences (journeys)
 			if (i == 49)
 				break;

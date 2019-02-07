@@ -3387,6 +3387,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 79740e77c5085114e87a7eab0012e8bf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  uim: {fileID: 1724798409}
   coachmarks:
   - {fileID: 865651358}
 --- !u!1 &51637792
@@ -39438,6 +39439,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 79740e77c5085114e87a7eab0012e8bf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  uim: {fileID: 1724798409}
   coachmarks:
   - {fileID: 594526111}
 --- !u!1 &594880277
@@ -79526,6 +79528,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 79740e77c5085114e87a7eab0012e8bf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  uim: {fileID: 1724798409}
   coachmarks:
   - {fileID: 1053090389}
   - {fileID: 1755831791}
@@ -83513,6 +83516,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 79740e77c5085114e87a7eab0012e8bf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  uim: {fileID: 1724798409}
   coachmarks:
   - {fileID: 1344428518}
 --- !u!1 &1348173828
@@ -84924,7 +84928,7 @@ AudioListener:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1365158879}
-  m_Enabled: 1
+  m_Enabled: 0
 --- !u!1 &1366192387
 GameObject:
   m_ObjectHideFlags: 0
@@ -90603,7 +90607,7 @@ MonoBehaviour:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
-          m_FloatArgument: 1.5
+          m_FloatArgument: 0.1
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
@@ -94712,7 +94716,7 @@ MonoBehaviour:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
-          m_FloatArgument: 1.5
+          m_FloatArgument: 0.1
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
@@ -119345,6 +119349,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 79740e77c5085114e87a7eab0012e8bf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  uim: {fileID: 1724798409}
   coachmarks:
   - {fileID: 452439950}
   - {fileID: 1547661343}

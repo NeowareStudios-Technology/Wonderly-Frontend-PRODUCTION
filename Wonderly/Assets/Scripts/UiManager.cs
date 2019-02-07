@@ -81,6 +81,19 @@ public class UiManager : MonoBehaviour {
 	{
 	}
 
+	public void TurnOffCoachMarks(List<GameObject> coachmarks){
+		StartCoroutine(TurnOffCoachMarksCr(coachmarks));
+	}
+	private IEnumerator TurnOffCoachMarksCr(List<GameObject> coachmarks){
+		yield return new WaitForSeconds(0.1f);
+		foreach(GameObject cm in coachmarks){
+			cm.SetActive(true);
+			Color alphaColorZero = Color.white;
+			alphaColorZero.a = 0.0f;
+			cm.GetComponent<Image>().color = alphaColorZero;
+			cm.GetComponent<Image>().enabled = false;
+		}
+	}
 
 	//turns on loading screen
 	public void SetLoadingPanelActive(bool settingActive){
