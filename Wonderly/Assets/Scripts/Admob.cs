@@ -45,6 +45,13 @@ public class Admob : MonoBehaviour
 		ShowInterstitial();
 	}
 
+    public void RequestInterstitialAd(float secondsToWait){
+	    StartCoroutine(RequestInterstitialAdAfterXSeconds(secondsToWait));
+    }
+	private IEnumerator RequestInterstitialAdAfterXSeconds(float secondsToWait){
+		yield return new WaitForSeconds(secondsToWait);
+		RequestInterstitial();
+	}
  
     // Returns an ad request with custom ad targeting.
     private AdRequest CreateAdRequest()
@@ -159,7 +166,7 @@ public class Admob : MonoBehaviour
             MonoBehaviour.print("Interstitial is not ready yet");
         }
         //request another Interstitial after Showing, to maximize time for ad to load.
-        RequestInterstitial();
+        RequestInterstitialAd(0.5f);
     }
 
     private void ShowRewardBasedVideo()
