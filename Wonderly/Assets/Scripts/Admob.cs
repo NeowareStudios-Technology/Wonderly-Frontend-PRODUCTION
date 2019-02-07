@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System;
 using UnityEngine;
 using GoogleMobileAds.Api;
@@ -28,7 +28,7 @@ public class Admob : MonoBehaviour
         #endif
         #endregion
 
-        MobileAds.SetiOSAppPauseOnBackground(true);
+        MobileAds.SetiOSAppPauseOnBackground(false);
 
         // Initialize the Google Mobile Ads SDK.
         MobileAds.Initialize(appId);
