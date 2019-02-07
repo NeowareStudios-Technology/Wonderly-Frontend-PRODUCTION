@@ -33,12 +33,27 @@ public class Admob : MonoBehaviour
         // Initialize the Google Mobile Ads SDK.
         MobileAds.Initialize(appId);
         //request the first ad to ensure it will be loaded in time
-		RequestInterstitial();
+
+        if (checkMemorySize()){
+            RequestInterstitial();
+        }	
+    }
+
+    //check to see if memory is larger than a gig
+    private bool checkMemorySize(){
+        if (SystemInfo.systemMemorySize > 1008){
+            return true;
+        }
+        else{
+            return false;
+        }
     }
 
     //Use this function from buttons to give enough time for animation to happen
     public void ShowInterstitialAd(float secondsToWait){
-	    StartCoroutine(ShowInterstitialAdAfterXSeconds(secondsToWait));
+        if(checkMemorySize()){
+            StartCoroutine(ShowInterstitialAdAfterXSeconds(secondsToWait));
+        }
     }
 	private IEnumerator ShowInterstitialAdAfterXSeconds(float secondsToWait){
 		yield return new WaitForSeconds(secondsToWait);
