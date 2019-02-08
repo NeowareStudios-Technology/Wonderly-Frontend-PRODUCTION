@@ -550,9 +550,9 @@ public void startGetProfileInfo()
 
 							//for profile info screen
 							string fullName = pic.firstName + " " + pic.lastName;
-							displayName.text = fullName;
+							//displayName.text = fullName;
 							//add "" to make the int into a string without c# complaining
-							displayExpNum.text = pic.createdExp + "";
+							//displayExpNum.text = pic.createdExp + "";
 
 							//for profile edit screen
 							firstNamePlaceHolder.text = pic.firstName;
