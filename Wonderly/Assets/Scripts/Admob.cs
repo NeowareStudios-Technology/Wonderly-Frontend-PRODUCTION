@@ -60,6 +60,8 @@ public class Admob : MonoBehaviour
             .AddTestDevice(AdRequest.TestDeviceSimulator)
             //Add any device used for testing, this is our Android test device
             .AddTestDevice("42F2F155A6039CF236C2CD90E5B83028")
+            //adding Michaels Iphone 8 here.
+            .AddTestDevice("2e4e568a65744bb6745d98a4b2041192")
             .AddKeyword("game")
             .SetGender(Gender.Male)
             .SetBirthday(new DateTime(1985, 1, 1))
@@ -106,13 +108,13 @@ public class Admob : MonoBehaviour
     private void RequestInterstitial()
     {
         #region Set adUnityId based on platform
-        // These ad units are configured to always serve test ads.
+        // Real Ads
         #if UNITY_EDITOR
                 string adUnitId = "unused";
         #elif UNITY_ANDROID
-                string adUnitId = "ca-app-pub-3940256099942544/1033173712";
+                string adUnitId = "ca-app-pub-2464139485429051~2048748928";
         #elif UNITY_IPHONE
-                string adUnitId = "ca-app-pub-3940256099942544/4411468910";
+                string adUnitId = "ca-app-pub-2464139485429051~1094759903";
         #else
                 string adUnitId = "unexpected_platform";
         #endif
