@@ -33,6 +33,7 @@ public class PanelController : MonoBehaviour
     public GameObject loadingPanel;
     //storing panels in this list to call using the android back button
     public List<GameObject> panels = new List<GameObject>();
+    private bool isAndroidPlatform = false;
 
     #endregion
     public void OnEnable()
@@ -42,13 +43,19 @@ public class PanelController : MonoBehaviour
         //If set, open the initial Screen now.
         if (initiallyOpen == null)
             return;
+        
+        //check for platform android
+        if (Application.platform == RuntimePlatform.Android)
+        {
+            isAndroidPlatform = true;
+        }
         OpenPanel(initiallyOpen);
     }
     //Android Back button is set as the "Escape" key
     //if Escape key press, go back one panel
     void Update()
     {
-        if (Application.platform == RuntimePlatform.Android)
+        if (isAndroidPlatform)
         {
         if (Input.GetKeyDown(KeyCode.Escape))
         {

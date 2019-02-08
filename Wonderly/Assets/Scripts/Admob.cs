@@ -5,9 +5,16 @@ using GoogleMobileAds.Api;
 
 public class Admob : MonoBehaviour 
     
-//Wonderly AdunitIds
-//adunit ID for Android ca-app-pub-2464139485429051~2048748928
-//adunit ID for IOS ca-app-pub-2464139485429051~1094759903
+//Wonderly App Ids
+//Android : ca-app-pub-2464139485429051~2048748928
+//IOS : ca-app-pub-2464139485429051~1094759903
+
+//deprecated admob ID
+//ca-app-pub-7735321302186601~1899553612
+
+//Wonderly Add Unit Ids
+//Android : ca-app-pub-2464139485429051/4483340570
+//IOS : ca-app-pub-2464139485429051/1210186265
 	{
     #region variable declariations
     private BannerView bannerView;
@@ -20,9 +27,10 @@ public class Admob : MonoBehaviour
     {
         #region Determine Device platform - set appId
         #if UNITY_ANDROID
-                string appId = "ca-app-pub-7735321302186601~1899553612";
+                string appId = "ca-app-pub-2464139485429051~2048748928";
+                //string appId = "ca-app-pub-2464139485429051~1094759903";
         #elif UNITY_IPHONE
-                string appId = "ca-app-pub-7735321302186601~1899553612";
+                string appId = "ca-app-pub-2464139485429051~1094759903";
         #else
                 string appId = "unexpected_platform";
         #endif
@@ -59,9 +67,9 @@ public class Admob : MonoBehaviour
         return new AdRequest.Builder()
             .AddTestDevice(AdRequest.TestDeviceSimulator)
             //Add any device used for testing, this is our Android test device
-            .AddTestDevice("42F2F155A6039CF236C2CD90E5B83028")
+            //.AddTestDevice("42F2F155A6039CF236C2CD90E5B83028")
             //adding Michaels Iphone 8 here.
-            .AddTestDevice("2e4e568a65744bb6745d98a4b2041192")
+            //.AddTestDevice("2e4e568a65744bb6745d98a4b2041192")
             .AddKeyword("game")
             .SetGender(Gender.Male)
             .SetBirthday(new DateTime(1985, 1, 1))
@@ -112,9 +120,13 @@ public class Admob : MonoBehaviour
         #if UNITY_EDITOR
                 string adUnitId = "unused";
         #elif UNITY_ANDROID
-                string adUnitId = "ca-app-pub-2464139485429051~2048748928";
+        //use top for android
+               string adUnitId = "ca-app-pub-2464139485429051/4483340570";
+               //string adUnitId = "ca-app-pub-2464139485429051/1210186265";
+               //test video ad
+               //string adUnitId = "ca-app-pub-3940256099942544/8691691433";
         #elif UNITY_IPHONE
-                string adUnitId = "ca-app-pub-2464139485429051~1094759903";
+                string adUnitId = "ca-app-pub-2464139485429051/1210186265";
         #else
                 string adUnitId = "unexpected_platform";
         #endif
@@ -168,7 +180,7 @@ public class Admob : MonoBehaviour
             MonoBehaviour.print("Interstitial is not ready yet");
         }
         //request another Interstitial after Showing, to maximize time for ad to load.
-        RequestInterstitialAd(0.5f);
+        RequestInterstitialAd(1.5f);
     }
 
     private void ShowRewardBasedVideo()

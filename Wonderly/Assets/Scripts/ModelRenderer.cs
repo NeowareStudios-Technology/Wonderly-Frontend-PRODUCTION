@@ -13,6 +13,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using PolyToolkit;
+using Lean.Touch;
 
 public class ModelRenderer : MonoBehaviour {
 
@@ -35,6 +36,7 @@ public class ModelRenderer : MonoBehaviour {
     public Text modelAttrib2;
     //for activating/deactivating loading panel
     public GameObject localScriptHolder;
+    public leanTouchAxis lta;
 
  
     //Destroys children of target passed to it
@@ -159,6 +161,9 @@ public class ModelRenderer : MonoBehaviour {
                     return;
                 case 1:
                     myModel.tag = "importedModel1";
+                    myModel.gameObject.AddComponent<LeanRotate>();
+                    myModel.gameObject.GetComponent<LeanRotate>().leanTouchRotation = lta;
+                    myModel.gameObject.AddComponent<LeanScale>();
                     myModel.transform.parent = itm.target1.transform;
                     //model1 needs to get the model ID of the first model from attributesString
                     tom.modelIds[0] = ParseForModelId(attributeString);
@@ -166,6 +171,9 @@ public class ModelRenderer : MonoBehaviour {
                     break;
                 case 2:
                     myModel.tag = "importedModel2";
+                    myModel.gameObject.AddComponent<LeanRotate>();
+                    myModel.gameObject.GetComponent<LeanRotate>().leanTouchRotation = lta;
+                    myModel.gameObject.AddComponent<LeanScale>();
                     myModel.transform.parent = itm.target2.transform;
                     tom.modelIds[1] = ParseForModelId(attributeString);
                     tom.models[1] = myModelObject;

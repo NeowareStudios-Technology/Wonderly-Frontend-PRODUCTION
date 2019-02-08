@@ -13,7 +13,7 @@ required for displaying ads.
   <application>
     <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
-            android:value="ca-app-pub-7735321302186601~1899553612"/>
+            android:value="ca-app-pub-2464139485429051~2048748928"/>
 
   </application>
 </manifest>

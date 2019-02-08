@@ -576,6 +576,7 @@ public void startGetProfileInfo()
 
 	public IEnumerator getOwnedCodes() 
 	{
+		yield return new WaitForSeconds(2.0f);
 		lsh.GetComponent<UiManager>().SetLoadingPanelActive(true);
 		int numExperiences = 0;
 
@@ -711,6 +712,8 @@ public void startGetProfileInfo()
 			//date
 			libraryStubs[i].transform.GetChild(8).gameObject.GetComponent<Text>().text = oec.dates[i];
 			libraryCodes[i] = oec.codes[i];
+
+			
 			}
 	lsh.GetComponent<UiManager>().SetLoadingPanelActive(false);
 			}
