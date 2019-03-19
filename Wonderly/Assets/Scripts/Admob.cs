@@ -25,6 +25,13 @@ public class Admob : MonoBehaviour
 
     public void Start()
     {
+
+        if (Debug.isDebugBuild)
+        {
+            Debug.Log("This is a debug build, Disabling Admob.");
+            this.enabled = false;
+        }
+
         #region Determine Device platform - set appId
         #if UNITY_ANDROID
                 string appId = "ca-app-pub-2464139485429051~2048748928";
