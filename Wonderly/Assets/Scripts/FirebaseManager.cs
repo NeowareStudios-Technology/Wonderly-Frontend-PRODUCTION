@@ -1,4 +1,12 @@
-﻿using System.Collections;
+﻿/******************************************************
+*Project: Wonderly
+*Created by: David Lee Ramirez
+*Date: 12/28/18
+*Description: Used for handling Firebase Auth
+*Copyright 2018 LeapWithAlice,LLC. All rights reserved
+ ******************************************************/
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -12,47 +20,36 @@ using UnityEngine.SceneManagement;
 
 
 public class FirebaseManager : MonoBehaviour {
+	//script references
 	public CloudEndpointsApiManager ceam;
 	public PanelController pc; 
+	public GameObject lsh;
+
 	public Animator libraryPanelAnimator;
+	//UI for getting info for sign in/ sign up
 	public InputField email;
   public InputField Password;
 	public InputField newEmail;
-	public InputField currentPasswordInput;
 	public InputField newPassword;
 	public InputField emailForPasswordReset;
-	public string token;
 	public InputField firstName;
 	public InputField lastName;
+	//firebase
 	protected Firebase.Auth.FirebaseAuth auth;
 	public FirebaseApp fbApp;
 	public Firebase.Storage.FirebaseStorage fbStorage;
 	public Firebase.Storage.StorageReference fbStorageRef;
 
+	public string token;
+
 	public GameObject signInScreen;
-	public GameObject matchCurrentPasswordPanel;
-	public GameObject newPasswordPanel;
-	public GameObject newPasswordPanel2;
-	public GameObject notMatchingCurrentPasswordNotification;
-	public GameObject notMatchingCurrentPasswordNotification2;
-	public GameObject invalidPasswordNotification;
-	public GameObject passwordChangedNotification;
+
+	//for clearing password change input after submitting
 	public InputField editPasswordCurrent;
 	public InputField editPassword;
 	public InputField editPassword2;
-
-	public GameObject profileIcon1;
-	public GameObject profileIcon2;
-	public GameObject createIcon1;
-	public GameObject createIcon2;
-	public GameObject libraryIcon1;
-	public GameObject libraryIcon2;
-
-	public GameObject lsh;
-
+	//notifications
 	public GameObject wrongLoginNotification;
-	public GameObject wrongSignUpNotification;
-
 	public GameObject passwordResetSuccessNotification;
 	public GameObject passwordResetFailNotification;
 
@@ -62,6 +59,36 @@ public class FirebaseManager : MonoBehaviour {
 	public bool isLoggedIn;
 
 
+	// Use this for initialization
+	void Start () 
+	{
+		isLoggedIn= false;
+        //firebase init
+		Firebase.FirebaseApp.CheckAndFixDependenciesAsync().ContinueWith(task =>
+		{
+			var dependencyStatus = task.Result;
+			if (dependencyStatus == Firebase.DependencyStatus.Available)
+			{
+					//Debug.Log("Firebase OK!");
+			}
+			else
+			{
+					UnityEngine.Debug.LogError(System.String.Format(
+						"Could not resolve all Firebase dependencies: {0}", dependencyStatus));
+					// Firebase Unity SDK is not safe to use here.
+			}
+        FirebaseApp.DefaultInstance.SetEditorDatabaseUrl("https://wonderly-225214.appspot.com");
+
+				//set class variable to auth instance
+        auth = Firebase.Auth.FirebaseAuth.DefaultInstance;       
+				//set class variable to firebase app instance
+				fbApp = FirebaseApp.DefaultInstance;
+				//set class variable to firebase storage instance
+			  fbStorage = Firebase.Storage.FirebaseStorage.DefaultInstance;
+				fbStorageRef = fbStorage.GetReferenceFromUrl("gs://wonderly-225214.appspot.com");
+
+		});
+	}
 
 	public void createNewFirebaseUser()
 	{
@@ -70,7 +97,7 @@ public class FirebaseManager : MonoBehaviour {
 		//make sure password is at least 6 chars long
 		if (newPassword.text.Length < 6)
 		{
-			Debug.Log("password must be at least 6 characters long");
+			//Debug.Log("password must be at least 6 characters long");
 			return;
 		}
 
@@ -79,14 +106,13 @@ public class FirebaseManager : MonoBehaviour {
 		//create new firebase user
 		auth.CreateUserWithEmailAndPasswordAsync(lowerCaseEmail, newPassword.text).ContinueWith(task => {
 			if (task.IsCanceled) {
-				Debug.LogError("CreateUserWithEmailAndPasswordAsync was canceled.");
+				//Debug.LogError("CreateUserWithEmailAndPasswordAsync was canceled.");
 				return;
 			}
 			if (task.IsFaulted) {
-				Debug.LogError("CreateUserWithEmailAndPasswordAsync encountered an error: " + task.Exception);
+				//Debug.LogError("CreateUserWithEmailAndPasswordAsync encountered an error: " + task.Exception);
 				//turn of loading animation
 				lsh.GetComponent<UiManager>().SetLoadingPanelActive(false);
-				//wrongSignUpNotification.SetActive(true);
 				return;
 			}
 
@@ -94,21 +120,13 @@ public class FirebaseManager : MonoBehaviour {
 			Firebase.Auth.FirebaseUser newUser = task.Result;
 			//turn off loading animation
 			lsh.GetComponent<UiManager>().SetLoadingPanelActive(false);
-			Debug.LogFormat("Firebase user created successfully: {0} ({1})",
+			/*//Debug.LogFormat("Firebase user created successfully: {0} ({1})",
 					newUser.DisplayName, newUser.UserId);
-
+			*/
 			//login
 			StartCoroutine("InternalLoginProcess");
 		});
-
 	}
-
-    IEnumerator Example()
-    {
-        print(Time.time);
-        yield return new WaitForSeconds(5);
-        print(Time.time);
-    }
 
 	//only used for signing in directly after creating a new profile
 	private IEnumerator InternalLoginProcess()
@@ -123,21 +141,22 @@ public class FirebaseManager : MonoBehaviour {
 			{
 					if (task.IsCanceled)
 					{
-							Debug.LogError("SignInWithEmailAndPasswordAsync was canceled.");
+							//Debug.LogError("SignInWithEmailAndPasswordAsync was canceled.");
 							return;
 					}
 					if (task.IsFaulted)
 					{
-							Debug.LogError("SignInWithEmailAndPasswordAsync encountered an error: " + task.Exception);
+							//Debug.LogError("SignInWithEmailAndPasswordAsync encountered an error: " + task.Exception);
 							return;
 					}
 
 					Firebase.Auth.FirebaseUser newUser = task.Result;
-					Debug.LogFormat("User signed in successfully: {0} ({1})",
+					/*//Debug.LogFormat("User signed in successfully: {0} ({1})",
 							newUser.DisplayName, newUser.UserId);
+					*/
 					GetTokenAfterNewUserCreation(auth);
 
-					Debug.Log("Logging in: " + lowerCaseEmail + " " + p);
+					//Debug.Log("Logging in: " + lowerCaseEmail + " " + p);
 					PlayerPrefs.SetString("email", lowerCaseEmail);
 					PlayerPrefs.SetString("password", p);
 					PlayerPrefs.SetInt("isLoggedIn", 1);
@@ -160,21 +179,22 @@ public class FirebaseManager : MonoBehaviour {
 			{
 					if (task.IsCanceled)
 					{
-							Debug.LogError("SignInWithEmailAndPasswordAsync was canceled.");
+							//Debug.LogError("SignInWithEmailAndPasswordAsync was canceled.");
 							return;
 					}
 					if (task.IsFaulted)
 					{
-							Debug.LogError("SignInWithEmailAndPasswordAsync encountered an error: " + task.Exception);
+							//Debug.LogError("SignInWithEmailAndPasswordAsync encountered an error: " + task.Exception);
 							return;
 					}
 
 					Firebase.Auth.FirebaseUser newUser = task.Result;
-					Debug.LogFormat("User signed in successfully: {0} ({1})",
+					/*//Debug.LogFormat("User signed in successfully: {0} ({1})",
 							newUser.DisplayName, newUser.UserId);
+					*/
 					GetToken(auth);
 
-					Debug.Log("Logging in: " + e + " " + p);
+					//Debug.Log("Logging in: " + e + " " + p);
 
 			});
 			yield return null;
@@ -193,23 +213,23 @@ public class FirebaseManager : MonoBehaviour {
 			FirebaseAuth auth = Firebase.Auth.FirebaseAuth.DefaultInstance;
 			auth.SignInWithEmailAndPasswordAsync(lowerCaseEmail, p).ContinueWith(task =>
 			{
-					Debug.Log("Attempted logging in: " + lowerCaseEmail + " " + p);
+					//Debug.Log("Attempted logging in: " + lowerCaseEmail + " " + p);
 					if (task.IsCanceled)
 					{
-							Debug.LogError("SignInWithEmailAndPasswordAsync was canceled.");
+							//Debug.LogError("SignInWithEmailAndPasswordAsync was canceled.");
 							return;
 					}
 					if (task.IsFaulted)
 					{
-							Debug.LogError("SignInWithEmailAndPasswordAsync encountered an error: " + task.Exception);
-							Debug.Log("Password or email incorrect");
+							//Debug.LogError("SignInWithEmailAndPasswordAsync encountered an error: " + task.Exception);
+							//Debug.Log("Password or email incorrect");
 							//turn off loading animattion
 							lsh.GetComponent<UiManager>().SetLoadingPanelActive(false);
 							wrongLoginNotification.SetActive(true);
 							return;
 					}
 
-					Debug.Log("after task fault check");
+					//Debug.Log("after task fault check");
 					
 					//turn off loading animation
 					pc.SetBottomPanelActive(true);
@@ -217,13 +237,14 @@ public class FirebaseManager : MonoBehaviour {
 					pc.OpenPanel(libraryPanelAnimator);
 					
 					
-					Debug.Log("after setting inactive");
+					//Debug.Log("after setting inactive");
 					Firebase.Auth.FirebaseUser newUser = task.Result;
-					Debug.LogFormat("User signed in successfully: {0} ({1})",
+					/*//Debug.LogFormat("User signed in successfully: {0} ({1})",
 							newUser.DisplayName, newUser.UserId);
+					*/
 					GetToken(auth);
 					
-					Debug.Log("Logging in: " + lowerCaseEmail + " " + p);
+					//Debug.Log("Logging in: " + lowerCaseEmail + " " + p);
 					PlayerPrefs.SetString("email", lowerCaseEmail);
 					PlayerPrefs.SetString("password", p);
 					PlayerPrefs.SetInt("isLoggedIn", 1);
@@ -242,20 +263,20 @@ public class FirebaseManager : MonoBehaviour {
 			{
 					if (task.IsCanceled)
 					{
-							Debug.LogError("TokenAsync was canceled.");
+							//Debug.LogError("TokenAsync was canceled.");
 							return;
 					}
 
 					if (task.IsFaulted)
 					{
-							Debug.LogError("TokenAsync encountered an error: " + task.Exception);
-							Debug.Log("Password or email incorrect");
+							//Debug.LogError("TokenAsync encountered an error: " + task.Exception);
+							//Debug.Log("Password or email incorrect");
 							wrongLoginNotification.SetActive(true);
 							return;
 					}
 
 					token = task.Result;
-					Debug.Log(token);
+					//Debug.Log(token);
 					ceam.startGetOwnedCodes();
 					isLoggedIn = true;
 
@@ -273,55 +294,25 @@ public class FirebaseManager : MonoBehaviour {
 			{
 					if (task.IsCanceled)
 					{
-							Debug.LogError("TokenAsync was canceled.");
+							//Debug.LogError("TokenAsync was canceled.");
 							return;
 					}
 
 					if (task.IsFaulted)
 					{
-							Debug.LogError("TokenAsync encountered an error: " + task.Exception);
-							Debug.Log("Password or email incorrect");
+							//Debug.LogError("TokenAsync encountered an error: " + task.Exception);
+							//Debug.Log("Password or email incorrect");
 							wrongLoginNotification.SetActive(true);
 							return;
 					}
 
 					token = task.Result;
-					Debug.Log(token);
+					//Debug.Log(token);
 					isLoggedIn = true;
 					ceam.startProfileCreate();
 		});
 	}
 
-	// Use this for initialization
-	void Start () 
-	{
-		isLoggedIn= false;
-        //firebase init
-		Firebase.FirebaseApp.CheckAndFixDependenciesAsync().ContinueWith(task =>
-		{
-			var dependencyStatus = task.Result;
-			if (dependencyStatus == Firebase.DependencyStatus.Available)
-			{
-					Debug.Log("Firebase OK!");
-			}
-			else
-			{
-					UnityEngine.Debug.LogError(System.String.Format(
-						"Could not resolve all Firebase dependencies: {0}", dependencyStatus));
-					// Firebase Unity SDK is not safe to use here.
-			}
-        FirebaseApp.DefaultInstance.SetEditorDatabaseUrl("https://wonderly-225214.appspot.com");
-
-				//set class variable to auth instance
-        auth = Firebase.Auth.FirebaseAuth.DefaultInstance;       
-				//set class variable to firebase app instance
-				fbApp = FirebaseApp.DefaultInstance;
-				//set class variable to firebase storage instance
-			  fbStorage = Firebase.Storage.FirebaseStorage.DefaultInstance;
-				fbStorageRef = fbStorage.GetReferenceFromUrl("gs://wonderly-225214.appspot.com");
-
-		});
-	}
 
 	public void signOutFirebase()
 	{
@@ -330,7 +321,7 @@ public class FirebaseManager : MonoBehaviour {
 		PlayerPrefs.SetInt("isLoggedIn", 0);
 		PlayerPrefs.SetString("email", "");
 		PlayerPrefs.SetString("password", "");
-		Debug.Log("User signed out");
+		//Debug.Log("User signed out");
 	}
 
 	public void sendPasswordResetEmail()
@@ -338,14 +329,14 @@ public class FirebaseManager : MonoBehaviour {
 		string emailAddress = emailForPasswordReset.text;
 			auth.SendPasswordResetEmailAsync(emailAddress).ContinueWith(task => {
 				if (task.IsCanceled) {
-					Debug.LogError("SendPasswordResetEmailAsync was canceled.");
+					//Debug.LogError("SendPasswordResetEmailAsync was canceled.");
 					loadingPanel.SetActive(false);
 					passwordResetFailNotification.SetActive(true);
 					emailForPasswordReset.text = "";
 					return;
 				}
 				if (task.IsFaulted) {
-					Debug.LogError("SendPasswordResetEmailAsync encountered an error: " + task.Exception);
+					//Debug.LogError("SendPasswordResetEmailAsync encountered an error: " + task.Exception);
 					loadingPanel.SetActive(false);
 					passwordResetFailNotification.SetActive(true);
 					emailForPasswordReset.text = "";
@@ -355,80 +346,26 @@ public class FirebaseManager : MonoBehaviour {
 				loadingPanel.SetActive(false);
 				passwordResetSuccessNotification.SetActive(true);
 				emailForPasswordReset.text = "";
-				Debug.Log("Password reset email sent successfully.");
+				//Debug.Log("Password reset email sent successfully.");
 			});
-	}
-
-	public void checkMatchingPassword()
-	{
-		if(currentPasswordInput.text == PlayerPrefs.GetString("password"))
-		{
-			//deactivate current panel
-			matchCurrentPasswordPanel.SetActive(false);
-			//deactivate bad password error notification if it has popped up
-			notMatchingCurrentPasswordNotification.SetActive(false);
-			//activate next panel
-			newPasswordPanel.SetActive(true);
-			currentPasswordInput.text = "";
-		}
-		else
-		{
-			//show error message of not matching passwords
-			notMatchingCurrentPasswordNotification.SetActive(true);
-
-		}
-	}
-
-	public void checkValidPassword()
-	{
-		if (editPassword.text.Length >= 6)
-		{
-			//deactivate current screen
-			newPasswordPanel.SetActive(false);
-			//activate next screen
-			newPasswordPanel2.SetActive(true);
-			invalidPasswordNotification.SetActive(false);
-		}
-		else
-		{
-			//show error
-			invalidPasswordNotification.SetActive(true);
-		}
-	}
-
-	public void checkMatchingNewPassword()
-	{
-		if(editPassword.text == editPassword2.text)
-		{
-			//call firebase method to change password to newPasswordInput2
-			Debug.Log("passwords match");
-			changeUserPassword();
-
-		}
-		else
-		{
-			//show error message of not matching passwords
-			notMatchingCurrentPasswordNotification2.SetActive(true);
-
-		}
 	}
 
 	public void changeUserPassword()
 	{
-		Debug.Log("in change user password");
+		//Debug.Log("in change user password");
 		Firebase.Auth.FirebaseUser user = auth.CurrentUser;
-		Debug.Log("in change user password2");
+		//Debug.Log("in change user password2");
 		string newPassword = editPassword2.text;
 		if (user != null) {
 			user.UpdatePasswordAsync(newPassword).ContinueWith(task => {
 				if (task.IsCanceled) {
 					lsh.GetComponent<UiManager>().SetLoadingPanelActive(false);
-					Debug.LogError("UpdatePasswordAsync was canceled.");
+					//Debug.LogError("UpdatePasswordAsync was canceled.");
 					return;
 				}
 				if (task.IsFaulted) {
 					lsh.GetComponent<UiManager>().SetLoadingPanelActive(false);
-					Debug.LogError("UpdatePasswordAsync encountered an error: " + task.Exception);
+					//Debug.LogError("UpdatePasswordAsync encountered an error: " + task.Exception);
 					return;
 				}
 
@@ -437,7 +374,7 @@ public class FirebaseManager : MonoBehaviour {
 				//set new password in player prefs for auto log in
 				lsh.GetComponent<UiManager>().SetLoadingPanelActive(false);
 				PlayerPrefs.SetString("password", newPassword);
-				Debug.Log("Password updated successfully.");
+				//Debug.Log("Password updated successfully.");
 				//reset password input text
 				editPassword.text = "";
 				editPassword2.text = "";
@@ -445,7 +382,7 @@ public class FirebaseManager : MonoBehaviour {
 		}
 		else
 		{
-			Debug.Log("firebase user is null");
+			//Debug.Log("firebase user is null");
 			lsh.GetComponent<UiManager>().SetLoadingPanelActive(false);
 		}
 	}
@@ -454,6 +391,6 @@ public class FirebaseManager : MonoBehaviour {
 	{
 		editPassword.text = "";
 		editPassword2.text = "";
-		currentPasswordInput.text = "";
+		editPasswordCurrent.text = "";
 	}
 }

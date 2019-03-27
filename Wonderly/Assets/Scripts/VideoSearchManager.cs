@@ -1,78 +1,71 @@
-﻿using System.Collections;
+﻿/******************************************************
+*Project: Wonderly
+*Modified by: David Lee Ramirez
+*Date: 12/28/18
+*Description: Handles starting Youtube video search 
+            (YoutubeAPIManager handles rest of search)
+            and instantiation of video thumbnails. Modified
+            script from Lightshaft Youtube plugin.
+ ******************************************************/
+
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using Sample;
 
 public class VideoSearchManager : MonoBehaviour {
+    //script references
     public YoutubeAPIManager youtubeapi;
-
+    public FilesManager fm;
+    //input field for searching youtube videos
     public InputField searchField;
-    public YoutubeVideoUi[] videoListUI;
-    //public GameObject videoUIResult;
-    //public GameObject mainUI;
+    //references to "simple playback" gameobjects
     public GameObject vidReference1;
     public GameObject vidReference2;
     public GameObject vidReference3;
     public GameObject vidReference4;
     public GameObject vidReference5;
+    //references to target gameobjects
     public GameObject targetReference1;
     public GameObject targetReference2;
     public GameObject targetReference3;
     public GameObject targetReference4;
     public GameObject targetReference5;
-
-    public Text vidTitle1;
-    public Text vidTitle2;
-    public Text vidTitle3;
-    public Text vidTitle4;
-    public Text vidTitle5;
-
-    public FilesManager fm;
+    //urls to youtube video for each thumbnail
     public List<string> thumbUrls = new List<string>();
-
+    //max number of thumbnails
     public int maxThumbResults = 50;
+    //video thumbnail prefab
     public GameObject videoThumbPrefab;
+    //parent GameObject of thumbnails
     public GameObject thumbNailParentContent;
     //below is for edit flow from summary screen (FLOW2)
     public GameObject thumbNailParentContent2;
     public InputField searchField2;
-
+    //for accessing PanelController
     public GameObject mainCanvas;
+    //for switching to these screens
     public Animator viewLibraryContentPanel;
+    public Animator viewLibraryContentPanel2;
+    //reference to script holder game object
     public GameObject localScriptHolder;
+    //list of thumbnail GameObjects (up to 50)
     public GameObject[] videoThumbList;
 	
+
+    //initializes video thumb gameobject list
     void Awake(){
         videoThumbList = new GameObject[maxThumbResults];
     }
+
+
+    //initiates youtube search
 	public void Search()
     {
         fm.unloadUnused();
         thumbUrls.Clear();
-        //turn on target's video player
-        //need to implement this in V2 when assets ready
-        /*/// switch(fm.currentTarget)
-        {
-            case 0:
-                return;
-            case 1:
-                vidReference1.SetActive(true);
-                break;
-            case 2:
-                vidReference2.SetActive(true);
-                break;
-            case 3:
-                vidReference3.SetActive(true);
-                break;
-            case 4:
-                vidReference4.SetActive(true);
-                break;
-            case 5:
-                vidReference5.SetActive(true);
-                break;
-        }
-        ///*/
+     
         //do nothing if no targets created yet or if indexed target not created yet
         if (fm.targetStatus[fm.currentTarget-1] == "none")
             return;
@@ -82,6 +75,8 @@ public class VideoSearchManager : MonoBehaviour {
         youtubeapi.Search(searchField.text, maxThumbResults, mainFilter, YoutubeAPIManager.YoutubeSafeSearchFilter.none, OnSearchDone);
     }
 
+
+    //unused
     public void SearchByLocation(string location)
     {
         YoutubeAPIManager.YoutubeSearchOrderFilter mainFilter = YoutubeAPIManager.YoutubeSearchOrderFilter.none;
@@ -93,12 +88,16 @@ public class VideoSearchManager : MonoBehaviour {
         youtubeapi.SearchByLocation(searchField.text, maxThumbResults, locationRadius, latitude, longitude, mainFilter, YoutubeAPIManager.YoutubeSafeSearchFilter.none, OnSearchDone);
     }
 
+
+    //callback for youtube search
     void OnSearchDone(YoutubeData[] results)
     {
         //videoUIResult.SetActive(true);
         LoadVideosOnUI(results);
     }
 
+
+    //instantiates youtube thumbnails
     void LoadVideosOnUI(YoutubeData[] videoList)
     {
         for(int i = 0; i < videoList.Length; i++){
@@ -121,14 +120,13 @@ public class VideoSearchManager : MonoBehaviour {
             
             newThumbnail.GetComponent<Button>().onClick.AddListener(delegate {this.GetComponent<YoutubeAPIManager>().SetVideoInfo(TempIterator);});
             newThumbnail.GetComponent<Button>().onClick.AddListener(delegate {mainCanvas.GetComponent<PanelController>().OpenPanel(viewLibraryContentPanel);});
+            //loading Panel deactivated in RequestResolver.DownloadUrl()
             newThumbnail.GetComponent<Button>().onClick.AddListener(delegate {localScriptHolder.GetComponent<UiManager>().SetLoadingPanelActive(true);});
-       
-
-        }
-         
+        }    
     }
 
 
+    //deletes instantiated thumbnails and clears unused memory
     public void DeleteThumbnails(){
 		foreach (Transform child in thumbNailParentContent.transform) {
      			GameObject.Destroy(child.gameObject);
@@ -137,10 +135,15 @@ public class VideoSearchManager : MonoBehaviour {
         Resources.UnloadUnusedAssets();
 	}
 
+
+    //deactivates loading panel
     private IEnumerator TurnOffLoadingPanel(){
         yield return new WaitForSeconds(0.2f);
         localScriptHolder.GetComponent<UiManager>().SetLoadingPanelActive(false);
     }
+
+
+    //clears search field
     public void ClearSearchField(){
         searchField.text = "";
     }
@@ -149,33 +152,12 @@ public class VideoSearchManager : MonoBehaviour {
 /*****************************************************************************************************************************************************************************************/
 //below is for searching for videos in edit flow from Journey experience (FLOW2)
 
+
+//initiates youtube search EDIT FLOW
 public void Search2()
     {
         fm.unloadUnused();
         thumbUrls.Clear();
-        //turn on target's video player
-        //need to implement this in V2 when assets ready
-        /*/// switch(fm.currentTarget)
-        {
-            case 0:
-                return;
-            case 1:
-                vidReference1.SetActive(true);
-                break;
-            case 2:
-                vidReference2.SetActive(true);
-                break;
-            case 3:
-                vidReference3.SetActive(true);
-                break;
-            case 4:
-                vidReference4.SetActive(true);
-                break;
-            case 5:
-                vidReference5.SetActive(true);
-                break;
-        }
-        ///*/
         //do nothing if no targets created yet or if indexed target not created yet
         if (fm.targetStatus[fm.currentTarget-1] == "none")
             return;
@@ -186,12 +168,15 @@ public void Search2()
     }
 
 
+    //callback for youtube search EDIT FLOW
     void OnSearchDone2(YoutubeData[] results)
     {
         //videoUIResult.SetActive(true);
         LoadVideosOnUI2(results);
     }
 
+
+    //instantiates youtube thumbnails EDIT FLOW
     void LoadVideosOnUI2(YoutubeData[] videoList)
     {
         for(int i = 0; i < videoList.Length; i++){
@@ -210,10 +195,12 @@ public void Search2()
             newThumbnail.GetComponent<Button>().onClick.AddListener(delegate {newThumbnail.GetComponent<YoutubeVideoUi>().PlayYoutubeVideo();});
             newThumbnail.GetComponent<Button>().onClick.AddListener(delegate {localScriptHolder.GetComponent<ArPairDisplayManager>().setYoutubeThumbnailArPair(newThumbnail);});
             newThumbnail.GetComponent<Button>().onClick.AddListener(delegate {this.GetComponent<YoutubeAPIManager>().SetVideoInfo(TempIterator);});
-            newThumbnail.GetComponent<Button>().onClick.AddListener(delegate {mainCanvas.GetComponent<PanelController>().OpenPanel(viewLibraryContentPanel);});
+            newThumbnail.GetComponent<Button>().onClick.AddListener(delegate {mainCanvas.GetComponent<PanelController>().OpenPanel(viewLibraryContentPanel2);});
         } 
     }
 
+
+    //deletes video thumbnails and release memory EDIT FLOW
     public void DeleteThumbnails2(){
 		foreach (Transform child in thumbNailParentContent2.transform) {
      			GameObject.Destroy(child.gameObject);
@@ -221,6 +208,8 @@ public void Search2()
         Resources.UnloadUnusedAssets();
 	}
 
+
+    //clears search inut field EDIT FLOW
     public void ClearSearchField2(){
         searchField2.text = "";
     }

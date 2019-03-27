@@ -1,11 +1,4 @@
 using System.Collections;
-
-using System.Collections.Generic;
-
-using UnityEngine;
-
-
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -23,7 +16,6 @@ public class Sharing : MonoBehaviour
     public string linkToAndroidStore = "www.linkToAliceDownloadAndroid.com";
     public string linkToAppleStore = "www.linkToAliceDownloadApple.com";
     public string defaultLink = "https://leapwithalice.io/";
-    private string linkToStore = "https://leapwithalice.io/";
     private string getProfileUrl = "https://aliceone-221018.appspot.com/_ah/api/aliceOne/v1/profile";
     public FirebaseManager fbm;
     public FirebaseStorageManager fsm;
@@ -32,7 +24,7 @@ public class Sharing : MonoBehaviour
 
 
     public void SharingCodeJourneyContextMenu(int index){
-        Debug.Log("CloudEndpointsMAanage success call to Sharing. The sharing index is " + index);
+        //Debug.Log("CloudEndpointsMAanage success call to Sharing. The sharing index is " + index);
         StartCoroutine(ShareFromJourneyContextMenu(index));
     }
     public IEnumerator ShareFromJourneyContextMenu(int index){
@@ -44,10 +36,10 @@ public class Sharing : MonoBehaviour
 			//set auth header
 			newProfileInfoRequest.SetRequestHeader("Authorization", "Bearer " + fbm.token);
 			yield return newProfileInfoRequest.SendWebRequest();
-			Debug.Log(newProfileInfoRequest.responseCode);
+			//Debug.Log(newProfileInfoRequest.responseCode);
 			byte[] results = newProfileInfoRequest.downloadHandler.data;
 			string jsonString = Encoding.UTF8.GetString(results);
-			Debug.Log(jsonString);
+			//Debug.Log(jsonString);
 
 			pic = ceam.pic;
             experienceCode = ceam.libraryCodes[index];
@@ -56,7 +48,6 @@ public class Sharing : MonoBehaviour
             if (experienceTitle == ""){
                 experienceTitle = "A Simple Experience";
             }
-            linkToStore = DetermineLinkToStore();
             print("Congratulations! " + fullName + " has just sent you the code '" + experienceCode + "' for '" + experienceTitle + "', an experience within the Wonderly application."+ "\n" +"If you do not have the Wonderly application, download it here." + "\n"  + "Apple download " + linkToAppleStore + "\n" + "Android download " + linkToAndroidStore);
             new NativeShare().SetText("Congratulations! " + fullName + " has just sent you the code '" + experienceCode + "' for '" + experienceTitle + "', an experience within the Wonderly application."+ "\n" +"If you do not have the Wonderly application, download it here." + "\n"  + "Apple download " + linkToAppleStore + "\n" + "Android download " + linkToAndroidStore).Share();
     	}
@@ -76,10 +67,10 @@ public class Sharing : MonoBehaviour
 			//set auth header
 			newProfileInfoRequest.SetRequestHeader("Authorization", "Bearer " + fbm.token);
 			yield return newProfileInfoRequest.SendWebRequest();
-			Debug.Log(newProfileInfoRequest.responseCode);
+			//Debug.Log(newProfileInfoRequest.responseCode);
 			byte[] results = newProfileInfoRequest.downloadHandler.data;
 			string jsonString = Encoding.UTF8.GetString(results);
-			Debug.Log(jsonString);
+			//Debug.Log(jsonString);
 			pic = ceam.pic;
 
             fullName = pic.firstName + " " + pic.lastName;
@@ -88,23 +79,10 @@ public class Sharing : MonoBehaviour
             if (experienceTitle == ""){
                 experienceTitle = "A Simple Experience";
             }
-            linkToStore = DetermineLinkToStore();
             print("Congratulations! " + fullName + " has just sent you the code '" + experienceCode + "' for '" + experienceTitle + "', an experience within the Wonderly application."+ "\n" +"If you do not have the Wonderly application, download it here." + "\n"  + "Apple download " + linkToAppleStore + "\n" + "Android download " + linkToAndroidStore);
             new NativeShare().SetText("Congratulations! " + fullName + " has just sent you the code '" + experienceCode + "' for '" + experienceTitle + "', an experience within the Wonderly application."+ "\n" +"If you do not have the Wonderly application, download it here." + "\n"  + "Apple download " + linkToAppleStore + "\n" + "Android download " + linkToAndroidStore).Share();
     	}
 
 	}
     
-    private string DetermineLinkToStore(){
-        if (Application.platform == RuntimePlatform.Android){
-            return linkToAndroidStore;
-        }
-        else if(Application.platform == RuntimePlatform.IPhonePlayer){
-            return linkToAppleStore;
-        }
-        //if non mobile - return default site
-        else {
-            return defaultLink;
-        }
-    }
 }

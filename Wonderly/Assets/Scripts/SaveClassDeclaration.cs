@@ -1,4 +1,13 @@
-﻿using System.Collections;
+﻿/******************************************************
+*Project: Wonderly
+*Created by: David Lee Ramirez
+*Date: 12/28/18
+*Description: Used for creating a JSON save file that represents
+							the AR journey. 
+*Copyright 2018 LeapWithAlice,LLC. All rights reserved
+ ******************************************************/
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 

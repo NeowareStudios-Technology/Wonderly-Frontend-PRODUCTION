@@ -1,39 +1,50 @@
-﻿using System.Collections;
+﻿/******************************************************
+*Project: Wonderly
+*Created by: David Lee Ramirez
+*Date: 12/28/18
+*Description: Used for selecting and downloading a 
+*             Google Poly 3D model into the working
+*             scene
+*Copyright 2018 LeapWithAlice,LLC. All rights reserved
+ ******************************************************/
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-//using Vuforia;
 using PolyToolkit;
-using Sample;
+using Lean.Touch;
 
 public class ModelRenderer : MonoBehaviour {
 
-	//private TrackableBehaviour mTrackableBehaviour;
+	//script references
     public ImageTargetManager itm;
     public targetObjectManager tom;
     public ModelInitializer mi;
     public FilesManager fm;
-
+    //used to delete children of the current target GameObject
     public GameObject currentTarget;
- 
-    public Transform myModelPrefab;
-		
+    //transform for the model imported from Poly
+    public Transform myModel;
+    //search term for 
     public InputField keyword;
-
-    public int modelFlag = 0;
-
+    //holds attributes for Google Poly model
     public string attributeString;
-
+    //UI for displaying model attributes (Create flow)
     public Text modelAttrib;
+    //UI for displaying model attributes (Edit flow)
     public Text modelAttrib2;
+    //for activating/deactivating loading panel
+    public GameObject localScriptHolder;
+    public leanTouchAxis lta;
 
-    //public GameObject LoadingPanel;
  
     //Destroys children of target passed to it
     private void destroyChildren(GameObject currentTarget) {
         for (int x = 0; x < currentTarget.transform.childCount; x++)
             Destroy(currentTarget.transform.GetChild(x).gameObject);
     }
+
 
     // Callback invoked when the featured assets results are returned.
     public void renderModel(GameObject whichModel) {
@@ -43,71 +54,10 @@ public class ModelRenderer : MonoBehaviour {
         if (fm.targetStatus[fm.currentTarget-1] == "none")
             return;
 
-
+        fm.targetStatus[fm.currentTarget-1] = "model";
         List<PolyAsset> renderList = new List<PolyAsset>();
-        
         renderList.Add(whichModel.GetComponent<PolyAssetHolderClass>().heldAsset);
-        /* 
-        switch(whichModel)
-        {
-            case 0:
-                renderList.Add(mi.thumbAsset1.heldAsset);
-                break;
-            case 1:
-                renderList.Add(mi.thumbAsset2.heldAsset);
-                break;
-            case 2:
-                renderList.Add(mi.thumbAsset3.heldAsset);
-                break;
-            case 3:
-                renderList.Add(mi.thumbAsset4.heldAsset);
-                break;
-            case 4:
-                renderList.Add(mi.thumbAsset5.heldAsset);
-                break;
-            case 5:
-                renderList.Add(mi.thumbAsset6.heldAsset);
-                break;
-            case 6:
-                renderList.Add(mi.thumbAsset7.heldAsset);
-                break;
-            case 7:
-                renderList.Add(mi.thumbAsset8.heldAsset);
-                break;
-            case 8:
-                renderList.Add(mi.thumbAsset9.heldAsset);
-                break;
-            case 9:
-                renderList.Add(mi.thumbAsset10.heldAsset);
-                break;
-            case 10:
-                renderList.Add(mi.thumbAsset11.heldAsset);
-                break;
-            case 11:
-                renderList.Add(mi.thumbAsset12.heldAsset);
-                break;
-            case 12:
-                renderList.Add(mi.thumbAsset13.heldAsset);
-                break;
-            case 13:
-                renderList.Add(mi.thumbAsset14.heldAsset);
-                break;
-            case 14:
-                renderList.Add(mi.thumbAsset15.heldAsset);
-                break;
-            case 15:
-                renderList.Add(mi.thumbAsset16.heldAsset);
-                break;
-            case 16:
-                renderList.Add(mi.thumbAsset17.heldAsset);
-                break;
-            case 17:
-                renderList.Add(mi.thumbAsset18.heldAsset);
-                break;
-        }
-        */
         attributeString = PolyApi.GenerateAttributions(includeStatic: true, runtimeAssets: renderList);
-
 
         //get rid of previous import and get asset and save model ID
         switch(fm.currentTarget)
@@ -166,17 +116,18 @@ public class ModelRenderer : MonoBehaviour {
                 break;
         }
 
-        //ClearPolyAssetHolders();
         //delete thumbnails and clear memory
         mi.DeleteThumbnails();
         mi.DeleteThumbnails2();
     }
 
+
+    //sets import specs for model from Google Poly and calls import function
     void GetAssetCallback(PolyStatusOr<PolyAsset> result) 
     {
         if (!result.Ok) 
             {
-                Debug.Log("There was an error importing the loaded asset");
+                //Debug.Log("There was an error importing the loaded asset");
                 return;
                 //LoadingPanel.SetActive(false);
             }
@@ -193,15 +144,15 @@ public class ModelRenderer : MonoBehaviour {
         PolyApi.Import(result.Value, options, ImportAssetCallback);
     }
 
+
     // Callback invoked when an asset has just been imported.
     private void ImportAssetCallback(PolyAsset asset, PolyStatusOr<PolyImportResult> result) {
         //only set "model" status on an already created target
         if (fm.targetStatus[fm.currentTarget-1] != "none")
         {
             GameObject myModelObject = result.Value.gameObject;
-            myModelPrefab = result.Value.gameObject.GetComponent(typeof(Transform)) as Transform;
-            myModelPrefab.transform.position = new Vector3(0.0f, 0.65f, 0f);
-            fm.targetStatus[fm.currentTarget-1] = "model";
+            myModel = result.Value.gameObject.GetComponent(typeof(Transform)) as Transform;
+            myModel.transform.position = new Vector3(0.0f, 0.65f, 0f);
 
              //to decide which target to render the model to
             switch(fm.currentTarget)
@@ -209,53 +160,51 @@ public class ModelRenderer : MonoBehaviour {
                 case 0:
                     return;
                 case 1:
-                    myModelPrefab.tag = "importedModel1";
-                    myModelPrefab.transform.parent = itm.target1.transform;
+                    myModel.tag = "importedModel1";
+                    myModel.gameObject.AddComponent<LeanRotate>();
+                    myModel.gameObject.GetComponent<LeanRotate>().leanTouchRotation = lta;
+                    myModel.gameObject.AddComponent<LeanScale>();
+                    myModel.transform.parent = itm.target1.transform;
                     //model1 needs to get the model ID of the first model from attributesString
                     tom.modelIds[0] = ParseForModelId(attributeString);
                     tom.models[0] = myModelObject;
                     break;
                 case 2:
-                    myModelPrefab.tag = "importedModel2";
-                    myModelPrefab.transform.parent = itm.target2.transform;
+                    myModel.tag = "importedModel2";
+                    myModel.gameObject.AddComponent<LeanRotate>();
+                    myModel.gameObject.GetComponent<LeanRotate>().leanTouchRotation = lta;
+                    myModel.gameObject.AddComponent<LeanScale>();
+                    myModel.transform.parent = itm.target2.transform;
                     tom.modelIds[1] = ParseForModelId(attributeString);
                     tom.models[1] = myModelObject;
                     break;
                 case 3:
-                    myModelPrefab.tag = "importedModel3";
-                    myModelPrefab.transform.parent = itm.target3.transform;
+                    myModel.tag = "importedModel3";
+                    myModel.transform.parent = itm.target3.transform;
                     tom.modelIds[2] = ParseForModelId(attributeString);
                     tom.models[2] = myModelObject;
                     break;
                 case 4:
-                    myModelPrefab.tag = "importedModel4";
-                    myModelPrefab.transform.parent = itm.target4.transform;
+                    myModel.tag = "importedModel4";
+                    myModel.transform.parent = itm.target4.transform;
                     tom.modelIds[3] = ParseForModelId(attributeString);
                     tom.models[3] = myModelObject;
                     break;
                 case 5:
-                    myModelPrefab.tag = "importedModel5";
-                    myModelPrefab.transform.parent = itm.target5.transform;
+                    myModel.tag = "importedModel5";
+                    myModel.transform.parent = itm.target5.transform;
                     tom.modelIds[4] = ParseForModelId(attributeString);
                     tom.models[4] = myModelObject;
                     break;
             }
         }
-        //LoadingPanel.SetActive(false);
+        localScriptHolder.GetComponent<UiManager>().SetLoadingPanelActive(false);
     }
 
-    public void changeModelFlag() {
-        if (modelFlag == 1)
-        {
-            modelFlag = 0;
-        }
-        else if (modelFlag == 0)
-        {
-            modelFlag = 1;
-            
-        }
-    }
 
+    //parses the attribute string for model from Google Poly API for model ID
+    //-the model ID is needed for the save file, so that when downloading the 
+    //experience the model is downloaded from Poly
     private string ParseForModelId(string attribString)
     {
         //get beginning index of model ID
@@ -269,27 +218,5 @@ public class ModelRenderer : MonoBehaviour {
         string modelID = attribString.Substring(position1, position2-position1);
 
         return modelID;
-    }
-
-    private void ClearPolyAssetHolders()
-    {
-        mi.thumbAsset1.heldAsset= null;
-        mi.thumbAsset2.heldAsset= null;
-        mi.thumbAsset3.heldAsset= null;
-        mi.thumbAsset4.heldAsset= null;
-        mi.thumbAsset5.heldAsset= null;
-        mi.thumbAsset6.heldAsset= null;
-        mi.thumbAsset7.heldAsset= null;
-        mi.thumbAsset8.heldAsset= null;
-        mi.thumbAsset9.heldAsset= null;
-        mi.thumbAsset10.heldAsset= null;
-        mi.thumbAsset11.heldAsset= null;
-        mi.thumbAsset12.heldAsset= null;
-        mi.thumbAsset13.heldAsset= null;
-        mi.thumbAsset14.heldAsset= null;
-        mi.thumbAsset15.heldAsset= null;
-        mi.thumbAsset16.heldAsset= null;
-        mi.thumbAsset17.heldAsset= null;
-        mi.thumbAsset18.heldAsset= null;
     }
 }

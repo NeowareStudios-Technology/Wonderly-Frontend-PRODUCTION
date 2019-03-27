@@ -5,7 +5,6 @@ using UnityEngine.Video;
 
 public class OverViewVideoPlayer : MonoBehaviour {
 
-	
 	public VideoPlayer videoPlayer;
     private GameObject maincam;
     private AudioSource audioSource;
@@ -74,7 +73,7 @@ public class OverViewVideoPlayer : MonoBehaviour {
         videoPlayer.SetTargetAudioSource(0, audioSource);
         
         videoPlayer.Play();
-        Debug.Log("this shhould play");
+        //Debug.Log("this shhould play");
 	}
 	public void stopVideo(){
         videoPlayer.Stop();

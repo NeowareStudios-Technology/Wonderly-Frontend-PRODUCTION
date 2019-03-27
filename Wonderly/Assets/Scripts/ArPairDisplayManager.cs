@@ -1,28 +1,31 @@
-﻿using System.Collections;
+﻿/******************************************************
+*Project: Wonderly
+*Created by: David Lee Ramirez
+*Date: 12/28/18
+*Description: Sets thumbnails for preview and summary screens
+*Copyright 2018 LeapWithAlice,LLC. All rights reserved
+ ******************************************************/
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using Sample;
 using System.IO;
 
 public class ArPairDisplayManager : MonoBehaviour {
+	public FilesManager fm;
+	public VideoSearchManager vsm;
+	public ModelInitializer mi;
 	public UiManager um;
+	public YoutubeVideoUi[] yvuArray = new YoutubeVideoUi[18];
 
 	public Image chosenThumb;
 	public Image chosenThumb2;
-
 	public Image[] targetThumbs = new Image[5];
-
 	public Image[] targetObjectThumbs = new Image[5];
-
 	public Image blankImage;
-
 	public Image[] videoThumbs = new Image[18];
-
 	public Image[] modelThumbs = new Image[18];
-
-	public YoutubeVideoUi[] yvuArray = new YoutubeVideoUi[18];
-
 	public int[] targetThumbCheck = {0,0,0,0,0};
 
 	//for summary screen
@@ -33,94 +36,10 @@ public class ArPairDisplayManager : MonoBehaviour {
 	public Text[] previewWonderDescriptions = new Text[5];
 	public Text[] previewWonderTitles = new Text[5];
 
-	public FilesManager fm;
-	public VideoSearchManager vsm;
-	public ModelInitializer mi;
-
 
 
 	// IMAGE THUMBNAIL HANDLING FOR AR PAIRS HANDLED IN IMAGE SCRIPTS
-
-
-
-	public void blankTargetObjectThumb()
-	{
-		targetObjectThumbs[fm.currentTarget-1].sprite = blankImage.sprite;
-	}
-
-	public void setYoutubeThumbnailArPair(GameObject thumbNail)
-  	{
-		
-
-		if (thumbNail.GetComponent<YoutubeVideoUi>().videoId =="")
-			return;
-
-		chosenThumb.sprite = thumbNail.GetComponent<Image>().sprite;
-		targetObjectThumbs[fm.currentTarget-1].sprite = thumbNail.GetComponent<Image>().sprite;
-
-		vsm.ClearSearchField();
-		vsm.DeleteThumbnails();
-		//um.startResetVideoThumbs();
-
-		// for (int k = 0; k < vsm.videoThumbList.Length; k++)
-		// {
-		// 	vsm.videoThumbList[k].GetComponent<YoutubeVideoUi>().videoId= "";
-		// }	
-	}
-
-/*
-
-	public void setYoutubeThumbnailArPair(int index)
-  {
-		Debug.Log("starting setYoutubeThumbnailArPair");
-		Debug.Log(yvuArray[index].videoId);
-
-		if (yvuArray[index].videoId =="")
-			return;
-
-		chosenThumb.sprite = videoThumbs[index].sprite;
-		targetObjectThumbs[fm.currentTarget-1].sprite = videoThumbs[index].sprite;
-
-
-		um.startResetVideoThumbs();
-
-		for (int k = 0; k < 18; k++)
-		{
-			yvuArray[k].videoId= "";
-		}	
-	}
- */
-		public void setModelThumbnailArPair(GameObject index)
-  {
-		//do nothing if target num not valid
-		if (fm.currentTarget < 1)
-			return;
-		//set object thubnail in Journey summary
-		targetObjectThumbs[fm.currentTarget-1].sprite = index.GetComponent<Image>().sprite;
-		//targetObjectThumbs[fm.currentTarget-1].sprite = modelThumbs[index].sprite;
-
-		//set object thumbnail in select object
-		chosenThumb.sprite = index.GetComponent<Image>().sprite;
-		chosenThumb2.sprite = index.GetComponent<Image>().sprite;
-		//chosenThumb.sprite = targetObjectThumbs[fm.currentTarget-1].sprite;
-
-		//clears model thumbnails
-		//um.startResetModelThumbs();
-		mi.DeleteThumbnails();
-		mi.ClearSearchText();
-	}
-	
-
-
-	void NextPair() 
-	{
-		
-	}
-
-	// Use this for initialization
-	void Start () {
-	}
-	
+/* 
 	// Update is called once per frame
 	void Update () {
 
@@ -199,6 +118,44 @@ public class ArPairDisplayManager : MonoBehaviour {
 					break;
 			}
 		}
+	}
+*/
 
+	public void blankTargetObjectThumb()
+	{
+		targetObjectThumbs[fm.currentTarget-1].sprite = blankImage.sprite;
+	}
+
+	public void setYoutubeThumbnailArPair(GameObject thumbNail)
+  {
+		
+
+		if (thumbNail.GetComponent<YoutubeVideoUi>().videoId =="")
+			return;
+
+		chosenThumb.sprite = thumbNail.GetComponent<Image>().sprite;
+		chosenThumb2.sprite = thumbNail.GetComponent<Image>().sprite;
+		targetObjectThumbs[fm.currentTarget-1].sprite = thumbNail.GetComponent<Image>().sprite;
+
+		vsm.ClearSearchField();
+		vsm.DeleteThumbnails();
+
+	}
+
+
+		public void setModelThumbnailArPair(GameObject index)
+  {
+		//do nothing if target num not valid
+		if (fm.currentTarget < 1)
+			return;
+		//set object thubnail in Journey summary
+		targetObjectThumbs[fm.currentTarget-1].sprite = index.GetComponent<Image>().sprite;
+
+		//set object thumbnail in select object
+		chosenThumb.sprite = index.GetComponent<Image>().sprite;
+		chosenThumb2.sprite = index.GetComponent<Image>().sprite;
+
+		mi.DeleteThumbnails();
+		mi.ClearSearchText();
 	}
 }

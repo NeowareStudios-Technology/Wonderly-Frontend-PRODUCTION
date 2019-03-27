@@ -1,27 +1,32 @@
-﻿using System.Collections;
+﻿/******************************************************
+*Project: Wonderly
+*Modified by: David Lee Ramirez
+*Date: 12/28/18
+*Description: Handles finishing Youtube video search 
+            (VideoSearchManager starts search)
+            and storing of video attributes. Modified
+            script from Lightshaft Youtube plugin.
+ ******************************************************/
+
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using SimpleJSON;
 using System;
-using Sample;
 
 public class YoutubeAPIManager : MonoBehaviour {
 
-    public FilesManager fm;
     private YoutubeData data;
     private YoutubeData[] searchResults;
     private YoutubeComments[] comments;
     private YoutubePlaylistItems[] playslistItems;
     private YoutubeChannel[] channels;
     public List<string> YoutubeTitles = new List<string>();
-    public GameObject chosenDisplay1;
-    public GameObject chosenDisplay2;
-    public GameObject chosenDisplay3;
-    public GameObject chosenDisplay4;
-    public GameObject chosenDisplay5;
 
     public Text videoAttribute;
+    public Text videoAttribute2;
 
     //REMEMBER TO CHANGE HERE IF YOU NEED TO POINT TO YOUR GOOGLE APP. 
     /* 
@@ -41,6 +46,7 @@ public class YoutubeAPIManager : MonoBehaviour {
     public void SetVideoInfo(int whichVideo)
     {
         videoAttribute.text = YoutubeTitles[whichVideo];
+        videoAttribute2.text = YoutubeTitles[whichVideo];
     }
 
     public void GetVideoData(string videoId, Action<YoutubeData> callback)
@@ -50,7 +56,7 @@ public class YoutubeAPIManager : MonoBehaviour {
 
     private void Start()
     {
-        Debug.LogWarning("REMEMBER TO CHANGE THE API KEY TO YOUR OWN KEY - REMOVE THIS IF YOU CHANGED");
+        //Debug.LogWarning("REMEMBER TO CHANGE THE API KEY TO YOUR OWN KEY - REMOVE THIS IF YOU CHANGED");
     }
 
 
@@ -93,7 +99,7 @@ public class YoutubeAPIManager : MonoBehaviour {
     {
         WWW call = new WWW("https://www.googleapis.com/youtube/v3/search?order=date&type=video&part=snippet&channelId="+channelId+"&maxResults="+maxResults+"&key="+APIKey);
         yield return call;
-        Debug.Log(call.url);
+        //Debug.Log(call.url);
         JSONNode result = JSON.Parse(call.text);
         searchResults = new YoutubeData[result["items"].Count];
         for (int itemsCounter = 0; itemsCounter < searchResults.Length; itemsCounter++)
@@ -109,7 +115,7 @@ public class YoutubeAPIManager : MonoBehaviour {
     {
         WWW call = new WWW("https://www.googleapis.com/youtube/v3/playlistItems/?playlistId="+ playlistId + "&maxResults="+maxResults+"&part=snippet%2CcontentDetails&key="+APIKey);
         yield return call;
-        Debug.Log(call.url);
+        //Debug.Log(call.url);
         JSONNode result = JSON.Parse(call.text);
         playslistItems = new YoutubePlaylistItems[result["items"].Count];
         for (int itemsCounter = 0; itemsCounter < playslistItems.Length; itemsCounter++)
@@ -125,7 +131,7 @@ public class YoutubeAPIManager : MonoBehaviour {
     {
         WWW call = new WWW("https://www.googleapis.com/youtube/v3/commentThreads/?videoId="+videoId+"&part=snippet%2Creplies&key="+APIKey);
         yield return call;
-        Debug.Log(call.url);
+        //Debug.Log(call.url);
         JSONNode result = JSON.Parse(call.text);
         comments = new YoutubeComments[result["items"].Count];
         for (int itemsCounter = 0; itemsCounter < comments.Length; itemsCounter++)
@@ -152,10 +158,10 @@ public class YoutubeAPIManager : MonoBehaviour {
 
         WWW call = new WWW("https://www.googleapis.com/youtube/v3/search/?q=" + keyword + "&category=" + category + "&maxResults=" + maxresult + "&type=video&part=snippet,id&key=" + APIKey + "" + orderFilter + "" + safeSearchFilter);
         yield return call;
-        Debug.Log(call.url);
+        //Debug.Log(call.url);
         JSONNode result = JSON.Parse(call.text);
         searchResults = new YoutubeData[result["items"].Count];
-        Debug.Log(searchResults.Length);
+        //Debug.Log(searchResults.Length);
         for (int itemsCounter = 0; itemsCounter < searchResults.Length; itemsCounter++)
         {
             searchResults[itemsCounter] = new YoutubeData();
@@ -180,7 +186,7 @@ public class YoutubeAPIManager : MonoBehaviour {
 
         WWW call = new WWW("https://www.googleapis.com/youtube/v3/search/?q=" + keyword + "&type=channel&maxResults=" + maxresult + "&part=snippet,id&key=" + APIKey + "" + orderFilter + "" + safeSearchFilter);
         yield return call;
-        Debug.Log(call.url);
+        //Debug.Log(call.url);
         JSONNode result = JSON.Parse(call.text);
         channels = new YoutubeChannel[result["items"].Count];
         for (int itemsCounter = 0; itemsCounter < channels.Length; itemsCounter++)
@@ -207,13 +213,13 @@ public class YoutubeAPIManager : MonoBehaviour {
         safeSearchFilter = "&safeSearch=" + safeSearch.ToString();
 
         string newurl = WWW.EscapeURL("https://www.googleapis.com/youtube/v3/search/?q=" + keyword + "&type=video&maxResults=" + maxresult + "&part=snippet,id&key=" + APIKey + "" + orderFilter + "" + safeSearchFilter);
-        Debug.Log(newurl);
+        //Debug.Log(newurl);
         WWW call = new WWW(WWW.UnEscapeURL(newurl));
         yield return call;
-        Debug.Log(call.url);
+        //Debug.Log(call.url);
         JSONNode result = JSON.Parse(call.text);
         searchResults = new YoutubeData[result["items"].Count];
-        Debug.Log(searchResults.Length);
+        //Debug.Log(searchResults.Length);
         for (int itemsCounter = 0; itemsCounter < searchResults.Length; itemsCounter++)
         {
             searchResults[itemsCounter] = new YoutubeData();
@@ -235,10 +241,10 @@ public class YoutubeAPIManager : MonoBehaviour {
         safeSearchFilter = "&safeSearch=" + safeSearch.ToString();
         WWW call = new WWW("https://www.googleapis.com/youtube/v3/search/?type=video&q="+keyword+ "&type=video&locationRadius=" + locationRadius+"mi&location="+latitude+"%2C"+longitude+ "&part=snippet,id&maxResults=" + maxResult+"&key="+APIKey+""+orderFilter+""+safeSearchFilter);
         yield return call;
-        Debug.Log(call.url);
+        //Debug.Log(call.url);
         JSONNode result = JSON.Parse(call.text);
         searchResults = new YoutubeData[result["items"].Count];
-        Debug.Log(searchResults.Length);
+        //Debug.Log(searchResults.Length);
         for(int itemsCounter = 0; itemsCounter < searchResults.Length; itemsCounter++)
         {
             searchResults[itemsCounter] = new YoutubeData();
@@ -323,7 +329,7 @@ public class YoutubeAPIManager : MonoBehaviour {
 
         if(resultContentDetails["contentRating"] != null)
         {
-            Debug.Log("Age restrict found!");
+            //Debug.Log("Age restrict found!");
             if (resultContentDetails["contentRating"]["ytRating"] == "ytAgeRestricted")
                 data.ageRestrict = true;
             else

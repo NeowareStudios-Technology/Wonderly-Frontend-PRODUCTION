@@ -1,4 +1,13 @@
-﻿using System.Collections;
+﻿/******************************************************
+*Project: Wonderly
+*Created by: David Lee Ramirez
+*Date: 12/28/18
+*Description: handles nearly all calls to Google Cloud Endpoints Backend
+							and initializes/destroys library stubs
+*Copyright 2018 LeapWithAlice,LLC. All rights reserved
+ ******************************************************/
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -6,12 +15,12 @@ using System.Text;
 using UnityEngine.Networking;
 using System.IO;
 using UnityEngine.SceneManagement;
-using Sample;
 using System.Threading.Tasks;
 
 
 public class CloudEndpointsApiManager : MonoBehaviour {
 
+	//script references
 	public GameObject lsh;
 	public FirebaseManager fbm;
 	public FirebaseStorageManager fsm;
@@ -19,12 +28,12 @@ public class CloudEndpointsApiManager : MonoBehaviour {
 	public FilesManager fm;
 	public ErrorMessageFlowManager emfm;
 	public OwnedExperiencesClass oec;
-	public TargetIndicesClass tic;
 	public ProfileInfoClass pic;
 	public checkEmailClass cec;
 	public checkEmailResponseClass cerc;
 	public CreateOrEditController coec;
 	public UiManager um;
+	//UI elements for getting values to send to backend via JSON web calls
 	public Text editFirstName;
 	public Text editLastName;
 	public InputField editFirstNameInput;
@@ -42,44 +51,33 @@ public class CloudEndpointsApiManager : MonoBehaviour {
 	public Text email;
 	public Text UiCode;
 	public Text displayCode;
-
+	//for switching screens
+	public PanelController mainCanvasPanelController;
 	public Animator journeySummaryAnimator;
 	public Animator ViewScreenAnimator;
 	public Animator PreviewScreenAnimator;
 
-	public PanelController mainCanvasPanelController;
-
 	public GameObject loadingPanel;
-
 	public GameObject libraryPanel;
-
 	public GameObject inFrontOfBottomPanel;
 	public GameObject frontCanvas;
 
 	public string[] libraryCodes = new string[50];
-
 	public GameObject[] libraryStubs = new GameObject[50];
-
 	public GameObject libraryStubPrefab;
-
 	public GameObject libraryScrollContent;
-
 	public GameObject libraryPopupMenuPrefab;
-
 	public GameObject libraryPopupMenuInstantiated;
-
 	public GameObject iconPanel;
-
 	public GameObject editPasswordLengthError;
 	public GameObject editPasswordMatcherror;
 	public GameObject editPasswordValidError;
-
 	public GameObject deleteJourneyPrefab;
-
 	public string code;
-
 	public string deleteCode;
 	public string editCode;
+
+	//urls for backend calls
 	private string getProfileUrl = "https://wonderly-225214.appspot.com/_ah/api/wonderly/v1/profile";
 	private string createProfileUrl = "https://wonderly-225214.appspot.com/_ah/api/wonderly/v1/profile";
 	private string getOwnedCodesUrl = "https://wonderly-225214.appspot.com/_ah/api/wonderly/v1/profile/codes";
@@ -89,17 +87,32 @@ public class CloudEndpointsApiManager : MonoBehaviour {
 	private string editProfileUrl = "https://wonderly-225214.appspot.com/_ah/api/wonderly/v1/profile/edit";
 
 	public bool checkEmail;
-
 	int maxAllowedSize = 2000*2000;
-
 	public byte[] fileContents;
-
 	public Image testImage;
-
   public GameObject noJourneyPanel;
-
 	private int deleteJourneyIndex;
+	
 
+	//for counting number of web call retries (max = 3)
+	private int profileCreateCallCount = 0;
+	private int profileEditCallCount = 0;
+	private int emailCheckCallCount = 0;
+	private int deleteExpCallCount = 0;
+	private int editExpCallCount = 0;
+	private int profileInfoCallCount = 0;
+	private int ownedCodesCallCount = 0;
+	private int MAX_RETRY = 3;
+
+	//for changing functionality of add journey button based on journey count
+	public Button addJourneyButton;
+	public GameObject maxJourneysPopup;
+	public Animator createJourneyAnimator;
+	private Texture2D tex;
+
+	void Start(){
+		//tex = new Texture2D(200, 200);
+	}
 	public void startProfileCreate()
 	{
 		StartCoroutine("profileCreate");
@@ -122,13 +135,27 @@ public class CloudEndpointsApiManager : MonoBehaviour {
 			newProfileRequest.SetRequestHeader("Authorization", "Bearer " + fbm.token);
 
 			yield return newProfileRequest.SendWebRequest();
+			//Debug.Log(newProfileRequest.responseCode);
 
-			loadingPanel.SetActive(false);
-
-			Debug.Log(newProfileRequest.responseCode);
-
-			//load in profile info to ui (called here because need to wait for cookie and profile creation)
-			StartCoroutine("getProfileInfo");
+			//retry call up to MAX_RETRY times if error
+			if (newProfileRequest.responseCode != 200 && profileCreateCallCount < MAX_RETRY)
+			{
+				profileCreateCallCount++;
+				StartCoroutine("profileCreate");
+			}
+			else if (newProfileRequest.responseCode != 200 && profileCreateCallCount >= MAX_RETRY)
+			{
+				loadingPanel.SetActive(false);
+				//Debug.Log("call to backend for profileCreate retries failed");
+				profileCreateCallCount = 0;
+			}
+			else
+			{
+				loadingPanel.SetActive(false);
+				profileCreateCallCount = 0;
+				//load in profile info to ui (called here because need to wait for cookie and profile creation)
+				StartCoroutine("getProfileInfo");
+			}
 		}
 
 	}
@@ -136,6 +163,59 @@ public class CloudEndpointsApiManager : MonoBehaviour {
 	public void startProfileEdit()
 	{
 		lsh.GetComponent<UiManager>().SetLoadingPanelActive(true);
+		//Debug.Log("0");
+
+		//if any inputs in password edit
+		if (fbm.editPassword.text != "" || fbm.editPassword2.text != "" || fbm.editPasswordCurrent.text != "")
+		{
+				//if current password incorrect
+				if (fbm.editPasswordCurrent.text != PlayerPrefs.GetString("password"))
+				{
+					//Debug.Log("1");
+					//activate need correct password error message
+					lsh.GetComponent<UiManager>().SetLoadingPanelActive(false);
+					editPasswordValidError.SetActive(true);
+					return;
+				}
+
+				//if passwords dont match
+				else if (fbm.editPassword2.text != fbm.editPassword.text)
+				{
+					//Debug.Log("2");
+					//activate need matching passwords error message
+					lsh.GetComponent<UiManager>().SetLoadingPanelActive(false);
+					editPasswordMatcherror.SetActive(true);
+					return;
+				}
+
+				//if current password incorrect
+				else if (fbm.editPassword2.text.Length < 6)
+				{
+					//Debug.Log("MAX_RETRY");
+					//activate need correct password length error message
+					lsh.GetComponent<UiManager>().SetLoadingPanelActive(false);
+					editPasswordLengthError.SetActive(true);
+					return;
+				}
+
+				//if new passwords blank
+				else if (fbm.editPassword.text =="" || fbm.editPassword2.text =="")
+				{
+					//Debug.Log("4");
+					//activate need correct password error message
+					lsh.GetComponent<UiManager>().SetLoadingPanelActive(false);
+					editPasswordLengthError.SetActive(true);
+					return;
+				}
+
+				else
+				{
+						//Debug.Log("5");
+						//Debug.Log("changing password and starting profile edit");
+						fbm.changeUserPassword();
+				}
+		}
+
 		StartCoroutine("profileEdit");
 	}
 
@@ -145,81 +225,56 @@ public class CloudEndpointsApiManager : MonoBehaviour {
 		editProfile.firstName = editFirstName.text;
 		editProfile.lastName = editLastName.text;
 
-		Debug.Log(editFirstNameInput.text);
+		//Debug.Log(editFirstNameInput.text);
 		editFirstNameInput.text = "";
 		editLastNameInput.text = "";
-		Debug.Log(editFirstNameInput.text);
+		//Debug.Log(editFirstNameInput.text);
 		//convert profile clas instance into json string
 		string editProfJson = JsonUtility.ToJson(editProfile);
 
-		//if any inputs in password edit
-		if (fbm.editPassword.text != "" || fbm.editPassword2.text != "" || fbm.editPasswordCurrent.text != "")
-		{
-				//if current password incorrect
-				if (fbm.editPasswordCurrent.text != PlayerPrefs.GetString("password"))
-				{
-					//activate need correct password error message
-					lsh.GetComponent<UiManager>().SetLoadingPanelActive(false);
-					editPasswordValidError.SetActive(true);
-					yield break;
-				}
-
-				//if passwords dont match
-				else if (fbm.editPassword2.text != fbm.editPassword.text)
-				{
-					//activate need matching passwords error message
-					lsh.GetComponent<UiManager>().SetLoadingPanelActive(false);
-					editPasswordMatcherror.SetActive(true);
-					yield break;
-				}
-
-				//if current password incorrect
-				else if (fbm.editPassword2.text.Length < 6)
-				{
-					//activate need correct password length error message
-					lsh.GetComponent<UiManager>().SetLoadingPanelActive(false);
-					editPasswordLengthError.SetActive(true);
-					yield break;
-				}
-
-				//if new passwords blank
-				else if (fbm.editPassword.text =="" || fbm.editPassword2.text =="")
-				{
-					//activate need correct password error message
-					lsh.GetComponent<UiManager>().SetLoadingPanelActive(false);
-					editPasswordLengthError.SetActive(true);
-					yield break;
-				}
-
-				else
-				{
-						fbm.changeUserPassword();
-				}
-
-		}
-
-		if (editProfile.firstName != "" || editProfile.lastName != "")
-		{
-			using (UnityWebRequest editProfileRequest = UnityWebRequest.Put(editProfileUrl,editProfJson))
+			if (editProfile.firstName != "" || editProfile.lastName != "")
 			{
-				//set content type
-				editProfileRequest.SetRequestHeader("Content-Type", "application/json");
-				//set auth header
-				editProfileRequest.SetRequestHeader("Authorization", "Bearer " + fbm.token);
+				//retry call up to MAX_RETRY times (if succsessful gets set to MAX_RETRY)
+				while (profileEditCallCount < MAX_RETRY)
+				{
+					using (UnityWebRequest editProfileRequest = UnityWebRequest.Put(editProfileUrl,editProfJson))
+					{
+						//set content type
+						editProfileRequest.SetRequestHeader("Content-Type", "application/json");
+						//set auth header
+						editProfileRequest.SetRequestHeader("Authorization", "Bearer " + fbm.token);
 
-				yield return editProfileRequest.SendWebRequest();
-				Debug.Log(editProfileRequest.responseCode);
+						yield return editProfileRequest.SendWebRequest();
+						//Debug.Log(editProfileRequest.responseCode);
 
-				//call this to fill the profile page with the changed content (lets user know edit worked)
-				//getProfileInfo will disable loading screen on completion
-				StartCoroutine("getProfileInfo");
+						//retry call up to MAX_RETRY times if error
+						if (editProfileRequest.responseCode != 200 && profileEditCallCount < MAX_RETRY)
+						{
+							profileEditCallCount++;
+						}
+						else if (editProfileRequest.responseCode != 200 && profileEditCallCount >= MAX_RETRY)
+						{
+							profileEditCallCount = MAX_RETRY;
+							loadingPanel.SetActive(false);
+							//Debug.Log("call to backend for profileEdit retries failed");
+						}
+						else
+						{
+							profileEditCallCount = MAX_RETRY;
+							//call this to fill the profile page with the changed content (lets user know edit worked)
+							//getProfileInfo will disable loading screen on completion
+							StartCoroutine("getProfileInfo");
+						}
+					}
+				}
 			}
-		}
 
+		profileEditCallCount = 0;
 		um.clearUserSettingsInputFields();
 	}
 
 
+	//checks if proposed user email is already in use
 	public void startCheckEmail()
 	{
 		StartCoroutine("emailCheck");
@@ -240,22 +295,38 @@ public class CloudEndpointsApiManager : MonoBehaviour {
 
 			yield return emailCheckRequest.SendWebRequest();
 
-			Debug.Log(emailCheckRequest.responseCode);
-
-			byte[] results = emailCheckRequest.downloadHandler.data;
-			string jsonString = Encoding.UTF8.GetString(results);
-			cerc = JsonUtility.FromJson<checkEmailResponseClass>(jsonString);
-			Debug.Log(cerc.exists);
-			if (cerc.exists == "n")
+			//Debug.Log(emailCheckRequest.responseCode);
+			//retry call up to MAX_RETRY times if error
+			if (emailCheckRequest.responseCode != 200 && emailCheckCallCount < MAX_RETRY)
 			{
-				Debug.Log("The email is free to use");
-				emfm.activateSignUpPanel2();
-				emfm.signUpIndex++;
+				emailCheckCallCount++;
+				StartCoroutine("emailCheck");
 			}
-			else if (cerc.exists == "y")
+			else if (emailCheckRequest.responseCode != 200 && emailCheckCallCount >= MAX_RETRY)
 			{
-				Debug.Log("The email is already in use");
-				emfm.displayEmailError();
+				loadingPanel.SetActive(false);
+				//Debug.Log("call to backend for emailCheck retries failed");
+				emailCheckCallCount = 0;
+			}
+			else
+			{
+				emailCheckCallCount = 0;
+
+				byte[] results = emailCheckRequest.downloadHandler.data;
+				string jsonString = Encoding.UTF8.GetString(results);
+				cerc = JsonUtility.FromJson<checkEmailResponseClass>(jsonString);
+				//Debug.Log(cerc.exists);
+				if (cerc.exists == "n")
+				{
+					//Debug.Log("The email is free to use");
+					emfm.activateSignUpPanel2();
+					emfm.signUpIndex++;
+				}
+				else if (cerc.exists == "y")
+				{
+					//Debug.Log("The email is already in use");
+					emfm.displayEmailError();
+				}
 			}
 		}
 	}
@@ -263,20 +334,15 @@ public class CloudEndpointsApiManager : MonoBehaviour {
 	//called by ui button to delete experience (journey)
 	public void startExperienceDelete(int index)
 	{
-		deleteCode = libraryCodes[index];
+		lsh.GetComponent<UiManager>().SetLoadingPanelActive(true);
 		//delete experience from google datastore noSQL database
-		StartCoroutine("deleteExperienceFromDataStore");
-
-		//delete experience from Firebase storage file store
-		fsm.DeleteExperience(deleteCode);
-
-		//get rid of the library stub that was holding the journey info
-		Destroy(libraryStubs[index]);
+		StartCoroutine(deleteExperienceFromDataStore(index));
 	}
 
-	public IEnumerator deleteExperienceFromDataStore() 
+	public IEnumerator deleteExperienceFromDataStore(int index) 
 	{
 		ExperienceCodeClass expCode = new ExperienceCodeClass();
+		deleteCode = libraryCodes[index];
 		expCode.code = deleteCode;
 
 		//convert profile clas instance into json string
@@ -290,9 +356,49 @@ public class CloudEndpointsApiManager : MonoBehaviour {
 			deleteExperienceRequest.SetRequestHeader("Authorization", "Bearer " + fbm.token);
 
 			yield return deleteExperienceRequest.SendWebRequest();
-			byte[] results = deleteExperienceRequest.downloadHandler.data;
-			string jsonString = Encoding.UTF8.GetString(results);
-			Debug.Log(jsonString);
+			//retry call up to MAX_RETRY times if error
+			if (deleteExperienceRequest.responseCode != 200 && deleteExpCallCount < MAX_RETRY)
+			{
+				deleteExpCallCount++;
+				StartCoroutine(deleteExperienceFromDataStore(index));
+			}
+			else if (deleteExperienceRequest.responseCode != 200 && deleteExpCallCount >= MAX_RETRY)
+			{
+				lsh.GetComponent<UiManager>().SetLoadingPanelActive(false);
+				//Debug.Log("call to backend for deleteExperience retries failed");
+				deleteExpCallCount = 0;
+			}
+			else
+			{
+				lsh.GetComponent<UiManager>().SetLoadingPanelActive(false);
+				deleteExpCallCount = 0;
+				byte[] results = deleteExperienceRequest.downloadHandler.data;
+				string jsonString = Encoding.UTF8.GetString(results);
+				//Debug.Log(jsonString);
+
+				//delete experience from Firebase storage file store
+				fsm.DeleteExperience(deleteCode);
+
+				//get rid of the library stub that was holding the journey info
+				Destroy(libraryStubs[index]);
+
+				fm.journeyCount --;
+				if (fm.journeyCount < 5)
+				{
+					//set add button to add
+					addJourneyButton.onClick.RemoveAllListeners();
+					addJourneyButton.onClick.AddListener(delegate {mainCanvasPanelController.OpenPanel(createJourneyAnimator); });
+					addJourneyButton.onClick.AddListener(delegate {mainCanvasPanelController.SetBottomPanelActive(false);});
+					addJourneyButton.onClick.AddListener(delegate {coec.setCreateOrEdit("create"); });
+					addJourneyButton.onClick.AddListener(delegate {um.InstantResetSummaryScreen(); });
+				}
+				if (fm.journeyCount >= 5)
+				{
+					//set add button to make popup
+					addJourneyButton.onClick.RemoveAllListeners();
+					addJourneyButton.onClick.AddListener(delegate {maxJourneysPopup.SetActive(true); });
+				}
+			}
 		}
 	}
 
@@ -327,7 +433,7 @@ public class CloudEndpointsApiManager : MonoBehaviour {
 		editExperience.title = sm.editTitle.text;
 		editExperience.code = code;
 		displayCode.text = code;
-		Debug.Log("In experienceEdit: cover image url from sm is "+sm.save.coverImageUrl);
+		//Debug.Log("In experienceEdit: cover image url from sm is "+sm.save.coverImageUrl);
 		editExperience.coverImage = sm.save.coverImageUrl;
 		if (editExperience.coverImage == "" || editExperience.coverImage == null)
 			editExperience.coverImage = "none";
@@ -351,7 +457,7 @@ public class CloudEndpointsApiManager : MonoBehaviour {
 					break;
 			}
 		}
-		Debug.Log(modelCount);
+		//Debug.Log(modelCount);
 		editExperience.model = modelCount;
 		editExperience.video = videoCount;
 		editExperience.image = imageCount;
@@ -363,19 +469,36 @@ public class CloudEndpointsApiManager : MonoBehaviour {
 		//convert editExperience clas instance into json string
 		string editExperienceJson = JsonUtility.ToJson(editExperience);
 
-
-
-		using (UnityWebRequest editExperienceRequest = UnityWebRequest.Put(editExpUrl,editExperienceJson))
+		//retry call up to MAX_RETRY times if error
+		while (editExpCallCount < MAX_RETRY)
 		{
-			//set content type
-			editExperienceRequest.SetRequestHeader("Content-Type", "application/json");
-			//set auth header
-			editExperienceRequest.SetRequestHeader("Authorization", "Bearer " + fbm.token);
+			using (UnityWebRequest editExperienceRequest = UnityWebRequest.Put(editExpUrl,editExperienceJson))
+			{
+				//set content type
+				editExperienceRequest.SetRequestHeader("Content-Type", "application/json");
+				//set auth header
+				editExperienceRequest.SetRequestHeader("Authorization", "Bearer " + fbm.token);
 
-			yield return editExperienceRequest.SendWebRequest();
-
-			Debug.Log(editExperienceRequest.responseCode);
+				yield return editExperienceRequest.SendWebRequest();
+				//retry call up to MAX_RETRY times if error
+				if (editExperienceRequest.responseCode != 200 && editExpCallCount < MAX_RETRY)
+				{
+					//Debug.Log(editExperienceRequest.responseCode);
+					editExpCallCount++;
+				}
+				else if (editExperienceRequest.responseCode != 200 && editExpCallCount >= MAX_RETRY)
+				{
+					editExpCallCount = MAX_RETRY;
+					//Debug.Log("call to backend for editExp retries failed");
+				}
+				else
+				{
+					editExpCallCount = MAX_RETRY;
+				}
+				//Debug.Log(editExperienceRequest.responseCode);
+			}
 		}
+		editExpCallCount = 0;
 	}
 
 
@@ -399,27 +522,45 @@ public void startGetProfileInfo()
 
             yield return newProfileInfoRequest.SendWebRequest();
 
-            Debug.Log(newProfileInfoRequest.responseCode);
-            byte[] results = newProfileInfoRequest.downloadHandler.data;
-            string jsonString = Encoding.UTF8.GetString(results);
-            Debug.Log(jsonString);
-            pic = JsonUtility.FromJson<ProfileInfoClass>(jsonString);
+						//retry call up to MAX_RETRY times if error
+						if (newProfileInfoRequest.responseCode != 200 && profileInfoCallCount < MAX_RETRY)
+						{
+							profileInfoCallCount++;
+							StartCoroutine("getProfileInfo");
+						}
+						else if (newProfileInfoRequest.responseCode != 200 && profileInfoCallCount >= MAX_RETRY)
+						{
+							loadingPanel.SetActive(false);
+							//Debug.Log("call to backend for getProfileInfo retries failed");
+							profileInfoCallCount = 0;
+						}
+						else
+						{
+							loadingPanel.SetActive(false);
+							profileInfoCallCount = 0;
+					
+							//Debug.Log(newProfileInfoRequest.responseCode);
+							byte[] results = newProfileInfoRequest.downloadHandler.data;
+							string jsonString = Encoding.UTF8.GetString(results);
+							//Debug.Log(jsonString);
+							pic = JsonUtility.FromJson<ProfileInfoClass>(jsonString);
 
-            //for home screen
-            displayFirstNameHome.text = "Hi," + " " + pic.firstName + "!";
+							//for home screen
+							//displayFirstNameHome.text = "Hi," + " " + pic.firstName + "!";
 
-            //for profile info screen
-            string fullName = pic.firstName + " " + pic.lastName;
-            displayName.text = fullName;
-            //add "" to make the int into a string without c# complaining
-            displayExpNum.text = pic.createdExp + "";
+							//for profile info screen
+							string fullName = pic.firstName + " " + pic.lastName;
+							//displayName.text = fullName;
+							//add "" to make the int into a string without c# complaining
+							//displayExpNum.text = pic.createdExp + "";
 
-            //for profile edit screen
-            firstNamePlaceHolder.text = pic.firstName;
-            lastNamePlaceHolder.text = pic.lastName;
-            emailPlaceHolder.text = pic.email;
+							//for profile edit screen
+							firstNamePlaceHolder.text = pic.firstName;
+							lastNamePlaceHolder.text = pic.lastName;
+							emailPlaceHolder.text = pic.email;
 
-						lsh.GetComponent<UiManager>().SetLoadingPanelActive(false);
+							lsh.GetComponent<UiManager>().SetLoadingPanelActive(false);
+						}
         }	
 	}
 
@@ -430,13 +571,19 @@ public void startGetProfileInfo()
 	public void startGetOwnedCodes()
 	{
 		StartCoroutine(getOwnedCodes());
-		Debug.Log("start get ownded codes called this mayn");
+		//Debug.Log("start get ownded codes called this mayn");
 	}
 
 	public IEnumerator getOwnedCodes() 
 	{
+		yield return new WaitForSeconds(2.0f);
 		lsh.GetComponent<UiManager>().SetLoadingPanelActive(true);
 		int numExperiences = 0;
+
+		//clear share screen code text
+		um.ClearShareScreen();
+
+		//get the codes of journeys owned by this user
 		using (UnityWebRequest getOwnedCodesRequest = UnityWebRequest.Get(getOwnedCodesUrl))
 		{
 			//set content type
@@ -446,11 +593,26 @@ public void startGetProfileInfo()
 
 			yield return getOwnedCodesRequest.SendWebRequest();
 
-			Debug.Log(getOwnedCodesRequest.responseCode);
+			//retry call up to MAX_RETRY times if error
+			if (getOwnedCodesRequest.responseCode != 200 && ownedCodesCallCount < MAX_RETRY)
+			{
+				ownedCodesCallCount++;
+				StartCoroutine("getOwnedCodes");
+			}
+			else if (getOwnedCodesRequest.responseCode != 200 && ownedCodesCallCount >= MAX_RETRY)
+			{
+				loadingPanel.SetActive(false);
+				//Debug.Log("call to backend for profileCreate retries failed");
+			}
+			else
+			{
+				ownedCodesCallCount = 0;
+
+			//Debug.Log(getOwnedCodesRequest.responseCode);
 
 			byte[] results = getOwnedCodesRequest.downloadHandler.data;
 			string jsonString = Encoding.UTF8.GetString(results);
-			Debug.Log(jsonString);
+			//Debug.Log(jsonString);
 			oec = JsonUtility.FromJson<OwnedExperiencesClass>(jsonString);
 
 			//count how many experiences the user has 
@@ -471,9 +633,26 @@ public void startGetProfileInfo()
 					noJourneyPanel.SetActive(false);
 			}
 
-			Debug.Log("Number of codes: "+numExperiences);
+			fm.journeyCount = numExperiences;
+
+			if (fm.journeyCount < 5)
+		{
+			//set add button to add
+			addJourneyButton.onClick.RemoveAllListeners();
+			addJourneyButton.onClick.AddListener(delegate {mainCanvasPanelController.OpenPanel(createJourneyAnimator); });
+			addJourneyButton.onClick.AddListener(delegate {mainCanvasPanelController.SetBottomPanelActive(false);});
+			addJourneyButton.onClick.AddListener(delegate {coec.setCreateOrEdit("create"); });
+			addJourneyButton.onClick.AddListener(delegate {um.InstantResetSummaryScreen(); });
 		}
-		foreach (GameObject x in libraryStubs){
+		if (fm.journeyCount >= 5)
+		{
+			//set add button to make popup
+			addJourneyButton.onClick.RemoveAllListeners();
+			addJourneyButton.onClick.AddListener(delegate {maxJourneysPopup.SetActive(true); });
+		}
+			//Debug.Log("Number of codes: "+numExperiences);
+
+			foreach (GameObject x in libraryStubs){
 			Destroy(x);
 		}
 		//this for loop creates the library stub GameObjects from a prefab (up to 50)
@@ -492,11 +671,11 @@ public void startGetProfileInfo()
 
 				coverImageRef.GetBytesAsync(maxAllowedSize).ContinueWith((Task<byte[]> task1) => {
 			if (task1.IsFaulted || task1.IsCanceled) {
-				Debug.Log(task1.Exception.ToString());
+				//Debug.Log(task1.Exception.ToString());
 				// Uh-oh, an error occurred!
 			} else {
 				byte[] fileContents = task1.Result;
-				Debug.Log("cover image finished downloading!");
+				//Debug.Log("cover image finished downloading!");
 				
 				tex.LoadImage(fileContents);
 				testImage.sprite = Sprite.Create(tex, new Rect(0, 0, tex.width, tex.height), new Vector2(0, 0));
@@ -507,6 +686,7 @@ public void startGetProfileInfo()
 			//if a cover image was selected by a user create a new sprite! 
 			libraryStubs[i] = Instantiate(libraryStubPrefab,libraryScrollContent.transform);
 			libraryStubs[i].transform.GetChild(5).GetComponent<Image>().sprite = Sprite.Create(tex, new Rect(0, 0, tex.width, tex.height), new Vector2(0, 0));
+			
 		}
 		else{
 			//if a cover image was NOT selected by a user do not create a new sprite! 
@@ -518,21 +698,26 @@ public void startGetProfileInfo()
 
 			//spawn and fill out library stub
 			
+			//title
 			libraryStubs[i].transform.GetChild(1).gameObject.GetComponent<Text>().text = oec.titles[i];
+			//code
 			libraryStubs[i].transform.GetChild(2).gameObject.GetComponent<Text>().text = oec.codes[i];
-			// Get Child 5 = JourneyCoverPhoto
+			//JourneyCoverPhoto
 			libraryStubs[i].transform.GetChild(5).gameObject.GetComponent<Button>().onClick.AddListener(delegate {fsm.startDownloadExperienceFilesDirect(index+1); });
 			libraryStubs[i].transform.GetChild(5).gameObject.GetComponent<Button>().onClick.AddListener(delegate {mainCanvasPanelController.OpenPanel(PreviewScreenAnimator); });
 			libraryStubs[i].transform.GetChild(5).gameObject.GetComponent<Button>().onClick.AddListener(delegate {iconPanel.SetActive(false); });
 			libraryStubs[i].transform.GetChild(5).gameObject.GetComponent<Button>().onClick.AddListener(delegate {lsh.GetComponent<UiManager>().SetLoadingPanelActive(true); });
+			//more info
 			libraryStubs[i].transform.GetChild(7).gameObject.GetComponent<Button>().onClick.AddListener(delegate {createLibraryPopup(index); });
+			//date
 			libraryStubs[i].transform.GetChild(8).gameObject.GetComponent<Text>().text = oec.dates[i];
 			libraryCodes[i] = oec.codes[i];
 
-		//	StartCoroutine(loadJourneyCoverImage(libraryStubs[i], oec.coverImages[i]));
-
-	}
+			
+			}
 	lsh.GetComponent<UiManager>().SetLoadingPanelActive(false);
+			}
+		}
 	}
 		
 
@@ -565,13 +750,12 @@ public void startGetProfileInfo()
 	//creates library menu UI
 	void createDeletePopup(int index)
 	{
-		Debug.Log("in create delete popup");
+		//Debug.Log("in create delete popup");
 		frontCanvas.SetActive(true);
 		deleteJourneyIndex = index;
 		GameObject deleteJourneyInstantiated = Instantiate(deleteJourneyPrefab, inFrontOfBottomPanel.transform);
 		//delete button
 		deleteJourneyInstantiated.transform.GetChild(0).GetChild(1).gameObject.GetComponent<Button>().onClick.AddListener(delegate {startExperienceDelete(deleteJourneyIndex); });
-		deleteJourneyInstantiated.transform.GetChild(0).GetChild(1).gameObject.GetComponent<Button>().onClick.AddListener(delegate {frontCanvas.SetActive(false); });
 		deleteJourneyInstantiated.transform.GetChild(0).GetChild(1).gameObject.GetComponent<Button>().onClick.AddListener(delegate {Destroy(libraryPopupMenuInstantiated); });
 		deleteJourneyInstantiated.transform.GetChild(0).GetChild(1).gameObject.GetComponent<Button>().onClick.AddListener(delegate {Destroy(deleteJourneyInstantiated); });
 		//cancel button
@@ -586,6 +770,7 @@ public void startGetProfileInfo()
 		{
 			Destroy(libStub);
 		}
+		Resources.UnloadUnusedAssets();
 	}
 }
 

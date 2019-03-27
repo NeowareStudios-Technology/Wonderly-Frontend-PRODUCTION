@@ -1,15 +1,23 @@
-﻿using System.Collections;
+﻿/******************************************************
+*Project: Wonderly
+*Created by: David Lee Ramirez
+*Date: 12/28/18
+*Description: Controls Preview Screen (NewAddViewContent) UI
+*Copyright 2018 LeapWithAlice,LLC. All rights reserved
+ ******************************************************/
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Sample;
 
 public class PreviewScreenUiManager : MonoBehaviour {
-	public GameObject[] previewStubs = new GameObject[5];
+	//script references
 	public FilesManager fm;
+	//stubs of preview target images and AR targets
+	public GameObject[] previewStubs = new GameObject[5];
 	
-	// Update is called once per frame
+	//displays preview stubs based on number of targets that exist
 	void Update () {
-		int i;
 		switch (fm.targetCount)
 		{
 			case 0:

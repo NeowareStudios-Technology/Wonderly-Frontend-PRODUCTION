@@ -1,15 +1,25 @@
-﻿using System.Collections;
+﻿/******************************************************
+*Project: Wonderly
+*Created by: David Lee Ramirez
+*Date: 12/28/18
+*Description: Controls rotation and scaling of AR linked object
+							via user input (buttons, slider).
+*Copyright 2018 LeapWithAlice,LLC. All rights reserved
+ ******************************************************/
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using Sample;
 
 public class RotateScaleManager : MonoBehaviour {
-
+	//script references
 	public targetObjectManager tom;
 	public FilesManager fm;
+	//UI slider for scale control
 	public Slider scaleSlider;
 
+	//rotate AR linked object on x axis
 	public void rotateX()
 	{
 		//determine what target is being viewed
@@ -118,6 +128,7 @@ public class RotateScaleManager : MonoBehaviour {
 	}
 
 
+	//rotate AR linked object on y axis
 	public void rotateY()
 	{
 		//determine what target is being viewed
@@ -195,6 +206,8 @@ public class RotateScaleManager : MonoBehaviour {
 		}
 	}
 
+
+	//scale AR linked object
 	public void scaleTargetObject()
 	{
 		switch(fm.currentTarget)
@@ -297,16 +310,5 @@ public class RotateScaleManager : MonoBehaviour {
 				}
 				break;
 		}
-	}
-
-
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
 	}
 }

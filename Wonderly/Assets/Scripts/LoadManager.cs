@@ -1,15 +1,24 @@
-﻿using System.Collections;
+﻿/******************************************************
+*Project: Wonderly
+*Created by: David Lee Ramirez
+*Date: 12/28/18
+*Description: Used for loading downloaded journeys
+							into the working scene
+*Copyright 2018 LeapWithAlice,LLC. All rights reserved
+ ******************************************************/
+
+using System.Collections;
 using System.Collections.Generic;
 using System;
 using System.Linq;
 using System.IO;
 using UnityEngine;
 using UnityEngine.UI;
-using Sample;
 using PolyToolkit;
 using EasyAR;
 
 public class LoadManager : MonoBehaviour {
+	//script references
 	public FilesManager fm;
 	public SaveClassDeclaration scd;
 	public targetObjectManager tom; 
@@ -17,44 +26,31 @@ public class LoadManager : MonoBehaviour {
 	public pixabayManager pm;
 	public ArPairDisplayManager apdm;
 	public SaveManager sm;
+	//UI for target image on preview screen (NewAddViewContent), used to show from load file
 	public UnityEngine.UI.Image targetPreview1;
 	public UnityEngine.UI.Image targetPreview2;
 	public UnityEngine.UI.Image targetPreview3;
 	public UnityEngine.UI.Image targetPreview4;
 	public UnityEngine.UI.Image targetPreview5;
-
-	public GameObject filledIn1;
-	public GameObject filledIn2;
-	public GameObject filledIn3;
-	public GameObject filledIn4;
-	public GameObject filledIn5;
-
-	public GameObject unfilled1;
-	public GameObject unfilled2;
-	public GameObject unfilled3;
-	public GameObject unfilled4;
-	public GameObject unfilled5;
-
+	//UI for linked image thumb on review screen (CompleteCopyJourney), used to show from load file
 	public UnityEngine.UI.Image linkedThumb1;
 	public UnityEngine.UI.Image linkedThumb2;
 	public UnityEngine.UI.Image linkedThumb3;
 	public UnityEngine.UI.Image linkedThumb4;
 	public UnityEngine.UI.Image linkedThumb5;
-
 	public GameObject loadingPanel;
-
 	public UnityEngine.UI.Image coverImage;
+	//UI for title and description of journey, used to show from load file
 	public InputField titleDisplay;
 	public Text summaryTitleDisplay;
 	public InputField descriptionDisplay;
 	public Text summaryDescriptionDisplay;
-
+	//Gameobject for targetSetter script, used to turn off targetSetter script only dureing load time
 	public GameObject targetSetter;
-
 	public int previewIndex;
-
+	//holds all possible Google Poly Assets
 	public PolyAsset[] allAssets = new PolyAsset[5];
-
+	//paths for image files
 	private string coverPath;
 	private string linkedPath1;
 	private string linkedPath2;
@@ -71,19 +67,16 @@ public class LoadManager : MonoBehaviour {
 	private string targetPath3;
 	private string targetPath4;
 	private string targetPath5;
-
 	//for previewing journey before viewing
 	public UnityEngine.UI.Image previewCoverImage;
 	public Text previewTitleDisplay;
 	public Text previewDescriptionDisplay;
 	public UnityEngine.UI.Image[] viewFlowTargetPreviews = new UnityEngine.UI.Image[5];
-
 	//keeps track of first available index for a model
 	public int[] modelIndices = new int[5];
-
 	//keeps track of first available index for a model
 	public int[] videoIndices = new int[5];
-
+	//used for callback functions with limited amount of params
 	public int globalModelArrayIndex;
 	public int globalModelIndexTracker;
 
@@ -96,7 +89,7 @@ public class LoadManager : MonoBehaviour {
 		targetSetter.SetActive(false);
 
 		//for debugging iOS load issue
-		Debug.Log("1. lm70, Starting LoadFile()");
+		//Debug.Log("1. lm70, Starting LoadFile()");
 
 		//clear the scene
 		tom.clearScene();
@@ -108,12 +101,12 @@ public class LoadManager : MonoBehaviour {
 		{
 			string jsonString = File.ReadAllText(savePath);
 			//for debugging iOS load issue
-			Debug.Log("2. lm82, Contents of save file = "+jsonString);
+			//Debug.Log("2. lm82, Contents of save file = "+jsonString);
 			scd = SaveClassDeclaration.CreateFromJSON(jsonString);
 		}
 		else 
 		{
-			Debug.Log("no save file");
+			//Debug.Log("no save file");
 			return;
 		}
 
@@ -138,9 +131,9 @@ public class LoadManager : MonoBehaviour {
 		//load journey cover image
 		StartCoroutine("loadJourneyCoverImage");
 
-		Debug.Log("3. lm91, Title saved to save class = "+scd.title);
+		//Debug.Log("3. lm91, Title saved to save class = "+scd.title);
 		//set the experience title
-		Debug.Log(scd.title);
+		//Debug.Log(scd.title);
 		if (scd.title == "")
 		{
 			titleDisplay.text= "  ";
@@ -167,23 +160,23 @@ public class LoadManager : MonoBehaviour {
 			summaryDescriptionDisplay.text = scd.description;
 			previewDescriptionDisplay.text = scd.description;
 		}
-		Debug.Log("1");
+		//Debug.Log("1");
 
 		//set cover image url
 		//sm.coverImageUrl = scd.coverImageUrl;
 		pm.chosenCoverImageUrl = scd.coverImageUrl;
-		Debug.Log("2");
+		//Debug.Log("2");
 
 		//set each wonder title
 		for (int g = 0; g < 3; g++)
 		{
-			Debug.Log("in wonder title set");
+			//Debug.Log("in wonder title set");
 			apdm.wonderTitles[g].text = scd.wonderTitle[g];
 			apdm.previewWonderTitles[g].text = scd.wonderTitle[g];
 			sm.wonderTitles[g] = scd.wonderTitle[g];
 
 		}
-		Debug.Log("2");
+		//Debug.Log("2");
 
 		//set each wonder description (CHANGE THIS TO % IF NEED TO INCREASE TARGETS TO 5)
 		for (int h = 0; h < 3; h++)
@@ -192,75 +185,73 @@ public class LoadManager : MonoBehaviour {
 			apdm.previewWonderDescriptions[h].text = scd.wonderDescription[h];
 			sm.wonderDescriptions[h] = scd.wonderDescription[h];
 		}
-		Debug.Log("3");
+		//Debug.Log("3");
 
 		for (int i =0; i <5; i++)
 		{
-			Debug.Log("4~. lm105, targetStatus["+i+"] from save class = "+scd.targetStatus[i]);
+			//Debug.Log("4~. lm105, targetStatus["+i+"] from save class = "+scd.targetStatus[i]);
 			fm.targetStatus[i] = scd.targetStatus[i];
 		}
 
 		//for debugging iOS
-		Debug.Log("5a. lm122, target1 working path = "+workingPath1);
-		Debug.Log("5b. lm123, target2 working path = "+workingPath2);
-		Debug.Log("5c. lm124, target3 working path = "+workingPath3);
-		Debug.Log("5d. lm125, target4 working path = "+workingPath4);
-		Debug.Log("5e. lm126, target5 working path = "+workingPath5);
-		Debug.Log("6a. lm127, target1 save file path = "+targetPath1);
-		Debug.Log("6b. lm128, target2 save file path = "+targetPath2);
-		Debug.Log("6c. lm129, target3 save file path = "+targetPath3);
-		Debug.Log("6d. lm130, target4 save file path = "+targetPath4);
-		Debug.Log("6e. lm131, target5 save file path = "+targetPath5);
+		//Debug.Log("5a. lm122, target1 working path = "+workingPath1);
+		//Debug.Log("5b. lm123, target2 working path = "+workingPath2);
+		//Debug.Log("5c. lm124, target3 working path = "+workingPath3);
+		//Debug.Log("5d. lm125, target4 working path = "+workingPath4);
+		//Debug.Log("5e. lm126, target5 working path = "+workingPath5);
+		//Debug.Log("6a. lm127, target1 save file path = "+targetPath1);
+		//Debug.Log("6b. lm128, target2 save file path = "+targetPath2);
+		//Debug.Log("6c. lm129, target3 save file path = "+targetPath3);
+		//Debug.Log("6d. lm130, target4 save file path = "+targetPath4);
+		//Debug.Log("6e. lm131, target5 save file path = "+targetPath5);
 
 		//copy the target images from the save directory to the working directory
 		if (File.Exists(targetPath1))
 		{
 			//for debugging iOS
-			Debug.Log("7. lm137, target1 save file exists");
+			//Debug.Log("7. lm137, target1 save file exists");
 			System.IO.File.Copy(targetPath1, workingPath1, true);
 			fm.targetCount++;
 		}
 		if (File.Exists(targetPath2))
 		{
 			//for debugging iOS
-			Debug.Log("8. lm144, target2 save file exists");
+			//Debug.Log("8. lm144, target2 save file exists");
 			System.IO.File.Copy(targetPath2, workingPath2, true);
 			fm.targetCount++;
 		}
 		if (File.Exists(targetPath3))
 		{
 			//for debugging iOS
-			Debug.Log("9. lm151, target3 save file exists");
+			//Debug.Log("9. lm151, target3 save file exists");
 			System.IO.File.Copy(targetPath3, workingPath3, true);
 			fm.targetCount++;
 		}
 		if (File.Exists(targetPath4))
 		{
 			//for debugging iOS
-			Debug.Log("10. lm158, target4 save file exists");
+			//Debug.Log("10. lm158, target4 save file exists");
 			System.IO.File.Copy(targetPath4, workingPath4, true);
 			fm.targetCount++;
 		}
 		if (File.Exists(targetPath5))
 		{
 			//for debugging iOS
-			Debug.Log("11. lm165, target5 save file exists");
+			//Debug.Log("11. lm165, target5 save file exists");
 			System.IO.File.Copy(targetPath5, workingPath5, true);
 			fm.targetCount++;
 		}
-
-				
 					if(File.Exists(workingPath1))
 					{
 						//for debugging iOS
-						Debug.Log("12. lm174, target1 working file exists");
+						//Debug.Log("12. lm174, target1 working file exists");
 						//creates new target game object
 						//GameObject imageTarget1 = new GameObject(obj.Key);
 						//target1 = imageTarget1;
 						GameObject imageTarget1 = itm.target1;
 						imageTarget1.SetActive(true);
 						imageTarget1.tag = "target1";
-						var behaviour1 = imageTarget1.AddComponent<DynamicImageTagetBehaviour>();
+						var behaviour1 = imageTarget1.AddComponent<DynamicImageTargetBehaviour>();
 						behaviour1.whichTargetAmI = 1;
 						behaviour1.Name = "target1";
 						behaviour1.Path = workingPath1;
@@ -275,14 +266,14 @@ public class LoadManager : MonoBehaviour {
 					if(File.Exists(workingPath2))
 					{
 						//for debugging iOS
-						Debug.Log("13. lm196, target2 working file exists");
+						//Debug.Log("13. lm196, target2 working file exists");
 						//creates new target game object
 						//GameObject imageTarget1 = new GameObject(obj.Key);
 						//target1 = imageTarget1;
 						GameObject imageTarget2 = itm.target2;
 						imageTarget2.SetActive(true);
 						imageTarget2.tag = "target2";
-						var behaviour2 = imageTarget2.AddComponent<DynamicImageTagetBehaviour>();
+						var behaviour2 = imageTarget2.AddComponent<DynamicImageTargetBehaviour>();
 						behaviour2.whichTargetAmI = 2;
 						behaviour2.Name = "target1";
 						behaviour2.Path = workingPath2;
@@ -292,19 +283,18 @@ public class LoadManager : MonoBehaviour {
 						//keeps track of name of target and behavior
 						//imageTargetDic.Add(obj.Key, behaviour1);
 						//set the target status array to reflect that this target has been created
-
 					}
 					if(File.Exists(workingPath3))
 					{
 						//for debugging iOS
-						Debug.Log("14. lm218, target3 working file exists");
+						//Debug.Log("14. lm218, target3 working file exists");
 						//creates new target game object
 						//GameObject imageTarget3 = new GameObject(obj.Key);
 						//target3 = imageTarget3;
 						GameObject imageTarget3 = itm.target3;
 						imageTarget3.SetActive(true);
 						imageTarget3.tag = "target3";
-						var behaviour3 = imageTarget3.AddComponent<DynamicImageTagetBehaviour>();
+						var behaviour3 = imageTarget3.AddComponent<DynamicImageTargetBehaviour>();
 						behaviour3.whichTargetAmI = 3;
 						behaviour3.Name = "target3";
 						behaviour3.Path = workingPath3;
@@ -318,14 +308,14 @@ public class LoadManager : MonoBehaviour {
 					if(File.Exists(workingPath4))
 					{
 						//for debugging iOS
-						Debug.Log("15. lm239, target4 working file exists");
+						//Debug.Log("15. lm239, target4 working file exists");
 						//creates new target game object
 						//GameObject imageTarget4 = new GameObject(obj.Key);
 						//target4 = imageTarget4;
 						GameObject imageTarget4 = itm.target4;
 						imageTarget4.SetActive(true);
 						imageTarget4.tag = "target4";
-						var behaviour4 = imageTarget4.AddComponent<DynamicImageTagetBehaviour>();
+						var behaviour4 = imageTarget4.AddComponent<DynamicImageTargetBehaviour>();
 						behaviour4.whichTargetAmI = 4;
 						behaviour4.Name = "target4";
 						behaviour4.Path = workingPath4;
@@ -339,14 +329,14 @@ public class LoadManager : MonoBehaviour {
 					if(File.Exists(workingPath5))
 					{
 						//for debugging iOS
-						Debug.Log("16. lm260, target5 working file exists");
+						//Debug.Log("16. lm260, target5 working file exists");
 						//creates new target game object
 						//GameObject imageTarget5 = new GameObject(obj.Key);
 						//target5 = imageTarget5;
 						GameObject imageTarget5 = itm.target5;
 						imageTarget5.SetActive(true);
 						imageTarget5.tag = "target5";
-						var behaviour5 = imageTarget5.AddComponent<DynamicImageTagetBehaviour>();
+						var behaviour5 = imageTarget5.AddComponent<DynamicImageTargetBehaviour>();
 						behaviour5.whichTargetAmI = 5;
 						behaviour5.Name = "target5";
 						behaviour5.Path = workingPath5;
@@ -356,10 +346,8 @@ public class LoadManager : MonoBehaviour {
 						//keeps track of name of target and behavior
 						//imageTargetDic.Add(obj.Key, behaviour5);
 						//set the target status array to reflect that this target has been created
-	
 					}
 					
-
 		//set preivew images
 		if (File.Exists(workingPath1))
 		{
@@ -393,26 +381,29 @@ public class LoadManager : MonoBehaviour {
 		targetSetter.SetActive(true);
 	}
 
+
+	//called by LoadFile to get cover image from FIrebase Storage
 	private IEnumerator loadJourneyCoverImage() {
-		Debug.Log("loadJourneyCoverImage starting");
-		Debug.Log(coverPath);
-		Debug.Log(File.Exists(coverPath));
+		//Debug.Log("loadJourneyCoverImage starting");
+		//Debug.Log(coverPath);
+		//Debug.Log(File.Exists(coverPath));
 		if (File.Exists(coverPath))
 		{
-			Debug.Log("inside if");
+			//Debug.Log("inside if");
 			byte[] coverImageBytes = File.ReadAllBytes(coverPath);
 			Texture2D tex = new Texture2D(2000,2000);
 			tex.LoadImage(coverImageBytes);
 			coverImage.sprite = Sprite.Create(tex, new Rect(0, 0, tex.width, tex.height), new Vector2(0, 0));
 			previewCoverImage.sprite = Sprite.Create(tex, new Rect(0, 0, tex.width, tex.height), new Vector2(0, 0));
-			Debug.Log("cover image displayed on UI");
+			//Debug.Log("cover image displayed on UI");
 		}
 		yield return null;
 	}
 
+
 	//imports all AR objects from save directory
 	private IEnumerator ImportLoadedItems() {
-		Debug.Log("importLoadedItems started");
+		//Debug.Log("importLoadedItems started");
 		yield return new WaitForSeconds(1);
 		for (int i = 0; i < 5; i ++)
 		{
@@ -491,7 +482,6 @@ public class LoadManager : MonoBehaviour {
 						StartCoroutine(setLoadedVideoThumb(i, scd.vId[i]));
 						break;
 				}
-				
 			}
 				else if (scd.targetStatus[i] == "image")
 			{
@@ -501,9 +491,6 @@ public class LoadManager : MonoBehaviour {
 		}
 		loadingPanel.SetActive(false);
 	}
-
-
-
 
 
 	//helper function to set image to AR target
@@ -558,6 +545,7 @@ public class LoadManager : MonoBehaviour {
 				yield return null;
 	}
 
+
 	//set of 3 helper functions to import model
 	private void ImportModel(string modelId, int whichIndex) {
 		string assetString = "assets/" + modelId;
@@ -568,7 +556,7 @@ public class LoadManager : MonoBehaviour {
 	void GetAssetCallback(PolyStatusOr<PolyAsset> result) {
   	if (!result.Ok) 
 		{
-			Debug.Log("There was an error importing the loaded asset");
+			//Debug.Log("There was an error importing the loaded asset");
 			return;
   	}
 		List<PolyAsset> assets = new List<PolyAsset>();
@@ -580,14 +568,14 @@ public class LoadManager : MonoBehaviour {
 		// We want to rescale the imported meshes to a specific size.
 		options.rescalingMode = PolyImportOptions.RescalingMode.FIT;
 		// The specific size we want assets rescaled to (fit in a 1x1x1 box):
-		options.desiredSize = 1.0f;
+		options.desiredSize = 2.0f;
 		// We want the imported assets to be recentered such that their centroid coincides with the origin:
 		options.recenter = true;
 		PolyApi.Import(result.Value, options, GetModelCallback);
 	}
 	void GetModelCallback(PolyAsset asset, PolyStatusOr<PolyImportResult> result) {
   if (!result.Ok) {
-    Debug.Log("There was an error importing the loaded model");
+    //Debug.Log("There was an error importing the loaded model");
     return;
   }
 	for (int j = 0; j < 5 ;j++)
@@ -600,7 +588,7 @@ public class LoadManager : MonoBehaviour {
 				case 0:
 					GameObject thisModel1 = result.Value.gameObject;
 					Transform transform1 = result.Value.gameObject.GetComponent(typeof(Transform)) as Transform;
-					transform1.position = new Vector3(0.0f, 0.75f, 0f);
+					transform1.position = new Vector3(0.0f, 0.65f, 0f);
 					transform1.tag = "model1";
 					transform1.parent = itm.target1.transform;
 					fm.targetStatus[0] = "model";
@@ -610,7 +598,7 @@ public class LoadManager : MonoBehaviour {
 				case 1:
 					GameObject thisModel2 = result.Value.gameObject;
 					Transform transform2 = result.Value.gameObject.GetComponent(typeof(Transform)) as Transform;
-					transform2.position = new Vector3(0.0f, 0.75f, 0f);
+					transform2.position = new Vector3(0.0f, 0.65f, 0f);
 					transform2.tag = "model2";
 					transform2.parent = itm.target2.transform;
 					fm.targetStatus[1] = "model";
@@ -620,7 +608,7 @@ public class LoadManager : MonoBehaviour {
 				case 2:
 					GameObject thisModel3 = result.Value.gameObject;
 					Transform transform3 = result.Value.gameObject.GetComponent(typeof(Transform)) as Transform;
-					transform3.position = new Vector3(0.0f, 0.75f, 0f);
+					transform3.position = new Vector3(0.0f, 0.65f, 0f);
 					transform3.tag = "model3";
 					transform3.parent = itm.target3.transform;
 					fm.targetStatus[2] = "model";
@@ -630,7 +618,7 @@ public class LoadManager : MonoBehaviour {
 				case 3:
 					GameObject thisModel4 = result.Value.gameObject;
 					Transform transform4 = result.Value.gameObject.GetComponent(typeof(Transform)) as Transform;
-					transform4.position = new Vector3(0.0f, 0.75f, 0f);
+					transform4.position = new Vector3(0.0f, 0.65f, 0f);
 					transform4.tag = "model4";
 					transform4.parent = itm.target4.transform;
 					fm.targetStatus[3] = "model";
@@ -640,7 +628,7 @@ public class LoadManager : MonoBehaviour {
 				case 4:
 					GameObject thisModel5 = result.Value.gameObject;
 					Transform transform5 = result.Value.gameObject.GetComponent(typeof(Transform)) as Transform;
-					transform5.position = new Vector3(0.0f, 0.75f, 0f);
+					transform5.position = new Vector3(0.0f, 0.65f, 0f);
 					transform5.tag = "model5";
 					transform5.parent = itm.target5.transform;
 					fm.targetStatus[4] = "model";
@@ -654,63 +642,14 @@ public class LoadManager : MonoBehaviour {
 		}
 	}
 	}
-
-	//this function has been incorporated into SetImage
-/* 
-	//helper function to load image to corrent thumbnail (called by loadFile)
-	private IEnumerator setLoadedImageThumb(int whichIndex)
-	{
-		switch (whichIndex)
-		{
-			case 0:
-				byte[] coverImageBytes = File.ReadAllBytes(coverPath);
-				Texture2D tex = new Texture2D(2000,2000);
-				tex.LoadImage(coverImageBytes);
-				coverImage.sprite = Sprite.Create(tex, new Rect(0, 0, tex.width, tex.height), new Vector2(0, 0));
-				using (WWW imageThumbRequest1 = new WWW(scd.imageUrl[0]))
-				{
-					yield return imageThumbRequest1;
-					linkedThumb1.sprite = Sprite.Create(imageThumbRequest1.texture, new Rect(0, 0, imageThumbRequest1.texture.width, imageThumbRequest1.texture.height), new Vector2(0, 0));
-				}
-				break;
-			case 1:
-				using (WWW imageThumbRequest2 = new WWW(scd.imageUrl[1]))
-				{
-					yield return imageThumbRequest2;
-					linkedThumb2.sprite = Sprite.Create(imageThumbRequest2.texture, new Rect(0, 0, imageThumbRequest2.texture.width, imageThumbRequest2.texture.height), new Vector2(0, 0));
-				}
-				break;
-			case 2:
-				using (WWW imageThumbRequest3 = new WWW(scd.imageUrl[2]))
-				{
-					yield return imageThumbRequest3;
-					linkedThumb3.sprite = Sprite.Create(imageThumbRequest3.texture, new Rect(0, 0, imageThumbRequest3.texture.width, imageThumbRequest3.texture.height), new Vector2(0, 0));
-				}
-				break;
-			case 3:
-				using (WWW imageThumbRequest4 = new WWW(scd.imageUrl[3]))
-				{
-					yield return imageThumbRequest4;
-					linkedThumb4.sprite = Sprite.Create(imageThumbRequest4.texture, new Rect(0, 0, imageThumbRequest4.texture.width, imageThumbRequest4.texture.height), new Vector2(0, 0));
-				}
-				break;
-			case 4:
-				using (WWW imageThumbRequest5 = new WWW(scd.imageUrl[4]))
-				{
-					yield return imageThumbRequest5;
-					linkedThumb5.sprite = Sprite.Create(imageThumbRequest5.texture, new Rect(0, 0, imageThumbRequest5.texture.width, imageThumbRequest5.texture.height), new Vector2(0, 0));
-				}
-				break;
-		}
-	}
-	*/
+	
 
 	private void setLoadedModelThumb(int whichIndex)
 	{
-		Debug.Log("1. Starting loading model thumbnails...");
-		Debug.Log("2. allAsset array: "+allAssets);
-		Debug.Log("3. index of asset to get: " +whichIndex);
-		//Debug.Log("4. asset at index in allAsset array: "+allAssets[whichIndex]);
+		//Debug.Log("1. Starting loading model thumbnails...");
+		//Debug.Log("2. allAsset array: "+allAssets);
+		//Debug.Log("3. index of asset to get: " +whichIndex);
+		////Debug.Log("4. asset at index in allAsset array: "+allAssets[whichIndex]);
 		
 		globalModelIndexTracker = whichIndex;
 		PolyApi.FetchThumbnail(allAssets[whichIndex], MyCallback);
@@ -743,7 +682,7 @@ public class LoadManager : MonoBehaviour {
 
 	private IEnumerator setLoadedVideoThumb(int whichIndex, string videoId)
 	{
-		Debug.Log("in the video thumbnail loader");
+		//Debug.Log("in the video thumbnail loader");
 		string thumbnailUrl = "https://img.youtube.com/vi/"+videoId+"/default.jpg";
 		switch (whichIndex)
 		{
@@ -784,6 +723,4 @@ public class LoadManager : MonoBehaviour {
 				break;
 		}
 	}
-
-
 }
