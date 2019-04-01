@@ -855,13 +855,16 @@ PlayerSettings:
       daydreamIconForeground: {fileID: 0}
       daydreamIconBackground: {fileID: 0}
   cloudServicesEnabled:
+    Build: 0
     Collab: 1
+    ErrorHub: 0
+    Hub: 0
     UNet: 1
   facebookSdkVersion: 7.9.4
   apiCompatibilityLevel: 2
-  cloudProjectId: 54eaf823-cd15-4138-bfcf-45845dfb9933
-  projectName: Wonderly (1)
-  organizationId: alfonsolwa
+  cloudProjectId: e0dd5b13-61b0-45de-ab00-20483b3c2e51
+  projectName: Wonderly
+  organizationId: neoware-dev
   cloudEnabled: 0
   enableNativePlatformBackendsForNewInputSystem: 0
   disableOldInputManagerSupport: 0

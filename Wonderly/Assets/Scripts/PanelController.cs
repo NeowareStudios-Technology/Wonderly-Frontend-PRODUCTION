@@ -35,6 +35,8 @@ public class PanelController : MonoBehaviour
     public List<GameObject> panels = new List<GameObject>();
     private bool isAndroidPlatform = false;
 
+    public GameObject profileImagePanel;
+
     #endregion
     public void OnEnable()
     {
@@ -207,7 +209,7 @@ public class PanelController : MonoBehaviour
 
         if (anim.gameObject.name == "MyJourneys-panel")
         {
-            bottomPanel.SetActive(true);
+            //bottomPanel.SetActive(true);
         }
         else
         {
@@ -224,6 +226,22 @@ public class PanelController : MonoBehaviour
         else
         {
             backgroundImg.SetActive(true);
+        }
+
+        //set the profile image active or inactive depending on the panel to be opened
+        if (anim.gameObject.name == "UserSettings-panel"
+            || anim.gameObject.name == "CreateWonderLink-panel"
+            || anim.gameObject.name == "CreateWonderScan-panel"
+            || anim.gameObject.name == "CwViewLibraries-panel"
+            || anim.gameObject.name == "ViewScreen-panel"
+            || anim.gameObject.name == "CwPlaceLibraryContent-panel"
+            || anim.gameObject.name == "ShareJourney-panel")
+        {
+            profileImagePanel.SetActive(false);
+        }
+        else
+        {
+            profileImagePanel.SetActive(true);
         }
         anim.transform.SetAsLastSibling();
         bottomPanel.transform.SetAsLastSibling();

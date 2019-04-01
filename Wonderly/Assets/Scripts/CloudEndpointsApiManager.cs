@@ -685,7 +685,7 @@ public void startGetProfileInfo()
 			});
 			//if a cover image was selected by a user create a new sprite! 
 			libraryStubs[i] = Instantiate(libraryStubPrefab,libraryScrollContent.transform);
-			libraryStubs[i].transform.GetChild(5).GetComponent<Image>().sprite = Sprite.Create(tex, new Rect(0, 0, tex.width, tex.height), new Vector2(0, 0));
+			//libraryStubs[i].transform.GetChild(5).GetComponent<Image>().sprite = Sprite.Create(tex, new Rect(0, 0, tex.width, tex.height), new Vector2(0, 0));
 			
 		}
 		else{
@@ -695,7 +695,7 @@ public void startGetProfileInfo()
 
 
 			int index = i;
-
+			/* 
 			//spawn and fill out library stub
 			
 			//title
@@ -713,6 +713,25 @@ public void startGetProfileInfo()
 			libraryStubs[i].transform.GetChild(8).gameObject.GetComponent<Text>().text = oec.dates[i];
 			libraryCodes[i] = oec.codes[i];
 
+			*/
+			//title
+			libraryStubs[i].transform.GetChild(0).gameObject.GetComponent<Text>().text = oec.titles[i];
+			libraryStubs[i].GetComponent<Button>().onClick.AddListener(delegate {fsm.startDownloadExperienceFilesDirect(index+1); });
+			libraryStubs[i].GetComponent<Button>().onClick.AddListener(delegate {mainCanvasPanelController.OpenPanel(PreviewScreenAnimator); });
+			libraryCodes[i] = oec.codes[i];
+			//code
+
+			//libraryStubs[i].transform.GetChild(2).gameObject.GetComponent<Text>().text = oec.codes[i];
+			//JourneyCoverPhoto
+			//libraryStubs[i].transform.GetChild(5).gameObject.GetComponent<Button>().onClick.AddListener(delegate {fsm.startDownloadExperienceFilesDirect(index+1); });
+			//libraryStubs[i].transform.GetChild(5).gameObject.GetComponent<Button>().onClick.AddListener(delegate {mainCanvasPanelController.OpenPanel(PreviewScreenAnimator); });
+			//libraryStubs[i].transform.GetChild(5).gameObject.GetComponent<Button>().onClick.AddListener(delegate {iconPanel.SetActive(false); });
+			//libraryStubs[i].transform.GetChild(5).gameObject.GetComponent<Button>().onClick.AddListener(delegate {lsh.GetComponent<UiManager>().SetLoadingPanelActive(true); });
+			//more info
+			//libraryStubs[i].transform.GetChild(7).gameObject.GetComponent<Button>().onClick.AddListener(delegate {createLibraryPopup(index); });
+			//date
+			//libraryStubs[i].transform.GetChild(8).gameObject.GetComponent<Text>().text = oec.dates[i];
+			//libraryCodes[i] = oec.codes[i];
 			
 			}
 	lsh.GetComponent<UiManager>().SetLoadingPanelActive(false);

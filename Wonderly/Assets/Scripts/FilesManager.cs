@@ -41,9 +41,8 @@ public class FilesManager : MonoBehaviour
     public string targetPath4;
     public string targetPath5;
 
-    public GameObject mainCanvas;
-    public Animator firstPanelIfLoggedIn;
-    public Animator welcomePanel;
+
+    
     //for deactivating AR camera to save cpu
     public GameObject arCamera;
     public PhotoCaptureArea pca;
@@ -54,30 +53,15 @@ public class FilesManager : MonoBehaviour
         currentTarget = current;
     }
 
-    private IEnumerator openHome(){
-        mainCanvas.GetComponent<PanelController>().initiallyOpen = firstPanelIfLoggedIn;
-        mainCanvas.GetComponent<PanelController>().SetBottomPanelActive(true);
-        yield return new WaitForSeconds(1.0f);
-        mainCanvas.GetComponent<PanelController>().OpenPanel(firstPanelIfLoggedIn);
-        
-            //Debug.Log("logged in auto");
-    }
+    
 
     void Awake()
     {   
-        if (PlayerPrefs.GetInt("isLoggedIn")==1){
-            //coroutine OpenHome esures homeScreen is opened whether or not mainCanvas already opened InitialPanel
-            StartCoroutine(openHome());
-            StartCoroutine(fbm.InternalLoginProcessAutomatic(PlayerPrefs.GetString("email"), PlayerPrefs.GetString("password")));
-        }
-        //if not logged in open the welcomePanel
-        else{
-            mainCanvas.GetComponent<PanelController>().initiallyOpen = welcomePanel;
-        }
+        
                         
         //delete all previous scene targets and objects
 
-        //ui = FindObjectOfType<takeTargetPicture>();
+        
         MarksDirectory = Application.persistentDataPath;
         SaveDirectory = Path.Combine(MarksDirectory, "SaveFolder");
         //clear save file if it exists
@@ -104,7 +88,7 @@ public class FilesManager : MonoBehaviour
 
         StartCoroutine("delayedReset");
 
-        StartCoroutine("delayedDeactivateArAfterInit");
+        //StartCoroutine("delayedDeactivateArAfterInit");
         
         //set all paths of possible target images
         targetPath1 = Path.Combine(MarksDirectory, "targetPhoto1.jpg");
