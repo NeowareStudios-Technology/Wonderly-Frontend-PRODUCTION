@@ -235,7 +235,9 @@ public class PanelController : MonoBehaviour
             || anim.gameObject.name == "CwViewLibraries-panel"
             || anim.gameObject.name == "ViewScreen-panel"
             || anim.gameObject.name == "CwPlaceLibraryContent-panel"
-            || anim.gameObject.name == "ShareJourney-panel")
+            || anim.gameObject.name == "ShareJourney-panel"
+            || anim.gameObject.name == "MyJourneys-panel"
+            )
         {
             profileImagePanel.SetActive(false);
         }

@@ -80,6 +80,8 @@ public class LoadManager : MonoBehaviour {
 	public int globalModelArrayIndex;
 	public int globalModelIndexTracker;
 
+	public Text searchCodeTitleDisplay;
+	public Text searchCodeDescriptionDisplay;
 
 
 	//Main function in this file that calls other helper functions 
@@ -138,12 +140,14 @@ public class LoadManager : MonoBehaviour {
 		{
 			titleDisplay.text= "  ";
 			summaryTitleDisplay.text = "  ";
+			searchCodeTitleDisplay.text = " ";
 			previewTitleDisplay.text = "  ";
 		}
 		else
 		{
 			titleDisplay.text = scd.title;
 			summaryTitleDisplay.text = scd.title;
+			searchCodeTitleDisplay.text = scd.title;
 			previewTitleDisplay.text = scd.title;
 		}
 
@@ -153,9 +157,11 @@ public class LoadManager : MonoBehaviour {
 			descriptionDisplay.text = "  ";
 			summaryDescriptionDisplay.text = "   ";
 			previewDescriptionDisplay.text = "   " ;
+			searchCodeDescriptionDisplay.text = " ";
 		}
 		else
 		{
+			searchCodeDescriptionDisplay.text = scd.description;
 			descriptionDisplay.text = scd.description;
 			summaryDescriptionDisplay.text = scd.description;
 			previewDescriptionDisplay.text = scd.description;
@@ -556,9 +562,10 @@ public class LoadManager : MonoBehaviour {
 	void GetAssetCallback(PolyStatusOr<PolyAsset> result) {
   	if (!result.Ok) 
 		{
-			//Debug.Log("There was an error importing the loaded asset");
+			Debug.Log("There was an error importing the loaded asset");
 			return;
   	}
+		Debug.Log("imported the loaded asset");
 		List<PolyAsset> assets = new List<PolyAsset>();
 		assets.Add(result.Value);
 		allAssets[globalModelArrayIndex] = result.Value;
@@ -587,6 +594,7 @@ public class LoadManager : MonoBehaviour {
 			{
 				case 0:
 					GameObject thisModel1 = result.Value.gameObject;
+					thisModel1.name = "thisModel1";
 					Transform transform1 = result.Value.gameObject.GetComponent(typeof(Transform)) as Transform;
 					transform1.position = new Vector3(0.0f, 0.65f, 0f);
 					transform1.tag = "model1";
@@ -597,6 +605,7 @@ public class LoadManager : MonoBehaviour {
 					break;
 				case 1:
 					GameObject thisModel2 = result.Value.gameObject;
+					thisModel2.name = "thisModel2";
 					Transform transform2 = result.Value.gameObject.GetComponent(typeof(Transform)) as Transform;
 					transform2.position = new Vector3(0.0f, 0.65f, 0f);
 					transform2.tag = "model2";
@@ -607,6 +616,7 @@ public class LoadManager : MonoBehaviour {
 					break;
 				case 2:
 					GameObject thisModel3 = result.Value.gameObject;
+					thisModel3.name = "thisModel3";
 					Transform transform3 = result.Value.gameObject.GetComponent(typeof(Transform)) as Transform;
 					transform3.position = new Vector3(0.0f, 0.65f, 0f);
 					transform3.tag = "model3";
@@ -617,6 +627,7 @@ public class LoadManager : MonoBehaviour {
 					break;
 				case 3:
 					GameObject thisModel4 = result.Value.gameObject;
+					thisModel4.name = "thisModel4";
 					Transform transform4 = result.Value.gameObject.GetComponent(typeof(Transform)) as Transform;
 					transform4.position = new Vector3(0.0f, 0.65f, 0f);
 					transform4.tag = "model4";
@@ -627,6 +638,7 @@ public class LoadManager : MonoBehaviour {
 					break;
 				case 4:
 					GameObject thisModel5 = result.Value.gameObject;
+					thisModel5.name = "thisModel5";
 					Transform transform5 = result.Value.gameObject.GetComponent(typeof(Transform)) as Transform;
 					transform5.position = new Vector3(0.0f, 0.65f, 0f);
 					transform5.tag = "model5";

@@ -59,22 +59,22 @@ public class ViewScreenUiManager : MonoBehaviour {
 						break;
 		}
 		//below handles the toggling of icons when view screen UI is tapped
-		if (panelBackground.isOn == true){
-			OpenDescriptionIcon.SetActive(false);
-			CloseDescriptionIcon.SetActive(true);
-		}
-		else{
-			OpenDescriptionIcon.SetActive(true);
-			CloseDescriptionIcon.SetActive(false);
-		}
+		// if (panelBackground.isOn == true){
+		// 	OpenDescriptionIcon.SetActive(false);
+		// 	CloseDescriptionIcon.SetActive(true);
+		// }
+		// else{
+		// 	OpenDescriptionIcon.SetActive(true);
+		// 	CloseDescriptionIcon.SetActive(false);
+		// }
 		//this if statement ensures that the logic for changing targets only executes if the current set target gets deactivated
 		//-sets the currentViewedTarget variable to the target currently being viewed
 		if (isCurrentTargetStillActive == false)
 		{
-				wonderTitle.SetActive(false);
-				wonderDescription.SetActive(false);
-				titleAndDescriptionPanel.SetActive(false);
-				panelBackground.isOn = false;
+				//wonderTitle.SetActive(false);
+				//wonderDescription.SetActive(false);
+				//titleAndDescriptionPanel.SetActive(false);
+				//panelBackground.isOn = false;
 
 				if (itm.activeTarget1 == true)
 				{
@@ -111,48 +111,48 @@ public class ViewScreenUiManager : MonoBehaviour {
 
 
 		//below is the logic for displaying wonder title/descrption depending on what target is being viewed
-		switch(currentViewedTarget)
-		{
-			case 0:
+		// switch(currentViewedTarget)
+		// {
+		// 	case 0:
 			
-				wonderTitleDisplay.text = " ";
-				wonderDescriptionDisplay.text = " ";
-				wonderTitle.SetActive(false);
-				wonderDescription.SetActive(false);
+		// 		wonderTitleDisplay.text = " ";
+		// 		wonderDescriptionDisplay.text = " ";
+		// 		wonderTitle.SetActive(false);
+		// 		wonderDescription.SetActive(false);
 				
 				
-				break;
-			case 1:
-				wonderTitleDisplay.text = lm.scd.wonderTitle[0];
-				wonderDescriptionDisplay.text = lm.scd.wonderDescription[0];
-				wonderTitle.SetActive(true);
-				titleAndDescriptionPanel.SetActive(true);
-				break;
-			case 2:
-				wonderTitleDisplay.text = lm.scd.wonderTitle[1];
-				wonderDescriptionDisplay.text = lm.scd.wonderDescription[1];
-				wonderTitle.SetActive(true);
-				titleAndDescriptionPanel.SetActive(true);
-				break;
-			case 3:
-				wonderTitleDisplay.text = lm.scd.wonderTitle[2];
-				wonderDescriptionDisplay.text = lm.scd.wonderDescription[2];
-				wonderTitle.SetActive(true);
-				titleAndDescriptionPanel.SetActive(true);
-				break;
-			case 4:
-				wonderTitleDisplay.text = lm.scd.wonderTitle[3];
-				wonderDescriptionDisplay.text = lm.scd.wonderDescription[3];
-				wonderTitle.SetActive(true);
-				titleAndDescriptionPanel.SetActive(true);
-				break;
-			case 5:
-				wonderTitleDisplay.text = lm.scd.wonderTitle[4];
-				wonderDescriptionDisplay.text = lm.scd.wonderDescription[4];
-				wonderTitle.SetActive(true);
-				titleAndDescriptionPanel.SetActive(true);
-				break;
-		}
+		// 		break;
+		// 	case 1:
+		// 		wonderTitleDisplay.text = lm.scd.wonderTitle[0];
+		// 		wonderDescriptionDisplay.text = lm.scd.wonderDescription[0];
+		// 		wonderTitle.SetActive(true);
+		// 		titleAndDescriptionPanel.SetActive(true);
+		// 		break;
+		// 	case 2:
+		// 		wonderTitleDisplay.text = lm.scd.wonderTitle[1];
+		// 		wonderDescriptionDisplay.text = lm.scd.wonderDescription[1];
+		// 		wonderTitle.SetActive(true);
+		// 		titleAndDescriptionPanel.SetActive(true);
+		// 		break;
+		// 	case 3:
+		// 		wonderTitleDisplay.text = lm.scd.wonderTitle[2];
+		// 		wonderDescriptionDisplay.text = lm.scd.wonderDescription[2];
+		// 		wonderTitle.SetActive(true);
+		// 		titleAndDescriptionPanel.SetActive(true);
+		// 		break;
+		// 	case 4:
+		// 		wonderTitleDisplay.text = lm.scd.wonderTitle[3];
+		// 		wonderDescriptionDisplay.text = lm.scd.wonderDescription[3];
+		// 		wonderTitle.SetActive(true);
+		// 		titleAndDescriptionPanel.SetActive(true);
+		// 		break;
+		// 	case 5:
+		// 		wonderTitleDisplay.text = lm.scd.wonderTitle[4];
+		// 		wonderDescriptionDisplay.text = lm.scd.wonderDescription[4];
+		// 		wonderTitle.SetActive(true);
+		// 		titleAndDescriptionPanel.SetActive(true);
+		// 		break;
+		// }
 
 		
 	}

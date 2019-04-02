@@ -62,6 +62,8 @@ public class FirebaseStorageManager : MonoBehaviour {
 	private string saveApiUrl = "https://wonderly-225214.appspot.com/_ah/api/wonderly/v1/exp";
 	//keeps track of web call retries
 	private int experienceUploadCallCount = 0;
+	//reference for search panel, information panel
+	public GameObject informationPanel;
 
 
 	//initializationof path strings
@@ -466,7 +468,9 @@ public class FirebaseStorageManager : MonoBehaviour {
 
 		if (Directory.Exists(fm.SaveDirectory))
 			Directory.Delete(fm.SaveDirectory, true);
-		
+
+		loadPanel.transform.parent.gameObject.SetActive(true);	
+		loadPanel.SetActive(true);
 		//Debug.Log("in downloadExperienceFiles");
 		
 		Directory.CreateDirectory(fm.SaveDirectory);
@@ -512,148 +516,152 @@ public class FirebaseStorageManager : MonoBehaviour {
 					File.WriteAllBytes(targetPath1, fileContents);
 
 			}
-});
+	});
 
-targetRef2.GetBytesAsync(maxAllowedSize).ContinueWith((Task<byte[]> task1) => {
-			if (task1.IsFaulted || task1.IsCanceled) {
-				//Debug.Log(task1.Exception.ToString());
-				// Uh-oh, an error occurred!
-			} else {
-				byte[] fileContents = task1.Result;
-					//Debug.Log("target2 finished downloading!");
-					File.WriteAllBytes(targetPath2, fileContents);
+	targetRef2.GetBytesAsync(maxAllowedSize).ContinueWith((Task<byte[]> task1) => {
+				if (task1.IsFaulted || task1.IsCanceled) {
+					//Debug.Log(task1.Exception.ToString());
+					// Uh-oh, an error occurred!
+				} else {
+					byte[] fileContents = task1.Result;
+						//Debug.Log("target2 finished downloading!");
+						File.WriteAllBytes(targetPath2, fileContents);
 
-			}
-});
-/* 
-targetRef3.GetBytesAsync(maxAllowedSize).ContinueWith((Task<byte[]> task1) => {
-			if (task1.IsFaulted || task1.IsCanceled) {
-				//Debug.Log(task1.Exception.ToString());
-				// Uh-oh, an error occurred!
-			} else {
-				byte[] fileContents = task1.Result;
-					//Debug.Log("target3 finished downloading!");
-					File.WriteAllBytes(targetPath3, fileContents);
+				}
+	});
+	/* 
+	targetRef3.GetBytesAsync(maxAllowedSize).ContinueWith((Task<byte[]> task1) => {
+				if (task1.IsFaulted || task1.IsCanceled) {
+					//Debug.Log(task1.Exception.ToString());
+					// Uh-oh, an error occurred!
+				} else {
+					byte[] fileContents = task1.Result;
+						//Debug.Log("target3 finished downloading!");
+						File.WriteAllBytes(targetPath3, fileContents);
 
-			}
-});
+				}
+	});
 
-targetRef4.GetBytesAsync(maxAllowedSize).ContinueWith((Task<byte[]> task1) => {
-			if (task1.IsFaulted || task1.IsCanceled) {
-				//Debug.Log(task1.Exception.ToString());
-				// Uh-oh, an error occurred!
-			} else {
-				byte[] fileContents = task1.Result;
-					//Debug.Log("target4 finished downloading!");
-					File.WriteAllBytes(targetPath4, fileContents);
+	targetRef4.GetBytesAsync(maxAllowedSize).ContinueWith((Task<byte[]> task1) => {
+				if (task1.IsFaulted || task1.IsCanceled) {
+					//Debug.Log(task1.Exception.ToString());
+					// Uh-oh, an error occurred!
+				} else {
+					byte[] fileContents = task1.Result;
+						//Debug.Log("target4 finished downloading!");
+						File.WriteAllBytes(targetPath4, fileContents);
 
-			}
-});
+				}
+	});
 
-targetRef5.GetBytesAsync(maxAllowedSize).ContinueWith((Task<byte[]> task1) => {
-			if (task1.IsFaulted || task1.IsCanceled) {
-				//Debug.Log(task1.Exception.ToString());
-				// Uh-oh, an error occurred!
-			} else {
-				byte[] fileContents = task1.Result;
-					//Debug.Log("target5 finished downloading!");
-					File.WriteAllBytes(targetPath5, fileContents);
+	targetRef5.GetBytesAsync(maxAllowedSize).ContinueWith((Task<byte[]> task1) => {
+				if (task1.IsFaulted || task1.IsCanceled) {
+					//Debug.Log(task1.Exception.ToString());
+					// Uh-oh, an error occurred!
+				} else {
+					byte[] fileContents = task1.Result;
+						//Debug.Log("target5 finished downloading!");
+						File.WriteAllBytes(targetPath5, fileContents);
 
-			}
-});
-*/
-coverRef.GetBytesAsync(maxAllowedSize).ContinueWith((Task<byte[]> task1) => {
-			if (task1.IsFaulted || task1.IsCanceled) {
-				//Debug.Log(task1.Exception.ToString());
-				// Uh-oh, an error occurred!
-			} else {
-				byte[] fileContents = task1.Result;
-					//Debug.Log("cover image finished downloading!");
-					File.WriteAllBytes(coverPath, fileContents);
+				}
+	});
+	*/
+	coverRef.GetBytesAsync(maxAllowedSize).ContinueWith((Task<byte[]> task1) => {
+				if (task1.IsFaulted || task1.IsCanceled) {
+					//Debug.Log(task1.Exception.ToString());
+					// Uh-oh, an error occurred!
+				} else {
+					byte[] fileContents = task1.Result;
+						//Debug.Log("cover image finished downloading!");
+						File.WriteAllBytes(coverPath, fileContents);
 
-			}
-});
+				}
+	});
 
-linkedRef1.GetBytesAsync(maxAllowedSize).ContinueWith((Task<byte[]> task1) => {
-			if (task1.IsFaulted || task1.IsCanceled) {
-				//Debug.Log(task1.Exception.ToString());
-				// Uh-oh, an error occurred!
-			} else {
-				byte[] fileContents = task1.Result;
-					//Debug.Log("linked image 1 finished downloading!");
-					File.WriteAllBytes(linkedPath1, fileContents);
+	linkedRef1.GetBytesAsync(maxAllowedSize).ContinueWith((Task<byte[]> task1) => {
+				if (task1.IsFaulted || task1.IsCanceled) {
+					//Debug.Log(task1.Exception.ToString());
+					// Uh-oh, an error occurred!
+				} else {
+					byte[] fileContents = task1.Result;
+						//Debug.Log("linked image 1 finished downloading!");
+						File.WriteAllBytes(linkedPath1, fileContents);
 
-			}
-});
+				}
+	});
 
-linkedRef2.GetBytesAsync(maxAllowedSize).ContinueWith((Task<byte[]> task1) => {
-			if (task1.IsFaulted || task1.IsCanceled) {
-				//Debug.Log(task1.Exception.ToString());
-				// Uh-oh, an error occurred!
-			} else {
-				byte[] fileContents = task1.Result;
-					//Debug.Log("linked image 2 finished downloading!");
-					File.WriteAllBytes(linkedPath2, fileContents);
+	linkedRef2.GetBytesAsync(maxAllowedSize).ContinueWith((Task<byte[]> task1) => {
+				if (task1.IsFaulted || task1.IsCanceled) {
+					//Debug.Log(task1.Exception.ToString());
+					// Uh-oh, an error occurred!
+				} else {
+					byte[] fileContents = task1.Result;
+						//Debug.Log("linked image 2 finished downloading!");
+						File.WriteAllBytes(linkedPath2, fileContents);
 
-			}
-});
+				}
+	});
 
-/*
-linkedRef3.GetBytesAsync(maxAllowedSize).ContinueWith((Task<byte[]> task1) => {
-			if (task1.IsFaulted || task1.IsCanceled) {
-				//Debug.Log(task1.Exception.ToString());
-				// Uh-oh, an error occurred!
-			} else {
-				byte[] fileContents = task1.Result;
-					//Debug.Log("linked image 3 finished downloading!");
-					File.WriteAllBytes(linkedPath3, fileContents);
+	/*
+	linkedRef3.GetBytesAsync(maxAllowedSize).ContinueWith((Task<byte[]> task1) => {
+				if (task1.IsFaulted || task1.IsCanceled) {
+					//Debug.Log(task1.Exception.ToString());
+					// Uh-oh, an error occurred!
+				} else {
+					byte[] fileContents = task1.Result;
+						//Debug.Log("linked image 3 finished downloading!");
+						File.WriteAllBytes(linkedPath3, fileContents);
 
-			}
-});
+				}
+	});
 
-linkedRef4.GetBytesAsync(maxAllowedSize).ContinueWith((Task<byte[]> task1) => {
-			if (task1.IsFaulted || task1.IsCanceled) {
-				//Debug.Log(task1.Exception.ToString());
-				// Uh-oh, an error occurred!
-			} else {
-				byte[] fileContents = task1.Result;
-					//Debug.Log("linked image 4 finished downloading!");
-					File.WriteAllBytes(linkedPath4, fileContents);
+	linkedRef4.GetBytesAsync(maxAllowedSize).ContinueWith((Task<byte[]> task1) => {
+				if (task1.IsFaulted || task1.IsCanceled) {
+					//Debug.Log(task1.Exception.ToString());
+					// Uh-oh, an error occurred!
+				} else {
+					byte[] fileContents = task1.Result;
+						//Debug.Log("linked image 4 finished downloading!");
+						File.WriteAllBytes(linkedPath4, fileContents);
 
-			}
-});
+				}
+	});
 
-linkedRef5.GetBytesAsync(maxAllowedSize).ContinueWith((Task<byte[]> task1) => {
-			if (task1.IsFaulted || task1.IsCanceled) {
-				//Debug.Log(task1.Exception.ToString());
-				// Uh-oh, an error occurred!
-			} else {
-				byte[] fileContents = task1.Result;
-					//Debug.Log("linked image 5 finished downloading!");
-					File.WriteAllBytes(linkedPath5, fileContents);
+	linkedRef5.GetBytesAsync(maxAllowedSize).ContinueWith((Task<byte[]> task1) => {
+				if (task1.IsFaulted || task1.IsCanceled) {
+					//Debug.Log(task1.Exception.ToString());
+					// Uh-oh, an error occurred!
+				} else {
+					byte[] fileContents = task1.Result;
+						//Debug.Log("linked image 5 finished downloading!");
+						File.WriteAllBytes(linkedPath5, fileContents);
 
-			}
-});
-*/
+				}
+	});
+	*/
 
-yield return new WaitForSeconds(5);
+	yield return new WaitForSeconds(1.0f);
 
-saveFileRef.GetBytesAsync(maxAllowedSize).ContinueWith((Task<byte[]> task1) => {
-			if (task1.IsFaulted || task1.IsCanceled) {
-				//Debug.Log(task1.Exception.ToString());
-				wrongCodeNotification.SetActive(true);
-				loadPanel.SetActive(false);
-				// Uh-oh, an error occurred!
-			} else {
-				byte[] fileContents = task1.Result;
-				string saveContent = System.Text.Encoding.UTF8.GetString(fileContents, 0, fileContents.Length);
-				//Debug.Log("Save File finished downloading!");
-				File.WriteAllText(saveFilePath, saveContent);
-				lm.LoadFile();
-			}
-});
-	itm.gameObject.GetComponent<UiManager>().SetLoadingPanelActive(false);
-	}
+	saveFileRef.GetBytesAsync(maxAllowedSize).ContinueWith((Task<byte[]> task1) => {
+				if (task1.IsFaulted || task1.IsCanceled) {
+					//Debug.Log(task1.Exception.ToString());
+					wrongCodeNotification.SetActive(true);
+					Debug.Log(" x Uh-oh, an error occurred! ");
+				} else {
+					
+					byte[] fileContents = task1.Result;
+					string saveContent = System.Text.Encoding.UTF8.GetString(fileContents, 0, fileContents.Length);
+					//Debug.Log("Save File finished downloading!");
+					File.WriteAllText(saveFilePath, saveContent);
+					lm.LoadFile();
+					informationPanel.SetActive(true);
+				}
+	});
+
+		loadPanel.transform.parent.gameObject.SetActive(false);	
+		loadPanel.SetActive(false);
+		itm.gameObject.GetComponent<UiManager>().SetLoadingPanelActive(false);
+}
 
 
 
@@ -842,7 +850,7 @@ linkedRef5.GetBytesAsync(maxAllowedSize).ContinueWith((Task<byte[]> task1) => {
 			}
 });
 */
-yield return new WaitForSeconds(5);
+yield return new WaitForSeconds(1.0f);
 
 saveFileRef.GetBytesAsync(maxAllowedSize).ContinueWith((Task<byte[]> task1) => {
 			if (task1.IsFaulted || task1.IsCanceled) {
@@ -874,7 +882,7 @@ saveFileRef.GetBytesAsync(maxAllowedSize).ContinueWith((Task<byte[]> task1) => {
 	private IEnumerator downloadExperienceFilesDirect()
 	{
 		//for debugging iOS download problem
-		//Debug.Log("1. fsm484, Starting downloadExperienceFilesDirect()");
+		Debug.Log("1. fsm484, Starting downloadExperienceFilesDirect()");
 
 		if (Directory.Exists(fm.SaveDirectory))
 			Directory.Delete(fm.SaveDirectory, true);
@@ -1079,7 +1087,7 @@ linkedRef5.GetBytesAsync(maxAllowedSize).ContinueWith((Task<byte[]> task1) => {
 			}
 });
 */
-yield return new WaitForSeconds(5);
+yield return new WaitForSeconds(0.01f);
 
 saveFileRef.GetBytesAsync(maxAllowedSize).ContinueWith((Task<byte[]> task1) => {
 			if (task1.IsFaulted || task1.IsCanceled) {

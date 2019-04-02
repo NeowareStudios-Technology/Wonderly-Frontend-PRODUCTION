@@ -16,6 +16,8 @@ using UnityEngine.Networking;
 using System.IO;
 using UnityEngine.SceneManagement;
 using System.Threading.Tasks;
+using UnityEngine.Events;
+
 
 
 public class CloudEndpointsApiManager : MonoBehaviour {
@@ -33,6 +35,7 @@ public class CloudEndpointsApiManager : MonoBehaviour {
 	public checkEmailResponseClass cerc;
 	public CreateOrEditController coec;
 	public UiManager um;
+	public ImageTargetManager itm;
 	//UI elements for getting values to send to backend via JSON web calls
 	public Text editFirstName;
 	public Text editLastName;
@@ -110,9 +113,13 @@ public class CloudEndpointsApiManager : MonoBehaviour {
 	public Animator createJourneyAnimator;
 	private Texture2D tex;
 
-	void Start(){
-		//tex = new Texture2D(200, 200);
-	}
+	//public references for setting the journey information on the MyJourney's panel
+	public Text journeyTitle;
+	public Text journeyDescription;
+	public Button openJourney;
+	public GameObject journeyInformationPanel;
+
+
 	public void startProfileCreate()
 	{
 		StartCoroutine("profileCreate");
@@ -385,6 +392,7 @@ public class CloudEndpointsApiManager : MonoBehaviour {
 				fm.journeyCount --;
 				if (fm.journeyCount < 5)
 				{
+					Debug.Log("Less than 5 journey count");
 					//set add button to add
 					addJourneyButton.onClick.RemoveAllListeners();
 					addJourneyButton.onClick.AddListener(delegate {mainCanvasPanelController.OpenPanel(createJourneyAnimator); });
@@ -394,6 +402,7 @@ public class CloudEndpointsApiManager : MonoBehaviour {
 				}
 				if (fm.journeyCount >= 5)
 				{
+					Debug.Log("Greater than 5 journey count");
 					//set add button to make popup
 					addJourneyButton.onClick.RemoveAllListeners();
 					addJourneyButton.onClick.AddListener(delegate {maxJourneysPopup.SetActive(true); });
@@ -502,7 +511,7 @@ public class CloudEndpointsApiManager : MonoBehaviour {
 	}
 
 
-public void startGetProfileInfo()
+	public void startGetProfileInfo()
 	{
 		StartCoroutine("getProfileInfo");
 	}
@@ -511,7 +520,7 @@ public void startGetProfileInfo()
 
 	public IEnumerator getProfileInfo() 
 	{
-				um.clearUserSettingsInputFields();
+		um.clearUserSettingsInputFields();
 
         using (UnityWebRequest newProfileInfoRequest = UnityWebRequest.Get(getProfileUrl))
         {
@@ -522,45 +531,45 @@ public void startGetProfileInfo()
 
             yield return newProfileInfoRequest.SendWebRequest();
 
-						//retry call up to MAX_RETRY times if error
-						if (newProfileInfoRequest.responseCode != 200 && profileInfoCallCount < MAX_RETRY)
-						{
-							profileInfoCallCount++;
-							StartCoroutine("getProfileInfo");
-						}
-						else if (newProfileInfoRequest.responseCode != 200 && profileInfoCallCount >= MAX_RETRY)
-						{
-							loadingPanel.SetActive(false);
-							//Debug.Log("call to backend for getProfileInfo retries failed");
-							profileInfoCallCount = 0;
-						}
-						else
-						{
-							loadingPanel.SetActive(false);
-							profileInfoCallCount = 0;
-					
-							//Debug.Log(newProfileInfoRequest.responseCode);
-							byte[] results = newProfileInfoRequest.downloadHandler.data;
-							string jsonString = Encoding.UTF8.GetString(results);
-							//Debug.Log(jsonString);
-							pic = JsonUtility.FromJson<ProfileInfoClass>(jsonString);
+			//retry call up to MAX_RETRY times if error
+			if (newProfileInfoRequest.responseCode != 200 && profileInfoCallCount < MAX_RETRY)
+			{
+				profileInfoCallCount++;
+				StartCoroutine("getProfileInfo");
+			}
+			else if (newProfileInfoRequest.responseCode != 200 && profileInfoCallCount >= MAX_RETRY)
+			{
+				loadingPanel.SetActive(false);
+				//Debug.Log("call to backend for getProfileInfo retries failed");
+				profileInfoCallCount = 0;
+			}
+			else
+			{
+				loadingPanel.SetActive(false);
+				profileInfoCallCount = 0;
+		
+				//Debug.Log(newProfileInfoRequest.responseCode);
+				byte[] results = newProfileInfoRequest.downloadHandler.data;
+				string jsonString = Encoding.UTF8.GetString(results);
+				//Debug.Log(jsonString);
+				pic = JsonUtility.FromJson<ProfileInfoClass>(jsonString);
 
-							//for home screen
-							//displayFirstNameHome.text = "Hi," + " " + pic.firstName + "!";
+				//for home screen
+				//displayFirstNameHome.text = "Hi," + " " + pic.firstName + "!";
 
-							//for profile info screen
-							string fullName = pic.firstName + " " + pic.lastName;
-							//displayName.text = fullName;
-							//add "" to make the int into a string without c# complaining
-							//displayExpNum.text = pic.createdExp + "";
+				//for profile info screen
+				string fullName = pic.firstName + " " + pic.lastName;
+				//displayName.text = fullName;
+				//add "" to make the int into a string without c# complaining
+				//displayExpNum.text = pic.createdExp + "";
 
-							//for profile edit screen
-							firstNamePlaceHolder.text = pic.firstName;
-							lastNamePlaceHolder.text = pic.lastName;
-							emailPlaceHolder.text = pic.email;
+				//for profile edit screen
+				firstNamePlaceHolder.text = pic.firstName;
+				lastNamePlaceHolder.text = pic.lastName;
+				emailPlaceHolder.text = pic.email;
 
-							lsh.GetComponent<UiManager>().SetLoadingPanelActive(false);
-						}
+				lsh.GetComponent<UiManager>().SetLoadingPanelActive(false);
+			}
         }	
 	}
 
@@ -639,8 +648,9 @@ public void startGetProfileInfo()
 		{
 			//set add button to add
 			addJourneyButton.onClick.RemoveAllListeners();
-			addJourneyButton.onClick.AddListener(delegate {mainCanvasPanelController.OpenPanel(createJourneyAnimator); });
-			addJourneyButton.onClick.AddListener(delegate {mainCanvasPanelController.SetBottomPanelActive(false);});
+			//addJourneyButton.onClick.AddListener(delegate {mainCanvasPanelController.OpenPanel(createJourneyAnimator); });
+			//addJourneyButton.onClick.AddListener(delegate {mainCanvasPanelController.SetBottomPanelActive(false);});
+			Debug.Log("less than 5 journies");
 			addJourneyButton.onClick.AddListener(delegate {coec.setCreateOrEdit("create"); });
 			addJourneyButton.onClick.AddListener(delegate {um.InstantResetSummaryScreen(); });
 		}
@@ -717,8 +727,18 @@ public void startGetProfileInfo()
 			//title
 			libraryStubs[i].transform.GetChild(0).gameObject.GetComponent<Text>().text = oec.titles[i];
 			libraryStubs[i].GetComponent<Button>().onClick.AddListener(delegate {fsm.startDownloadExperienceFilesDirect(index+1); });
-			libraryStubs[i].GetComponent<Button>().onClick.AddListener(delegate {mainCanvasPanelController.OpenPanel(PreviewScreenAnimator); });
+			//libraryStubs[i].GetComponent<Button>().onClick.AddListener(delegate {mainCanvasPanelController.OpenPanel(PreviewScreenAnimator); });
 			libraryCodes[i] = oec.codes[i];
+			
+			libraryStubs[i].GetComponent<Button>().onClick.AddListener(delegate {itm.DeleteAllTargetsAndText(); });
+			//libraryStubs[i].GetComponent<Button>().onClick.AddListener(delegate {fsm.startDownloadExperienceFilesDirect(index+1); });
+			libraryStubs[i].GetComponent<Button>().onClick.AddListener(delegate {journeyInformationPanel.SetActive(true); });
+			libraryStubs[i].GetComponent<Button>().onClick.AddListener(delegate {openJourney.onClick.RemoveAllListeners(); });
+			libraryStubs[i].GetComponent<Button>().onClick.AddListener(delegate {openJourney.onClick.AddListener(delegate {mainCanvasPanelController.OpenPanel(ViewScreenAnimator); }); });
+			//clear out the listeners on open button on click a journey.
+
+
+			
 			//code
 
 			//libraryStubs[i].transform.GetChild(2).gameObject.GetComponent<Text>().text = oec.codes[i];
