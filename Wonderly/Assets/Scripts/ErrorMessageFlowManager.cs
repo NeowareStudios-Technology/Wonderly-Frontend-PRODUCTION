@@ -41,6 +41,19 @@ public class ErrorMessageFlowManager : MonoBehaviour {
 	public PanelController canvasPanelController;
 	public Animator[] signUpScreensAnimators = new Animator[6]; 
 
+
+	public GameObject errorTitleOnDetailPanel;
+	public GameObject errorDescrtiptionOnDetailPanel;
+
+	public InputField titleOnDetailPanel;
+	public InputField descrtiptionOnDetailPanel;
+
+	public PanelController panelController;
+	public Animator shareJourneyAnimator;
+
+	public SaveManager saveManager;
+
+
 	//call this when moving backward through user sign up flow
 	public void prevSignUpPanel()
 	{
@@ -66,7 +79,56 @@ public class ErrorMessageFlowManager : MonoBehaviour {
 				break;
 		}
 	}
+	
+	public void TurnOffErrorsOnDetailsPanel()
+	{
+		errorTitleOnDetailPanel.SetActive(false);
+		errorDescrtiptionOnDetailPanel.SetActive(false);
+	}
 
+	private void SetErrorActive(string errorName)
+	{
+		if (errorName == "title")
+		{
+			errorTitleOnDetailPanel.SetActive(true);
+		}
+		else if (errorName == "description")
+		{
+			errorDescrtiptionOnDetailPanel.SetActive(true);
+		}
+	}
+	
+	public void checkForMissingDataOnDetailsPanel()
+	{
+		bool NoErrors = true;
+		TurnOffErrorsOnDetailsPanel();
+		if (titleOnDetailPanel.text == "")
+		{
+			SetErrorActive("title");
+			NoErrors = false;
+		}
+		if (descrtiptionOnDetailPanel.text == "")
+		{
+			SetErrorActive("description");
+			NoErrors = false;
+		}
+		if (NoErrors)
+		{
+			SaveJourney();
+			OpenShareJourneyPanel();
+		}
+	}
+	
+	private void OpenShareJourneyPanel()
+	{
+		panelController.OpenPanel(shareJourneyAnimator);
+	}
+	private void SaveJourney()
+	{
+		saveManager.SetJourneyTitleDescription();
+		saveManager.CreateSaveFile();
+	}
+	
 	//call this when moving forward through user sign up flow
 	public void nextSignUpPanel()
 	{

@@ -16,6 +16,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using PolyToolkit;
 using EasyAR;
+using Lean.Touch;
 
 public class LoadManager : MonoBehaviour {
 	//script references
@@ -45,6 +46,7 @@ public class LoadManager : MonoBehaviour {
 	public Text summaryTitleDisplay;
 	public InputField descriptionDisplay;
 	public Text summaryDescriptionDisplay;
+	public Text summaryExperienceCodeDisplay;
 	//Gameobject for targetSetter script, used to turn off targetSetter script only dureing load time
 	public GameObject targetSetter;
 	public int previewIndex;
@@ -83,7 +85,8 @@ public class LoadManager : MonoBehaviour {
 	public Text searchCodeTitleDisplay;
 	public Text searchCodeDescriptionDisplay;
 
-
+	public GameObject thisModel1;
+    public leanTouchAxis lta;
 	//Main function in this file that calls other helper functions 
 	public void LoadFile() {
 
@@ -498,7 +501,6 @@ public class LoadManager : MonoBehaviour {
 		loadingPanel.SetActive(false);
 	}
 
-
 	//helper function to set image to AR target
 	public IEnumerator setImage(int index)
 	{
@@ -593,15 +595,18 @@ public class LoadManager : MonoBehaviour {
 			switch(j)
 			{
 				case 0:
-					GameObject thisModel1 = result.Value.gameObject;
+					thisModel1 = result.Value.gameObject;
 					thisModel1.name = "thisModel1";
 					Transform transform1 = result.Value.gameObject.GetComponent(typeof(Transform)) as Transform;
+					thisModel1.AddComponent<LeanRotate>();
+					thisModel1.gameObject.GetComponent<LeanRotate>().leanTouchRotation = lta;
 					transform1.position = new Vector3(0.0f, 0.65f, 0f);
 					transform1.tag = "model1";
 					transform1.parent = itm.target1.transform;
 					fm.targetStatus[0] = "model";
 					tom.models[0] = thisModel1;
 					tom.modelIds[0] = scd.modId[0];
+					
 					break;
 				case 1:
 					GameObject thisModel2 = result.Value.gameObject;

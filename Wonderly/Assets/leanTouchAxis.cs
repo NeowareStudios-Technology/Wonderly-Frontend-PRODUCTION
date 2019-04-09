@@ -15,5 +15,13 @@ public class leanTouchAxis : MonoBehaviour {
 			rotationAxis = x;
 		}
 
+		public void addRotationAxis()
+		{
+			rotationAxis++;
+			if (rotationAxis == 3)
+			{
+				rotationAxis = 0;
+			}
+		}
 
 }

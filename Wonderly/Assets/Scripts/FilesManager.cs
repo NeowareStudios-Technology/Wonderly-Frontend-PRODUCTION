@@ -47,6 +47,8 @@ public class FilesManager : MonoBehaviour
     public GameObject arCamera;
     public PhotoCaptureArea pca;
 
+    public UnityEngine.UI.Image bigImage;
+
     //sets the current target (wonder)
     public void setCurrentTarget(int current)
     {
@@ -155,9 +157,15 @@ public class FilesManager : MonoBehaviour
         Texture2D photo = new Texture2D(Screen.width / 2, Screen.height / 2, TextureFormat.RGB24, false);
         photo.ReadPixels(new Rect(Screen.width / 4, Screen.height / 4, Screen.width / 2, Screen.height / 2), 0, 0, false);
         photo.Apply();
-
         byte[] data = photo.EncodeToJPG(80);
-        DestroyImmediate(photo);
+        
+        Texture2D tex1 = new Texture2D(2000,2000);
+        tex1.LoadImage(data);
+     
+        //sets thumbnail image
+        bigImage.sprite = Sprite.Create(tex1, new Rect(0, 0, tex1.width, tex1.height), new Vector2(0, 0));
+						
+        //DestroyImmediate(photo);
         photo = null;
         string pathString ="";
 

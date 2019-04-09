@@ -153,6 +153,7 @@ public class ModelRenderer : MonoBehaviour {
             GameObject myModelObject = result.Value.gameObject;
             myModel = result.Value.gameObject.GetComponent(typeof(Transform)) as Transform;
             myModel.transform.position = new Vector3(0.0f, 0.65f, 0f);
+            
 
              //to decide which target to render the model to
             switch(fm.currentTarget)

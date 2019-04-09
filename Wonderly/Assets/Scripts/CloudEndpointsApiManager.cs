@@ -36,6 +36,7 @@ public class CloudEndpointsApiManager : MonoBehaviour {
 	public CreateOrEditController coec;
 	public UiManager um;
 	public ImageTargetManager itm;
+
 	//UI elements for getting values to send to backend via JSON web calls
 	public Text editFirstName;
 	public Text editLastName;
@@ -118,6 +119,9 @@ public class CloudEndpointsApiManager : MonoBehaviour {
 	public Text journeyDescription;
 	public Button openJourney;
 	public GameObject journeyInformationPanel;
+	public GameObject deleteJourneyPanel;
+	public Button deleteJourney;
+	public Text journeyCode;
 
 
 	public void startProfileCreate()
@@ -727,6 +731,7 @@ public class CloudEndpointsApiManager : MonoBehaviour {
 			//title
 			libraryStubs[i].transform.GetChild(0).gameObject.GetComponent<Text>().text = oec.titles[i];
 			libraryStubs[i].GetComponent<Button>().onClick.AddListener(delegate {fsm.startDownloadExperienceFilesDirect(index+1); });
+			libraryStubs[i].GetComponent<Button>().onClick.AddListener(delegate { SetExperienceCode(index); });
 			//libraryStubs[i].GetComponent<Button>().onClick.AddListener(delegate {mainCanvasPanelController.OpenPanel(PreviewScreenAnimator); });
 			libraryCodes[i] = oec.codes[i];
 			
@@ -737,7 +742,12 @@ public class CloudEndpointsApiManager : MonoBehaviour {
 			libraryStubs[i].GetComponent<Button>().onClick.AddListener(delegate {openJourney.onClick.AddListener(delegate {mainCanvasPanelController.OpenPanel(ViewScreenAnimator); }); });
 			//clear out the listeners on open button on click a journey.
 
-
+			libraryStubs[i].transform.GetChild(1).GetComponent<Button>().onClick.AddListener(delegate {deleteJourneyPanel.SetActive(true); });
+			libraryStubs[i].transform.GetChild(1).GetComponent<Button>().onClick.AddListener(delegate {deleteJourneyPanel.SetActive(true); });
+			libraryStubs[i].transform.GetChild(1).GetComponent<Button>().onClick.AddListener(delegate {deleteJourney.onClick.RemoveAllListeners(); });
+			libraryStubs[i].transform.GetChild(1).GetComponent<Button>().onClick.AddListener(delegate {deleteJourney.onClick.AddListener(delegate {startExperienceDelete(index); }); });
+			
+			
 			
 			//code
 
@@ -754,12 +764,17 @@ public class CloudEndpointsApiManager : MonoBehaviour {
 			//libraryCodes[i] = oec.codes[i];
 			
 			}
-	lsh.GetComponent<UiManager>().SetLoadingPanelActive(false);
+			lsh.GetComponent<UiManager>().SetLoadingPanelActive(false);
 			}
 		}
 	}
 		
 
+	void SetExperienceCode(int index)
+	{
+		journeyCode.text = "Experience Code: " + libraryCodes[index];
+
+	}
 	//creates library menu UI
 	void createLibraryPopup(int index)
 	{

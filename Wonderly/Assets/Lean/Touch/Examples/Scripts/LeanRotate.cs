@@ -147,7 +147,7 @@ namespace Lean.Touch
 						transform.rotation *= Quaternion.AngleAxis(twistDegrees, axis);
 						break;
 					case 1:
-						axis = new Vector3(axis.x, axis.y, axis.z);
+						axis = new Vector3(axis.x, axis.y + 90.0f, axis.z);
 						transform.rotation *= Quaternion.AngleAxis(twistDegrees, axis);
 						break;
 					case 2:

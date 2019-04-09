@@ -237,6 +237,7 @@ public class PanelController : MonoBehaviour
             || anim.gameObject.name == "CwPlaceLibraryContent-panel"
             || anim.gameObject.name == "ShareJourney-panel"
             || anim.gameObject.name == "MyJourneys-panel"
+            || anim.gameObject.name == "DetailWonder-panel"
             )
         {
             profileImagePanel.SetActive(false);
